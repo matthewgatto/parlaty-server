@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_25_042045) do
+ActiveRecord::Schema.define(version: 2019_05_29_030302) do
+
+  create_table "procedures", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.float "version"
+    t.text "description"
+    t.string "category"
+    t.string "author"
+    t.string "language"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "steps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -20,6 +31,9 @@ ActiveRecord::Schema.define(version: 2019_05_25_042045) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "order"
+    t.bigint "procedure_id"
+    t.index ["procedure_id"], name: "index_steps_on_procedure_id"
   end
 
+  add_foreign_key "steps", "procedures"
 end

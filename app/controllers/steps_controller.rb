@@ -11,8 +11,8 @@ class StepsController < ApplicationController
 
 	def create
 		@step = Step.new(step_params)
-		
-		if(@step.save)
+	
+		if(@step.save!)
 			render json: @step, status: :created
 		else
 			head :bad_request
@@ -40,6 +40,6 @@ class StepsController < ApplicationController
 	private
 
 		def step_params
-			params.require(:step).permit(:title, :device, :location, :note, :order)
+			params.require(:step).permit(:title, :device, :location, :note, :order, :procedure_id)
 		end
 end
