@@ -2266,3 +2266,92 @@ Completed 200 OK in 8ms (Views: 0.8ms | ActiveRecord: 1.3ms)
 
   [1m[36mStep Load (0.6ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 3 LIMIT 1[0m
   [1m[36mProcedure Load (0.5ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 3 LIMIT 1[0m
+  [1m[35m (0.5ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  ↳ bin/rails:4
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT GET_LOCK('2173782991071178410', 0)[0m
+  ↳ bin/rails:4
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ bin/rails:4
+Migrating to CreateOperators (20190529204730)
+  [1m[35m (109.0ms)[0m  [1m[35mCREATE TABLE `operators` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `email` varchar(255), `password_digest` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL)[0m
+  ↳ db/migrate/20190529204730_create_operators.rb:3
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:4
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20190529204730')[0m
+  ↳ bin/rails:4
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:4
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT  `ar_internal_metadata`.* FROM `ar_internal_metadata` WHERE `ar_internal_metadata`.`key` = 'environment' LIMIT 1[0m
+  ↳ bin/rails:4
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:4
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:4
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT RELEASE_LOCK('2173782991071178410')[0m
+  ↳ bin/rails:4
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ bin/rails:4
+  [1m[35m (0.4ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  ↳ bin/rails:4
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT GET_LOCK('2173782991071178410', 0)[0m
+  ↳ bin/rails:4
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ bin/rails:4
+Migrating to AddOperatorRefToProcedures (20190529214043)
+  [1m[35m (86.2ms)[0m  [1m[35mALTER TABLE `procedures` ADD `operator_id` bigint[0m
+  ↳ db/migrate/20190529214043_add_operator_ref_to_procedures.rb:3
+  [1m[35m (17.8ms)[0m  [1m[35mCREATE  INDEX `index_procedures_on_operator_id`  ON `procedures` (`operator_id`) [0m
+  ↳ db/migrate/20190529214043_add_operator_ref_to_procedures.rb:3
+  [1m[35m (48.6ms)[0m  [1m[35mALTER TABLE `procedures` ADD CONSTRAINT `fk_rails_d51221eaf1`
+FOREIGN KEY (`operator_id`)
+  REFERENCES `operators` (`id`)
+[0m
+  ↳ db/migrate/20190529214043_add_operator_ref_to_procedures.rb:3
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:4
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20190529214043')[0m
+  ↳ bin/rails:4
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:4
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT  `ar_internal_metadata`.* FROM `ar_internal_metadata` WHERE `ar_internal_metadata`.`key` = 'environment' LIMIT 1[0m
+  ↳ bin/rails:4
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:4
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:4
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT RELEASE_LOCK('2173782991071178410')[0m
+  ↳ bin/rails:4
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ bin/rails:4
+  [1m[35m (0.4ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mOperator Create (0.7ms)[0m  [1m[32mINSERT INTO `operators` (`email`, `password_digest`, `created_at`, `updated_at`) VALUES ('testing@gmail.com', '$2a$10$bH5TmZ1IhQr1xwJhMAwqDuy3WljEB9sqEb/E0Z5MtM82aLTl1ekSC', '2019-05-29 21:50:53', '2019-05-29 21:50:53')[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mOperator Create (0.4ms)[0m  [1m[32mINSERT INTO `operators` (`email`, `password_digest`, `created_at`, `updated_at`) VALUES ('thetwo@gmail.com', '$2a$10$KPzw3wfQyke9EHrKQTnDYeVSEic2EQ.hrioeCeTEa9IWV0lz3qZ2S', '2019-05-29 21:51:25', '2019-05-29 21:51:25')[0m
+  [1m[35m (382.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mProcedure Load (0.6ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` ORDER BY `procedures`.`id` ASC LIMIT 1[0m
+  [1m[36mOperator Load (0.5ms)[0m  [1m[34mSELECT  `operators`.* FROM `operators` WHERE `operators`.`id` = 2 LIMIT 1[0m
+  [1m[36mProcedure Load (0.6ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`operator_id` = 2 LIMIT 11[0m
+  [1m[36mProcedure Load (0.7ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`operator_id` = 2 LIMIT 11[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[36mOperator Load (0.6ms)[0m  [1m[34mSELECT  `operators`.* FROM `operators` LIMIT 11[0m
+  [1m[36mProcedure Load (0.7ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` LIMIT 11[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM `procedures`[0m
+  [1m[36mProcedure Load (0.5ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProcedure Update (0.7ms)[0m  [1m[33mUPDATE `procedures` SET `updated_at` = '2019-05-29 21:54:06', `operator_id` = 2 WHERE `procedures`.`id` = 1[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mOperator Load (0.6ms)[0m  [1m[34mSELECT  `operators`.* FROM `operators` WHERE `operators`.`id` = 2 LIMIT 1[0m
+  [1m[36mProcedure Load (0.6ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`operator_id` = 2 LIMIT 11[0m
+  [1m[36mProcedure Load (0.8ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`operator_id` = 2 LIMIT 11[0m
+  [1m[36mStep Load (0.8ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1 LIMIT 11[0m
+  [1m[36mStep Load (0.5ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` LIMIT 11[0m
+  [1m[36mStep Load (0.7ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStep Update (0.7ms)[0m  [1m[33mUPDATE `steps` SET `updated_at` = '2019-05-29 21:55:33', `procedure_id` = 1 WHERE `steps`.`id` = 1[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mStep Load (0.8ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1 LIMIT 11[0m
+  [1m[36mProcedure Load (0.8ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`operator_id` = 2 LIMIT 11[0m
+  [1m[36mProcedure Load (0.8ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`operator_id` = 2 ORDER BY `procedures`.`id` ASC LIMIT 1[0m
+  [1m[36mStep Load (0.5ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1 LIMIT 11[0m
