@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   resources :steps
   resources :procedures
   resources :parlaty_admins, only: [:create, :show, :update, :destroy]
+  resources	:oems, only: [:index, :show, :create, :update]
 
 end
