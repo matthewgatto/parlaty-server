@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   # api only app doesn't have new, edit path
   resources :steps
   resources :procedures
+  resources :parlaty_admins, only: [:create, :show, :update, :destroy]
 
 end
