@@ -1,12 +1,11 @@
 class ProceduresController < ApplicationController
-	def index
-		@procedures = Procedure.all
-		render json: @procedures
-	end
-
 	def show
 		@procedure = Procedure.find(params[:id])
-		render json: @procedure
+		pro_steps = @procedure.steps
+		#sort array by order
+		# &:order is {|i| i.order }
+		@sorted_steps = pro_steps.sort_by &:order
+		#json output defined in app/views/procedures/show.json.jbuilder
 	end
 
 	def create
