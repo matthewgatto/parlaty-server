@@ -4126,3 +4126,442 @@ No template found for StepsController#reorder, rendering head :no_content
 Completed 204 No Content in 201ms (ActiveRecord: 25.3ms)
 
 
+  [1m[35m (0.4ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM `steps`[0m
+  [1m[36mProcedure Load (1.1ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  [1m[36mProcedure Load (0.7ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  [1m[36mStep Load (0.8ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1 LIMIT 11[0m
+Started GET "/stepsdfd" for ::1 at 2019-06-01 10:57:00 -0500
+  [1m[35m (0.5ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  ↳ /Users/nicholasnkw/.gem/gems/activerecord-5.2.3/lib/active_record/log_subscriber.rb:98
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ /Users/nicholasnkw/.gem/gems/activerecord-5.2.3/lib/active_record/log_subscriber.rb:98
+  
+ActionController::RoutingError (No route matches [GET] "/stepsdfd"):
+  
+actionpack (5.2.3) lib/action_dispatch/middleware/debug_exceptions.rb:65:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.3) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.3) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.3) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.3) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.3) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.3) lib/rails/rack/logger.rb:26:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.7) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.3) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.7) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.3) lib/rails/engine.rb:524:in `call'
+puma (3.12.1) lib/puma/configuration.rb:227:in `call'
+puma (3.12.1) lib/puma/server.rb:660:in `handle_request'
+puma (3.12.1) lib/puma/server.rb:474:in `process_client'
+puma (3.12.1) lib/puma/server.rb:334:in `block in run'
+puma (3.12.1) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/procedures/1/" for ::1 at 2019-06-01 10:57:49 -0500
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.6ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (0.9ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (2.5ms)
+Completed 200 OK in 186ms (Views: 28.2ms | ActiveRecord: 53.4ms)
+
+
+Started DELETE "/procedures//steps/6" for ::1 at 2019-06-01 10:58:03 -0500
+  
+ActionController::RoutingError (No route matches [DELETE] "/procedures/steps/6"):
+  
+actionpack (5.2.3) lib/action_dispatch/middleware/debug_exceptions.rb:65:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.3) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.3) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.3) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.3) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.3) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.3) lib/rails/rack/logger.rb:26:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.7) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.3) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.7) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.3) lib/rails/engine.rb:524:in `call'
+puma (3.12.1) lib/puma/configuration.rb:227:in `call'
+puma (3.12.1) lib/puma/server.rb:660:in `handle_request'
+puma (3.12.1) lib/puma/server.rb:474:in `process_client'
+puma (3.12.1) lib/puma/server.rb:334:in `block in run'
+puma (3.12.1) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started DELETE "/procedures/1/steps/6" for ::1 at 2019-06-01 10:58:15 -0500
+Processing by StepsController#destroy as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"23", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"1", "id"=>"6"}
+  [1m[36mStep Load (0.6ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 6 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:28
+  [1m[36mStep Destroy (54.0ms)[0m  [1m[31mDELETE FROM `steps` WHERE `steps`.`id` = 6[0m
+  ↳ app/controllers/steps_controller.rb:30
+  [1m[36mProcedure Load (0.7ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 6 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:33
+Completed 404 Not Found in 60ms (ActiveRecord: 55.2ms)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Procedure with 'id'=6):
+  
+app/controllers/steps_controller.rb:33:in `destroy'
+Started DELETE "/procedures/1/steps/6" for ::1 at 2019-06-01 10:58:42 -0500
+Processing by StepsController#destroy as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"23", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"1", "id"=>"6"}
+  [1m[36mStep Load (0.4ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 6 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:28
+Completed 404 Not Found in 35ms (ActiveRecord: 31.9ms)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Step with 'id'=6):
+  
+app/controllers/steps_controller.rb:28:in `destroy'
+Started DELETE "/procedures/1/steps/6" for ::1 at 2019-06-01 10:59:01 -0500
+Processing by StepsController#destroy as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"23", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"1", "id"=>"6"}
+No template found for StepsController#destroy, rendering head :no_content
+Completed 204 No Content in 32455ms (ActiveRecord: 0.0ms)
+
+
+  [1m[36mStep Load (0.7ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 6 LIMIT 1[0m
+Started GET "/procedures/1/" for ::1 at 2019-06-01 10:59:54 -0500
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.5ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (0.5ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (1.4ms)
+Completed 200 OK in 139ms (Views: 33.0ms | ActiveRecord: 33.4ms)
+
+
+Started DELETE "/procedures/1/steps/1" for ::1 at 2019-06-01 11:00:30 -0500
+Processing by StepsController#destroy as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"23", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"1", "id"=>"1"}
+  [1m[36mStep Load (0.4ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:28
+  [1m[36mStep Destroy (1.2ms)[0m  [1m[31mDELETE FROM `steps` WHERE `steps`.`id` = 1[0m
+  ↳ app/controllers/steps_controller.rb:30
+  [1m[36mProcedure Load (0.4ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:33
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/steps_controller.rb:33
+  [1m[36mStep Load (0.5ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`order` BETWEEN 4 AND 2 AND `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/steps_controller.rb:35
+No template found for StepsController#destroy, rendering head :no_content
+Completed 204 No Content in 249ms (ActiveRecord: 37.2ms)
+
+
+Started GET "/procedures/1/" for ::1 at 2019-06-01 11:00:34 -0500
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.9ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (0.8ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (1.1ms)
+Completed 200 OK in 91ms (Views: 37.8ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/procedures/1/" for ::1 at 2019-06-01 11:31:51 -0500
+  [1m[35m (0.5ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  ↳ /Users/nicholasnkw/.gem/gems/activerecord-5.2.3/lib/active_record/log_subscriber.rb:98
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ /Users/nicholasnkw/.gem/gems/activerecord-5.2.3/lib/active_record/log_subscriber.rb:98
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.5ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (0.6ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (1.4ms)
+Completed 200 OK in 170ms (Views: 30.9ms | ActiveRecord: 34.2ms)
+
+
+Started POST "/procedures/1/steps/" for ::1 at 2019-06-01 11:35:21 -0500
+Processing by StepsController#create as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"2", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"1"}
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[36mProcedure Load (1.0ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[36mStep Create (2.8ms)[0m  [1m[32mINSERT INTO `steps` (`title`, `device`, `location`, `note`, `created_at`, `updated_at`, `order`, `procedure_id`) VALUES ('blue', 'Donkey', 'east side', 'description about steps', '2019-06-01 16:35:21', '2019-06-01 16:35:21', 2, 1)[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[35m (86.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/steps_controller.rb:11
+Completed 201 Created in 102ms (Views: 0.7ms | ActiveRecord: 91.1ms)
+
+
+Started POST "/procedures/1/steps/" for ::1 at 2019-06-01 11:35:27 -0500
+Processing by StepsController#create as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"3", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"1"}
+  [1m[35m (2.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[36mProcedure Load (0.7ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[36mStep Create (0.9ms)[0m  [1m[32mINSERT INTO `steps` (`title`, `device`, `location`, `note`, `created_at`, `updated_at`, `order`, `procedure_id`) VALUES ('blue', 'Donkey', 'east side', 'description about steps', '2019-06-01 16:35:27', '2019-06-01 16:35:27', 3, 1)[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/steps_controller.rb:11
+Completed 201 Created in 17ms (Views: 1.0ms | ActiveRecord: 6.3ms)
+
+
+Started GET "/procedures/1/" for ::1 at 2019-06-01 11:35:29 -0500
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.7ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (0.7ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (1.2ms)
+Completed 200 OK in 75ms (Views: 34.9ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/procedures/1/" for ::1 at 2019-06-03 16:28:33 -0500
+  [1m[35m (0.5ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  ↳ /Users/nicholasnkw/.gem/gems/activerecord-5.2.3/lib/active_record/log_subscriber.rb:98
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ /Users/nicholasnkw/.gem/gems/activerecord-5.2.3/lib/active_record/log_subscriber.rb:98
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.5ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (0.6ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (1.3ms)
+Completed 200 OK in 398ms (Views: 47.1ms | ActiveRecord: 30.6ms)
+
+
+Started GET "/stepsdfd" for ::1 at 2019-06-03 16:28:58 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/stepsdfd"):
+  
+actionpack (5.2.3) lib/action_dispatch/middleware/debug_exceptions.rb:65:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.3) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.3) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.3) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.3) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.3) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.3) lib/rails/rack/logger.rb:26:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.7) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.3) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.3) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.7) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.3) lib/rails/engine.rb:524:in `call'
+puma (3.12.1) lib/puma/configuration.rb:227:in `call'
+puma (3.12.1) lib/puma/server.rb:660:in `handle_request'
+puma (3.12.1) lib/puma/server.rb:474:in `process_client'
+puma (3.12.1) lib/puma/server.rb:334:in `block in run'
+puma (3.12.1) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started DELETE "/procedures/1/steps/5" for ::1 at 2019-06-03 16:36:25 -0500
+  [1m[35m (1.1ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  ↳ /Users/nicholasnkw/.gem/gems/activerecord-5.2.3/lib/active_record/log_subscriber.rb:98
+Processing by StepsController#destroy as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"23", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"1", "id"=>"5"}
+  [1m[36mStep Load (0.8ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 5 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:28
+  [1m[36mStep Destroy (51.3ms)[0m  [1m[31mDELETE FROM `steps` WHERE `steps`.`id` = 5[0m
+  ↳ app/controllers/steps_controller.rb:30
+  [1m[36mProcedure Load (1.0ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:33
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/steps_controller.rb:33
+  [1m[36mStep Load (0.7ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`order` BETWEEN 2 AND 4 AND `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[36mProcedure Load (0.5ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[36mStep Update (1.1ms)[0m  [1m[33mUPDATE `steps` SET `order` = 3, `updated_at` = '2019-06-03 21:36:25' WHERE `steps`.`id` = 9[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[36mProcedure Load (1.0ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[36mStep Update (0.7ms)[0m  [1m[33mUPDATE `steps` SET `order` = 1, `updated_at` = '2019-06-03 21:36:25' WHERE `steps`.`id` = 10[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[36mProcedure Load (1.0ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[36mStep Update (0.7ms)[0m  [1m[33mUPDATE `steps` SET `order` = 2, `updated_at` = '2019-06-03 21:36:25' WHERE `steps`.`id` = 11[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/steps_controller.rb:36
+No template found for StepsController#destroy, rendering head :no_content
+Completed 204 No Content in 316ms (ActiveRecord: 103.6ms)
+
+
+Started GET "/procedures/1/" for ::1 at 2019-06-03 16:36:29 -0500
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.6ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (0.5ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (1.5ms)
+Completed 200 OK in 78ms (Views: 35.7ms | ActiveRecord: 1.1ms)
+
+
+Started POST "/procedures/1/steps/" for ::1 at 2019-06-03 16:37:01 -0500
+Processing by StepsController#create as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"4", "order"=>"4", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"1"}
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[36mProcedure Load (2.0ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[36mStep Create (0.7ms)[0m  [1m[32mINSERT INTO `steps` (`title`, `device`, `location`, `note`, `created_at`, `updated_at`, `order`, `procedure_id`) VALUES ('4', 'Donkey', 'east side', 'description about steps', '2019-06-03 21:37:01', '2019-06-03 21:37:01', 4, 1)[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/steps_controller.rb:11
+Completed 201 Created in 19ms (Views: 1.1ms | ActiveRecord: 9.8ms)
+
+
+Started POST "/procedures/1/steps/" for ::1 at 2019-06-03 16:37:05 -0500
+Processing by StepsController#create as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"5", "order"=>"5", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"1"}
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[36mProcedure Load (0.6ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[36mStep Create (0.7ms)[0m  [1m[32mINSERT INTO `steps` (`title`, `device`, `location`, `note`, `created_at`, `updated_at`, `order`, `procedure_id`) VALUES ('5', 'Donkey', 'east side', 'description about steps', '2019-06-03 21:37:05', '2019-06-03 21:37:05', 5, 1)[0m
+  ↳ app/controllers/steps_controller.rb:11
+  [1m[35m (13.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/steps_controller.rb:11
+Completed 201 Created in 23ms (Views: 1.0ms | ActiveRecord: 15.0ms)
+
+
+Started GET "/procedures/1/" for ::1 at 2019-06-03 16:37:07 -0500
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.7ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (0.6ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (1.5ms)
+Completed 200 OK in 94ms (Views: 48.4ms | ActiveRecord: 1.3ms)
+
+
+Started DELETE "/procedures/1/steps/12" for ::1 at 2019-06-03 16:37:23 -0500
+Processing by StepsController#destroy as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"23", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"1", "id"=>"12"}
+  [1m[36mStep Load (2.3ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 12 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:28
+  [1m[36mStep Destroy (1.4ms)[0m  [1m[31mDELETE FROM `steps` WHERE `steps`.`id` = 12[0m
+  ↳ app/controllers/steps_controller.rb:30
+  [1m[36mProcedure Load (0.6ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:33
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT COUNT(*) FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/steps_controller.rb:33
+  [1m[36mStep Load (0.7ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`order` BETWEEN 5 AND 5 AND `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[36mProcedure Load (1.9ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[36mStep Update (0.8ms)[0m  [1m[33mUPDATE `steps` SET `order` = 4, `updated_at` = '2019-06-03 21:37:23' WHERE `steps`.`id` = 13[0m
+  ↳ app/controllers/steps_controller.rb:36
+  [1m[35m (3.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/steps_controller.rb:36
+No template found for StepsController#destroy, rendering head :no_content
+Completed 204 No Content in 199ms (ActiveRecord: 12.4ms)
+
+
+Started GET "/procedures/1/" for ::1 at 2019-06-03 16:37:27 -0500
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.7ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (1.0ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (3.5ms)
+Completed 200 OK in 89ms (Views: 40.5ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/procedures/1/" for ::1 at 2019-06-03 16:40:37 -0500
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.4ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (0.4ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (2.0ms)
+Completed 200 OK in 139ms (Views: 34.3ms | ActiveRecord: 30.6ms)
+
+
+Started DELETE "/procedures/2/steps/13" for ::1 at 2019-06-03 16:40:45 -0500
+  
+SyntaxError (/Users/nicholasnkw/parlaty-server/app/controllers/steps_controller.rb:77: syntax error, unexpected end-of-input, expecting keyword_end):
+  
+app/controllers/steps_controller.rb:77: syntax error, unexpected end-of-input, expecting keyword_end
+Started DELETE "/procedures/2/steps/13" for ::1 at 2019-06-03 16:40:58 -0500
+Processing by StepsController#destroy as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"23", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"2", "id"=>"13"}
+  [1m[36mStep Load (0.7ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 13 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:28
+  [1m[36mStep Destroy (1.4ms)[0m  [1m[31mDELETE FROM `steps` WHERE `steps`.`id` = 13[0m
+  ↳ app/controllers/steps_controller.rb:34
+  [1m[36mProcedure Load (0.5ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 2 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:37
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM `steps` WHERE `steps`.`procedure_id` = 2[0m
+  ↳ app/controllers/steps_controller.rb:37
+  [1m[36mStep Load (0.5ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`order` BETWEEN 5 AND 1 AND `steps`.`procedure_id` = 2[0m
+  ↳ app/controllers/steps_controller.rb:40
+Completed 400 Bad Request in 120ms (Views: 0.2ms | ActiveRecord: 64.8ms)
+
+
+Started GET "/procedures/1/" for ::1 at 2019-06-03 16:42:34 -0500
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProcedure Load (0.4ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mStep Load (0.5ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:7
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (1.7ms)
+Completed 200 OK in 126ms (Views: 33.1ms | ActiveRecord: 30.3ms)
+
+
+Started DELETE "/procedures/2/steps/9" for ::1 at 2019-06-03 16:44:00 -0500
+Processing by StepsController#destroy as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"23", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"2", "id"=>"9"}
+  [1m[36mStep Load (0.5ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 9 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:28
+Completed 400 Bad Request in 32ms (Views: 0.2ms | ActiveRecord: 18.6ms)
+
+
+Started DELETE "/procedures/2/steps/9" for ::1 at 2019-06-03 16:44:14 -0500
+Processing by StepsController#destroy as */*
+  Parameters: {"procedure"=>{"name"=>"Testing Dragon", "version"=>"3.2", "description"=>"This will take you", "category"=>"Change", "author"=>"Keith", "language"=>"Chinese"}, "step"=>{"title"=>"blue", "order"=>"23", "device"=>"Donkey", "location"=>"east side", "note"=>"description about steps"}, "parlaty_admin"=>{"email"=>"nick@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "oem"=>{"email"=>"oem@gmail.com", "name"=>"dommy", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "step_id"=>6, "previous_order"=>1, "procedure_id"=>"2", "id"=>"9"}
+  [1m[36mStep Load (0.4ms)[0m  [1m[34mSELECT  `steps`.* FROM `steps` WHERE `steps`.`id` = 9 LIMIT 1[0m
+  ↳ app/controllers/steps_controller.rb:28
+Completed 400 Bad Request in 8732ms (Views: 0.3ms | ActiveRecord: 21.4ms)
+
+
