@@ -4565,3 +4565,79 @@ Processing by StepsController#destroy as */*
 Completed 400 Bad Request in 8732ms (Views: 0.3ms | ActiveRecord: 21.4ms)
 
 
+Started GET "/procedures/1/" for ::1 at 2019-06-04 16:37:36 -0500
+  [1m[35m (0.6ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  ↳ /Users/nicholasnkw/.gem/gems/activerecord-5.2.3/lib/active_record/log_subscriber.rb:98
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ /Users/nicholasnkw/.gem/gems/activerecord-5.2.3/lib/active_record/log_subscriber.rb:98
+Processing by ProceduresController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mOperator Load (0.6ms)[0m  [1m[34mSELECT  `operators`.* FROM `operators` WHERE `operators`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:3
+  [1m[36mProcedure Load (24.9ms)[0m  [1m[34mSELECT  `procedures`.* FROM `procedures` WHERE `procedures`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/procedures_controller.rb:5
+  [1m[36mStep Load (0.7ms)[0m  [1m[34mSELECT `steps`.* FROM `steps` WHERE `steps`.`procedure_id` = 1[0m
+  ↳ app/controllers/procedures_controller.rb:9
+  Rendering procedures/show.json.jbuilder
+  Rendered procedures/show.json.jbuilder (1.6ms)
+Completed 200 OK in 13101ms (Views: 28.0ms | ActiveRecord: 72.6ms)
+
+
+  [1m[35m (0.5ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  ↳ /usr/bin/rake:22
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ /usr/bin/rake:22
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ /usr/bin/rake:22
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT GET_LOCK('2173782991071178410', 0)[0m
+  ↳ /usr/bin/rake:22
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ /usr/bin/rake:22
+Migrating to CreateOems (20190530035650)
+  [1m[35m (106.7ms)[0m  [1m[35mDROP TABLE `oems`[0m
+  ↳ /usr/bin/rake:22
+  [1m[36mActiveRecord::SchemaMigration Destroy (20.1ms)[0m  [1m[31mDELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20190530035650'[0m
+  ↳ /usr/bin/rake:22
+Migrating to CreateParlatyAdmins (20190529223920)
+  [1m[35m (6.8ms)[0m  [1m[35mDROP TABLE `parlaty_admins`[0m
+  ↳ /usr/bin/rake:22
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.9ms)[0m  [1m[31mDELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20190529223920'[0m
+  ↳ /usr/bin/rake:22
+Migrating to AddOperatorRefToProcedures (20190529214043)
+  [1m[35m (14.3ms)[0m  [1m[35mALTER TABLE `procedures` DROP FOREIGN KEY fk_rails_d51221eaf1[0m
+  ↳ /usr/bin/rake:22
+  [1m[35m (129.1ms)[0m  [1m[35mALTER TABLE `procedures` DROP COLUMN `operator_id`[0m
+  ↳ /usr/bin/rake:22
+  [1m[36mActiveRecord::SchemaMigration Destroy (1.1ms)[0m  [1m[31mDELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20190529214043'[0m
+  ↳ /usr/bin/rake:22
+Migrating to CreateOperators (20190529204730)
+  [1m[35m (6.6ms)[0m  [1m[35mDROP TABLE `operators`[0m
+  ↳ /usr/bin/rake:22
+  [1m[36mActiveRecord::SchemaMigration Destroy (1.1ms)[0m  [1m[31mDELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20190529204730'[0m
+  ↳ /usr/bin/rake:22
+Migrating to AddProcedureRefToSteps (20190529030302)
+  [1m[35m (10.1ms)[0m  [1m[35mALTER TABLE `steps` DROP FOREIGN KEY fk_rails_86d94b0bf7[0m
+  ↳ /usr/bin/rake:22
+  [1m[35m (193.5ms)[0m  [1m[35mALTER TABLE `steps` DROP COLUMN `procedure_id`[0m
+  ↳ /usr/bin/rake:22
+  [1m[36mActiveRecord::SchemaMigration Destroy (2.0ms)[0m  [1m[31mDELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20190529030302'[0m
+  ↳ /usr/bin/rake:22
+Migrating to CreateProcedures (20190529013054)
+  [1m[35m (6.9ms)[0m  [1m[35mDROP TABLE `procedures`[0m
+  ↳ /usr/bin/rake:22
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.9ms)[0m  [1m[31mDELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20190529013054'[0m
+  ↳ /usr/bin/rake:22
+Migrating to AddOrderToSteps (20190525042045)
+  [1m[35m (134.8ms)[0m  [1m[35mALTER TABLE `steps` DROP COLUMN `order`[0m
+  ↳ /usr/bin/rake:22
+  [1m[36mActiveRecord::SchemaMigration Destroy (3.3ms)[0m  [1m[31mDELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20190525042045'[0m
+  ↳ /usr/bin/rake:22
+Migrating to CreateSteps (20190525040107)
+  [1m[35m (6.5ms)[0m  [1m[35mDROP TABLE `steps`[0m
+  ↳ /usr/bin/rake:22
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.9ms)[0m  [1m[31mDELETE FROM `schema_migrations` WHERE `schema_migrations`.`version` = '20190525040107'[0m
+  ↳ /usr/bin/rake:22
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT RELEASE_LOCK('2173782991071178410')[0m
+  ↳ /usr/bin/rake:22
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  ↳ /usr/bin/rake:22
