@@ -5,3 +5,5 @@
 /log/*
 # don't ignore this
 !/log/.keep
+# secret for JWT
+config/secret.yml

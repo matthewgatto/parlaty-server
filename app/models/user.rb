@@ -1,3 +1,17 @@
 class User < ApplicationRecord
-	has_secured_password
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable, :confirmable
+   
+  # roleable calls destory when user gets destroyed       
+  belongs_to :roleable, polymorphic: true, optional: true, dependent: :destroy
+
+
+  protected
+
+  #override devise definition so that password isn't require at initial sign_up
+  def password_required?
+    confirmed? ? super : false
+  end
 end

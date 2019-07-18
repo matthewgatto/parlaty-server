@@ -7,6 +7,10 @@ class CreateProcedures < ActiveRecord::Migration[5.2]
     	t.string	:category
     	t.string	:author
     	t.string	:language
+      # mysql doesn't have native array type. serialize it in /models/procedures.rb
+      # storing it in array to minimize query calls when updating the order 
+      t.text :steps_order 
+
     	
       t.timestamps
     end

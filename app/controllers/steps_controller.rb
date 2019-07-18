@@ -1,20 +1,43 @@
 class StepsController < ApplicationController
-	def show
-		@step = Step.find(params[:id])
-		render json: @step
-	end
+	#before_action :require_login
 
+	# POST /steps
 	def create
 		@step = Step.new(step_params)
-		@step.procedure_id = params[:procedure_id]
-	
-		if(@step.save!)
+		@procedure = Procedure.find(@step.procedure_id)
+		prev_si = params[:previous_step_id].to_i
+		pso = @procedure.steps_order
+
+		#zero means step is first order
+		if !(pso.include? prev_si or prev_si == 0)
+			render json: { "error": "previous step id doesn't exist in procedure_id" }, status: :bad_request and return
+		end
+
+		if(@step.save)
+			if(prev_si== 0)
+				pso.unshift(@step.id)
+			else
+				i = pso.index(prev_si)
+				pso.insert(i+1, @step.id)
+			end
+			@procedure.save
+
 			render json: @step, status: :created
 		else
-			head :bad_request
+			render json: { "error": @step.errors.full_messages }, status: :bad_request
 		end
 	end
 
+	def add_visuals
+		@step = Step.find(params[:id])
+		if(@step.visuals.attach(params[:visuals]))
+			head :ok
+		else
+			render json: { "error": @step.errors.full_messages }, status: :bad_request
+		end 
+	end
+
+	# PUT /steps/:id
 	def update
 		@step = Step.find(params[:id])
 		if(@step.update_attributes(step_params))
@@ -24,59 +47,67 @@ class StepsController < ApplicationController
 		end
 	end
 
+	# DELETE /steps/:id
 	def destroy
 		@step = Step.find(params[:id])
-		if(@step.procedure_id != params[:procedure_id])
-			render json: { error: 'step does not belong to procedure' }, status: :bad_request and return
-		end
-
-		order = @step.order
+		step_id = @step.id
+		@procedure = Procedure.find(@step.procedure_id)
 		if(@step.delete)
-			# e.g step 3 gets delete, step 4 til the last step all subtract one
-			p_id = params[:procedure_id]
-			count = Procedure.find(p_id).steps.count
-			# count+1 because @step is already deleted. count will drop 1, but highest order is still old count
-			@thesteps = Step.where({order: (order+1)..count+1 , procedure_id: p_id})
-			@thesteps.map { |x| x.update_attributes(order: x.order-1) }
+			### old code where each step had an order column ###
+			# # e.g step 3 gets delete, step 4 til the last step all subtract one
+			# p_id = @step.procedure_id
+			# count = Procedure.find(p_id).steps.count
+			# # count+1 because @step is already deleted. count will drop 1, but highest order is still old count
+			# @thesteps = Step.where({order: (order+1)..count+1 , procedure_id: p_id})
+			# @thesteps.map { |x| x.update_attributes(order: x.order-1) }
+
+			# rearrange the steps order array
+			so_arr = @procedure.steps_order
+			so_arr.delete(step_id)
+			byebug
+			@procedure.save
 		else
 			head :bad_request
 		end
 	end
 
+	# # reorder steps of a procedure
+	# # have to refactor to minimize query calls
+	# # have to edit code, since routes changed, no procedure id
+	# def reorder
+	# 	byebug 
+	# 	return
+	# 	main_step = Step.find(params[:step_id])
+	# 	if(@step.procedure_id != params[:procedure_id])
+	# 		# have to put return else will finish running the method
+	# 		render json: { error: 'step does not belong to procedure' }, status: :bad_request and return 
+	# 	end
+	# 	#new position's node before, 0 if new position is top
+	# 	new_order_previous = params[:previous_order]
+	# 	procedure_id = params[:id]
+	# 	order = main_step.order
 
-	# reorder steps of a procedure
-	# have to refactor to minimize query calls
-	def reorder
-		main_step = Step.find(params[:step_id])
-		if(@step.procedure_id != params[:procedure_id])
-			render json: { error: 'step does not belong to procedure' }, status: :bad_request and return 
-		end
-		#new position's node before, 0 if new position is top
-		new_order_previous = params[:previous_order]
-		procedure_id = params[:id]
-		order = main_step.order
+	# 	change = order - (new_order_previous+1)
 
-		change = order - (new_order_previous+1)
+	# 	if(change > 0)
+	# 		# if change is positive, means moved up, steps between old and new position order +1
+	# 		# e.g change from order 5 to order 2, means order 2, 3, 4 all add one 
+	# 		#update new position, ... excludes "order"
+	# 		@thesteps = Step.where({order: (new_order_previous+1)...order, procedure_id: procedure_id})
+	# 		@thesteps.map { |x| x.update_attributes(order: x.order+1) }
 
-		if(change > 0)
-			# if change is positive, means moved up, steps between old and new position order +1
-			# e.g change from order 5 to order 2, means order 2, 3, 4 all add one 
-			#update new position, ... excludes "order"
-			@thesteps = Step.where({order: (new_order_previous+1)...order, procedure_id: procedure_id})
-			@thesteps.map { |x| x.update_attributes(order: x.order+1) }
-
-		elsif(change < 0)
-			# if change is negative, means moved down, steps between old and new position order -1
-			# e.g from order 3 to 5, means order 4, 5 all subtract one
-			@thesteps = Step.where({order: (order+1)..(new_order_previous+1), procedure_id: procedure_id})
-			@thesteps.map { |x| x.update_attributes(order: x.order-1) }
-		end
-			main_step.update_attributes(order: order - change)
-	end
+	# 	elsif(change < 0)
+	# 		# if change is negative, means moved down, steps between old and new position order -1
+	# 		# e.g from order 3 to 5, means order 4, 5 all subtract one
+	# 		@thesteps = Step.where({order: (order+1)..(new_order_previous+1), procedure_id: procedure_id})
+	# 		@thesteps.map { |x| x.update_attributes(order: x.order-1) }
+	# 	end
+	# 		main_step.update_attributes(order: order - change)
+	# end
 
 	private
 
 		def step_params
-			params.require(:step).permit(:title, :device, :location, :note, :order)
+			params.require(:step).permit(:title, :device, :location, :note, :safety, :procedure_id, visuals: [])
 		end
 end

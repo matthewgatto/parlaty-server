@@ -1,0 +1,24 @@
+#treat json as a ruby hash object, refer to jb gem
+json = {}
+json[:oem_businesses] = @sorted_ob.map do |oem_business|
+	{
+		name: oem_business.name,		
+	}
+end
+
+ob_count = 0
+while ob_count < @sorted_ob.count
+	# sort procedure by name
+	sorted_procd = @sorted_ob[ob_count].procedures.sort_by &:name
+	# assign only the name and id for json
+	json[:oem_businesses][ob_count][:procedures] = sorted_procd.map do |procedure|{
+		name: procedure.name,
+		id: procedure.id
+	}
+	end
+	ob_count = ob_count + 1
+end
+
+
+
+json

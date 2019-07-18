@@ -1,0 +1,10 @@
+json = {
+	procedures: @procedures.map do |procedure|
+		{
+			id: procedure.id,
+			name: procedure.name,
+		}
+	end
+}
+
+json

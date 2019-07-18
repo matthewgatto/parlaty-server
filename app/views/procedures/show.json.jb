@@ -1,0 +1,31 @@
+json = {
+	procedure_id: @procedure.id,
+	name: @procedure.name,
+	version: @procedure.version,
+	description: @procedure.description,
+	category: @procedure.category,
+	author: @procedure.author,
+	language: @procedure.language
+
+}
+
+def visual_check(sstep)
+	if(sstep.has_visual)
+		url_for(sstep.visual)
+	else
+		nil
+	end
+end
+
+json[:step] = @steps.each_with_index.map do |sstep, index|{
+	id: sstep.id,
+	title: sstep.title,
+	device: sstep.device, 
+	location: sstep.location, 
+	note: sstep.note,
+	visual: visual_check(sstep)
+}
+end
+
+json
+
