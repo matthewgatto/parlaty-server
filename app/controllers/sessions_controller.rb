@@ -2,12 +2,11 @@ class SessionsController < ApplicationController
 	
 	# POST /login
 	def create
-		user = User.find_by(email: params[:email])
+		@user = User.find_by(email: params[:email])
 
 		# checks if user exist, and valid password (devise's method)
-		if user && user.valid_password?(params[:password])
-			jwt = Auth.encode({ uid: user.id})
-			render json: jwt
+		if @user && @user.valid_password?(params[:password])
+			@jwt = Auth.encode({ uid: @user.id})
 		else
 			head :unauthorized
 		end

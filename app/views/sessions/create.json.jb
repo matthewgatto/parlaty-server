@@ -1,0 +1,9 @@
+json = {
+	jwt: @jwt,
+	user_id: @user.id,
+	roleable_type: @user.roleable_type,
+	roleable_id: @user.roleable_id 
+}
+
+
+json
