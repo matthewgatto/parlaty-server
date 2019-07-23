@@ -10,7 +10,7 @@
 # rails db:drop db:create db:migrate db:seed, if there is a change in db(rmb to change code below too)
 
 2.times do
-	Oem.create!()
+	Oem.create!(name: Faker::Name.first_name)
 end
 
 x = 1
@@ -25,9 +25,16 @@ while x <= 2
 	x = x+1
 end
 
-# Operator
+# Operator Admin
 3.times do
-	Operator.create!()
+	OperatorAdmin.create!(oem_business_id: 1, name: Faker::Name.first_name)	
+end
+
+# Operator
+x = 1
+while x <= 3
+	Operator.create!(oem_business_id: 1, name: Faker::Name.first_name)
+	x += 1
 end
 
 # Procedures for every oem_business

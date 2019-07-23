@@ -20,16 +20,18 @@ Rails.application.routes.draw do
  		
   resources :steps, only: [:create, :update, :destroy]
 
-  get '/operators/procedures', to: 'procedures#operator_index'
+  resources :operators, only: [:update, :destroy] do
+  end
 
-
-  # put '/reorder', to: 'steps#reorder'
+  get '/operatoradmins/:id/operators', to: 'operators#oadmin_index'
+  
+  get '/operators/:id/procedures', to: 'procedures#operator_index'
 
   post '/login', to: 'sessions#create'
 
   post '/steps/:id/visuals', to: 'steps#add_visuals'
 
-  get '/oems/oembusinesses', to: 'oem_businesses#show'
+  get '/oems/:id/oembusinesses', to: 'oem_businesses#show'
 
   put '/oems/:id', to: 'oems#update'
 

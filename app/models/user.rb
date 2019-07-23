@@ -14,4 +14,10 @@ class User < ApplicationRecord
   def password_required?
     confirmed? ? super : false
   end
+
+  # #override devise defintion to not allow deactivated accounts to login
+  # def active_for_authentication?
+  #   super && !deactivated
+  # end
+
 end

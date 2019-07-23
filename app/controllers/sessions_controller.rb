@@ -6,7 +6,11 @@ class SessionsController < ApplicationController
 
 		# checks if user exist, and valid password (devise's method)
 		if @user && @user.valid_password?(params[:password])
-			@jwt = Auth.encode({ uid: @user.id})
+			if @user.deactivated
+				render json: {"error": "User has been deactivated"}, status: :unauthorized and return 
+			else
+				@jwt = Auth.encode({ uid: @user.id})
+			end
 		else
 			head :unauthorized
 		end

@@ -2,7 +2,7 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
-  before_action :require_login, only: [:create]
+  #before_action :require_login, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
@@ -12,17 +12,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    if !(current_user.roleable_type == "ParlatyAdmin")
-      render json: {"error": "Current user not an ParlatyAdmin"}, status: :forbidden and return
-    end
+    # only p_admin can create oem
+    # if ((current_user.roleable_type != "ParlatyAdmin") && params[:roleable] == "oem")
+    #   render json: {"error": "Current user not an ParlatyAdmin"}, status: :forbidden and return
+    # only operator admin can create operator
+    # elsif ()
+    #end
 
     case params[:roleable]
     when "oem"
-      @roleable = Oem.create()
+      @roleable = Oem.create(name: params[:user][:name])
     when 'parlatyadmin'
-      @roleable = ParlatyAdmin.create()
+      @roleable = ParlatyAdmin.create((name: params[:user][:name])
     when 'operator'
-      @roleable = Operator.create()
+      @roleable = Operator.create((name: params[:user][:name])
+      # to_implement? check if procedures belongs to oem_business, through current_user(operator admin) association
+      # create operations to associate procedures to operators
+      params[:procedures].each do |p_id| 
+        Operation.create(operator_id: @roleable.id, procedure_id: p_id)
+      end
     else
       render json: { "error": "roleable type doesn't exist" }, status: :bad_request and return
     end
@@ -81,9 +89,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   #If you have extra params to permit, append them to the sanitizer.
-  def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :name])
-  end
+  # def configure_sign_up_params
+  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :name])
+  # end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
@@ -99,4 +107,5 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
 end

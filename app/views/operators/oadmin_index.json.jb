@@ -1,0 +1,10 @@
+json = {
+	operators: @operators.map do |operator|
+		{
+			id: operator.id,
+			name: operator.name
+		}
+	end
+}
+
+json

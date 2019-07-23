@@ -1,4 +1,5 @@
 class OemsController < ApplicationController
+	before_action :require_login
 
 	# PUT /oems/:id
 	def update
@@ -8,7 +9,7 @@ class OemsController < ApplicationController
 
 		@oem = Oem.find(params[:id])
 
-		if(@oem.user.update_attributes(update_oem_params))
+		if(@oem.user.update_attributes(update_oem_params) && @oem.update_attributes(name: params[:oem][:name]))
 			head :ok
 		else
 			render json: { "error": @oem.errors.full_messages }, status: :bad_request
@@ -18,7 +19,7 @@ class OemsController < ApplicationController
 
 	private
 	def update_oem_params
-		params.require(:oem).permit(:email, :name, :password)
+		params.require(:oem).permit(:email, :password)
 	end
 
 end

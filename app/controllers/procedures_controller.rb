@@ -1,14 +1,11 @@
 class ProceduresController < ApplicationController
 	before_action :require_login
 
-	# GET /operators/procedures
+	# GET /operators/:id/procedures
 	# return procedures sorted by most recently used
 	def operator_index
-		if !(current_user.roleable_type == "Operator")
-			render json: {"error": "Current user not an operator"}, status: :forbidden and return
-		end
-
-		operations = Operation.where(operator_id: current_user.roleable_id)
+		# make sure current user has access
+		operations = Operation.where(operator_id: params[:id])
 		sorted_op = (operations.sort_by &:last_used).reverse
 		# returns an array of the procedures in the sorted operations
 		pcd_arr = sorted_op.pluck(:procedure_id)
@@ -18,11 +15,7 @@ class ProceduresController < ApplicationController
 	# GET /procedures/:id
 	# also returns associated steps
 	def show
-		if !(current_user.roleable_type == "Operator" or current_user.roleable_type == "Oem")
-			render json: {"error": "Current user not an operator or oem"}, status: :forbidden and return
-		end
-
-		# check that procedure belongs to oem??
+		# check that current_user has access to procedures
 
 		@procedure = Procedure.find(params[:id])
 		@steps = Step.find(@procedure.steps_order)

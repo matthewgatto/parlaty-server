@@ -1,13 +1,13 @@
 class OemBusinessesController < ApplicationController	
 	before_action :require_login
 
-	# GET /oems/oembusinesses
+	# GET /oems/:id/oembusinesses
 	def show
-		if !(current_user.roleable_type == "Oem")
-			render json: {"error": "Current user not an operator"}, status: :forbidden and return
-		end
+		# if !(current_user.roleable_type == "Oem")
+		# 	render json: {"error": "Current user not an operator"}, status: :forbidden and return
+		# end
 
-		oem = Oem.find(current_user.roleable.id)
+		oem = Oem.find(params[:id])
 		oem_bus = oem.oem_businesses
 
 		# sort array by name

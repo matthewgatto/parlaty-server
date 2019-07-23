@@ -4,7 +4,6 @@ class ApplicationController < ActionController::API
 	private
 	# check if user is logged in(check for token), if so assign @user_id
 	def require_login
-		puts "hallo"
 		if !request.env["HTTP_AUTHORIZATION"]
 			# necessary to put return if there are still code after this method that shouldn't be run
 			head :unauthorized and return
