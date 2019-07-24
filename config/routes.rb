@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   
   get '/operators/:id/procedures', to: 'procedures#operator_index'
 
+  get '/oembusinesses/:id/procedures', to: 'procedures#oembusiness_index'
+
   post '/login', to: 'sessions#create'
 
   post '/steps/:id/visuals', to: 'steps#add_visuals'

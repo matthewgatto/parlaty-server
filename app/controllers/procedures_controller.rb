@@ -5,17 +5,26 @@ class ProceduresController < ApplicationController
 	# return procedures sorted by most recently used
 	def operator_index
 		# make sure current user has access
+		# operator can access itself, 
 		operations = Operation.where(operator_id: params[:id])
 		sorted_op = (operations.sort_by &:last_used).reverse
 		# returns an array of the procedures in the sorted operations
 		pcd_arr = sorted_op.pluck(:procedure_id)
 		@procedures = Procedure.find(pcd_arr)
 	end
+
+	# GET /oembusinesses/:id/procedures
+	# return procedures of the oem_business, sorted alphabetically
+	def oembusiness_index
+		oem_bus = OemBusiness.find(params[:id])
+		@procedures = (oem_bus.procedures).sort_by &:name
+	end
 	
 	# GET /procedures/:id
 	# also returns associated steps
 	def show
 		# check that current_user has access to procedures
+		# operator can access its associated procedures, OA can access it's oem_business's operators
 
 		@procedure = Procedure.find(params[:id])
 		@steps = Step.find(@procedure.steps_order)
@@ -25,9 +34,9 @@ class ProceduresController < ApplicationController
 	# POST /procedures
 	#inlcude creating steps
 	def create
-		if !(current_user.roleable_type == "Oem" or current_user.roleable_type == "ParlatyAdmin")
-			render json: {"error": "Current user not an Oem or ParlatyAdmin"}, status: :forbidden and return
-		end
+		# if !(current_user.roleable_type == "Oem" or current_user.roleable_type == "ParlatyAdmin")
+		# 	render json: {"error": "Current user not an Oem or ParlatyAdmin"}, status: :forbidden and return
+		# end
 
 		# check that oem business belongs to oem??
 

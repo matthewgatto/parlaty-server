@@ -1,0 +1,9 @@
+json = {}
+json[:procedures] = @procedures.map do |prod|
+	{
+		name: prod.name,
+		id: prod.id		
+	}
+end
+
+json
