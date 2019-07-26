@@ -1,0 +1,10 @@
+json = {
+	operator_admins: @oadmins.map do |oadmin|
+		{
+			id: oadmin.id,
+			name: oadmin.name
+		}
+	end
+}
+
+json

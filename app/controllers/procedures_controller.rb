@@ -3,7 +3,7 @@ class ProceduresController < ApplicationController
 
 	# GET /operators/:id/procedures
 	# return procedures sorted by most recently used
-	def operator_index
+	def operator_prod_index
 		# make sure current user has access
 		# operator can access itself, 
 		operations = Operation.where(operator_id: params[:id])
@@ -13,9 +13,9 @@ class ProceduresController < ApplicationController
 		@procedures = Procedure.find(pcd_arr)
 	end
 
-	# GET /oembusinesses/:id/procedures
+	# GET /oem_businesses/:id/procedures
 	# return procedures of the oem_business, sorted alphabetically
-	def oembusiness_index
+	def oembusiness_prod_index
 		oem_bus = OemBusiness.find(params[:id])
 		@procedures = (oem_bus.procedures).sort_by &:name
 	end

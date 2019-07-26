@@ -20,20 +20,25 @@ Rails.application.routes.draw do
  		
   resources :steps, only: [:create, :update, :destroy]
 
-  resources :operators, only: [:update, :destroy] do
-  end
+  resources :operators, only: [:update, :destroy]
 
-  get '/operatoradmins/:id/operators', to: 'operators#oadmin_index'
+  resources :oem_businesses, only: [:show]
+
+  get '/oem_businesses/:id/operator_admins', to: 'operator_admins#oembus_oadmin_index'
+
+  get '/operator_admins/:id/operators', to: 'operators#oadmin_op_index'
+
+  get '/oem_businesses/:id/operators', to: 'operators#oembus_op_index'
   
-  get '/operators/:id/procedures', to: 'procedures#operator_index'
+  get '/operators/:id/procedures', to: 'procedures#operator_prod_index'
 
-  get '/oembusinesses/:id/procedures', to: 'procedures#oembusiness_index'
+  get '/oem_businesses/:id/procedures', to: 'procedures#oembusiness_prod_index'
 
   post '/login', to: 'sessions#create'
 
   post '/steps/:id/visuals', to: 'steps#add_visuals'
 
-  get '/oems/:id/oembusinesses', to: 'oem_businesses#show'
+  get '/oems/:id/oem_businesses', to: 'oem_businesses#oem_oembus_index'
 
   put '/oems/:id', to: 'oems#update'
 

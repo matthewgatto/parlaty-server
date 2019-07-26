@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 2019_07_23_163449) do
 
   create_table "operator_admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
+    t.boolean "deactivated", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "oem_business_id"
@@ -67,6 +68,7 @@ ActiveRecord::Schema.define(version: 2019_07_23_163449) do
 
   create_table "operators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
+    t.boolean "deactivated", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "oem_business_id"
@@ -119,7 +121,6 @@ ActiveRecord::Schema.define(version: 2019_07_23_163449) do
     t.datetime "updated_at", null: false
     t.string "roleable_type"
     t.bigint "roleable_id"
-    t.boolean "deactivated", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["roleable_type", "roleable_id"], name: "index_users_on_roleable_type_and_roleable_id"

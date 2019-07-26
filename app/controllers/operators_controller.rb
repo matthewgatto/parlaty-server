@@ -1,19 +1,28 @@
 class OperatorsController < ApplicationController
-	before_action :require_login
+	#before_action :require_login
 
-	# GET /operatoradmins/:id/operators
-	def oadmin_index
-		# use current login to find o_admin
+	# GET /operator_admins/:id/operators
+	def oadmin_op_index
+		# only operator_admin of id, and oem 
+		# have to not be deactivated
 		op_admin = OperatorAdmin.find(params[:id])
 
 		# find associated operators through its oem_businesss
-		@operators = op_admin.oem_business.operators
+		@operators = op_admin.oem_business.operators.where(deactivated: false)
 
 		# operators/oadmin_index.json.jb
 	end
 
+	# GET /oem_businesses/:id/operators
+	def oembus_op_index
+		oemb = OemBusiness.find(params[:id])
+
+		@operators = oemb.operators.where(deactivated: false)
+	end
+
 	# PUT /operators/:id
 	def update
+		# only OA, and OEM associated
 		@operator = Operator.find(params[:id])
 
 		@operator.user.update_attributes(email: params[:operator][:email])
@@ -46,8 +55,8 @@ class OperatorsController < ApplicationController
 	def destroy
 		@operator = Operator.find(params[:id])
 		# if not deactivated
-		if !(@operator.user.deactivated)
-			@operator.user.update_attributes(deactivated: true)
+		if !(@operator.deactivated)
+			@operator.update_attributes(deactivated: true)
 		end
 
 		head :ok
