@@ -24,6 +24,8 @@ Rails.application.routes.draw do
 
   resources :oem_businesses, only: [:show]
 
+  resources :operator_admins, only: [:update, :destroy]
+
   get '/oem_businesses/:id/operator_admins', to: 'operator_admins#oembus_oadmin_index'
 
   get '/operator_admins/:id/operators', to: 'operators#oadmin_op_index'
@@ -41,6 +43,8 @@ Rails.application.routes.draw do
   get '/oems/:id/oem_businesses', to: 'oem_businesses#oem_oembus_index'
 
   put '/oems/:id', to: 'oems#update'
+
+  post '/save_steps', to: 'steps#save_step'
 
 
 end

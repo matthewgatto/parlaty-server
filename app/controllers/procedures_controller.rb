@@ -122,6 +122,6 @@ class ProceduresController < ApplicationController
 		end
 
 		def step_params(index)
-			params.require(:steps)[index].permit(:title, :device, :location, :note)
+			params.require(:steps)[index].permit(:title, :device, :location, :note, :safety, visuals: [], :mode, :time, :parameter)
 		end
 end

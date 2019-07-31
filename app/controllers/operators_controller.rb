@@ -25,9 +25,17 @@ class OperatorsController < ApplicationController
 		# only OA, and OEM associated
 		@operator = Operator.find(params[:id])
 
-		@operator.user.update_attributes(email: params[:operator][:email])
+		# if params exist, yet cannot update
+		if params[:operator][:email] && 
+			! (@operator.user.update_attributes(email: params[:operator][:email])) 
+				render json: { "error": "can't update email" }, status: :bad_request and return
+		end
 
-		@operator.update_attributes(name: params[:operator][:name])
+		if params[:operator][:name] &&
+			!(@operator.update_attributes(name: params[:operator][:name]))
+				render json: { "error": "can't update name, but updated email if requested for email change" }, 
+				status: :bad_request and return
+		end
 
 		if(params[:operator][:procedures])
 			# array of the current operator's procedures

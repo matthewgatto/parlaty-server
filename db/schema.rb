@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_23_163449) do
+ActiveRecord::Schema.define(version: 2019_07_22_230157) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -35,9 +35,9 @@ ActiveRecord::Schema.define(version: 2019_07_23_163449) do
 
   create_table "oem_businesses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
+    t.bigint "oem_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "oem_id"
     t.index ["oem_id"], name: "index_oem_businesses_on_oem_id"
   end
 
@@ -60,18 +60,18 @@ ActiveRecord::Schema.define(version: 2019_07_23_163449) do
   create_table "operator_admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.boolean "deactivated", default: false
+    t.bigint "oem_business_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "oem_business_id"
     t.index ["oem_business_id"], name: "index_operator_admins_on_oem_business_id"
   end
 
   create_table "operators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.boolean "deactivated", default: false
+    t.bigint "oem_business_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "oem_business_id"
     t.index ["oem_business_id"], name: "index_operators_on_oem_business_id"
   end
 
@@ -89,9 +89,9 @@ ActiveRecord::Schema.define(version: 2019_07_23_163449) do
     t.string "author"
     t.string "language"
     t.text "steps_order"
+    t.bigint "oem_business_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "oem_business_id"
     t.index ["oem_business_id"], name: "index_procedures_on_oem_business_id"
   end
 
@@ -99,12 +99,17 @@ ActiveRecord::Schema.define(version: 2019_07_23_163449) do
     t.string "title"
     t.string "device"
     t.string "location"
+    t.string "mode"
     t.text "note"
+    t.integer "time"
+    t.string "parameter"
     t.boolean "safety", default: false
     t.boolean "has_visual", default: false
+    t.bigint "procedure_id"
+    t.bigint "oem_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "procedure_id"
+    t.index ["oem_id"], name: "index_steps_on_oem_id"
     t.index ["procedure_id"], name: "index_steps_on_procedure_id"
   end
 
@@ -131,5 +136,6 @@ ActiveRecord::Schema.define(version: 2019_07_23_163449) do
   add_foreign_key "operator_admins", "oem_businesses"
   add_foreign_key "operators", "oem_businesses"
   add_foreign_key "procedures", "oem_businesses"
+  add_foreign_key "steps", "oems"
   add_foreign_key "steps", "procedures"
 end

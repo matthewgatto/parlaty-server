@@ -71,6 +71,19 @@ class StepsController < ApplicationController
 		end
 	end
 
+
+	# POST /save_steps
+	def save_step
+		# oem and p admin can access
+		@saved_step = Step.new(save_step_params)
+		
+		if(@saved_step.save)
+			render json: @saved_step, status: :created
+		else
+			render json: { "error": @saved_step.errors.full_messages }, status: :bad_request
+		end
+	end
+
 	# # reorder steps of a procedure
 	# # have to refactor to minimize query calls
 	# # have to edit code, since routes changed, no procedure id
@@ -108,6 +121,10 @@ class StepsController < ApplicationController
 	private
 
 		def step_params
-			params.require(:step).permit(:title, :device, :location, :note, :safety, :procedure_id, visuals: [])
+			params.require(:step).permit(:title, :device, :location, :note, :safety, :procedure_id, visuals: [], :mode, :time, :parameter)
+		end
+
+		def save_step_params
+			params.require(:step).permit(:title, :device, :location, :note, :safety, :oem_id, visuals: [], :mode, :time, :parameter)
 		end
 end
