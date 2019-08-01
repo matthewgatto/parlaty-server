@@ -3,11 +3,10 @@ class OperatorsController < ApplicationController
 
 	# GET /operator_admins/:id/operators
 	def oadmin_op_index
-		# only operator_admin of id, and oem 
-		# have to not be deactivated
+		# only operator_admin of id, and it's oem
 		op_admin = OperatorAdmin.find(params[:id])
 
-		# find associated operators through its oem_businesss
+		# find associated operators through its oem_businesss, have to not be deactivated
 		@operators = op_admin.oem_business.operators.where(deactivated: false)
 
 		# operators/oadmin_index.json.jb
@@ -61,6 +60,7 @@ class OperatorsController < ApplicationController
 
 	# DELETE /operators/:id
 	def destroy
+		# only OA, and OEM associated
 		@operator = Operator.find(params[:id])
 		# if not deactivated
 		if !(@operator.deactivated)

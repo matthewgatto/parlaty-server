@@ -23,6 +23,10 @@ class ApplicationController < ActionController::API
 		@current_user ||= User.find(@user_id)
 	end
 
+	# # check if the current_user is authorized type
+	# def verify_type(*args)
+	# 	byebug
+	# end
 
 end
 

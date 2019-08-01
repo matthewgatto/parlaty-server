@@ -1,8 +1,9 @@
 class OemsController < ApplicationController
-	before_action :require_login
+	#before_action :require_login
 
 	# PUT /oems/:id
 	def update
+		#padmin
 		if !(current_user.roleable_type == "ParlatyAdmin")
 			render json: {"error": "Current user not an ParlatyAdmin"}, status: :forbidden and return
 		end

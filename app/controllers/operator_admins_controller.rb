@@ -1,7 +1,9 @@
 class OperatorAdminsController < ApplicationController
+	#before_action :require_login
 
 	# GET /oem_businesses/:id/operator_admins
 	def oembus_oadmin_index
+		#Oem
 		oemb = OemBusiness.find(params[:id])
 
 		@oadmins = oemb.operator_admins.where(deactivated: false)
@@ -9,7 +11,7 @@ class OperatorAdminsController < ApplicationController
 
 	# PUT /operator_admins/:id
 	def update
-		# oem permission
+		# it's oem
 		oadmin = OperatorAdmin.find(params[:id])
 
 		# if params exist, yet cannot update
@@ -30,6 +32,7 @@ class OperatorAdminsController < ApplicationController
 
 	# DELETE /operator_admins/:id
 	def destroy
+		# it's oem
 		oadmin = OperatorAdmin.find(params[:id])
 		# if not deactivated
 		if !(oadmin.deactivated)

@@ -1,0 +1,15 @@
+json = {}
+
+arr = Array.new
+
+@table.each_with_index do |row, index|
+	hash_result = Hash.new
+	@headers.each_with_index do |header, ind|
+		hash_result[header.to_sym] = row[ind]
+	end
+	arr.push(hash_result)
+end
+
+json[:steps] = arr
+
+json

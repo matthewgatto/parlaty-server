@@ -3,11 +3,14 @@ class OemBusinessesController < ApplicationController
 
 	# GET /oem_businesses/:id
 	def show
+		# padmin and it's oem
 		@oemb = OemBusiness.find(params[:id])
 	end
 
 	# GET /oems/:id/oem_businesses
 	def oem_oembus_index
+		# padmin and it's oem
+		
 		# if !(current_user.roleable_type == "Oem")
 		# 	render json: {"error": "Current user not an operator"}, status: :forbidden and return
 		# end

@@ -1,11 +1,10 @@
 class ProceduresController < ApplicationController
-	before_action :require_login
+	#before_action :require_login
 
 	# GET /operators/:id/procedures
 	# return procedures sorted by most recently used
 	def operator_prod_index
-		# make sure current user has access
-		# operator can access itself, 
+		# operator itself, OA and Oem associated to operator
 		operations = Operation.where(operator_id: params[:id])
 		sorted_op = (operations.sort_by &:last_used).reverse
 		# returns an array of the procedures in the sorted operations
@@ -16,6 +15,7 @@ class ProceduresController < ApplicationController
 	# GET /oem_businesses/:id/procedures
 	# return procedures of the oem_business, sorted alphabetically
 	def oembusiness_prod_index
+		# oem associated to oem_business
 		oem_bus = OemBusiness.find(params[:id])
 		@procedures = (oem_bus.procedures).sort_by &:name
 	end
@@ -23,9 +23,7 @@ class ProceduresController < ApplicationController
 	# GET /procedures/:id
 	# also returns associated steps
 	def show
-		# check that current_user has access to procedures
-		# operator can access its associated procedures, OA can access it's oem_business's operators
-
+		# operator can access its associated procedures, OA and and Oem associated to procedures
 		@procedure = Procedure.find(params[:id])
 		@steps = Step.find(@procedure.steps_order)
 		#json output defined in app/views/procedures/show.json.jb
@@ -34,11 +32,7 @@ class ProceduresController < ApplicationController
 	# POST /procedures
 	#inlcude creating steps
 	def create
-		# if !(current_user.roleable_type == "Oem" or current_user.roleable_type == "ParlatyAdmin")
-		# 	render json: {"error": "Current user not an Oem or ParlatyAdmin"}, status: :forbidden and return
-		# end
-
-		# check that oem business belongs to oem??
+		#padmin, oem associated with oem_business in json
 
 		if !(OemBusiness.exists?(id: params[:procedure][:oem_business_id]))
 			render json: { "error": "OemBusiness Id doesn't exist"}, status: :bad_request and return
@@ -83,10 +77,7 @@ class ProceduresController < ApplicationController
 
 	# PUT /procedures/:id/reorder
 	def reorder
-		if !(current_user.roleable_type == "Oem" or current_user.roleable_type == "ParlatyAdmin")
-			render json: {"error": "Current user not an Oem or ParlatyAdmin"}, status: :forbidden and return
-		end
-		# check that procedure belongs to oem??
+		# oem associated and padmin
 
 		@procedure = Procedure.find(params[:id])
 		so_arr = params[:procedure][:steps_order].split(",").map(&:to_i)
@@ -105,10 +96,7 @@ class ProceduresController < ApplicationController
 
 	# PUT /procedures/:id/used
 	def used
-		if(current_user.roleable_type != "Operator")
-			render json: { "error": "Current user not an Operator" }, status: :forbidden and return
-		end
-
+		# associated operator
 		op = Operation.where(procedure_id: params[:id], operator_id: current_user.roleable_id).first
 		op.last_used = Time.now
 		op.save

@@ -1,8 +1,11 @@
+require 'csv'
+
 class StepsController < ApplicationController
 	#before_action :require_login
 
 	# POST /steps
 	def create
+		# oem associated, padmin
 		@step = Step.new(step_params)
 		@procedure = Procedure.find(@step.procedure_id)
 		prev_si = params[:previous_step_id].to_i
@@ -39,6 +42,7 @@ class StepsController < ApplicationController
 
 	# PUT /steps/:id
 	def update
+		# oem associated, padmin
 		@step = Step.find(params[:id])
 		if(@step.update_attributes(step_params))
 			render json: @step, status: :ok
@@ -49,6 +53,7 @@ class StepsController < ApplicationController
 
 	# DELETE /steps/:id
 	def destroy
+		# oem associated, padmin
 		@step = Step.find(params[:id])
 		step_id = @step.id
 		@procedure = Procedure.find(@step.procedure_id)
@@ -82,6 +87,13 @@ class StepsController < ApplicationController
 		else
 			render json: { "error": @saved_step.errors.full_messages }, status: :bad_request
 		end
+	end
+
+	# POST /csv_steps
+	def csv_steps
+		file = File.read(params[:csv_steps].path)
+		@table = CSV.parse(file) 
+		@headers = @table.shift #remove first element of file to get the headers
 	end
 
 	# # reorder steps of a procedure
@@ -121,10 +133,10 @@ class StepsController < ApplicationController
 	private
 
 		def step_params
-			params.require(:step).permit(:title, :device, :location, :note, :safety, :procedure_id, visuals: [], :mode, :time, :parameter)
+			params.require(:step).permit(:title, :device, :location, :note, :safety, :procedure_id, :mode, :time, :parameter, visuals: [])
 		end
 
 		def save_step_params
-			params.require(:step).permit(:title, :device, :location, :note, :safety, :oem_id, visuals: [], :mode, :time, :parameter)
+			params.require(:step).permit(:title, :device, :location, :note, :safety, :oem_id, :mode, :time, :parameter, visuals: [])
 		end
 end
