@@ -3,7 +3,7 @@ class OperatorAdminsController < ApplicationController
 
 	# GET /oem_businesses/:id/operator_admins
 	def oembus_oadmin_index
-		#Oem
+		#its Oem
 		oemb = OemBusiness.find(params[:id])
 
 		@oadmins = oemb.operator_admins.where(deactivated: false)
@@ -11,7 +11,7 @@ class OperatorAdminsController < ApplicationController
 
 	# PUT /operator_admins/:id
 	def update
-		# it's oem
+		# its oem
 		oadmin = OperatorAdmin.find(params[:id])
 
 		# if params exist, yet cannot update

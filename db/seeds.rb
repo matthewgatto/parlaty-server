@@ -102,4 +102,28 @@ while z <= 6
 	z = z+1
 end
 
+ParlatyAdmin.create!(name: "james")
+
+user = User.new(email: "padmin@gmail.com", password: "password")
+user.confirm
+user.roleable = ParlatyAdmin.first
+user.save
+
+user = User.new(email: "oem@gmail.com", password: "password")
+user.confirm
+user.roleable = Oem.first
+user.save
+
+user = User.new(email: "operator@gmail.com", password: "password")
+user.confirm
+user.roleable = Operator.first
+user.save
+
+user = User.new(email: "oadmin@gmail.com", password: "password")
+user.confirm
+user.roleable = OperatorAdmin.first
+user.save
+
+
+
 

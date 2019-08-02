@@ -23,10 +23,16 @@ class ApplicationController < ActionController::API
 		@current_user ||= User.find(@user_id)
 	end
 
-	# # check if the current_user is authorized type
-	# def verify_type(*args)
-	# 	byebug
-	# end
+	# check if the current_user is authorized type
+	def verify_type?(*args)
+		if (current_user.roleable_type == "ParlatyAdmin") or (args.include? current_user.roleable_type)
+			return true
+		else
+			return false
+		end
+
+	end
+
 
 end
 
