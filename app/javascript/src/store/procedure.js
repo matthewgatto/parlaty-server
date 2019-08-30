@@ -12,7 +12,7 @@ export const DUPLICATE_STEP = "DUPLICATE_STEP";
 
 export const addStep = () => ({type: ADD_STEP_REQUEST});
 export const reorderStep = (fromIdx, toIdx) => ({type: REORDER_STEP, payload: {fromIdx, toIdx}})
-export const removeImage = (idx) => ({type: REMOVE_IMAGE, payload: idx })
+export const removeImage = (stepIdx) => ({type: REMOVE_IMAGE, payload: stepIdx })
 export const createProcedure = () => ({type: CREATE_PROCEDURE_REQUEST})
 export const deleteStep = (idx) => ({type: DELETE_STEP, payload: idx})
 export const duplicateStep = (idx) => ({type: DUPLICATE_STEP, payload: idx})
