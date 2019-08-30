@@ -1,0 +1,28 @@
+.container {
+  width: 48%;
+  position: relative;
+  display: inline-block;
+}
+
+.image {
+  width: 100%;
+}
+
+.iconWrapper {
+  position: absolute;
+  bottom: 0.4em;
+  left: 0.4em;
+  background: #000;
+  width: 1.4em;
+  height: 1.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon {
+  fill: #fff;
+  width: 1em;
+  height: 1em;
+}

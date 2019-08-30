@@ -1,0 +1,41 @@
+html {
+  font-size: 4px;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+textarea:focus, input:focus, button:focus{
+    outline: none;
+}
+
+@media (min-width: 768px){
+  html {
+    font-size: 4px;
+  }
+}
+
+@media (min-width: 1024px){
+  html {
+    font-size: 5.333px;
+  }
+}
+
+@media (min-width: 1366px){
+  html {
+    font-size: 7.11458px;
+  }
+}
+
+@media (min-width: 1920px){
+  html {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 2560px){
+  html {
+    font-size: 12.708px;
+  }
+}

@@ -1,0 +1,18 @@
+.container {
+  background: #eeefef;
+}
+
+.container > * {
+  color: #000 !important;
+}
+
+.container:not(:first-child) {
+  margin-top: 0.8em;
+}
+.container:hover {
+  background: #e9e4ee;
+}
+
+.container:hover > * {
+  color: #67318d;
+}

@@ -1,0 +1,12 @@
+.empty {
+  height: 28.7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.text {
+  color: #c6c6c5;
+  font-size: 1.2em;
+}

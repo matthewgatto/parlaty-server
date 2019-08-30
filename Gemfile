@@ -10,7 +10,7 @@ gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.5' 
+# gem 'jbuilder', '~> 2.5'
 # jbuilder is slow, jb better alternative
 gem 'jb'
 # Use Redis adapter to run Action Cable in production
@@ -32,7 +32,7 @@ gem 'jwt'
 #Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors', :require => 'rack/cors'
 
-#Generating fake data 
+#Generating fake data
 gem 'faker', '~> 1.6', '>= 1.6.6'
 
 group :development, :test do
@@ -50,3 +50,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'webpacker'
+gem 'react-rails'

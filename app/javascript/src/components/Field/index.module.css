@@ -1,0 +1,13 @@
+.container:not(:first-of-type) {
+  margin-top: 1.4em;
+}
+
+.label {
+  margin: 0.4em;
+}
+
+.error {
+  font-size: 0.7em;
+  color: red;
+  margin-left: 0.8em;
+}
