@@ -16,3 +16,4 @@ yarn-debug.log*
 .yarn-integrity
 
 /tmp/*
+package-lock.json
