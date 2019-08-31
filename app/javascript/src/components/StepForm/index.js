@@ -1,4 +1,5 @@
 import React from 'react';
+import AnimateHeight from 'react-animate-height';
 import ActionWell from '../ActionWell';
 import InputField from '../InputField';
 import StepSaveButton from '../../containers/StepSaveButton';
@@ -9,8 +10,8 @@ import Radio from '../../containers/Radio';
 import CheckBox from '../../containers/CheckBox';
 import styles from './index.module.css';
 
-const StepForm = ({isOpen}) => isOpen ? (
-  <div className={styles.container}>
+const StepForm = ({isOpen}) =>
+  <AnimateHeight height={isOpen ? 'auto' : 0} duration={300} className={styles.container}>
     <ActionWell text="New Step" rightIcon={<span>&#9660;</span>} />
     <div className={styles.form}>
     <InputField label="Step Title*" form="step" name="title" />
@@ -29,8 +30,8 @@ const StepForm = ({isOpen}) => isOpen ? (
     </div>
     <StepSaveButton text="Save" className={styles.save} />
     </div>
-  </div>
-) : null
+  </AnimateHeight>
+
 
 
 export default StepForm;

@@ -7,6 +7,8 @@ export const login = (values) => ({type: LOGIN_REQUEST, payload: values});
 const initialState = {};
 export default function(previousState = initialState, { type, payload }){
   switch (type) {
+    case LOGIN_REQUEST:
+      return {isLoading: true}
     case LOGIN_REQUEST__SUCCESS:
       return payload;
       break;

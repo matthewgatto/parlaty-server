@@ -7,18 +7,19 @@ class LoginFormContainer extends React.Component {
   state = {}
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.login({email: this.state.email, password: this.state.password})
+    if(!this.props.isLoading){
+      this.props.login({email: this.state.email, password: this.state.password})
+    }
   }
   handleInputChange = ({target}) => this.setState({[target.name]: target.value})
   render(){
-    console.log("error", this.props.error);
     return(
-      <LoginForm error={this.props.error} onSubmit={this.handleSubmit} onChange={this.handleInputChange} email={this.state.email} password={this.state.password} />
+      <LoginForm isLoading={this.props.isLoading} error={this.props.error} onSubmit={this.handleSubmit} onChange={this.handleInputChange} email={this.state.email} password={this.state.password} />
     )
   }
 }
 
 export default connect(
-  ({user}) => ({error: user.error}),
+  ({user}) => ({error: user.error, isLoading: user.isLoading}),
   { login }
 )(LoginFormContainer);

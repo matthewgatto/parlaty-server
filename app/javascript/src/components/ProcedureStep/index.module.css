@@ -1,5 +1,6 @@
 .container {
   background: #eeefef;
+  cursor: !important;
 }
 
 .container > * {
@@ -15,4 +16,8 @@
 
 .container:hover > * {
   color: #67318d;
+}
+
+.container:active {
+  cursor: grabbing !important;
 }

@@ -37,7 +37,7 @@ class ProcedureStepContaienr extends React.Component {
   setRef = (e) => {this.containerRef = e;}
   render(){
     return(
-      <ProcedureStep setRef={this.setRef} idx={this.props.idx} isOpen={true} onClick={this.handleClick} onDragStart={this.handleDragStart} onDragOver={this.handleDragOver} onDragEnd={this.handleDragEnd} step={this.props.step} />
+      <ProcedureStep setRef={this.setRef} idx={this.props.idx} isOpen={this.state.isOpen} onClick={this.handleClick} onDragStart={this.handleDragStart} onDragOver={this.handleDragOver} onDragEnd={this.handleDragEnd} step={this.props.step} />
     )
   }
 }
