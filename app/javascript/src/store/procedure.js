@@ -17,17 +17,25 @@ export const createProcedure = () => ({type: CREATE_PROCEDURE_REQUEST})
 export const deleteStep = (idx) => ({type: DELETE_STEP, payload: idx})
 export const duplicateStep = (idx) => ({type: DUPLICATE_STEP, payload: idx})
 
-const initialState = { description: '', title: '', steps: [] };
+export const initialState = { description: '', title: '', steps: [] };
 export default function(previousState = initialState, { type, payload }){
   switch (type) {
     case ADD_STEP_REQUEST__SUCCESS:
+      let stepsAfter = previousState.steps.slice(payload.step.number - 1).map(step => ({...step, number: step.number + 1}))
       return {
         ...previousState,
-        steps: [...previousState.steps.slice(0, payload.step.number - 1), payload.step, ...previousState.steps.slice(payload.step.number - 1)]
+        steps: [...previousState.steps.slice(0, payload.step.number - 1), payload.step, ...stepsAfter]
       }
     case REORDER_STEP:
-      let steps = [...previousState.steps.slice(0, payload.fromIdx), ...previousState.steps.slice(payload.fromIdx + 1)];
-      let step = {...previousState.steps[payload.fromIdx]}
+      let steps;
+      let step = {...previousState.steps[payload.fromIdx], number: payload.toIdx + 1}
+      if(payload.fromIdx < payload.toIdx){
+        let reorderStepsAfter = previousState.steps.slice(payload.fromIdx + 1).map(step => step.number <= payload.toIdx + 1 ? ({...step, number: step.number - 1}) : step)
+        steps = [...previousState.steps.slice(0, payload.fromIdx), ...reorderStepsAfter]
+      } else {
+        let reorderStepsBefore = previousState.steps.slice(0, payload.fromIdx).map(step => step.number >= payload.toIdx + 1 ? ({...step, number: step.number + 1}) : step)
+        steps = [...reorderStepsBefore, ...previousState.steps.slice(payload.fromIdx + 1)]
+      }
       steps.splice(payload.toIdx, 0, step)
       return {
         ...previousState,
@@ -47,9 +55,10 @@ export default function(previousState = initialState, { type, payload }){
         steps: stepsArray
       }
     case DELETE_STEP:
+      let stepsAfterDeletion = previousState.steps.slice(payload + 1).map(step => ({...step, number: step.number - 1}))
       return {
         ...previousState,
-        steps: [...previousState.steps.slice(0, payload), ...previousState.steps.slice(payload+1)]
+        steps: [...previousState.steps.slice(0, payload), ...stepsAfterDeletion]
       }
     case DUPLICATE_STEP:
       return {

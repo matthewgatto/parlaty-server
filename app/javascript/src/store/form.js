@@ -14,7 +14,7 @@ export const setFormValues = (form, values) => ({type: SET_FORM_VALUES, payload:
 export const updateChecklistValues = (form, name, value) => ({ type: UPDATE_CHECKLIST_VALUES, payload: {form, name, value}})
 export const openForm = (form, type, id, values)=> ({type: OPEN_FORM, payload: {form, type, id, values}})
 
-const initialState = { type: null, id: null, procedure: {values: {}, initialValues: {}} };
+export const initialState = { type: null, id: null, procedure: {values: {}, initialValues: {}} };
 export default function(previousState = initialState, { type, payload }){
   switch (type) {
     case SET_ERRORS:
@@ -45,8 +45,8 @@ export default function(previousState = initialState, { type, payload }){
     case START_PROCESSING:
       return {
         ...previousState,
-        [payload.form]: {
-          ...previousState[payload.form],
+        [payload]: {
+          ...previousState[payload],
           isProcessing: true
         }
       }

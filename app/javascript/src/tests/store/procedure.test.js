@@ -1,6 +1,7 @@
-import {
+import reducer, {
   addStep,
   ADD_STEP_REQUEST,
+  ADD_STEP_REQUEST__SUCCESS,
   reorderStep,
   REORDER_STEP,
   removeImage,
@@ -10,8 +11,11 @@ import {
   deleteStep,
   DELETE_STEP,
   duplicateStep,
-  DUPLICATE_STEP
+  DUPLICATE_STEP,
+  initialState
 } from '../../store/procedure'
+
+const steps = [{id: 0, number: 1, image: "google.com"}, {id: 1, number: 2, image: "google.com"}, {id: 2, number: 3, image: "google.com"}, {id: 3, number: 4, image: "google.com"}]
 
 describe('procedure actions', () => {
   it('should create an action to add a step to a procedure', () => {
@@ -42,6 +46,118 @@ describe('procedure actions', () => {
     expect(duplicateStep(0)).toEqual({
       type: DUPLICATE_STEP,
       payload: 0
+    })
+  })
+})
+
+describe('procedure reducer', () => {
+  it('should return the initial state', () => {
+    expect(reducer(undefined, {})).toEqual(initialState)
+  })
+
+  it('should handle ADD_STEP_REQUEST__SUCCESS', () => {
+    expect(
+      reducer(undefined, {
+        type: ADD_STEP_REQUEST__SUCCESS,
+        payload: {step: {number: 1}}
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{number: 1}]
+    })
+
+    expect(
+      reducer({...initialState, steps: [{id: 0, number: 1}]}, {
+        type: ADD_STEP_REQUEST__SUCCESS,
+        payload: {step: {id: 1, number: 1}}
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 1, number: 1}, {id: 0, number: 2}]
+    })
+
+    expect(
+      reducer({...initialState, steps: [{id: 0, number: 1}]}, {
+        type: ADD_STEP_REQUEST__SUCCESS,
+        payload: {step: {id: 1, number: 2}}
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 0, number: 1}, {id: 1, number: 2}]
+    })
+  })
+
+  it('should handle REORDER_STEP', () => {
+    expect(
+      reducer({...initialState, steps}, {
+        type: REORDER_STEP,
+        payload: {fromIdx: 3, toIdx: 1}
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 0, number: 1, image: "google.com"}, {id: 3, number: 2, image: "google.com"}, {id: 1, number: 3, image: "google.com"}, {id: 2, number: 4, image: "google.com"}]
+    })
+    expect(
+      reducer({...initialState, steps}, {
+        type: REORDER_STEP,
+        payload: {fromIdx: 0, toIdx: 2}
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 1, number: 1, image: "google.com"}, {id: 2, number: 2, image: "google.com"}, {id: 0, number: 3, image: "google.com"}, {id: 3, number: 4, image: "google.com"}]
+    })
+  })
+
+  it('should handle REMOVE_IMAGE', () => {
+    expect(
+      reducer({...initialState, steps}, {
+        type: REMOVE_IMAGE,
+        payload: 0
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 0, number: 1, image: null}, {id: 1, number: 2, image: "google.com"}, {id: 2, number: 3, image: "google.com"}, {id: 3, number: 4, image: "google.com"}]
+    })
+  })
+
+  it('should handle DELETE_STEP', () => {
+    expect(
+      reducer({...initialState, steps}, {
+        type: DELETE_STEP,
+        payload: 0
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 1, number: 1, image: "google.com"}, {id: 2, number: 2, image: "google.com"}, {id: 3, number: 3, image: "google.com"}]
+    })
+    expect(
+      reducer({...initialState, steps}, {
+        type: DELETE_STEP,
+        payload: 1
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 0, number: 1, image: "google.com"}, {id: 2, number: 2, image: "google.com"}, {id: 3, number: 3, image: "google.com"}]
+    })
+    expect(
+      reducer({...initialState, steps}, {
+        type: DELETE_STEP,
+        payload: 3
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 0, number: 1, image: "google.com"}, {id: 1, number: 2, image: "google.com"}, {id: 2, number: 3, image: "google.com"}]
+    })
+  })
+  it('should handle DUPLICATE_STEP', () => {
+    expect(
+      reducer({...initialState, steps}, {
+        type: DUPLICATE_STEP,
+        payload: 0
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 0, number: 1, image: "google.com"}, {id: 1, number: 2, image: "google.com"}, {id: 2, number: 3, image: "google.com"}, {id: 3, number: 4, image: "google.com"}, {id: 0, number: 5, image: "google.com"}]
     })
   })
 })
