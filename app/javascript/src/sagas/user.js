@@ -7,7 +7,7 @@ import {
 } from '../store/user';
 import API from '../utils/API';
 
-function* loginSaga({payload}){
+export function* loginSaga({payload}){
   try {
     if(payload.email && payload.email.length && payload.password && payload.password.length){
       let response = yield call(API.post, '/login', {email: payload.email, password: payload.password});
