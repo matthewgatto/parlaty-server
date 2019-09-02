@@ -1,9 +1,10 @@
 import React from 'react';
+import Text from '../Text';
 import styles from './index.module.css';
 
 const FileInput = ({setInputRef, onClick, label, fileName, hasValue, onChange}) =>
   <span className={styles.container}>
-    {label && <span className={styles.label}>{label}</span>}
+    {label && <Text>{label}</Text>}
   <span className={styles.button} onClick={onClick}>
   <div className={styles.name}>{fileName ? fileName : "Upload"}</div>
   {hasValue ? (

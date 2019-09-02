@@ -11,11 +11,7 @@ const ProcedureSteps = ({steps, onDragEnd}) => steps && steps.length ? (
         <div {...provided.droppableProps} ref={provided.innerRef} className={styles.list}>
           {steps.map((step, i) => (
             <Draggable key={step.id} draggableId={step.id} index={i}>
-              {(provided, snapshot) => (
-                <div ref={provided.innerRef} className={styles.step} {...provided.draggableProps} {...provided.dragHandleProps}>
-                  <ProcedureStep idx={i} step={step} />
-                </div>
-              )}
+              {(provided, snapshot) => <ProcedureStep idx={i} step={step} provided={provided} isDragging={snapshot.isDragging} />}
             </Draggable>
           ))}
           {provided.placeholder}

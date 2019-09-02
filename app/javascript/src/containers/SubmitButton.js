@@ -3,6 +3,6 @@ import Button from '../components/Button';
 import { createProcedure } from '../store/procedure';
 
 export default connect(
-  null,
+  ({procedure}) => ({isLoading: procedure.isLoading}),
   { onClick: createProcedure }
 )(Button)

@@ -18,12 +18,3 @@
 .container:active {
   cursor: grabbing !important;
 }
-
-.burger {
-  width: 1.2em;
-  height: 1.2em;
-}
-
-.burger > * {
-  stroke: #8c8c8c;
-}

@@ -13,7 +13,7 @@ const LoginPage = ({onSubmit}) =>
         <Polygon className={styles.topPolygonThree} fill="none" stroke="#67318d" size="2.6em" />
         <Polygon className={styles.topPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
       </div>
-      <div className={styles.header}>Log into Parlaty</div>
+      <div className={styles.header}>Log into Parlaty<sup className={styles.tm}>&#8482;</sup></div>
       <div className={styles.subheader}>Or <Link to="#" className={styles.underline}>Create Account</Link></div>
       <LoginForm />
       <Link to="#" className={styles.link}>I forgot my username/password</Link>

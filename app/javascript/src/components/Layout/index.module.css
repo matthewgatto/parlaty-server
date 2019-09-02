@@ -53,3 +53,10 @@
 .logo {
   width: 14em;
 }
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 15em;
+}

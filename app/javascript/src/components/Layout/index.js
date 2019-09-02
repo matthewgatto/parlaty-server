@@ -17,7 +17,11 @@ const Layout = ({children}) =>
     </div>
     <div className={styles.footer}>
       <div>&copy; Copyright 2019 Parlaty</div>
-      <div>Facebook Instagram Twitter</div>
+      <div className={styles.social}>
+        <div>Facebook</div>
+        <div>Instagram</div>
+        <div>Twitter</div>
+      </div>
       <div>Lorem Ipsum</div>
     </div>
   </div>

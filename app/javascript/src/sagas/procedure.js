@@ -56,12 +56,19 @@ function getUpdatedProperties(newObj = {}, initialObj = {}){
 }
 
 function* editStepSaga({values, initialValues}){
-  let updatedStep = yield call(getUpdatedProperties, values, initialValues);
-  if(updatedStep.image){
-    const image = yield call(readAsDataURL, updatedStep.image)
-    updatedStep.src = image;
+  let updatedProperties = yield call(getUpdatedProperties, values, initialValues);
+  let updatedStep;
+  if(updatedProperties.image){
+    const image = yield call(readAsDataURL, updatedProperties.image)
+    updatedStep = {...initialValues, ...updatedProperties, src: image}
+  } else if(updatedProperties.image === null) {
+    let { image: img1, src: src1, ...restOfUpdatedProperties } = updatedProperties;
+    let { image: img2, src: src2, ...restOfInitialValues } = initialValues;
+    updatedStep = {...restOfInitialValues, ...restOfUpdatedProperties}
+  } else {
+    updatedStep = {...initialValues, ...updatedProperties}
   }
-  yield put({type: EDIT_STEP_REQUEST__SUCCESS, payload: {...initialValues, ...updatedStep}})
+  yield put({type: EDIT_STEP_REQUEST__SUCCESS, payload: updatedStep})
 }
 
 function* saveStepSaga({payload}){
@@ -100,7 +107,8 @@ function* createProcedureSaga({payload}){
     if(!errors){
       let procedureHasSteps = yield select(checkIfProcedureHasSteps);
       if(procedureHasSteps){
-        alert('PROCEDURE CREATED')
+        alert('PROCEDURE CREATED - APP WILL RELOAD');
+        location.reload();
       }
     } else {
       yield put(setFormErrors({form: 'procedure', inputErrors: errors}))

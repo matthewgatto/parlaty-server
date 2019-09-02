@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: space-between;
   max-width: 50%;
-  min-width: 40%;
+  min-width: 43%;
   position: relative;
 }
 
@@ -19,7 +19,7 @@
   color: #67318d;
   cursor: pointer;
   box-sizing: border-box;
-  padding: 0.6em;
+  padding: 0.6em 0.7em;
   border-radius: 0.2em;
 }
 
@@ -29,15 +29,12 @@
   fill: #67318d;
   margin-left: 0.6em;
 }
-.label,.name {
-  line-height: 1em;
-}
-.label {
-  color: #000;
-  font-size: 1.3em;
-  margin-right: 0.3em;
-}
 
 .name {
   font-size: 1.1em;
+  width: 3.8em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1em;
 }

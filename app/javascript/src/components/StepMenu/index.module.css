@@ -19,3 +19,23 @@
 .link:hover {
   background: #e9e4ee;
 }
+
+
+.iconWrapper {
+  width: 3.4em;
+  height: 3.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: -1.1em;
+}
+
+.burger {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.burger > * {
+  stroke: #8c8c8c;
+}

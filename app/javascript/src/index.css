@@ -1,41 +1,46 @@
-html {
+html,textarea,input,select {
   font-size: 4px;
   font-family: "Poppins", sans-serif;
+}
+
+textarea,input,select {
+  color: #888;
+  margin: 0;
 }
 
 body {
   margin: 0;
 }
-textarea:focus, input:focus, button:focus{
+textarea:focus, input:focus, button:focus,select:focus{
     outline: none;
 }
 
 @media (min-width: 768px){
-  html {
+  html,textarea,input,select {
     font-size: 4px;
   }
 }
 
 @media (min-width: 1024px){
-  html {
+  html,textarea,input,select {
     font-size: 5.333px;
   }
 }
 
 @media (min-width: 1366px){
-  html {
+  html,textarea,input,select {
     font-size: 7.11458px;
   }
 }
 
 @media (min-width: 1920px){
-  html {
+  html,textarea,input,select {
     font-size: 10px;
   }
 }
 
 @media (min-width: 2560px){
-  html {
+  html,textarea,input,select {
     font-size: 12.708px;
   }
 }

@@ -90,6 +90,11 @@ export default function(previousState = initialState, { type, payload }){
         ...previousState,
         steps: [...previousState.steps, {...previousState.steps[payload], id: Date.now(), number: previousState.steps.length + 1}]
       }
+    case CREATE_PROCEDURE_REQUEST:
+      return {
+        ...previousState,
+        isLoading: true
+      }
     default:
       return previousState;
   }

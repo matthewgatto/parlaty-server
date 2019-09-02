@@ -40,7 +40,7 @@ const ProcedurePage = () =>
       <div>
         <Text className={styles.margin} color="secondary">Uploaded Imagery</Text>
         <ProcedureImages />
-        <SubmitButton text="Submit" />
+        <SubmitButton text="Submit" className={styles.submit} />
       </div>
     </div>
   </>

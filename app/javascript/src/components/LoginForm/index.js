@@ -9,7 +9,7 @@ const LoginForm = ({onSubmit, onChange, email, error, password, isLoading}) =>
     <input autoFocus type="text" className={styles.input} name="email" value={email} onChange={onChange} placeholder="Email/Username" />
     <input type="password" className={styles.input} name="password" value={password} onChange={onChange} placeholder="Password" />
     <button className={styles.submitBtn}>
-      {isLoading ? <Loader /> : "Log In"}
+      {isLoading ? <Loader fill="#67328d" /> : "Log In"}
     </button>
   </form>
 
