@@ -81,6 +81,8 @@ describe('form reducer', () => {
       ...initialState,
       step: {
         error: errors.error,
+        values: {},
+        initialValues: {},
         inputErrors: errors.inputErrors,
         isProcessing: false
       }
@@ -114,7 +116,9 @@ describe('form reducer', () => {
     ).toEqual({
       ...initialState,
       step: {
-        isProcessing: true
+        isProcessing: true,
+        values: {},
+        initialValues: {}
       }
     })
   })
@@ -208,7 +212,7 @@ describe('form reducer', () => {
       ...initialState,
       type: null,
       id: null,
-      step: null
+      step: {values: {}, initialValues: {}}
     })
   })
 })

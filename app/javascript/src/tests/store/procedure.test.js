@@ -1,7 +1,8 @@
 import reducer, {
-  addStep,
-  ADD_STEP_REQUEST,
+  saveStep,
+  SAVE_STEP_REQUEST,
   ADD_STEP_REQUEST__SUCCESS,
+  EDIT_STEP_REQUEST__SUCCESS,
   reorderStep,
   REORDER_STEP,
   removeImage,
@@ -15,11 +16,11 @@ import reducer, {
   initialState
 } from '../../store/procedure'
 
-const steps = [{id: 0, number: 1, image: "google.com"}, {id: 1, number: 2, image: "google.com"}, {id: 2, number: 3, image: "google.com"}, {id: 3, number: 4, image: "google.com"}]
+const steps = [{id: 0, title: 'Test 1', number: 1, image: "google.com"}, {id: 1, title: 'Test 2', number: 2, image: "google.com"}, {id: 2, title: 'Test 3', number: 3, image: "google.com"}, {id: 3, title: 'Test 4', number: 4, image: "google.com"}]
 
 describe('procedure actions', () => {
   it('should create an action to add a step to a procedure', () => {
-    expect(addStep()).toEqual({type: ADD_STEP_REQUEST})
+    expect(saveStep()).toEqual({type: SAVE_STEP_REQUEST})
   })
   it('should create an action to reorder a step', () => {
     expect(reorderStep(0, 1)).toEqual({
@@ -95,7 +96,7 @@ describe('procedure reducer', () => {
       })
     ).toEqual({
       ...initialState,
-      steps: [{id: 0, number: 1, image: "google.com"}, {id: 3, number: 2, image: "google.com"}, {id: 1, number: 3, image: "google.com"}, {id: 2, number: 4, image: "google.com"}]
+      steps: [{id: 0, title: "Test 1", number: 1, image: "google.com"}, {id: 3, title: "Test 4", number: 2, image: "google.com"}, {id: 1, title: "Test 2", number: 3, image: "google.com"}, {id: 2, title: "Test 3", number: 4, image: "google.com"}]
     })
     expect(
       reducer({...initialState, steps}, {
@@ -104,7 +105,7 @@ describe('procedure reducer', () => {
       })
     ).toEqual({
       ...initialState,
-      steps: [{id: 1, number: 1, image: "google.com"}, {id: 2, number: 2, image: "google.com"}, {id: 0, number: 3, image: "google.com"}, {id: 3, number: 4, image: "google.com"}]
+      steps: [{id: 1, title: "Test 2", number: 1, image: "google.com"}, {id: 2, title: "Test 3", number: 2, image: "google.com"}, {id: 0, title: "Test 1", number: 3, image: "google.com"}, {id: 3, title: "Test 4", number: 4, image: "google.com"}]
     })
   })
 
@@ -116,7 +117,7 @@ describe('procedure reducer', () => {
       })
     ).toEqual({
       ...initialState,
-      steps: [{id: 0, number: 1, image: null}, {id: 1, number: 2, image: "google.com"}, {id: 2, number: 3, image: "google.com"}, {id: 3, number: 4, image: "google.com"}]
+      steps: [{id: 0, title: "Test 1", number: 1, image: null}, {id: 1, title: "Test 2", number: 2, image: "google.com"}, {id: 2, title: "Test 3", number: 3, image: "google.com"}, {id: 3, title: "Test 4", number: 4, image: "google.com"}]
     })
   })
 
@@ -128,7 +129,7 @@ describe('procedure reducer', () => {
       })
     ).toEqual({
       ...initialState,
-      steps: [{id: 1, number: 1, image: "google.com"}, {id: 2, number: 2, image: "google.com"}, {id: 3, number: 3, image: "google.com"}]
+      steps: [{id: 1, title: "Test 2", number: 1, image: "google.com"}, {id: 2, title: "Test 3", number: 2, image: "google.com"}, {id: 3, title: "Test 4", number: 3, image: "google.com"}]
     })
     expect(
       reducer({...initialState, steps}, {
@@ -137,7 +138,7 @@ describe('procedure reducer', () => {
       })
     ).toEqual({
       ...initialState,
-      steps: [{id: 0, number: 1, image: "google.com"}, {id: 2, number: 2, image: "google.com"}, {id: 3, number: 3, image: "google.com"}]
+      steps: [{id: 0, title: "Test 1", number: 1, image: "google.com"}, {id: 2, title: "Test 3", number: 2, image: "google.com"}, {id: 3, title: "Test 4", number: 3, image: "google.com"}]
     })
     expect(
       reducer({...initialState, steps}, {
@@ -146,9 +147,10 @@ describe('procedure reducer', () => {
       })
     ).toEqual({
       ...initialState,
-      steps: [{id: 0, number: 1, image: "google.com"}, {id: 1, number: 2, image: "google.com"}, {id: 2, number: 3, image: "google.com"}]
+      steps: [{id: 0, title: "Test 1", number: 1, image: "google.com"}, {id: 1, title: "Test 2", number: 2, image: "google.com"}, {id: 2, title: "Test 3", number: 3, image: "google.com"}]
     })
   })
+  /*
   it('should handle DUPLICATE_STEP', () => {
     expect(
       reducer({...initialState, steps}, {
@@ -157,7 +159,28 @@ describe('procedure reducer', () => {
       })
     ).toEqual({
       ...initialState,
-      steps: [{id: 0, number: 1, image: "google.com"}, {id: 1, number: 2, image: "google.com"}, {id: 2, number: 3, image: "google.com"}, {id: 3, number: 4, image: "google.com"}, {id: 0, number: 5, image: "google.com"}]
+      steps: [{id: 0, title: "Test 1", number: 1, image: "google.com"}, {id: 1, title: "Test 2", number: 2, image: "google.com"}, {id: 2, title: "Test 3", number: 3, image: "google.com"}, {id: 3, title: "Test 4", number: 4, image: "google.com"}, {id: 0, number: 5, title: "Test 1", image: "google.com"}]
+    })
+  })
+  */
+  it('should handle EDIT_STEP_REQUEST__SUCCESS', () => {
+    expect(
+      reducer({...initialState, steps}, {
+        type: EDIT_STEP_REQUEST__SUCCESS,
+        payload: {id: 0, title: "Test 1 edit", number: 1, image: "google.com"}
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 0, title: 'Test 1 edit', number: 1, image: "google.com"}, {id: 1, title: 'Test 2', number: 2, image: "google.com"}, {id: 2, title: 'Test 3', number: 3, image: "google.com"}, {id: 3, title: 'Test 4', number: 4, image: "google.com"}]
+    })
+    expect(
+      reducer({...initialState, steps}, {
+        type: EDIT_STEP_REQUEST__SUCCESS,
+        payload: {id: 0, title: "Test 1 edit", number: 3, image: "google.com"}
+      })
+    ).toEqual({
+      ...initialState,
+      steps: [{id: 1, title: "Test 2", number: 1, image: "google.com"}, {id: 2, title: "Test 3", number: 2, image: "google.com"}, {id: 0, title: "Test 1 edit", number: 3, image: "google.com"}, {id: 3, title: "Test 4", number: 4, image: "google.com"}]
     })
   })
 })

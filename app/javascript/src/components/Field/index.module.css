@@ -4,10 +4,11 @@
 
 .label {
   margin: 0.4em;
+  display: flex;
+  align-items: center;
 }
 
 .error {
   font-size: 0.7em;
-  color: red;
   margin-left: 0.8em;
 }

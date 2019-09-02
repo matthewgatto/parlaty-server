@@ -1,15 +1,12 @@
 .container {
   background: #eeefef;
-  cursor: !important;
+  cursor: pointer !important;
 }
 
 .container > * {
   color: #000 !important;
 }
 
-.container:not(:first-child) {
-  margin-top: 0.8em;
-}
 .container:hover {
   background: #e9e4ee;
 }
@@ -20,4 +17,13 @@
 
 .container:active {
   cursor: grabbing !important;
+}
+
+.burger {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.burger > * {
+  stroke: #8c8c8c;
 }

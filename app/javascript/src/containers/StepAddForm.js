@@ -1,7 +1,6 @@
-import React from 'react';
-import StepForm from '../components/StepForm';
+import StepAddForm from '../components/StepAddForm';
 import { connect } from 'react-redux';
 
 export default connect(
   ({form}) => ({isOpen: form.type === 'create'})
-)(StepForm)
+)(StepAddForm)

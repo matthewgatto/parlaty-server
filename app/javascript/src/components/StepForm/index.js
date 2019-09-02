@@ -1,6 +1,4 @@
 import React from 'react';
-import AnimateHeight from 'react-animate-height';
-import ActionWell from '../ActionWell';
 import InputField from '../InputField';
 import StepSaveButton from '../../containers/StepSaveButton';
 import PositionSelect from '../../containers/PositionSelect';
@@ -8,12 +6,11 @@ import DurationSelect from '../../containers/DurationSelect';
 import FileInput from '../../containers/FileInput';
 import Radio from '../../containers/Radio';
 import CheckBox from '../../containers/CheckBox';
+import FormCloseButton from '../../containers/FormCloseButton';
 import styles from './index.module.css';
 
-const StepForm = ({isOpen}) =>
-  <AnimateHeight height={isOpen ? 'auto' : 0} duration={300} className={styles.container}>
-    <ActionWell text="New Step" rightIcon={<span>&#9660;</span>} />
-    <div className={styles.form}>
+const StepForm = () =>
+  <div className={styles.form}>
     <InputField label="Step Title*" form="step" name="title" />
     <PositionSelect />
     <DurationSelect />
@@ -29,9 +26,7 @@ const StepForm = ({isOpen}) =>
       <FileInput label="Audio" form="step" name="audio" />
     </div>
     <StepSaveButton text="Save" className={styles.save} />
-    </div>
-  </AnimateHeight>
-
-
+    <FormCloseButton />
+  </div>
 
 export default StepForm;

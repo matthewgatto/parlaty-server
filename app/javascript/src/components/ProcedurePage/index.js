@@ -8,21 +8,27 @@ import StepAddForm from '../../containers/StepAddForm';
 import AddStepButton from '../../containers/AddStepButton';
 import Well from '../Well';
 import Text from '../Text';
+import Polygon from '../PolygonV';
 import styles from './index.module.css';
-import procedure from '../../assets/images/procedure.png';
 
 const ProcedurePage = () =>
   <>
     <Well className={styles.banner}>
       New Procedure
     </Well>
+
     <div className={styles.container}>
       <div className={styles.padding}>
         <div className={styles.wrapper}>
           <AddButton text="Create New Procedure" />
           <ProcedureForm />
           <AddStepButton />
-          <img src={procedure} className={styles.image} />
+          <div className={styles.polygonContainer}>
+            <Polygon className={styles.polygonOne} fill="#c6c6c6" stroke="#c6c6c6" size="2.4em" />
+            <Polygon className={styles.polygonTwo} fill="#67318d" stroke="#67318d" size="1.2em" />
+            <Polygon className={styles.polygonThree} fill="none" stroke="#67318d" size="2.5em" />
+            <Polygon className={styles.polygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.2em" />
+          </div>
         </div>
 
       </div>

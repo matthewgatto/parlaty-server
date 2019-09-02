@@ -1,9 +1,10 @@
 import { takeEvery, put, call, select } from 'redux-saga/effects';
 import { setFormErrors } from '../store/form';
 import {
-  ADD_STEP_REQUEST,
+  SAVE_STEP_REQUEST,
   ADD_STEP_REQUEST__SUCCESS,
-  ADD_STEP_REQUEST__FAILURE,
+  EDIT_STEP_REQUEST__SUCCESS,
+  SAVE_STEP_REQUEST__FAILURE,
   CREATE_PROCEDURE_REQUEST,
   CREATE_PROCEDURE_REQUEST__SUCCESS,
   CREATE_PROCEDURE_REQUEST__FAILURE
@@ -35,16 +36,44 @@ function validateStepValues({title, location, parameter}){
   return Object.keys(errors).length > 0 ? errors : null
 }
 
-function* createStepSaga({payload}){
+function* createStepSaga(step){
+  if(step.image){
+    const image = yield call(readAsDataURL, step.image)
+    step.src = image;
+  }
+  step.id = Date.now();
+  yield put({type: ADD_STEP_REQUEST__SUCCESS, payload: {step}})
+}
+
+function getUpdatedProperties(newObj = {}, initialObj = {}){
+  let updates = {}
+  for (var field in newObj) {
+    if (newObj.hasOwnProperty(field) && newObj[field] !== initialObj[field]){
+        updates[field] = newObj[field]
+    }
+  }
+  return Object.keys(updates).length > 0 ? updates : false;
+}
+
+function* editStepSaga({values, initialValues}){
+  let updatedStep = yield call(getUpdatedProperties, values, initialValues);
+  if(updatedStep.image){
+    const image = yield call(readAsDataURL, updatedStep.image)
+    updatedStep.src = image;
+  }
+  yield put({type: EDIT_STEP_REQUEST__SUCCESS, payload: {...initialValues, ...updatedStep}})
+}
+
+function* saveStepSaga({payload}){
   try {
-    let { step } = yield select(getFormValues);
+    let { step, type } = yield select(getFormValues);
     let errors = validateStepValues(step.values);
     if(!errors){
-      if(step.values.image){
-        const image = yield call(readAsDataURL, step.values.image)
-        step.values.src = image;
+      if(type === "create"){
+        yield call(createStepSaga, step.values)
+      } else {
+        yield call(editStepSaga, step)
       }
-      yield put({type: ADD_STEP_REQUEST__SUCCESS, payload: {step: step.values}})
     } else {
       yield put(setFormErrors({form: 'step', inputErrors: errors}))
     }
@@ -81,6 +110,6 @@ function* createProcedureSaga({payload}){
   }
 }
 export default function* procedureSagas() {
-  yield takeEvery(ADD_STEP_REQUEST, createStepSaga);
+  yield takeEvery(SAVE_STEP_REQUEST, saveStepSaga);
   yield takeEvery(CREATE_PROCEDURE_REQUEST, createProcedureSaga);
 }

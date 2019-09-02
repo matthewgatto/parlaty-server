@@ -3,4 +3,6 @@
   border: none;
   border-radius: 0.4em;
   height: 2em;
+  padding: 0 0.4em;
+  box-sizing: border-box;
 }

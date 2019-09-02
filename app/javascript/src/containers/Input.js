@@ -15,6 +15,6 @@ class InputContainer extends React.PureComponent {
 }
 
 export default connect(
-  ({form}, props) => ({value: form[props.form] ? form[props.form].values[props.name] : ''}),
+  ({form}, props) => ({value: (form[props.form] && form[props.form].values && form[props.form].values[props.name]) ? form[props.form].values[props.name] : ''}),
   { updateFormValue }
 )(InputContainer);

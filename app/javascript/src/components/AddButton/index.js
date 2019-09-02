@@ -1,11 +1,18 @@
 import React from 'react';
 import ActionWell from '../ActionWell';
+import Triangle from '../Triangle';
 import styles from './index.module.css';
 
 const AddButton = ({text, className, ...rest}) =>
   <ActionWell
     text={text}
-    leftIcon={<svg className={styles.icon} viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/><path d="M0 0h24v24H0z" fill="none"/></svg>}
+    leftIcon={
+      <svg className={styles.icon} width="1.4em" height="1.4em" viewBox="0 0 150 150">
+      	<line fill="none" stroke="#67318d" strokeWidth="46" x1="75" y1="0" x2="75" y2="150"/>
+      	<line fill="none" stroke="#67318d" strokeWidth="46" x1="0" y1="75" x2="150" y2="75"/>
+      </svg>
+    }
+    rightIcon={<Triangle />}
     {...rest}
   />
 

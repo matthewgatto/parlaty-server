@@ -1,14 +1,7 @@
-.container {
-  padding-top: 1em;
-}
-
 .form {
   padding: 1em 0.8em 2.6em 0.8em;
   border-bottom: 1px solid #e9e8e8;
-}
-
-.save > div {
-  text-align: center;
+  cursor: default;
 }
 
 .row {
@@ -16,4 +9,9 @@
   align-items: center;
   justify-content: space-between;
   margin: 2.2em 0;
+}
+
+
+.save > div {
+  text-align: center;
 }

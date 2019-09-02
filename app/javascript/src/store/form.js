@@ -1,20 +1,21 @@
-import { ADD_STEP_REQUEST__SUCCESS } from './procedure';
+import { ADD_STEP_REQUEST__SUCCESS, EDIT_STEP_REQUEST__SUCCESS } from './procedure';
 export const SET_ERRORS = "SET_ERRORS";
-export const RESET_FORM_STATE = "RESET_FORM_STATE";
 export const UPDATE_FORM_VALUE = "UPDATE_FORM_VALUE";
 export const START_PROCESSING = "START_PROCESSING";
 export const SET_FORM_VALUES = "SET_FORM_VALUES";
 export const UPDATE_CHECKLIST_VALUES = "UPDATE_CHECKLIST_VALUES";
 export const OPEN_FORM = "OPEN_FORM";
+export const CLOSE_FORM = "CLOSE_FORM";
 
 export const setFormErrors = ({form, error, inputErrors}) => ({ type: SET_ERRORS, payload: {form, error, inputErrors } })
 export const updateFormValue = (form, name, value) => ({type: UPDATE_FORM_VALUE, payload: {form, name, value}});
 export const startProcessing = (form) => ({type: START_PROCESSING, payload: form})
 export const setFormValues = (form, values) => ({type: SET_FORM_VALUES, payload: {form, values}})
 export const updateChecklistValues = (form, name, value) => ({ type: UPDATE_CHECKLIST_VALUES, payload: {form, name, value}})
-export const openForm = (form, type, id, values)=> ({type: OPEN_FORM, payload: {form, type, id, values}})
+export const openForm = (form, type, id, values) => ({type: OPEN_FORM, payload: {form, type, id, values}})
+export const closeForm = () => ({type: CLOSE_FORM})
 
-export const initialState = { type: null, id: null, procedure: {values: {}, initialValues: {}} };
+export const initialState = { type: null, id: null, procedure: {values: {}, initialValues: {}}, step: {values: {}, initialValues: {}} };
 export default function(previousState = initialState, { type, payload }){
   switch (type) {
     case SET_ERRORS:
@@ -96,12 +97,20 @@ export default function(previousState = initialState, { type, payload }){
           initialValues: payload.values || {}
         }
       }
+    case CLOSE_FORM:
+      return {
+        ...previousState,
+        id: null,
+        type: null,
+        step: {values: {}, initialValues: {}}
+      };
+    case EDIT_STEP_REQUEST__SUCCESS:
     case ADD_STEP_REQUEST__SUCCESS:
       return {
         ...previousState,
         type: null,
         id: null,
-        step: null
+        step: {values: {}, initialValues: {}}
       }
     default:
       return previousState;

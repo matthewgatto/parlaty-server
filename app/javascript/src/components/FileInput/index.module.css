@@ -19,13 +19,13 @@
   color: #67318d;
   cursor: pointer;
   box-sizing: border-box;
-  padding: 0.6em 0.4em;
+  padding: 0.6em;
   border-radius: 0.2em;
 }
 
 .icon {
-  width: 1.2em;
-  height: 1.2em;
+  width: 1em;
+  height: 1em;
   fill: #67318d;
   margin-left: 0.6em;
 }
