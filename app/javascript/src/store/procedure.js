@@ -9,7 +9,7 @@ export const CREATE_PROCEDURE_REQUEST__SUCCESS = "CREATE_PROCEDURE_REQUEST__SUCC
 export const CREATE_PROCEDURE_REQUEST__FAILURE = "CREATE_PROCEDURE_REQUEST__FAILURE";
 export const DELETE_STEP = "DELETE_STEP";
 export const DUPLICATE_STEP = "DUPLICATE_STEP";
-
+export const START_PROCEDURE_PROCESSING = "START_PROCEDURE_PROCESSING";
 
 export const saveStep = () => ({type: SAVE_STEP_REQUEST});
 export const reorderStep = (fromIdx, toIdx) => ({type: REORDER_STEP, payload: {fromIdx, toIdx}})
@@ -17,7 +17,7 @@ export const removeImage = (stepIdx) => ({type: REMOVE_IMAGE, payload: stepIdx }
 export const createProcedure = () => ({type: CREATE_PROCEDURE_REQUEST})
 export const deleteStep = (idx) => ({type: DELETE_STEP, payload: idx})
 export const duplicateStep = (idx) => ({type: DUPLICATE_STEP, payload: idx})
-
+export const startProcedureProcessing = () => ({type: START_PROCEDURE_PROCESSING })
 
 function rearrangeSteps(p1, p2, oldSteps, newStep){
   let steps;
@@ -67,10 +67,9 @@ export default function(previousState = initialState, { type, payload }){
         steps: rearrangeSteps(payload.fromIdx+1, payload.toIdx+1, previousState.steps, step)
       }
     case REMOVE_IMAGE:
-      let stepsArray = previousState.steps.map((step, i) => {
-        if(i === payload){
-          let { src, ...rest } = step;
-          rest.image = null;
+      let stepsArray = previousState.steps.map((step) => {
+        if(step.id === payload){
+          let { src, image, ...rest } = step;
           return rest;
         }
         return step;
@@ -90,7 +89,7 @@ export default function(previousState = initialState, { type, payload }){
         ...previousState,
         steps: [...previousState.steps, {...previousState.steps[payload], id: Date.now(), number: previousState.steps.length + 1}]
       }
-    case CREATE_PROCEDURE_REQUEST:
+    case START_PROCEDURE_PROCESSING:
       return {
         ...previousState,
         isLoading: true

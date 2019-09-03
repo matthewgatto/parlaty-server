@@ -11,7 +11,7 @@ class FileInputContainer extends React.PureComponent {
   onClick = () => {
     if(this.props.hasValue){
       this.props.updateFormValue(this.props.form, this.props.name, null);
-      this.inputRef.value = '';
+      this.inputRef.value = "";
     } else {
       this.inputRef.click();
     }
@@ -28,6 +28,6 @@ class FileInputContainer extends React.PureComponent {
 }
 
 export default connect(
-  ({form}, props) => ({hasValue: form[props.form] && form[props.form].values[props.name] ? true : false, fileName: form[props.form] && form[props.form].values[props.name] ? form[props.form].values[props.name].name : false, value: form[props.form] ? form[props.form].values[props.name] : '', error: form[props.form] && form[props.form].inputErrors && form[props.form].inputErrors[props.name]}),
+  ({form}, props) => ({hasValue: form[props.form] && form[props.form].values[props.name] ? true : false, fileName: form[props.form] && form[props.form].values[props.name] ? form[props.form].values[props.name].name : false, value: form[props.form] && form[props.form].values && form[props.form].values[props.name] ? form[props.form].values[props.name] : '', error: form[props.form] && form[props.form].inputErrors && form[props.form].inputErrors[props.name]}),
   { updateFormValue }
 )(FileInputContainer);

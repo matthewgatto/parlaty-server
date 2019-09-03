@@ -7,7 +7,7 @@ export default connect(
     let images = [];
     for (var i = 0; i < procedure.steps.length; i++) {
       if(procedure.steps[i].src){
-        images.push({id: i, src: procedure.steps[i].src});
+        images.push({id: procedure.steps[i].id, src: procedure.steps[i].src});
       }
     }
     return({images})

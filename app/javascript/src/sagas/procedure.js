@@ -7,7 +7,8 @@ import {
   SAVE_STEP_REQUEST__FAILURE,
   CREATE_PROCEDURE_REQUEST,
   CREATE_PROCEDURE_REQUEST__SUCCESS,
-  CREATE_PROCEDURE_REQUEST__FAILURE
+  CREATE_PROCEDURE_REQUEST__FAILURE,
+  startProcedureProcessing
 } from '../store/procedure';
 
 const getFormValues = ({form}) => form
@@ -105,6 +106,7 @@ function* createProcedureSaga({payload}){
     let { procedure } = yield select(getFormValues);
     let errors = validateProcedureValues(procedure.values);
     if(!errors){
+      yield put(startProcedureProcessing())
       let procedureHasSteps = yield select(checkIfProcedureHasSteps);
       if(procedureHasSteps){
         alert('PROCEDURE CREATED - APP WILL RELOAD');
