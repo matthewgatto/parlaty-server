@@ -1,0 +1,40 @@
+.hidden {
+  display: none;
+}
+
+.container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 50%;
+  min-width: 43%;
+  position: relative;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #e9e4ee;
+  color: #67318d;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 0.6em 0.7em;
+  border-radius: 0.2em;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  fill: #67318d;
+  margin-left: 0.6em;
+}
+
+.name {
+  font-size: 1.1em;
+  width: 3.8em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1em;
+}

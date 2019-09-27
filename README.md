@@ -1,24 +1,17 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Prep
 
-Things you may want to cover:
+Run `rake db:create && rake db:migrate && rake db:seed` then `npm install && yarn install --check-files`
 
-* Ruby version
+### Running the development server
 
-* System dependencies
+Run both `rails s` & `ruby bin/webpack-dev-server`
 
-* Configuration
+Then open your browser and point it to localhost:3000
 
-* Database creation
+### Login credentials
 
-* Database initialization
+user: oem@gmail.com
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+password: password

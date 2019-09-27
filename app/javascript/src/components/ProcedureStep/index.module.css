@@ -1,0 +1,20 @@
+.container {
+  background: #eeefef;
+  cursor: pointer !important;
+}
+
+.container > * {
+  color: #000 !important;
+}
+
+.container:hover {
+  background: #e9e4ee;
+}
+
+.container:hover > * {
+  color: #67318d;
+}
+
+.container:active {
+  cursor: grabbing !important;
+}

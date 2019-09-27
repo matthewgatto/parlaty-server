@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.container > div {
+  width: 31%;
+  position: relative;
+}
+
+.banner {
+  font-size: 1.8em;
+  padding: 0.8em;
+  margin-bottom: 1.5em;
+  font-weight: 600;
+}
+
+.margin {
+  margin-left: 1em;
+}
+
+.padding {
+  padding-top: 2.3em;
+}
+
+.wrapper {
+  position: relative;
+}
+.image {
+
+}
+
+.polygonContainer {
+  width: 8.5em;
+  height: 6.8em;
+  position: absolute;
+  left: -13em;
+  bottom: -1.4em;
+}
+
+.polygonContainer > * {
+  position: absolute;
+}
+.polygonOne {
+  right: 0;
+  top: 3.25em;
+}
+
+.polygonTwo {
+  bottom: 0;
+  left: 0;
+}
+
+.polygonThree {
+  left: 2em;
+  top: 2em;
+}
+
+.polygonFour {
+  top: 0;
+  right: 2.2em;
+}
+
+.submit {
+  width: 84%;
+}

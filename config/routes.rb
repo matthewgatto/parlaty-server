@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { confirmations: 'users/confirmations', 
+  root 'shell#index'
+  devise_for :users, controllers: { confirmations: 'users/confirmations',
     registrations: 'users/registrations'}
 
   devise_scope :user do
@@ -17,7 +18,7 @@ Rails.application.routes.draw do
         put 'used'
       end
   end
- 		
+
   resources :steps, only: [:create, :update, :destroy]
 
   resources :operators, only: [:update, :destroy]
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
   get '/operator_admins/:id/operators', to: 'operators#oadmin_op_index'
 
   get '/oem_businesses/:id/operators', to: 'operators#oembus_op_index'
-  
+
   get '/operators/:id/procedures', to: 'procedures#operator_prod_index'
 
   get '/oem_businesses/:id/procedures', to: 'procedures#oembusiness_prod_index'
@@ -48,5 +49,3 @@ Rails.application.routes.draw do
 
   post '/csv_steps', to: 'steps#csv_steps'
 end
-
-

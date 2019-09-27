@@ -1,0 +1,42 @@
+{
+  "dependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "@rails/webpacker": "^4.0.7",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "prop-types": "^15.7.2",
+    "react": "^16.9.0",
+    "react-animate-height": "^2.0.15",
+    "react-beautiful-dnd": "^11.0.5",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "react-transition-group": "^4.2.2",
+    "react_ujs": "^2.5.0",
+    "redux": "^4.0.4",
+    "redux-saga": "^1.0.5"
+  },
+  "devDependencies": {
+    "babel-jest": "^24.9.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.9.0",
+    "jest-fetch-mock": "^2.1.2",
+    "react-test-renderer": "^16.9.0",
+    "redux-mock-store": "^1.5.3",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.css$": "identity-obj-proxy"
+    },
+    "roots": [
+      "app/javascript"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript"
+    ]
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}

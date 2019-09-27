@@ -1,0 +1,14 @@
+.container:not(:first-of-type) {
+  margin-top: 1.4em;
+}
+
+.label {
+  margin: 0.4em;
+  display: flex;
+  align-items: center;
+}
+
+.error {
+  font-size: 0.7em;
+  margin-left: 0.8em;
+}
