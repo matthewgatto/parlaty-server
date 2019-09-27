@@ -23,16 +23,28 @@ class ApplicationController < ActionController::API
 		@current_user ||= User.find(@user_id)
 	end
 
-	# check if the current_user is authorized type
-	def verify_type?(*args)
-		if (current_user.roleable_type == "ParlatyAdmin") or (args.include? current_user.roleable_type)
-			return true
-		else
-			return false
-		end
-
+	def is_p_admin?
+		return current_user.roleable_type == "ParlatyAdmin"
 	end
 
+	# check if the current_user is of that roleable id
+	# return false if current_user is not of type "type"
+	def cuser_is?(type, id)
+		id = id.to_i
+		if(current_user.roleable_type == type)
+			return (current_user.roleable_id == id)
+		end
+
+		return false
+	end
+
+	def cuser_is_in?(type, arr_ids)
+		if(current_user.roleable_type == type)
+			return (arr_ids.include? current_user.roleable_id)
+		end
+
+		return false
+	end
 
 end
 

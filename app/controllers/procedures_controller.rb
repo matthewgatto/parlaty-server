@@ -1,10 +1,20 @@
 class ProceduresController < ApplicationController
-	#before_action :require_login
+	before_action :require_login
 
 	# GET /operators/:id/procedures
 	# return procedures sorted by most recently used
 	def operator_prod_index
 		# operator itself, OA and Oem associated to operator
+		operator = Operator.find(params[:id])
+		oemb = OemBusiness.find(operator.oem_business_id)
+		arr_of_oa = oemb.operator_admins.pluck(:id)
+
+		if !( is_p_admin?
+			|| cuser_is?("Operator", params[:id]) || cuser_is_in?("OperatorAdmin", arr_of_oa) 
+			|| cuser_is?("Oem", oemb.oem_id))
+			render json: {"error": "Current user access denied"}, status: :forbidden and return
+		end
+
 		operations = Operation.where(operator_id: params[:id])
 		sorted_op = (operations.sort_by &:last_used).reverse
 		# returns an array of the procedures in the sorted operations
@@ -16,15 +26,28 @@ class ProceduresController < ApplicationController
 	# return procedures of the oem_business, sorted alphabetically
 	def oembusiness_prod_index
 		# oem associated to oem_business
-		oem_bus = OemBusiness.find(params[:id])
-		@procedures = (oem_bus.procedures).sort_by &:name
+		oemb = OemBusiness.find(params[:id])
+		if !( is_p_admin? || cuser_is?("Oem", oemb.oem_id))
+			render json: {"error": "Current user access denied"}, status: :forbidden and return
+		end
+
+		@procedures = (oemb.procedures).sort_by &:name
 	end
 	
 	# GET /procedures/:id
 	# also returns associated steps
 	def show
-		# operator can access its associated procedures, OA and and Oem associated to procedures
 		@procedure = Procedure.find(params[:id])
+		oemb = OemBusiness.find(@procedure.oem_business_id)
+		arr_of_oa = oemb.operator_admins.pluck(:id)
+
+		# have to check if prcoedure belongs to operator
+
+		# operator can access its associated procedures, OA and and Oem associated to procedures
+		if !( is_p_admin? || cuser_is?("Oem", oemb.oem_id) || cuser_is?("OperatorAdmin", arr_of_oa) )
+			render json: {"error": "Current user access denied"}, status: :forbidden and return
+		end
+
 		@steps = Step.find(@procedure.steps_order)
 		#json output defined in app/views/procedures/show.json.jb
 	end
