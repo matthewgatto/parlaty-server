@@ -6,7 +6,7 @@
 # don't ignore this
 !/log/.keep
 # secret for JWT
-config/secret.yml
+# config/secret.yml
 
 /public/packs
 /public/packs-test
