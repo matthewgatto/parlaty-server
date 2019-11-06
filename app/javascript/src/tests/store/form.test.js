@@ -11,6 +11,14 @@ import reducer, {
   UPDATE_CHECKLIST_VALUES,
   openForm,
   OPEN_FORM,
+  updateActionValue,
+  UPDATE_ACTION_VALUE,
+  addAction,
+  ADD_ACTION,
+  removeAction,
+  REMOVE_ACTION,
+  reorderAction,
+  REORDER_ACTION,
   initialState
 } from '../../store/form'
 import { ADD_STEP_REQUEST__SUCCESS } from '../../store/procedure'
@@ -64,6 +72,35 @@ describe('form actions', () => {
       }
     })
   })
+  it('should create an action to update step action fields', () => {
+    expect(updateActionValue(0, "test")).toEqual({
+      type: UPDATE_ACTION_VALUE,
+      payload: {
+        idx: 0,
+        value: "test"
+      }
+    })
+  })
+  it('should create an action to add step action fields', () => {
+    expect(addAction()).toEqual({
+      type: ADD_ACTION
+    })
+  })
+  it('should create an action to remove an action field by index', () => {
+    expect(removeAction(0)).toEqual({
+      type: REMOVE_ACTION,
+      payload: 0
+    })
+  })
+  it('should create an action to reorder an action', () => {
+    expect(reorderAction(0, 1)).toEqual({
+      type: REORDER_ACTION,
+      payload: {
+        fromIdx: 0,
+        toIdx: 1
+      }
+    })
+  })
 })
 
 describe('form reducer', () => {
@@ -81,8 +118,8 @@ describe('form reducer', () => {
       ...initialState,
       step: {
         error: errors.error,
-        values: {},
-        initialValues: {},
+        values: {actions: []},
+        initialValues: {actions: []},
         inputErrors: errors.inputErrors,
         isProcessing: false
       }
@@ -117,8 +154,8 @@ describe('form reducer', () => {
       ...initialState,
       step: {
         isProcessing: true,
-        values: {},
-        initialValues: {}
+        values: {actions: []},
+        initialValues: {actions: []}
       }
     })
   })
@@ -199,8 +236,8 @@ describe('form reducer', () => {
       type: "edit",
       id: 0,
       step: {
-        values: {title: "test"},
-        initialValues: {title: "test"}
+        values: {title: "test", actions: []},
+        initialValues: {title: "test", actions: []}
       }
     })
   })
@@ -212,7 +249,43 @@ describe('form reducer', () => {
       ...initialState,
       type: null,
       id: null,
-      step: {values: {}, initialValues: {}}
+      step: {values: {actions: []}, initialValues: {actions: []}}
+    })
+  })
+
+  it('should handle UPDATE_ACTION_VALUE', () => {
+    expect(
+      reducer({...initialState, step: {...initialState.step, values: {actions: ['']}}}, { type: UPDATE_ACTION_VALUE, payload: {idx: 0, value: 'test'} })
+    ).toEqual({
+      ...initialState,
+      step: {initialValues: {actions: []}, values: {actions: ['test']}}
+    })
+  })
+
+  it('should handle ADD_ACTION', () => {
+    expect(
+      reducer(undefined, { type: ADD_ACTION })
+    ).toEqual({
+      ...initialState,
+      step: {...initialState.step, values: {actions: ['']}}
+    })
+  })
+
+  it('should handle REMOVE_ACTION', () => {
+    expect(
+      reducer({...initialState, step: {...initialState.step, values: {actions: ['test']}}}, { type: REMOVE_ACTION, payload: 0 })
+    ).toEqual({
+      ...initialState,
+      step: {...initialState.step, values: {actions: []}}
+    })
+  })
+
+  it('should handle REORDER_ACTION', () => {
+    expect(
+      reducer({...initialState, step: {...initialState.step, values: {actions: ['test', 'swap']}}}, { type: REORDER_ACTION, payload: {fromIdx: 0, toIdx: 1} })
+    ).toEqual({
+      ...initialState,
+      step: {...initialState.step, values: {actions: ['swap', 'test']}}
     })
   })
 })
