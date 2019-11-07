@@ -23,19 +23,13 @@ textarea:focus, input:focus, button:focus,select:focus{
 
 @media (min-width: 1024px){
   html,textarea,input,select {
-    font-size: 5.333px;
+    font-size: 7.11458px;
   }
 }
 
 @media (min-width: 1366px){
   html,textarea,input,select {
-    font-size: 7.11458px;
-  }
-}
-
-@media (min-width: 1920px){
-  html,textarea,input,select {
-    font-size: 10px;
+    font-size: 9px;
   }
 }
 

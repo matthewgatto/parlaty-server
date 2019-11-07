@@ -7,6 +7,8 @@ import FileInput from '../../containers/FileInput';
 import Radio from '../../containers/Radio';
 import CheckBox from '../../containers/CheckBox';
 import FormCloseButton from '../../containers/FormCloseButton';
+import Actions from '../../containers/Actions';
+import DeviceSelect from '../../containers/DeviceSelect';
 import styles from './index.module.css';
 
 const StepForm = () =>
@@ -20,6 +22,8 @@ const StepForm = () =>
       <CheckBox label="Option to Skip" name="skip" form="step" />
     </div>
     <InputField label="Location*" form="step" name="location" />
+    <DeviceSelect />
+    <Actions />
     <InputField label="Parameter*" form="step" name="parameter" />
     <div className={styles.row}>
       <FileInput label="Imagery" form="step" name="image" />

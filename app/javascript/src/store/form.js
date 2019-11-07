@@ -6,6 +6,10 @@ export const SET_FORM_VALUES = "SET_FORM_VALUES";
 export const UPDATE_CHECKLIST_VALUES = "UPDATE_CHECKLIST_VALUES";
 export const OPEN_FORM = "OPEN_FORM";
 export const CLOSE_FORM = "CLOSE_FORM";
+export const UPDATE_ACTION_VALUE = "UPDATE_ACTION_VALUE";
+export const ADD_ACTION = "ADD_ACTION";
+export const REMOVE_ACTION = "REMOVE_ACTION";
+export const REORDER_ACTION = "REORDER_ACTION";
 
 export const setFormErrors = ({form, error, inputErrors}) => ({ type: SET_ERRORS, payload: {form, error, inputErrors } })
 export const updateFormValue = (form, name, value) => ({type: UPDATE_FORM_VALUE, payload: {form, name, value}});
@@ -14,8 +18,12 @@ export const setFormValues = (form, values) => ({type: SET_FORM_VALUES, payload:
 export const updateChecklistValues = (form, name, value) => ({ type: UPDATE_CHECKLIST_VALUES, payload: {form, name, value}})
 export const openForm = (form, type, id, values) => ({type: OPEN_FORM, payload: {form, type, id, values}})
 export const closeForm = () => ({type: CLOSE_FORM})
+export const updateActionValue = (idx, value) => ({type: UPDATE_ACTION_VALUE, payload: {value, idx}})
+export const addAction = () => ({type: ADD_ACTION});
+export const removeAction = (idx) => ({type: REMOVE_ACTION, payload: idx});
+export const reorderAction = (fromIdx, toIdx) => ({type: REORDER_ACTION, payload: {fromIdx, toIdx}})
 
-export const initialState = { type: null, id: null, procedure: {values: {}, initialValues: {}}, step: {values: {}, initialValues: {}} };
+export const initialState = { type: null, id: null, procedure: {values: {}, initialValues: {}}, step: {values: {actions: []}, initialValues: {actions: []}} };
 export default function(previousState = initialState, { type, payload }){
   switch (type) {
     case SET_ERRORS:
@@ -93,8 +101,8 @@ export default function(previousState = initialState, { type, payload }){
         type: payload.type,
         id: payload.id,
         [payload.form]: {
-          values: payload.values || {},
-          initialValues: payload.values || {}
+          values: {actions: [], ...payload.values},
+          initialValues: {actions: [], ...payload.values}
         }
       }
     case CLOSE_FORM:
@@ -102,7 +110,7 @@ export default function(previousState = initialState, { type, payload }){
         ...previousState,
         id: null,
         type: null,
-        step: {values: {}, initialValues: {}}
+        step: {values: {actions:[]}, initialValues: {actions:[]}}
       };
     case EDIT_STEP_REQUEST__SUCCESS:
     case ADD_STEP_REQUEST__SUCCESS:
@@ -110,7 +118,55 @@ export default function(previousState = initialState, { type, payload }){
         ...previousState,
         type: null,
         id: null,
-        step: {values: {}, initialValues: {}}
+        step: {values: {actions:[]}, initialValues: {actions:[]}}
+      }
+    case UPDATE_ACTION_VALUE:
+      return {
+        ...previousState,
+        step: {
+          ...previousState.step,
+          values: {
+            ...previousState.step.values,
+            actions: previousState.step.values.actions.map((action, i) => i === payload.idx ? payload.value : action)
+          }
+        }
+      }
+    case ADD_ACTION:
+      return {
+        ...previousState,
+        step: {
+          ...previousState.step,
+          values: {
+            ...previousState.step.values,
+            actions: [...previousState.step.values.actions, '']
+          }
+        }
+      }
+    case REMOVE_ACTION:
+      return {
+        ...previousState,
+        step: {
+          ...previousState.step,
+          values: {
+            ...previousState.step.values,
+            actions: [...previousState.step.values.actions.slice(0, payload), ...previousState.step.values.actions.slice(payload + 1)]
+          }
+        }
+      }
+    case REORDER_ACTION:
+      let actions = [...previousState.step.values.actions];
+      let action = actions[payload.fromIdx];
+      actions[payload.fromIdx] = actions[payload.toIdx]
+      actions[payload.toIdx] = action
+      return {
+        ...previousState,
+        step: {
+          ...previousState.step,
+          values: {
+            ...previousState.step.values,
+            actions
+          }
+        }
       }
     default:
       return previousState;

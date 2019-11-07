@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  align-items: center;
+  padding: 0 0.8em;
+}
+
+.container > *:nth-child(2) {
+  flex-grow: 1;
+}
+
+.icon {
+  display: none;
+  cursor: pointer;
+}
+
+.container:hover .icon {
+  display: block;
+}
+
+.burger {
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+}
+
+.text {
+  color: #888;
+  font-size: 1.2em;
+  margin: 0 0.1em 0 0.4em;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.burger > * {
+  stroke: #888;
+}

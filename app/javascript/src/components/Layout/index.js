@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './index.module.css';
-import logo from '../../assets/images/logo.png'
+import logo from '../../assets/images/logo.png';
+
 const Layout = ({children}) =>
   <div className={styles.container}>
     <div className={styles.header}>
