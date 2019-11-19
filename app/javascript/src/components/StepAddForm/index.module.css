@@ -1,8 +1,0 @@
-
-.container > *:first-child {
-  margin-top: 1em;
-}
-
-.container > *:last-child {
-  margin-bottom: 1em;
-}

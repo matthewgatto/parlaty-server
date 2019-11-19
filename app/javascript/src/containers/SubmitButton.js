@@ -1,8 +1,9 @@
+import SubmitButton from '../components/SubmitButton';
 import { connect } from 'react-redux';
-import Button from '../components/Button';
-import { createProcedure } from '../store/procedure';
 
 export default connect(
-  ({procedure}) => ({isLoading: procedure.isLoading}),
-  { onClick: createProcedure }
-)(Button)
+  ({meta}, {entityKey, id}) => {
+    const entityMeta = id ? meta[entityKey][id] : meta[entityKey];
+    return({isLoading: entityMeta ? entityMeta.isProcessing : false})
+  }
+)(SubmitButton);

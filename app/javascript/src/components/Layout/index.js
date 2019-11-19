@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import Logout from '../../containers/Logout';
 import styles from './index.module.css';
 import logo from '../../assets/images/logo.png';
 
@@ -9,8 +10,8 @@ const Layout = ({children}) =>
       <img className={styles.logo} src={logo} />
       <div className={styles.links}>
         <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>
-        <NavLink className={styles.link} activeClassName={styles.active} to="/nav2">Nav 2</NavLink>
         <NavLink className={styles.link} activeClassName={styles.active} to="/support">Support</NavLink>
+        <Logout className={styles.link} />
       </div>
     </div>
     <div className={styles.content}>

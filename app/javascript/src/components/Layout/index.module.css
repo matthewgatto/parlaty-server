@@ -2,14 +2,19 @@
   background: #f8f8f7;
 }
 .header,.footer,.content {
-  padding: 0 calc((100vw - 750px) / 2)
+  padding: 0 calc((100vw - 750px) / 2);
+  position: relative;
+  box-sizing: border-box;
 }
 
 .content {
   min-height: calc(100vh - 24em);
+  /*height: calc(100vh - 24em);*/
   padding-top: 6em !important;
   padding-bottom: 6em !important;
-  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header,.footer {

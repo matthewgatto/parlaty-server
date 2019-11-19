@@ -1,0 +1,21 @@
+.content {
+  padding: 1em .8em 2.6em;
+  border-bottom: 1px solid #e9e8e8;
+  margin-top: 0.4em;
+  margin-bottom: 2.6em;
+}
+.files {
+  display: flex;
+  justify-content: space-around;
+}
+
+.boxes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.boxes > * {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}

@@ -14,27 +14,85 @@ body {
 textarea:focus, input:focus, button:focus,select:focus{
     outline: none;
 }
+h1 {
+  font-size: 1.8em;
+  padding: 0.8em;
+  margin-bottom: 1.5em;
+  font-weight: 500;
+  color: #7b7979;
+  background: #eeefef;
+  border-radius: 0.4em;
+}
 
+input[type='text'],input[type='password'],input[type='number'],input[type='email'], textarea, select {
+  width: 100%;
+  border: none;
+  border-radius: .333em;
+  font-size: 1.2em;
+  box-sizing: border-box;
+}
+input[type='text'],input[type='password'],input[type='number'], input[type='email']{
+  border-bottom: 1px solid #e9e8e8;
+  background: none;
+  font-size: 1.5em;
+  padding: 0.6em 0.4em;
+}
+
+select {
+  height: 100%;
+  padding: 0 1.6em 0 .4em;
+  appearance: none;
+  background: none;
+  cursor: pointer;
+}
+
+input[type='text']::placeholder,input[type='password']::placeholder,input[type='number']::placeholder,input[type='email']::placeholder {
+  color: #7b7979;
+}
+
+label {
+  height: 1em;
+  display: block;
+  text-align: left;
+  font-size: 1.2em;
+  margin: 0.4em;
+  font-weight: 600;
+  color: #7b7979;
+}
+
+form#auth .invalidField {
+  border-bottom: 1px solid #e23e4d;
+}
+form#procedure_form input[type='text'],form#procedure_form input[type='password'],form#procedure_form input[type='number'], form#procedure_form input[type='email'] {
+  background-color: #fff;
+  border: none;
+  height: 2.16667em;
+  padding: 0 0.333em;
+  font-size: 1.2em;
+}
+button {
+  border: none;
+}
 @media (min-width: 768px){
-  html,textarea,input,select {
+  html {
     font-size: 4px;
   }
 }
 
 @media (min-width: 1024px){
-  html,textarea,input,select {
+  html {
     font-size: 7.11458px;
   }
 }
 
 @media (min-width: 1366px){
-  html,textarea,input,select {
+  html {
     font-size: 9px;
   }
 }
 
 @media (min-width: 2560px){
-  html,textarea,input,select {
+  html {
     font-size: 12.708px;
   }
 }

@@ -1,20 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { useFormikContext } from 'formik';
 import AddButton from '../components/AddButton';
-import { openForm } from '../store/form';
+import { setStep } from '../redux/reducers/form';
 
-class AddStepButton extends React.PureComponent {
-  onClick = () => {
-    this.props.openForm('step', 'create', null, {number: this.props.number, time: "8", playback: "continuous", skip: true})
+function AddStepButton(props){
+  const {values: {steps}} = useFormikContext();
+  const addStep = () => {
+    if(props.canAdd){
+      props.pushStep({mode: 'continuous', number: steps.length + 1, device: "Crank handle", actions: [{id: new Date().getTime(), value: ''}], skip: true, time: 8, id: new Date().getTime()})
+      props.setStep({idx: steps.length})
+    }
   }
-  render(){
-    return(
-      <AddButton text="Add Step" onClick={this.props.canAdd ? this.onClick : undefined} />
-    )
-  }
+  return(
+    <AddButton text="Add Step" onClick={addStep} />
+  )
 }
 
 export default connect(
-  ({form, procedure}) => ({canAdd: form.type !== "create", number: procedure.steps.length + 1}),
-  { openForm }
-)(AddStepButton);
+  ({form}) => ({canAdd: form.step ? false : true}),
+  {setStep}
+)(AddStepButton)

@@ -1,8 +1,10 @@
 const API = (function(){
   var _token = null;
   var checkStatus = function(res){
-    if(res.status >= 200 && res.status < 300) return res;
-    throw new Error(res.status)
+    if(res.status >= 200 && res.status < 300) return res.text().then(function(text) {
+      return text ? JSON.parse(text) : {}
+    });
+    throw res.status
   }
   return {
         setToken: token => {_token = token},
@@ -12,16 +14,17 @@ const API = (function(){
                 'Authorization': `Bearer ${_token}`
               }
             }
-          ).then(checkStatus).then(response => response.json()),
+          ).then(checkStatus),
         post: (url, body) => fetch(`${url}`, {
               method: 'POST',
               headers: {
                 'Content-Type':'application/json',
-                'Authorization': `Bearer ${_token}`
+                'Authorization': `Bearer ${_token}`,
+                'Accept': 'application/json'
               },
               body: JSON.stringify(body)
             }
-          ).then(checkStatus).then(response => response.json()),
+          ).then(checkStatus),
         patch: (url, body) => fetch(`${url}`, {
             method: 'PATCH',
             headers: {
@@ -30,7 +33,7 @@ const API = (function(){
             },
             body: JSON.stringify(body)
           }
-        ).then(checkStatus).then(response => response.json()),
+        ).then(checkStatus),
         delete: (url) => fetch(`${url}`, {
               method: 'DELETE',
               headers: {

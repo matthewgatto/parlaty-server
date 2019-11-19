@@ -2,6 +2,7 @@
   color: #e23e4d;
   transition: opacity 150ms ease-in-out;
   opacity: 0;
+  font-size: 0.8em;
 }
 
 .entering {

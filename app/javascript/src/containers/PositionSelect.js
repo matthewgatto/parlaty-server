@@ -1,21 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import SelectField from '../components/SelectField';
+import {Select} from '../components/Inputs';
 
 class PositionSelect extends React.PureComponent {
   render(){
+    const options = [{value: 1, label: "Number 1"}]
+    for (var i = 2; i < this.props.steps + 1; i++) {
+      options.push({value: i, label: "Number "+i})
+    }
     return(
-      <SelectField {...this.props} label="Number*" name="number" form="step" />
+      <Select {...this.props} options={options} />
     )
   }
 }
 
-export default connect(
-  ({procedure}) => {
-    let options = [];
-    for (var i = 1; i < procedure.steps.length + 2; i++) {
-      options.push({value: i, label: "Number "+i})
-    }
-    return ({options})
-  }
-)(PositionSelect);
+export default PositionSelect;

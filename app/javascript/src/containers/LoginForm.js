@@ -1,25 +1,32 @@
 import React from 'react';
+import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
-import LoginForm from '../components/LoginForm';
-import { login } from '../store/user';
+import { Input } from '../components/Inputs';
+import SubmitButton from './SubmitButton';
+import { handleLoginSubmit } from '../redux/reducers/user';
+import { loginSchema } from '../utils/validation';
 
-class LoginFormContainer extends React.Component {
-  state = {}
-  handleSubmit = (e) => {
-    e.preventDefault();
-    if(!this.props.isLoading){
-      this.props.login({email: this.state.email, password: this.state.password})
-    }
-  }
-  handleInputChange = ({target}) => this.setState({[target.name]: target.value})
-  render(){
-    return(
-      <LoginForm isLoading={this.props.isLoading} error={this.props.error} onSubmit={this.handleSubmit} onChange={this.handleInputChange} email={this.state.email} password={this.state.password} />
-    )
-  }
+
+function LoginFormContainer(props){
+  return(
+    <Formik
+      initialValues={{email: '', password: ''}}
+      validationSchema={loginSchema}
+      validateOnChange={false}
+      validateOnBlur={false}
+      onSubmit={props.handleLoginSubmit}
+    >
+      <Form>
+        <Input type="email" name="email" placeholder="Email/Username" />
+        <Input type="password" name="password" placeholder="Password" />
+        <SubmitButton label="Login" entityKey="login" />
+      </Form>
+    </Formik>
+  )
 }
 
+
 export default connect(
-  ({user}) => ({error: user.error, isLoading: user.isLoading}),
-  { login }
+  null,
+  { handleLoginSubmit }
 )(LoginFormContainer);

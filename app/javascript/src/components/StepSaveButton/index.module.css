@@ -1,0 +1,16 @@
+.container {
+  padding: 0 1.6em 0 0.8em;
+  height: 3.4em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9e4ee;
+  border-radius: 0.4em;
+}
+.label {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  color: #67318d;
+}

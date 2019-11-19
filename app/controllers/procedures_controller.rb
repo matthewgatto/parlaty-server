@@ -31,7 +31,7 @@ class ProceduresController < ApplicationController
 
 		@procedures = (oemb.procedures).sort_by &:name
 	end
-	
+
 	# GET /procedures/:id
 	# also returns associated steps
 	def show
@@ -57,7 +57,7 @@ class ProceduresController < ApplicationController
 
 		if !(OemBusiness.exists?(id: params[:procedure][:oem_business_id]))
 			render json: { "error": "OemBusiness Id doesn't exist"}, status: :bad_request and return
-		end		
+		end
 
 		@procedure = Procedure.new(procedure_params)
 
@@ -105,9 +105,9 @@ class ProceduresController < ApplicationController
 		pso = @procedure.steps_order
 		# make sure the reordered array has the same elements
 		if !( (pso - so_arr).blank? and (so_arr.size == pso.size) )
-			render json: 
+			render json:
 			{ "error": "reordered steps_order doesn't have the same elements as the original" } ,status: :bad_request
-			return 
+			return
 		end
 		@procedure.steps_order = so_arr
 		@procedure.save
@@ -131,7 +131,7 @@ class ProceduresController < ApplicationController
 		end
 
 		def step_params(index)
-			# params.require(:steps)[index].permit(:title, :device, :location, :note, :safety, visuals: [], :mode, :time, :parameter)
+			#JDT params.require(:steps)[index].permit(:title, :device, :location, :note, :safety, visuals: [], :mode, :time, :parameter)
 			params.require(:steps)[index].permit(:title, :device, :location, :note, :safety, :visuals [], :mode, :time, :parameter)
 		end
 end

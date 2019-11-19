@@ -1,21 +1,20 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import { ConnectedRouter as Router } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import Layout from './components/Layout';
-import ProcedurePage from './containers/ProcedurePage';
-import LoginPage from './containers/LoginPage';
+import Routes from './containers/Routes';
 import './index.css';
-import store from './store';
+import store, {history} from './redux';
 //import './poppins.css';
 
 const App = () =>
-  <Router>
-    <Provider store={store}>
+  <Provider store={store}>
+    <Router history={history}>
       <Layout>
-        <Route exact path="/" component={ProcedurePage} />
-        <Route path="/login" exact component={LoginPage} />
+        <Routes />
       </Layout>
-    </Provider>
-  </Router>
+    </Router>
+  </Provider>
 
 export default App;

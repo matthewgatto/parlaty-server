@@ -1,0 +1,103 @@
+.container {
+  width: 100%;
+  height: calc(100vh - 36em);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 24em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.header {
+  color: #67318d;
+  font-size: 2.2em;
+  line-height: 2em;
+}
+
+.subheader,.link {
+  color: #7b7979;
+}
+
+.subheader {
+  font-size: 1.3em;
+}
+
+.underline {
+  color: #7b7979;
+}
+
+.link {
+  text-decoration: none;
+  font-size: 1.2em;
+  margin-top: 1em;
+}
+
+.bottomPolygonContainer {
+  width: 6.9em;
+  height: 7.4em;
+  position: absolute;
+  right: -8em;
+  bottom: -8em;
+}
+
+.bottomPolygonContainer > *,.topPolygonContainer > * {
+  position: absolute;
+}
+.bottomPolygonOne {
+  right: 0;
+  top: 1.6em;
+}
+
+.bottomPolygonTwo {
+  bottom: 0;
+  right: 1.8em;
+}
+
+.bottomPolygonThree {
+  left: 0.5em;
+  bottom: 2.2em;
+}
+
+.bottomPolygonFour {
+  top: 0;
+  left: 0;
+}
+
+.topPolygonContainer {
+  width: 8.2em;
+  height: 6.2em;
+  position: absolute;
+  top: -8em;
+  left: -8em;
+}
+
+.topPolygonOne {
+  bottom: 0;
+  left: 0;
+}
+
+.topPolygonTwo {
+  bottom: 0.8em;
+  right: 0;
+}
+
+.topPolygonThree {
+  left: 3em;
+  top: 0.6em;
+}
+
+.topPolygonFour {
+  top: 0;
+  left: 0.3em;
+}
+
+.tm {
+  font-size: 0.6em;
+}

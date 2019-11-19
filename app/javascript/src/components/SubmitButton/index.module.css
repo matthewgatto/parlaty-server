@@ -1,0 +1,12 @@
+.container {
+  display: block;
+  width: 100%;
+  border: none;
+  color: #67318d;
+  background: #e9e4ee;
+  font-size: 1.3em;
+  height: 2.4em;
+  margin-top: 0.8em;
+  cursor: pointer;
+  border-radius: 0.2em;
+}

@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+  align-self: baseline;
+}
+
+.header {
+  background: #eeefef;
+  border-radius: 0.4em;
+  height: 4.8em;
+  padding: 0 1em;
+  line-height: 4.8em;
+  margin-bottom: 3em;
+}
+
+.link {
+  float: right;
+}
+
+.title {
+  font-size: 1.8em;
+  color: #7b7979;
+  font-weight: 500;
+}

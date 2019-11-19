@@ -14,7 +14,7 @@
 end
 
 x = 1
-while x <= 2 
+while x <= 2
 	2.times do
 		OemBusiness.create!([{
 			name: Faker::Company.name,
@@ -27,7 +27,7 @@ end
 
 # Operator Admin
 3.times do
-	OperatorAdmin.create!(oem_business_id: 1, name: Faker::Name.first_name)	
+	OperatorAdmin.create!(oem_business_id: 1, name: Faker::Name.first_name)
 end
 
 # Operator
@@ -37,6 +37,7 @@ while x <= 3
 	x += 1
 end
 
+=begin JDT
 # Procedures for every oem_business
 y = 1
 while y <= 4
@@ -45,10 +46,10 @@ while y <= 4
 			name: Faker::Company.name,
 			version: Faker::Number.decimal(1),
 			description: Faker::Lorem.sentence,
-			category: Faker::Commerce.material, 
+			category: Faker::Commerce.material,
 			author: Faker::Name.name,
 			language: Faker::Lorem.word,
-			oem_business_id: y 
+			oem_business_id: y
 		)
 	end
 	y = y+1
@@ -90,8 +91,8 @@ while z <= 6
 		@step = Step.create!(
 			title: Faker::Name.name,
 			device: Faker::Appliance.equipment,
-			location: Faker::Restaurant.name, 
-			note: Faker::Lorem.sentence, 
+			location: Faker::Restaurant.name,
+			note: Faker::Lorem.sentence,
 			procedure_id: z
 		)
 		@pro = Procedure.find(z)
@@ -101,6 +102,8 @@ while z <= 6
 	end
 	z = z+1
 end
+
+=end
 
 ParlatyAdmin.create!(name: "james")
 
@@ -123,7 +126,3 @@ user = User.new(email: "oadmin@gmail.com", password: "password")
 user.confirm
 user.roleable = OperatorAdmin.first
 user.save
-
-
-
-
