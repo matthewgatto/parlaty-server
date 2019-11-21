@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Step from '../components/Step';
-import { setStep } from '../redux/reducers/form';
+import { setStep } from '../redux/actions';
 
 class StepContainer extends React.PureComponent {
   componentDidUpdate(prevProps){

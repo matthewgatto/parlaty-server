@@ -1,21 +1,11 @@
 import { take, call, put, takeEvery, fork, cancel, all, select } from 'redux-saga/effects';
 import API from '../../utils/API';
+import * as TYPES from '../types';
 import {
-  LOGIN_REQUEST,
-  LOGIN_REQUEST__SUCCESS,
-  LOGIN_REQUEST__FAILURE,
-  LOGOUT
-} from '../reducers/user';
-import {
-  FETCH_ENTITY,
-  CREATE_ENTITY_REQUEST,
-  UPDATE_ENTITY_REQUEST,
-  addEntities
-} from '../reducers/entities';
-import {
+  addEntities,
   setEntityFetchError,
   setEntityFormErrors
-} from '../reducers/meta';
+} from '../actions';
 import { normalize } from 'normalizr'
 import { oemSchema, businessSchema, procedureSchema, adminLandingSchema } from '../../utils/models';
 import { push } from 'connected-react-router';
@@ -168,18 +158,18 @@ function* updateEntitySaga({url, entityKey, id, values}){
 
 export function* loginSaga(){
   while (true) {
-    const { payload } = yield take(LOGIN_REQUEST);
+    const { payload } = yield take(TYPES.LOGIN_REQUEST);
     console.log("PAYLOAD", payload);
     try {
       const response = yield call(API.post, '/login', {email: payload.email, password: payload.password});
       if(!response.jwt) throw new Error();
-      yield put({type: LOGIN_REQUEST__SUCCESS, payload: response})
+      yield put({type: TYPES.LOGIN_REQUEST__SUCCESS, payload: response})
       return response.jwt
     } catch (e) {
       if(e == 401){
-        yield put({type: LOGIN_REQUEST__FAILURE, payload: "Invalid login credentials" })
+        yield put({type: TYPES.LOGIN_REQUEST__FAILURE, payload: "Invalid login credentials" })
       } else {
-        yield put({type: LOGIN_REQUEST__FAILURE, payload: "An unexpected error has occurred" })
+        yield put({type: TYPES.LOGIN_REQUEST__FAILURE, payload: "An unexpected error has occurred" })
       }
     }
   }
@@ -196,7 +186,7 @@ function* authSaga(){
       API.setToken(token);
       localStorage.setItem('token', token);
 
-      yield take(LOGOUT);
+      yield take(TYPES.LOGOUT);
       //API.removeToken();
       localStorage.removeItem('token');
       token = undefined;
@@ -208,9 +198,9 @@ function* authSaga(){
 export default function* appSagas(){
   yield all([
 
-    yield takeEvery(FETCH_ENTITY, fetchEntitySaga),
-    yield takeEvery(CREATE_ENTITY_REQUEST, createEntitySaga),
-    yield takeEvery(UPDATE_ENTITY_REQUEST, updateEntitySaga),
+    yield takeEvery(TYPES.FETCH_ENTITY, fetchEntitySaga),
+    yield takeEvery(TYPES.CREATE_ENTITY_REQUEST, createEntitySaga),
+    yield takeEvery(TYPES.UPDATE_ENTITY_REQUEST, updateEntitySaga),
     yield authSaga(),
   ])
 }

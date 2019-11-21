@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useFormikContext} from 'formik';
 import StepSaveButton from '../components/StepSaveButton';
-import { setStep, setImage } from '../redux/reducers/form';
+import { setStep, setImage } from '../redux/actions';
 
 function StepSaveButtonContainer({idx, setStep, setImage, move, step, addImage}){
   const {values: {steps}, validateForm} = useFormikContext();

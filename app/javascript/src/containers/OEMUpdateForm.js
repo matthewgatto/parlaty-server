@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import OEMForm from '../components/OEMForm';
-import { fetchEntity } from '../redux/reducers/entities';
-import { clearForm } from '../redux/reducers/form';
-import { handleEntityUpdateSubmit } from '../redux/reducers/meta';
+import OEMForm from '../components/Forms/OEM';
+import { fetchEntity, handleEntityUpdateSubmit, clearForm } from '../redux/actions';
 
 class OEMUpdateFormContainer extends React.PureComponent {
   componentDidMount(){

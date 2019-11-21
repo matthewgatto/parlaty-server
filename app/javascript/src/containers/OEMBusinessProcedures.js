@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ProcedureList from '../components/ProcedureList';
 import ListLabel from '../components/ListLabel';
-import { fetchEntity } from '../redux/reducers/entities';
+import { fetchEntity } from '../redux/actions';
 
 class OEMBusinessProcedures extends React.PureComponent {
   componentDidMount(){

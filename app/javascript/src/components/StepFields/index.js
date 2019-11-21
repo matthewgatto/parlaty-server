@@ -1,6 +1,6 @@
 import React from 'react';
 import AnimateHeight from 'react-animate-height';
-import {Input, Select, FileInput, CheckBox, Radio} from '../Inputs';
+import {Input, Select, FileInput, CheckBox, Radio} from '../Forms/Inputs';
 import PositionSelect from '../../containers/PositionSelect';
 import ActionList from '../ActionList';
 import StepSaveButton from '../../containers/StepSaveButton';
@@ -35,20 +35,3 @@ export default function(props){
     </AnimateHeight>
   )
 }
-/*
-<div className={styles.row}>
-  <Radio label="Continuous" name="playback" form="step" value="continuous" />
-  <Radio label="Manual" name="playback" form="step" value="manual" />
-  <CheckBox label="Option to Skip" name="skip" form="step" />
-</div>
-<InputField label="Location*" form="step" name="location" />
-<DeviceSelect />
-<Actions />
-<InputField label="Parameter*" form="step" name="parameter" />
-<div className={styles.row}>
-  <FileInput label="Imagery" form="step" name="image" />
-  <FileInput label="Audio" form="step" name="audio" />
-</div>
-<StepSaveButton text="Save" className={styles.save} />
-<FormCloseButton />
-*/

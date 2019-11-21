@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ProcedureForm from '../components/ProcedureForm';
-import { handleEntityCreateSubmit, clearForm } from '../redux/reducers/form';
+import ProcedureForm from '../components/Forms/Procedure';
+import { handleEntityCreateSubmit, clearForm } from '../redux/actions';
 
 class NewProcedurePage extends React.PureComponent {
   handleSubmit = values => {

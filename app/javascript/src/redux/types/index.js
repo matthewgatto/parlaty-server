@@ -1,0 +1,21 @@
+//entities
+export const FETCH_ENTITY = "FETCH_ENTITY";
+export const RECIEVE_ENTITIES = "RECIEVE_ENTITIES";
+export const UPDATE_ENTITY_REQUEST = "UPDATE_ENTITY_REQUEST";
+export const CREATE_ENTITY_REQUEST = "CREATE_ENTITY_REQUEST";
+
+//form
+export const SET_STEP = "SET_STEP";
+export const SET_IMAGE = "SET_IMAGE";
+export const REMOVE_IMAGE = "REMOVE_IMAGE";
+export const SET_FORM_ERRORS = "SET_FORM_ERRORS";
+export const CLEAR_FORM = "CLEAR_FORM";
+
+//meta
+export const SET_ENTITY_META = "SET_ENTITY_META";
+
+//user
+export const LOGIN_REQUEST = "LOGIN_REQUEST";
+export const LOGIN_REQUEST__SUCCESS = "LOGIN_REQUEST__SUCCESS";
+export const LOGIN_REQUEST__FAILURE = "LOGIN_REQUEST__FAILURE";
+export const LOGOUT = "LOGOUT";

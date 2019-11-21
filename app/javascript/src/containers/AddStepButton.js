@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useFormikContext } from 'formik';
 import AddButton from '../components/AddButton';
-import { setStep } from '../redux/reducers/form';
+import { setStep } from '../redux/actions';
 
 function AddStepButton(props){
   const {values: {steps}} = useFormikContext();

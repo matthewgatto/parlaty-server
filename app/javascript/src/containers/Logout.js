@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { logout } from '../redux/reducers/user';
+import { logout } from '../redux/actions';
 
 function Logout({logout, isLoggedIn, ...props}){
   if(isLoggedIn) return <span onClick={logout} {...props}>Logout</span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import InvitationForm from '../components/InvitationForm';
-import { handleEntityCreateSubmit, clearForm } from '../redux/reducers/form';
+import InvitationForm from '../components/Forms/Invitation';
+import { handleEntityCreateSubmit, clearForm } from '../redux/actions';
 
 class InvitationFormContainer extends React.PureComponent {
   handleSubmit = values => {

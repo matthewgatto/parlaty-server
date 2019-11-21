@@ -1,7 +1,7 @@
 import React from 'react';
 import Burger from '../SVG/Burger';
 import Close from '../SVG/Close';
-import {Input} from '../Inputs';
+import {Input} from '../Forms/Inputs';
 import styles from './index.module.css';
 
 const ActionInput = ({idx, name, remove, setRef, ...rest}) =>

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ProcedureImage from '../components/ProcedureImage';
 import { useFormikContext} from 'formik';
-import { removeImage } from '../redux/reducers/form';
+import { removeImage } from '../redux/actions';
 
 function ProcedureImageContainer(props){
   const {values: {steps}, setFieldValue} = useFormikContext();

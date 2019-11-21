@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AdminLandingPage from '../components/AdminLandingPage';
-import { fetchEntity } from '../redux/reducers/entities';
+import { fetchEntity } from '../redux/actions';
 
 class AdminLandingPageContainer extends React.PureComponent {
   componentDidMount(){

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ResetPasswordForm from '../components/ResetPasswordForm';
-import { handleEntityCreateSubmit, clearForm } from '../redux/reducers/form';
+import ResetPasswordForm from '../components/Forms/ResetPassword';
+import { handleEntityCreateSubmit, clearForm } from '../redux/actions';
 
 class ResetPasswordFormContainer extends React.PureComponent {
   handleSubmit = values => {

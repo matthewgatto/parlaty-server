@@ -1,9 +1,9 @@
 import React from 'react';
 import { Field as SlowField, FastField, useField } from 'formik';
-import Error from '../Error';
-import Triangle from '../SVG/Triangle';
-import Close from '../SVG/Close';
-import Upload from '../SVG/Upload';
+import Error from '../../Error';
+import Triangle from '../../SVG/Triangle';
+import Close from '../../SVG/Close';
+import Upload from '../../SVG/Upload';
 import styles from './index.module.css';
 
 function Field(props){

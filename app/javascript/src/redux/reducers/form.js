@@ -1,33 +1,14 @@
-import {
-  UPDATE_ENTITY_REQUEST,
-  CREATE_ENTITY_REQUEST
-} from './entities';
-import {
-  SET_ENTITY_META
-} from './meta';
-export const SET_STEP = "SET_STEP";
-export const SET_IMAGE = "SET_IMAGE";
-export const REMOVE_IMAGE = "REMOVE_IMAGE";
-export const SET_FORM_ERRORS = "SET_FORM_ERRORS";
-export const CLEAR_FORM = "CLEAR_FORM";
-
-export const setStep = step => ({type: SET_STEP, payload: step});
-export const setImage = (image) => ({type: SET_IMAGE, payload: image});
-export const removeImage = (id) => ({type: REMOVE_IMAGE, payload: id});
-export const handleEntityUpdateSubmit = (url, entityKey, id, values) => ({type: UPDATE_ENTITY_REQUEST, url, entityKey, id, values});
-export const handleEntityCreateSubmit = (url, entityKey, values) => ({type: CREATE_ENTITY_REQUEST, url, entityKey, values});
-export const setFormErrors = (error, fieldErrors) => ({type: SET_FORM_ERRORS, payload: {error, fieldErrors}});
-export const clearForm = () => ({type: CLEAR_FORM});
+import * as types from '../types'
 
 const initialState = {images: [], meta: {}};
 export default function(state = initialState, { type, payload, meta }){
   switch (type) {
-    case SET_STEP:
+    case types.SET_STEP:
       return {
         ...state,
         step: payload
       }
-    case SET_IMAGE:
+    case types.SET_IMAGE:
       if(!state.images.length){
         return {
           ...state,
@@ -52,32 +33,32 @@ export default function(state = initialState, { type, payload, meta }){
         ...state,
         images: [...state.images, payload]
       }
-    case REMOVE_IMAGE:
+    case types.REMOVE_IMAGE:
       const idx = state.images.findIndex(x => x.id === payload);
       return {
         ...state,
         images: [...state.images.slice(0, idx),...state.images.slice(idx + 1)]
       }
-    case CREATE_ENTITY_REQUEST:
-    case UPDATE_ENTITY_REQUEST:
+    case types.CREATE_ENTITY_REQUEST:
+    case types.UPDATE_ENTITY_REQUEST:
       return {
         ...state,
         meta: {
           isProcessing: true
         }
       }
-    case SET_FORM_ERRORS:
+    case types.SET_FORM_ERRORS:
       return {
         ...state,
         ...payload,
         isProcessing: false
       }
-    case SET_ENTITY_META:
+    case types.SET_ENTITY_META:
       return {
         ...state,
         meta
       }
-    case CLEAR_FORM:
+    case types.CLEAR_FORM:
       return initialState;
     default:
       return state;

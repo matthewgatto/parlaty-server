@@ -1,5 +1,5 @@
 import React from 'react';
-import {Select} from '../components/Inputs';
+import {Select} from '../components/Forms/Inputs';
 
 class PositionSelect extends React.PureComponent {
   render(){

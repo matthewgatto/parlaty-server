@@ -1,29 +1,34 @@
 import React from 'react';
-import { Formik, FieldArray, Form } from 'formik';
-import PageLayout from '../PageLayout';
-import StepList from '../StepList';
-import Polygon from '../SVG/PolygonV';
+import { FieldArray } from 'formik';
+import FormWrapper from '../FormWrapper';
 import {Input, Textarea} from '../Inputs';
-import Button from '../Button';
-import ImageList from '../../containers/ImageList';
+import PageLayout from '../../PageLayout';
+import StepList from '../../StepList';
+import Polygon from '../../SVG/PolygonV';
+import Button from '../../Button';
+import ImageList from '../../../containers/ImageList';
+import AddStepButton from '../../../containers/AddStepButton';
+import FormSubmitButton from '../../../containers/FormSubmitButton';
+import { procedureSchema } from '../validation';
 import styles from './index.module.css';
-import AddStepButton from '../../containers/AddStepButton';
-import FormSubmitButton from '../../containers/FormSubmitButton';
-import { procedureSchema } from '../../utils/validation';
 
 export default function(props){
   return(
     <PageLayout header={props.header}>
-      <Formik
-      initialValues={props.initialValues}
-      validationSchema={procedureSchema}
-      validateOnChange={false}
-      validateOnBlur={false}
-      onSubmit={props.handleSubmit}
+      <FormWrapper
+        formik={{
+          initialValues: props.initialValues,
+          validationSchema: procedureSchema,
+          onSubmit: props.handleSubmit
+        }}
+        form={{
+          className: styles.content,
+          id: "procedure_form"
+        }}
       >
         <FieldArray validateOnChange={false} name="steps">
           {arrayHelpers => (
-            <Form id="procedure_form" className={styles.content}>
+            <>
               <div>
                 <div className={styles.margin}>
                   <Input label="Procedure Name" name="name" type='text' />
@@ -46,10 +51,10 @@ export default function(props){
                 <ImageList />
                 <FormSubmitButton text="Submit" className={styles.submit} />
               </div>
-            </Form>
+            </>
           )}
         </FieldArray>
-      </Formik>
+      </FormWrapper>
     </PageLayout>
   )
 }

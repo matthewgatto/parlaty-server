@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ProcedureForm from '../components/ProcedureForm';
-import { fetchEntity } from '../redux/reducers/entities';
-import { handleEntityUpdateSubmit, clearForm } from '../redux/reducers/form';
+import ProcedureForm from '../components/Forms/Procedure';
+import { fetchEntity, handleEntityUpdateSubmit, clearForm } from '../redux/actions';
 
 class EditProcedurePage extends React.PureComponent {
   componentDidMount(){

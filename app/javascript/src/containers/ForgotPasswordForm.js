@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ForgotPasswordForm from '../components/ForgotPasswordForm';
-import { handleEntityCreateSubmit, clearForm } from '../redux/reducers/form';
+import ForgotPasswordForm from '../components/Forms/ForgotPassword';
+import { handleEntityCreateSubmit, clearForm } from '../redux/actions';
 
 class ForgotPasswordFormContainer extends React.PureComponent {
   handleSubmit = values => {

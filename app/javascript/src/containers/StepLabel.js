@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useFormikContext} from 'formik';
 import StepMenu from './StepMenu';
 import ActionBar from '../components/ActionBar';
-import { setStep } from '../redux/reducers/form';
+import { setStep } from '../redux/actions';
 
 function StepLabel({idx, setStep, canOpen, arrayHelpers, ...props}){
   const {values: {steps}} = useFormikContext();

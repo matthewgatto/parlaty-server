@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import OEMList from '../components/OEMList';
 import ListLabel from '../components/ListLabel';
-import { fetchEntity } from '../redux/reducers/entities';
+import { fetchEntity } from '../redux/actions';
 
 class OEMListContainer extends React.PureComponent {
   componentDidMount(){

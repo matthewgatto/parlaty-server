@@ -1,20 +1,11 @@
-import {
-  FETCH_ENTITY,
-  RECIEVE_ENTITIES,
-  UPDATE_ENTITY_REQUEST
-} from './entities';
-export const SET_ENTITY_META = "SET_ENTITY_META";
-export const fetchEntity = (url, entityKey, id) => ({type: FETCH_ENTITY, url, entityKey, id, meta: {isFetching: true}})
-export const setEntityFetchError = (fetchError, entityKey, id) => ({type: SET_ENTITY_META, entityKey, id, meta: {fetchError}})
-export const setEntityFormErrors = (formError, fieldErrors, entityKey, id) => ({type: SET_ENTITY_META, entityKey, id, meta: {formError, fieldErrors, isProcessing: false}})
-export const handleEntityUpdateSubmit = (url, entityKey, id, values) => ({type: UPDATE_ENTITY_REQUEST, url, entityKey, id, values, meta: {isProcessing: true}});
+import * as types from '../types'
 
 const initialState = {oems: {}, businesses: {}, procedures: {}, steps: {}, landing: {}};
 export default function(state = initialState, {type, entityKey, entities, id, meta}){
   switch (type) {
-    case FETCH_ENTITY:
-    case SET_ENTITY_META:
-    case UPDATE_ENTITY_REQUEST:
+    case types.FETCH_ENTITY:
+    case types.SET_ENTITY_META:
+    case types.UPDATE_ENTITY_REQUEST:
       return {
         ...state,
         [entityKey]: id ? ({
@@ -25,7 +16,7 @@ export default function(state = initialState, {type, entityKey, entities, id, me
         )
       }
 
-    case RECIEVE_ENTITIES:
+    case types.RECIEVE_ENTITIES:
       return {
         ...state,
         [entityKey]: id ? ({

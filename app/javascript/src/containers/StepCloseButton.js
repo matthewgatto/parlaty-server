@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import StepCloseButton from '../components/StepCloseButton';
 import { useFormikContext} from 'formik';
-import { setStep } from '../redux/reducers/form';
+import { setStep } from '../redux/actions';
 
 function StepCloseButtonContainer(props){
   const {errors: {steps,...nonStepErrors}, setFieldValue, setErrors} = useFormikContext();
