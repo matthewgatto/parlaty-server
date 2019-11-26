@@ -8,14 +8,14 @@ const API = (function(){
   }
   return {
         setToken: token => {_token = token},
-        get: (url) => fetch(`${url}`, {
+        get: (url) => fetch(url, {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer ${_token}`
               }
             }
           ).then(checkStatus),
-        post: (url, body) => fetch(`${url}`, {
+        post: (url, body) => fetch(url, {
               method: 'POST',
               headers: {
                 'Content-Type':'application/json',
@@ -25,7 +25,15 @@ const API = (function(){
               body: JSON.stringify(body)
             }
           ).then(checkStatus),
-        patch: (url, body) => fetch(`${url}`, {
+        multipost: (url, body, token) => fetch(url, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token || _token}`
+              },
+              body
+            }
+          ).then(checkStatus),
+        patch: (url, body) => fetch(url, {
             method: 'PATCH',
             headers: {
               'Content-Type':'application/json',
@@ -34,7 +42,7 @@ const API = (function(){
             body: JSON.stringify(body)
           }
         ).then(checkStatus),
-        delete: (url) => fetch(`${url}`, {
+        delete: (url) => fetch(url, {
               method: 'DELETE',
               headers: {
                 'Authorization': `Bearer ${_token}`

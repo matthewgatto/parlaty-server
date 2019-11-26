@@ -18,7 +18,7 @@ function renameParam(object, originalParam, newParam){
   delete object[originalParam];
 }
 
-const preFetchEntityHandlerMap = {
+const postFetchEntityHandlerMap = {
   "oems": function*(response, id){
     response.id = id;
     return normalize({id, businesses: response.oem_businesses}, oemSchema).entities
@@ -30,6 +30,10 @@ const preFetchEntityHandlerMap = {
   "procedures": function*(response){
     if(response.step){
       yield call(renameParam, response, 'step', 'steps')
+      response.steps.map(({visual, ...step}) => {
+        if(visual) step.image = visual;
+        return step;
+      })
     }
     if(response.procedure_id){
       yield call(renameParam, response, 'procedure_id', 'id')
@@ -37,14 +41,14 @@ const preFetchEntityHandlerMap = {
     return normalize(response, procedureSchema).entities
   },
   "landing": function*(response){
-    return normalize(response, admingLandingSchema).entities;
+    return normalize(response, adminLandingSchema).entities;
   },
 }
 
 function* fetchEntitySaga({url, entityKey, id}){
   try {
     const response = yield call(API.get, url)
-    const entities = yield call(preFetchEntityHandlerMap[entityKey], response, id);
+    const entities = yield call(postFetchEntityHandlerMap[entityKey], response, id);
     yield put(addEntities(entities, entityKey, id))
   } catch (e) {
     console.log("ERROR", e);
@@ -70,13 +74,47 @@ function* getNewEntitiesFromProcedure(body){
     procedures: data.entities.procedures
   }
 }
+function objectToFormData(obj) {
+    var formData = new FormData();
 
+    function appendFormData(data, root) {
+          root = root || '';
+          if (data instanceof File) {
+              formData.append(root, data);
+          } else if (Array.isArray(data)) {
+              for (var i = 0; i < data.length; i++) {
+                  appendFormData(data[i], root + '[]');
+              }
+          } else if (typeof data === 'object' && data) {
+              for (var key in data) {
+                  if (data.hasOwnProperty(key)) {
+                      if (root === '') {
+                          appendFormData(data[key], key);
+                      } else {
+                          appendFormData(data[key], root + '[' + key + ']');
+                      }
+                  }
+              }
+          } else {
+              if (data !== null && typeof data !== 'undefined') {
+                  formData.append(root, data);
+              }
+          }
+    }
+
+    appendFormData(obj);
+
+    return formData;
+}
 const returnUserValues = values => ({user: values})
 function* returnFormattedProcedure({steps, ...procedure}){
-  return{
+  return yield call (objectToFormData,{
     procedure,
-    steps: steps.map(({number, skip, actions, image, audio, mode, ...step}) => step)
-  }
+    steps: steps.map(({id, number, skip, actions, image, audio, ...step}) => {
+      step.visuals =  image ? [image] : [];
+      return step;
+    })
+  })
 }
 const preCreateEntityHandlerMap = {
   "procedures": returnFormattedProcedure,
@@ -88,10 +126,10 @@ const preCreateEntityHandlerMap = {
 const goHome = () => ({to: '/'})
 
 const postCreateEntityHandlerMap = {
-  "procedures": function*(body){
+  "procedures": function*(procedure){
     return {
-      entities: yield call(getNewEntitiesFromProcedure, {...body.procedure, steps: body.steps, id: new Date().getTime()}),
-      to: `/business/${body.procedure.oem_business_id}`
+      entities: yield call(getNewEntitiesFromProcedure, procedure),
+      to: `/business/${procedure.oem_business_id}`
     }
   },
   "invite": function(body){
@@ -111,14 +149,26 @@ const postCreateEntityHandlerMap = {
 
 function* createEntitySaga({url, entityKey, values}){
   try {
-    const body = yield call(preCreateEntityHandlerMap[entityKey], values)
-    const response = yield call(API.post, url, body);
-    const { entities, to } = yield call(postCreateEntityHandlerMap[entityKey], body)
+    const body = yield call(preCreateEntityHandlerMap[entityKey], values);
+    console.log("BODY", body);
+    //const response = {errors: {formError: "Invalid", fieldErrors: {name: "Invalid"}}}
+    const response = yield call(API.multipost, url, body);
+    console.log("RESPONSE", response);
+    if(response.errors){
+      throw {code: "ServerMessage", ...response.errors}
+    }
+    const { entities, to } = yield call(postCreateEntityHandlerMap[entityKey], response)
+    console.log("ENTITIES", entities);
     if(entities) yield put(addEntities(entities))
     if(to) yield put(push(to))
   } catch (e) {
     console.log("ERROR", e);
-    yield put(setEntityFormErrors(undefined, {name: "Invalid"}, "create"))
+    if(e.code === "ServerMessage"){
+      yield put(setEntityFormErrors(e.formError, e.fieldErrors, "create"))
+    } else {
+      yield put(setEntityFormErrors("An unexpected error has occured", undefined, "create"))
+    }
+
   }
 }
 
@@ -145,13 +195,20 @@ function* updateEntitySaga({url, entityKey, id, values}){
     const body = yield call(preUpdateEntityHandlerMap[entityKey], values)
 
     const response = yield call(API.put, url, body);
+    if(response.errors){
+      throw {code: "ServerMessage", ...response.errors}
+    }
     const { entities, to } = yield call(postUpdateEntityHandlerMap[entityKey], body, values, id)
 
     yield put(addEntities(entities))
     yield put(push(to))
   } catch (e) {
-      console.log("ERROR", e);
-      yield put(setEntityFormErrors(undefined, {password: "Invalid"}, entityKey, id))
+    console.log("ERROR", e);
+    if(e.code === "ServerMessage"){
+      yield put(setEntityFormErrors(e.formError, e.fieldErrors, entityKey, id))
+    } else {
+      yield put(setEntityFormErrors("An unexpected error has occured", undefined, entityKey, id))
+    }
   }
 }
 
@@ -159,7 +216,6 @@ function* updateEntitySaga({url, entityKey, id, values}){
 export function* loginSaga(){
   while (true) {
     const { payload } = yield take(TYPES.LOGIN_REQUEST);
-    console.log("PAYLOAD", payload);
     try {
       const response = yield call(API.post, '/login', {email: payload.email, password: payload.password});
       if(!response.jwt) throw new Error();

@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoginPage from '../components/LoginPage';
 import OEMLandingPage from './OEMLandingPage';
-import OEMBusinessPage from '../components/OEMBusinessPage';
+import OEMBusinessPage from './OEMBusiness';
 import NewProcedurePage from './NewProcedurePage';
 import EditProcedurePage from './EditProcedurePage';
 import AdminLandingPage from '../components/AdminLandingPage';
@@ -27,15 +27,16 @@ class Routes extends React.PureComponent {
           <Redirect to="/" />
         </Switch>)
       }
-      switch (this.props.role.toLowerCase()) {
-        case "oem":
+      switch (this.props.role) {
+        case "Oem":
           return(<Switch>
             <Route exact path="/" component={OEMLandingPage} />
             <Route exact path="/business/:business_id/procedures/create" component={NewProcedurePage} />
             <Route exact path="/business/:business_id/procedures/:id/update" component={EditProcedurePage} />
             <Route exact path="/business/:id" component={OEMBusinessPage} />
+            <Redirect to="/" />
           </Switch>)
-        case "parlatyadmin":
+        case "ParlatyAdmin":
           return(<Switch>
             <Route exact path="/" component={AdminLandingPage} />
             <Route exact path="/invite/:roleable" component={InvitationForm} />
@@ -44,6 +45,7 @@ class Routes extends React.PureComponent {
             <Route exact path="/business/:business_id/procedures/create" component={NewProcedurePage} />
             <Route exact path="/business/:business_id/procedures/:id/update" component={EditProcedurePage} />
             <Route exact path="/business/:id" component={OEMBusinessPage} />
+            <Redirect to="/" />
           </Switch>)
         default:
           return <Route path="/" render={() => <div>Logged in as: {this.props.role}</div>} />

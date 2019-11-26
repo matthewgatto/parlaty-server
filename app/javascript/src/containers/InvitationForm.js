@@ -16,6 +16,7 @@ class InvitationFormContainer extends React.PureComponent {
         initialValues={{roleable: this.props.match.params.roleable}}
         header="Send User Invitation"
         handleSubmit={this.handleSubmit}
+        back={this.props.history.goBack}
       />
     )
   }

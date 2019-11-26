@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ProcedureList from '../components/ProcedureList';
 import ListLabel from '../components/ListLabel';
+import FetchError from '../components/FetchError';
+import FetchLoader from '../components/FetchLoader';
 import { fetchEntity } from '../redux/actions';
 
 class OEMBusinessProcedures extends React.PureComponent {
@@ -14,8 +16,8 @@ class OEMBusinessProcedures extends React.PureComponent {
     this.props.fetchEntity(`/oem_businesses/${this.props.id}/procedures`, "businesses", this.props.id);
   }
   renderList = () => {
-    if(this.props.error) return <div>{this.props.error}</div>
-    if(this.props.isLoading) return <div>Loading...</div>
+    if(this.props.error) return <FetchError error={this.props.error} retry={this.makeEntityRequest}/>
+    if(this.props.isLoading) return <FetchLoader />
     return <ProcedureList business_id={this.props.id} procedures={this.props.business.procedures} />
   }
   render(){
@@ -36,8 +38,10 @@ export default connect(
   ({entities, meta}, {id}) => {
     const business = entities.businesses[id],
           businessState = meta.businesses[id];
+    console.log("BUSINESS", business);
+    console.log("BUSINESS STATE", businessState);
     return({
-      shouldLoad: (!business && (!businessState || !businessState.isFetching)),
+      shouldLoad: (!business || !business.procedures && (!businessState || !businessState.isFetching)),
       error: (businessState && businessState.fetchError) ? businessState.fetchError : undefined,
       isLoading: (!business || (businessState && businessState.isFetching)),
       business

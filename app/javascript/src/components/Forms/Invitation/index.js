@@ -4,6 +4,7 @@ import FormWrapper from '../FormWrapper';
 import {Input} from '../Inputs';
 import FormSubmitButton from '../../../containers/FormSubmitButton';
 import { inviteSchema } from '../validation';
+import styles from './index.module.css';
 
 export default function(props){
   return(
@@ -17,7 +18,13 @@ export default function(props){
       >
         <Input label="Email*" type="email" name="email" />
         <Input label="Name*" type="text" name="name" />
-        <FormSubmitButton text="Submit" />
+
+        <div className={styles.buttons}>
+          <div onClick={props.back} className={styles.label}>
+            Cancel
+          </div>
+          <FormSubmitButton text="Submit" />
+        </div>
       </FormWrapper>
     </PageLayout>
   )

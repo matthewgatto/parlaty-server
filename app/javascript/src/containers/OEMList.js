@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import OEMList from '../components/OEMList';
 import ListLabel from '../components/ListLabel';
+import FetchLoader from '../components/FetchLoader';
+import FetchError from '../components/FetchError';
 import { fetchEntity } from '../redux/actions';
 
 class OEMListContainer extends React.PureComponent {
@@ -15,16 +17,18 @@ class OEMListContainer extends React.PureComponent {
     this.props.fetchEntity('/oems', "landing");
   }
   renderList = () => {
-    if(this.props.error) return(
-      <div>
-        <div>{this.props.error}</div>
-        <div>(Not implemented - here is a link to <Link to="/oem/1">OEM 1</Link>)</div>
-      </div>
-    )
-    if(this.props.isLoading) return <div>Loading...</div>
+    if(this.props.isLoading) return <FetchLoader />
     return <OEMList oems={this.props.landing.oems} />
   }
   render(){
+    if(this.props.error) return(
+        <FetchError error={
+          <div>
+            <div>{this.props.error}</div>
+            <div>(Not implemented - here is a link to <Link to="/oem/1">OEM 1</Link>)</div>
+          </div>
+        } retry={this.makeEntityRequest} />
+    )
     return(
       <>
         <ListLabel

@@ -1,6 +1,14 @@
+
 .container {
   width: 100%;
-  align-self: baseline;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+}
+
+.container > * {
+  flex-shrink: 0;
 }
 
 .header {
@@ -10,6 +18,7 @@
   padding: 0 1em;
   line-height: 4.8em;
   margin-bottom: 3em;
+
 }
 
 .link {
@@ -20,4 +29,16 @@
   font-size: 1.8em;
   color: #7b7979;
   font-weight: 500;
+}
+
+.back {
+  position: absolute;
+  top: -2.5em;
+  color: #000;
+}
+
+.loadingContent {
+  background: #eeefef;
+  border-radius: 0.4em;
+  flex-grow: 1;
 }

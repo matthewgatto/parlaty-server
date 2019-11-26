@@ -1,13 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ProcedureForm from '../components/Forms/Procedure';
+import FetchLoader from '../components/FetchLoader';
+import FetchError from '../components/FetchError';
+
 import { fetchEntity, handleEntityUpdateSubmit, clearForm } from '../redux/actions';
 
 class EditProcedurePage extends React.PureComponent {
   componentDidMount(){
-    if(!this.props.procedure || !this.props.procedure.steps){
-      this.props.fetchEntity(`/procedures/${this.props.match.params.id}`, 'procedures', this.props.match.params.id)
+    if(!this.props.procedure || !this.props.procedure.description){
+      this.makeEntityRequest();
     }
+  }
+  makeEntityRequest = () => {
+    this.props.fetchEntity(`/procedures/${this.props.match.params.id}`, 'procedures', this.props.match.params.id)
   }
   handleSubmit = values => {
     this.props.handleEntityUpdateSubmit(`/procedures/${this.props.match.params.id}`, 'procedures', this.props.match.params.id, values)
@@ -16,8 +22,8 @@ class EditProcedurePage extends React.PureComponent {
     this.props.clearForm()
   }
   render(){
-    if(this.props.procedure && this.props.procedure.meta && this.props.procedure.meta.fetchError) return <div>{this.props.procedure.meta.fetchError}</div>
-    if(!this.props.procedure) return <div>Loading</div>
+    if(this.props.procedure && this.props.procedure.meta && this.props.procedure.meta.fetchError) return <FetchError error={this.props.procedure.meta.fetchError} retry={this.makeEntityRequest} />
+    if(!this.props.procedure) return <FetchLoader />
     const { meta, ...procedure } = this.props.procedure;
     return (
       <ProcedureForm

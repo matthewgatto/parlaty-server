@@ -13,7 +13,7 @@ class NewProcedurePage extends React.PureComponent {
   render(){
     return(
       <ProcedureForm
-        initialValues={{oem_business_id: this.props.match.params.business_id, steps: []}}
+        initialValues={{oem_business_id: this.props.match.params.business_id, steps: [], author: this.props.userName}}
         header={`New Procedure For Business ${this.props.match.params.business_id}`}
         handleSubmit={this.handleSubmit}
       />
@@ -22,6 +22,6 @@ class NewProcedurePage extends React.PureComponent {
 }
 
 export default connect(
-  null,
+  ({user}) => ({userName: user.name}),
   {handleEntityCreateSubmit, clearForm}
 )(NewProcedurePage);

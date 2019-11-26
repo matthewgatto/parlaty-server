@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ResetPasswordForm from '../components/Forms/ResetPassword';
-import { handleEntityCreateSubmit, clearForm } from '../redux/actions';
+import { handleEntityUpdateSubmit, clearForm } from '../redux/actions';
 
 class ResetPasswordFormContainer extends React.PureComponent {
   handleSubmit = values => {
-    this.props.handleEntityCreateSubmit('/users/password', 'reset_password', values)
+    this.props.handleEntityUpdateSubmit('/users/password', 'reset_password', values)
   }
   componentWillUnmount(){
     this.props.clearForm()
@@ -23,5 +23,5 @@ class ResetPasswordFormContainer extends React.PureComponent {
 
 export default connect(
   null,
-  {handleEntityCreateSubmit, clearForm}
+  {handleEntityUpdateSubmit, clearForm}
 )(ResetPasswordFormContainer);

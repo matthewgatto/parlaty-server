@@ -8,7 +8,7 @@ function AddStepButton(props){
   const {values: {steps}} = useFormikContext();
   const addStep = () => {
     if(props.canAdd){
-      props.pushStep({mode: 'continuous', number: steps.length + 1, device: "Crank handle", actions: [{id: new Date().getTime(), value: ''}], skip: true, time: 8, id: new Date().getTime()})
+      props.pushStep({mode: "continuous", number: steps.length + 1, device: "Crank handle", actions: [{id: new Date().getTime(), value: ''}], skip: true, time: 8, id: new Date().getTime()})
       props.setStep({idx: steps.length})
     }
   }

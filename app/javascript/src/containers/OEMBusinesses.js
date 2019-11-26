@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import BusinessList from '../components/BusinessList';
 import ListLabel from '../components/ListLabel';
+import FetchLoader from '../components/FetchLoader';
+import FetchError from '../components/FetchError';
 import { fetchEntity } from '../redux/actions';
 
 class OEMBusinesses extends React.PureComponent {
@@ -14,11 +16,13 @@ class OEMBusinesses extends React.PureComponent {
     this.props.fetchEntity(`/oems/${this.props.id}/oem_businesses`, "oems", this.props.id);
   }
   renderList = () => {
-    if(this.props.error) return <div>{this.props.error}</div>
-    if(this.props.isLoading) return <div>Loading...</div>
+    if(this.props.isLoading) return <FetchLoader />
     return <BusinessList businesses={this.props.oem.businesses} />
   }
   render(){
+    if(this.props.error){
+      return <FetchError error={this.props.error} retry={this.makeEntityRequest}/>
+    }
     return(
       <>
         <ListLabel
