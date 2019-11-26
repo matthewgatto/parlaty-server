@@ -33,6 +33,14 @@ const API = (function(){
               body
             }
           ).then(checkStatus),
+        multiput: (url, body, token) => fetch(url, {
+              method: 'PUT',
+              headers: {
+                'Authorization': `Bearer ${token || _token}`
+              },
+              body
+            }
+          ).then(checkStatus),
         patch: (url, body) => fetch(url, {
             method: 'PATCH',
             headers: {

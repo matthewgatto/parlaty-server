@@ -35,10 +35,10 @@ export const oemSchema = object().shape({
 
 const stepSchema = object().shape({
   title: string().required('This field is required'),
-  time: number().required('This field is required'),
+  //time: number().required('This field is required'),
   location: string().required('This field is required'),
   device: string().required('This field is required'),
-  parameter: string().required('This field is required')
+  //parameter: string().required('This field is required')
 })
 
 export const procedureSchema = object().shape({

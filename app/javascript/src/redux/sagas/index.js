@@ -107,14 +107,22 @@ function objectToFormData(obj) {
     return formData;
 }
 const returnUserValues = values => ({user: values})
-function* returnFormattedProcedure({steps, ...procedure}){
-  return yield call (objectToFormData,{
+function returnFormattedProcedure({steps, ...procedure}){
+  return {
     procedure,
-    steps: steps.map(({id, number, skip, actions, image, audio, ...step}) => {
-      step.visuals =  image ? [image] : [];
+    steps: steps.map(({id, number, skip, actions, image, audio, visuals, visual, ...step}) => {
+      if(image){
+        step.visuals =  [image];
+      } else if(visual){
+        step.visual = visual;
+      } else if(visuals && visuals.length > 0) {
+        step.visuals = visuals
+      } else {
+        step.visuals = []
+      }
       return step;
     })
-  })
+  }
 }
 const preCreateEntityHandlerMap = {
   "procedures": returnFormattedProcedure,
@@ -126,10 +134,10 @@ const preCreateEntityHandlerMap = {
 const goHome = () => ({to: '/'})
 
 const postCreateEntityHandlerMap = {
-  "procedures": function*(procedure){
+  "procedures": function*(procedure, values){
     return {
-      entities: yield call(getNewEntitiesFromProcedure, procedure),
-      to: `/business/${procedure.oem_business_id}`
+      entities: yield call(getNewEntitiesFromProcedure, {id: procedure.id, name: values.name, oem_business_id: values.oem_business_id}),
+      to: `/business/${values.oem_business_id}`
     }
   },
   "invite": function(body){
@@ -150,14 +158,15 @@ const postCreateEntityHandlerMap = {
 function* createEntitySaga({url, entityKey, values}){
   try {
     const body = yield call(preCreateEntityHandlerMap[entityKey], values);
+    const formData = yield call(objectToFormData, body);
     console.log("BODY", body);
     //const response = {errors: {formError: "Invalid", fieldErrors: {name: "Invalid"}}}
-    const response = yield call(API.multipost, url, body);
+    const response = yield call(API.multipost, url, formData);
     console.log("RESPONSE", response);
     if(response.errors){
       throw {code: "ServerMessage", ...response.errors}
     }
-    const { entities, to } = yield call(postCreateEntityHandlerMap[entityKey], response)
+    const { entities, to } = yield call(postCreateEntityHandlerMap[entityKey], response, values)
     console.log("ENTITIES", entities);
     if(entities) yield put(addEntities(entities))
     if(to) yield put(push(to))
@@ -178,13 +187,13 @@ const preUpdateEntityHandlerMap = {
 }
 
 const postUpdateEntityHandlerMap = {
-  "procedures": function*(body, values){
+  "procedures": function*({steps_order, ...procedure}, values){
     return {
-      entities: yield call(getNewEntitiesFromProcedure, {...body.procedure, steps: body.steps}),
-      to: `/business/${values.oem_business_id}`
+      entities: yield call(getNewEntitiesFromProcedure, {...procedure, steps: values.steps}),
+      to: `/business/${procedure.oem_business_id}`
     }
   },
-  "oems": (body, values, id) => ({
+  "oems": (response, values, id) => ({
     entities: normalize({...values, id}, oemSchema).entities,
     to: `/oem/`+id
   })
@@ -193,13 +202,15 @@ const postUpdateEntityHandlerMap = {
 function* updateEntitySaga({url, entityKey, id, values}){
   try {
     const body = yield call(preUpdateEntityHandlerMap[entityKey], values)
-
-    const response = yield call(API.put, url, body);
+    const formData = yield call(objectToFormData, body);
+    console.log("BODY", body);
+    const response = yield call(API.multiput, url, formData);
+    console.log("RESPONSE", response);
     if(response.errors){
       throw {code: "ServerMessage", ...response.errors}
     }
-    const { entities, to } = yield call(postUpdateEntityHandlerMap[entityKey], body, values, id)
-
+    const { entities, to } = yield call(postUpdateEntityHandlerMap[entityKey], response, values, id)
+    console.log("ENTITIES", entities);
     yield put(addEntities(entities))
     yield put(push(to))
   } catch (e) {

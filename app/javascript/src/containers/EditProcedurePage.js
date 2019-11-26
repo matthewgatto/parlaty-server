@@ -8,7 +8,7 @@ import { fetchEntity, handleEntityUpdateSubmit, clearForm } from '../redux/actio
 
 class EditProcedurePage extends React.PureComponent {
   componentDidMount(){
-    if(!this.props.procedure || !this.props.procedure.description){
+    if(!this.props.sholdLoad){
       this.makeEntityRequest();
     }
   }
@@ -22,12 +22,11 @@ class EditProcedurePage extends React.PureComponent {
     this.props.clearForm()
   }
   render(){
-    if(this.props.procedure && this.props.procedure.meta && this.props.procedure.meta.fetchError) return <FetchError error={this.props.procedure.meta.fetchError} retry={this.makeEntityRequest} />
-    if(!this.props.procedure) return <FetchLoader />
-    const { meta, ...procedure } = this.props.procedure;
+    if(this.props.error) return <FetchError error={this.props.error} retry={this.makeEntityRequest} />
+    if(this.props.isLoading) return <FetchLoader />
     return (
       <ProcedureForm
-        initialValues={procedure}
+        initialValues={this.props.procedure}
         handleSubmit={this.handleSubmit}
         header={`Edit Procedure ${this.props.match.params.id}`}
       />
@@ -36,6 +35,15 @@ class EditProcedurePage extends React.PureComponent {
 }
 
 export default connect(
-  ({entities}, {match}) => ({procedure: entities.procedures[match.params.id]}),
+  ({entities, meta}, {match: {params: {id}}}) => {
+    const procedure = entities.procedures[id],
+          procedureState = meta.procedures[id];
+    return({
+      shouldLoad: !procedureState || !procedureState.isFetching,
+      error: (procedureState && procedureState.fetchError) ? procedureState.fetchError : undefined,
+      isLoading: procedureState && procedureState.isFetching/**ONCE OEM DATA IMPLEMENTED?** (!initialValues || (oemState && oemState.isFetching))*/,
+      procedure
+    })
+  },
   {handleEntityUpdateSubmit, fetchEntity, clearForm}
 )(EditProcedurePage);
