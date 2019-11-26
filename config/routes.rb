@@ -37,6 +37,9 @@ Rails.application.routes.draw do
 
   get '/oem_businesses/:id/procedures', to: 'procedures#oembusiness_prod_index'
 
+  #JDT
+  put '/procedures/:id', to: 'procedures#update'
+
   post '/login', to: 'sessions#create'
 
   post '/steps/:id/visuals', to: 'steps#add_visuals'

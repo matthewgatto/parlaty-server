@@ -77,16 +77,17 @@ class ProceduresController < ApplicationController
 		end
 	end
 
+	#JDT uncommented update code
+	 def update
 
-	# def update
-
-	# 	@procedure = Procedure.find(params[:id])
-	# 	if(@procedure.update_attributes(procedure_params))
-	# 		render json: @procedure, status: :ok
-	# 	else
-	# 		head :bad_request
-	# 	end
-	# end
+	 	@procedure = Procedure.find(params[:id])
+	 	if(@procedure.update_attributes(procedure_params))
+	 		render json: @procedure, status: :ok
+	 	else
+	 		head :bad_request
+	 	end
+	 end
+	# end uncomment
 
 	# def destroy
 	# 	@procedure = Procedure.find(params[:id])
