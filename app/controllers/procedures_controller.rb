@@ -71,9 +71,9 @@ class ProceduresController < ApplicationController
 
 		if(@procedure.save)
 			#head :ok
-			render json: { "success": @procedure.id}, status: :ok
+			render json: { "id": @procedure.id}, status: :ok
 		else
-			render json: { "id": @procedure.errors.full_messages }, status: :bad_request
+			render json: { "error": @procedure.errors.full_messages }, status: :bad_request
 		end
 	end
 
