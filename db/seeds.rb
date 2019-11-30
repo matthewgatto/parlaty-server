@@ -126,3 +126,38 @@ user = User.new(email: "oadmin@gmail.com", password: "password")
 user.confirm
 user.roleable = OperatorAdmin.first
 user.save
+
+padmin = ParlatyAdmin.create!(name: "Chet")
+
+user = User.new(email: "chet@parlaty.com", password: "password")
+user.confirm
+user.roleable = padmin
+user.save
+
+padmin = ParlatyAdmin.create!(name: "Pete")
+
+user = User.new(email: "pjo@usa.com", password: "password")
+user.confirm
+user.roleable = padmin
+user.save
+
+padmin = ParlatyAdmin.create!(name: "Tim")
+
+user = User.new(email: "tim@jmg.rocks", password: "password")
+user.confirm
+user.roleable = padmin
+user.save
+
+padmin = ParlatyAdmin.create!(name: "Will")
+
+user = User.new(email: "willwangdev@gmail.com", password: "password")
+user.confirm
+user.roleable = padmin
+user.save
+
+padmin = ParlatyAdmin.create!(name: "Rob")
+
+user = User.new(email: "rob@jmg.rocks", password: "password")
+user.confirm
+user.roleable = ParlatyAdmin.first
+user.save

@@ -47,6 +47,7 @@ class ProceduresController < ApplicationController
 		end
 
 		@steps = Step.find(@procedure.steps_order)
+		#@steps = Step.includes(:visuals).find(@procedure.steps_order)
 		#json output defined in app/views/procedures/show.json.jb
 	end
 
@@ -64,12 +65,25 @@ class ProceduresController < ApplicationController
 		count = 0
 		while count < params[:steps].count
 			step = @procedure.steps.build(step_params(count))
+			config.logger.debug "**** about to save step: step.visuals.count: " + step.visuals.count.to_s
 			step.save
+			if (step.visuals.count > 0)
+				step.has_visual = true
+				step.save
+			end
+			config.logger.debug "**** after save step: step.visuals.count: " + step.visuals.count.to_s
 			@procedure.steps_order.push(step.id)
 			count = count + 1
 		end
 
+		config.logger.debug "**** about to save procedure"
 		if(@procedure.save)
+			config.logger.debug "**** after save procedure"
+      config.logger.debug "**** @procedure.steps.count: " + @procedure.steps.count.to_s
+      @procedure.steps.map do |step|
+				config.logger.debug "**** step.visuals.count: " + step.visuals.count.to_s
+				config.logger.debug "**** step.has_visual: " + step.has_visual.to_s
+      end
 			#head :ok
 			render json: { "id": @procedure.id}, status: :ok
 		else
