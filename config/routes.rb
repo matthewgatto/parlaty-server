@@ -51,4 +51,7 @@ Rails.application.routes.draw do
   post '/save_steps', to: 'steps#save_step'
 
   post '/csv_steps', to: 'steps#csv_steps'
+
+  get '/oems', to: 'oems#index'
+
 end
