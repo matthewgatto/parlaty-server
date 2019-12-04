@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'shell#index'
   devise_for :users, controllers: { confirmations: 'users/confirmations',
-    registrations: 'users/registrations'}
+    registrations: 'users/registrations'}, defaults: { format: :json }
 
   devise_scope :user do
     post "/users/confirmation/password", to: "users/confirmations#confirmation_password"
