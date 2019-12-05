@@ -1,7 +1,7 @@
 import * as types from '../types'
 
-const initialState = {oems: {}, businesses: {}, procedures: {}, steps: {}, landing: {}};
-export default function(state = initialState, {type, entityKey, entities, id, meta}){
+const initialState = {oems: {}, businesses: {}, procedures: {}, steps: {}, landing: {}, creating: {}};
+export default function(state = initialState, {type, entityKey, entities, id, meta, values, payload}){
   switch (type) {
     case types.FETCH_ENTITY:
     case types.SET_ENTITY_META:
@@ -15,7 +15,34 @@ export default function(state = initialState, {type, entityKey, entities, id, me
           meta
         )
       }
-
+    case types.CREATE_ENTITY_REQUEST:
+      return {
+        ...state,
+        creating: {
+          ...state.creating,
+          [values.id]: {
+            isProcessing: true
+          }
+        }
+      }
+    case types.CREATE_STEP_REQUEST:
+      return {
+        ...state,
+        creating: {
+          ...state.creating,
+          [payload.id]: {
+            isProcessing: true
+          }
+        }
+      }
+    case types.CREATE_STEP_REQUEST__SUCCESS:
+      return {
+        ...state,
+        creating: {
+          ...state.creating,
+          [id]: {}
+        }
+      }
     case types.RECIEVE_ENTITIES:
       return {
         ...state,
@@ -24,7 +51,7 @@ export default function(state = initialState, {type, entityKey, entities, id, me
           [id]: ({})
         }) : ({})
       }
-    case type.LOGOUT:
+    case types.LOGOUT:
       return initialState;
     default:
       return state;

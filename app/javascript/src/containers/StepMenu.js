@@ -32,10 +32,18 @@ class StepMenuContainer extends React.Component {
       this.openMenu()
     }
   }
+  handleDeleteStep = (e) => {
+    this.closeMenu();
+    this.props.deleteStep(e)
+  }
+  handleDuplicateStep = (e) => {
+    this.closeMenu();
+    this.props.duplicateStep(e)
+  }
   setRef = (e) => {this.containerRef = e;}
   render(){
     return(
-      <StepMenu setRef={this.setRef} isOpen={this.state.isOpen} onClick={this.toggleMenu} handleDelete={this.props.deleteStep} handleDuplicate={this.props.duplicateStep} />
+      <StepMenu setRef={this.setRef} isOpen={this.state.isOpen} onClick={this.toggleMenu} handleDelete={this.handleDeleteStep} handleDuplicate={this.handleDuplicateStep} />
     )
   }
 }

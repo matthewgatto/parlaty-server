@@ -14,7 +14,7 @@ export default function(props){
     <AnimateHeight height={props.isOpen ? 'auto' : 0} duration={200}>
     <div className={styles.content}>
       <Input type="text" name={`steps.${props.idx}.title`} label="Title*" />
-      <PositionSelect label="Number*" name={`steps.${props.idx}.number`} steps={props.steps} />
+      {/*<PositionSelect label="Number*" name={`steps.${props.idx}.number`} steps={props.steps} />*/}
       <Select label="Time*" name={`steps.${props.idx}.time`} options={DURATION_OPTIONS} />
       <div className={styles.boxes}>
         <Radio label="Continuous" name={`steps.${props.idx}.mode`} value="continuous" />

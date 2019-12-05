@@ -12,8 +12,12 @@ import { procedureSchema } from '../validation';
 import styles from './index.module.css';
 
 export default function(props){
+  const entityKey = props.isEditing ? "procedures" : "creating"
+  const id = props.isEditing ? props.procedure_id : props.initialValues.id
   return(
       <FormWrapper
+        entityKey={entityKey}
+        id={id}
         formik={{
           initialValues: props.initialValues,
           validationSchema: procedureSchema,
@@ -32,17 +36,17 @@ export default function(props){
                   <Input label="Procedure Name" name="name" type='text' />
                   <Textarea label="Description" name="description" />
                 </div>
-                <AddStepButton pushStep={arrayHelpers.push} />
+                <AddStepButton procedure_id={props.procedure_id} isEditing={props.isEditing} pushStep={arrayHelpers.push} />
                 <PolygonGroup className={styles.polygonContainer} />
               </div>
               <div>
                 <div className={styles.columnTitle}>Procedure Steps</div>
-                <StepList arrayHelpers={arrayHelpers} />
+                <StepList procedure_id={props.procedure_id} reorderStep={props.reorderStep} arrayHelpers={arrayHelpers} />
               </div>
               <div>
                 <div className={styles.columnTitle}>Uploaded Imagery</div>
                 <ImageList />
-                <FormSubmitButton text="Submit" className={styles.submit} />
+                <FormSubmitButton entityKey={entityKey} id={id} text="Submit" className={styles.submit} />
               </div>
             </>
           )}

@@ -1,11 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import InvitationForm from '../components/Forms/Invitation';
-import { handleEntityCreateSubmit, clearForm } from '../redux/actions';
+import { handleEntityCreateSubmit, clearForm, setCreateMeta } from '../redux/actions';
 
 class InvitationFormContainer extends React.PureComponent {
+  initialValues = {id: new Date().getTime(), roleable: this.props.match.params.roleable}
+  componentDidMount(){
+    this.props.setCreateMeta(this.initialValues)
+  }
   handleSubmit = values => {
-    this.props.handleEntityCreateSubmit('/users', 'invite', values)
+    this.props.handleEntityCreateSubmit('/users', 'invite', values, '/')
   }
   componentWillUnmount(){
     this.props.clearForm()
@@ -13,7 +17,7 @@ class InvitationFormContainer extends React.PureComponent {
   render(){
     return(
       <InvitationForm
-        initialValues={{roleable: this.props.match.params.roleable}}
+        initialValues={this.initialValues}
         header="Send User Invitation"
         handleSubmit={this.handleSubmit}
         back={this.props.history.goBack}
@@ -24,5 +28,5 @@ class InvitationFormContainer extends React.PureComponent {
 
 export default connect(
   null,
-  {handleEntityCreateSubmit, clearForm}
+  {handleEntityCreateSubmit, clearForm, setCreateMeta}
 )(InvitationFormContainer);

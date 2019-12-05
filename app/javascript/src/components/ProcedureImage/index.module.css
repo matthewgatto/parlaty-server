@@ -2,6 +2,7 @@
   width: 49%;
   position: relative;
   display: inline-block;
+  margin-bottom: 0.6em;
 }
 
 .container:nth-child(2n) {

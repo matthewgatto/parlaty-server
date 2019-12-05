@@ -68,3 +68,7 @@
   text-overflow: ellipsis;
   line-height: 1em;
 }
+
+.error  {
+  margin-left: 0.4em;
+}

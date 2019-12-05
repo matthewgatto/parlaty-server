@@ -11,7 +11,7 @@ class StepContainer extends React.PureComponent {
   }
   render(){
     return(
-      <Step {...this.props.provided.dragHandleProps} {...this.props.provided.draggableProps} setRef={this.props.provided.innerRef} idx={this.props.idx} steps={this.props.steps} arrayHelpers={this.props.arrayHelpers} />
+      <Step id={this.props.id} {...this.props.provided.dragHandleProps} {...this.props.provided.draggableProps} setRef={this.props.provided.innerRef} idx={this.props.idx} steps={this.props.steps} arrayHelpers={this.props.arrayHelpers} />
     )
   }
 }

@@ -2,10 +2,10 @@ import React from 'react';
 import StepFields from '../../containers/StepFields';
 import StepLabel from '../../containers/StepLabel';
 
-export default function({idx, steps, arrayHelpers, ...rest}){
+export default function({idx, id, steps, arrayHelpers, ...rest}){
   return(
     <>
-      <StepLabel idx={idx} arrayHelpers={arrayHelpers} {...rest} />
+      <StepLabel id={id} idx={idx} arrayHelpers={arrayHelpers} {...rest} />
       <StepFields idx={idx} arrayHelpers={arrayHelpers} steps={steps} />
     </>
   )

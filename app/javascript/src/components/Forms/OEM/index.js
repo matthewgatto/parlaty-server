@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import FormWrapper from '../FormWrapper';
 import {Input} from '../Inputs';
-import OEMUpdateFormSubmit from '../../../containers/OEMUpdateFormSubmit';
+import FormSubmitButton from '../../../containers/FormSubmitButton';
 import { oemSchema } from '../validation';
 import styles from './index.module.css';
 
@@ -22,7 +22,7 @@ export default function(props){
         <Link to={`/oem/${props.id}`} className={styles.label}>
           Cancel
         </Link>
-        <OEMUpdateFormSubmit text="Submit" id={props.id} />
+        <FormSubmitButton entityKey="oems" id={props.id} text="Submit"  />
       </div>
 
     </FormWrapper>

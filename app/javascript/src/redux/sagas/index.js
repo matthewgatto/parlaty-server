@@ -4,10 +4,13 @@ import * as TYPES from '../types';
 import {
   addEntities,
   setEntityFetchError,
-  setEntityFormErrors
+  setEntityFormErrors,
+  addStep,
+  removeImage,
+  setImages
 } from '../actions';
 import { normalize } from 'normalizr'
-import { oemSchema, businessSchema, procedureSchema, adminLandingSchema } from '../../utils/models';
+import { oemSchema, businessSchema, procedureSchema, adminLandingSchema, stepSchema } from '../../utils/models';
 import { push } from 'connected-react-router';
 import uniq from 'lodash/uniq'
 
@@ -59,7 +62,9 @@ function* fetchEntitySaga({url, entityKey, id}){
   try {
     const response = yield call(API.get, url)
     const entities = yield call(postFetchEntityHandlerMap[entityKey], response, id);
-    yield put(addEntities(entities, entityKey, id))
+
+      yield put(addEntities(entities, entityKey, id))
+
   } catch (e) {
     console.log("ERROR", e);
     yield put(setEntityFetchError("An unexpected error has occurred.", entityKey, id))
@@ -92,9 +97,10 @@ function objectToFormData(obj) {
           if (data instanceof File) {
               formData.append(root, data);
           } else if (Array.isArray(data)) {
-              for (var i = 0; i < data.length; i++) {
-                  appendFormData(data[i], root + '[]');
-              }
+            for (var i = 0; i < data.length; i++) {
+                appendFormData(data[i], root + '[]');
+            }
+
           } else if (typeof data === 'object' && data) {
               for (var key in data) {
                   if (data.hasOwnProperty(key)) {
@@ -108,6 +114,8 @@ function objectToFormData(obj) {
           } else {
               if (data !== null && typeof data !== 'undefined') {
                   formData.append(root, data);
+              } else if (data === null) {
+                  formData.append(root, null);
               }
           }
     }
@@ -116,28 +124,34 @@ function objectToFormData(obj) {
 
     return formData;
 }
+
+function returnFormattedStep({id, shouldCreate, shouldntUpdate, number, skip, actions, image, audio, visuals, visual, ...step}){
+  if(image){
+    if(typeof image !== "string"){
+      step.visuals =  [image];
+      step.has_visual = true;
+    }
+  } else if(visual){
+    step.visual = visual;
+  } else if(visuals && visuals.length > 0) {
+    step.visuals = visuals
+  } else {
+    step.visuals = [];
+    step.has_visual = false;
+    step.visual = null;
+  }
+  return step;
+}
 const returnUserValues = values => ({user: values})
-function returnFormattedProcedure({steps, ...procedure}){
+function returnFormattedProcedure({steps, id, ...procedure}){
   return {
     procedure,
-    steps: steps.map(({id, number, skip, actions, image, audio, visuals, visual, ...step}) => {
-      if(image){
-        step.visuals =  [image];
-        step.has_visual = true;
-      } else if(visual){
-        step.visual = visual;
-      } else if(visuals && visuals.length > 0) {
-        step.visuals = visuals
-      } else {
-        step.visuals = []
-      }
-      return step;
-    })
+    steps: steps.map(returnFormattedStep)
   }
 }
 const preCreateEntityHandlerMap = {
   "procedures": returnFormattedProcedure,
-  "invite": values => ({user: {name: values.name, email: values.email}, roleable: values.roleable}),
+  "invite": values => ({user: {email: values.email}, roleable: values.roleable}),
   "forgot_password": returnUserValues,
   "invite_confirmation": returnUserValues
 }
@@ -150,15 +164,12 @@ const postCreateEntityHandlerMap = {
       entities: yield call(getNewEntitiesFromProcedure, {id: procedure.id, name: values.name, oem_business_id: values.oem_business_id}),
     }
   },
-  "invite": function(body){
-    if(body.roleable === "oem"){
-      var oemId = new Date().getTime();
+  "invite": function(response, values){
+    if(values.roleable === "oem"){
       return {
-        entities: normalize({...body.user, id: oemId}, oemSchema).entities,
-        to: `/oem/${oemId}`
+        entities: normalize({email: values.email, id: values.id}, oemSchema).entities,
       }
     }
-    return goHome()
   },
   "forgot_password": goHome,
   "invite_confirmation": goHome
@@ -175,33 +186,39 @@ function* createEntitySaga({url, entityKey, values, to}){
       throw {code: "ServerMessage", ...response.errors}
     }
     const { entities } = yield call(postCreateEntityHandlerMap[entityKey], response, values)
-    if(entities) yield put(addEntities(entities))
+    if(entities) yield put(addEntities(entities, entityKey, values.id))
     if(to) yield put(push(to))
   } catch (e) {
     console.log("ERROR", e);
     if(e.code === "ServerMessage"){
       yield put(setEntityFormErrors(e.formError, e.fieldErrors, "create"))
+    } else if(e === 500) {
+      yield put(setEntityFormErrors("An unexpected error has occured", undefined, "creating", values.id))
     } else {
-      yield put(setEntityFormErrors("An unexpected error has occured", undefined, "create"))
+      yield put(setEntityFormErrors("An unexpected error has occured", undefined, "creating", values.id))
     }
 
   }
 }
 
 const preUpdateEntityHandlerMap = {
-  "procedures": returnFormattedProcedure,
-  "oems": values => ({oem: values})
+  "procedures": (procedure) => ({procedure}),
+  "oems": values => ({oem: values}),
+  "steps": (values) => ({step: returnFormattedStep(values)})
 }
 
 const postUpdateEntityHandlerMap = {
-  "procedures": function*({steps_order, ...procedure}, values){
+  "procedures": function*({steps_order, ...procedure}){
     return {
-      entities: yield call(getNewEntitiesFromProcedure, {...procedure, steps: values.steps}),
+      entities: normalize(procedure, procedureSchema).entities
     }
   },
   "oems": (response, values, id) => ({
     entities: normalize({...values, id}, oemSchema).entities,
     to: `/oem/`+id
+  }),
+  "steps": (response, values) => ({
+    entities: normalize(values, stepSchema).entities
   })
 }
 
@@ -214,8 +231,11 @@ function* updateEntitySaga({url, entityKey, id, values, to}){
       throw {code: "ServerMessage", ...response.errors}
     }
     const { entities } = yield call(postUpdateEntityHandlerMap[entityKey], response, values, id)
-    yield put(addEntities(entities))
-    yield put(push(to))
+    yield put(addEntities(entities, entityKey, id))
+    if(to){
+      yield put(push(to))
+    }
+
   } catch (e) {
     console.log("ERROR", e);
     if(e.code === "ServerMessage"){
@@ -271,12 +291,91 @@ function* authSaga(){
     localStorage.removeItem('user');
   }
 }
+
+const getProcedures = ({entities}) => entities.procedures
+
+function* createStepSaga({payload}){
+  try {
+    const step = yield call(returnFormattedStep, payload);
+    const procedures = yield select(getProcedures);
+    const previousProcedure = procedures[payload.procedure_id];
+    const previous_step_id = previousProcedure.steps[payload.number - 2].id;
+
+    const formData = yield call(objectToFormData, {
+      step,
+      previous_step_id
+    });
+    const response = yield call(API.multipost, '/steps', formData);
+    const {visual, has_visual, image, ...newStep} = response;
+    if(visual){
+      newStep.image = visual;
+    }
+    previousProcedure.steps = [...previousProcedure.steps, newStep]
+    const entities = normalize(previousProcedure, procedureSchema).entities
+    yield put(addStep(entities, payload.id))
+
+  } catch (e) {
+      console.log("ERROR", e);
+  }
+
+}
+const getSteps = ({entities}) => entities.steps
+function* deleteStepSaga({id, idx}){
+  try {
+    yield put(removeImage(id))
+    const steps = yield select(getSteps);
+    if(steps[id]){
+      yield put({type: TYPES.DELETE_STEP_REQUEST__SUCCESS, payload: {id, idx, procedure_id: steps[id].procedure_id}})
+      yield fork(API.delete, `/steps/${id}`)
+    }
+
+  } catch (e) {
+      console.log("ERROR", e);
+  }
+
+}
+const getImages = ({form}) => form.images
+function* reorderStepSaga({id, hasImage, stepOrder}){
+  try {
+    if(hasImage){
+      const images = yield select(getImages)
+      const steps = yield select(getSteps);
+      const newImages = [];
+      for (var i = 0; i < stepOrder.length; i++) {
+        const idx = images.findIndex(a => a.id === stepOrder[i]);
+        if(idx >= 0){
+          newImages.push({...images[idx], number: i + 1})
+        }
+      }
+      yield put(setImages(newImages))
+    }
+
+    if(id){
+        var steps_order = stepOrder[0]+"";
+        for (var i = 1; i < stepOrder.length; i++) {
+          steps_order += `, ${stepOrder[i]}`
+        }
+        const formData = yield call(objectToFormData, {procedure: {steps_order}});
+        const response = yield call(API.multiput, `/procedures/${id}/reorder`, formData);
+        yield put(addEntities({procedures: {[id]: {steps: stepOrder}}}, "procedures", id));
+
+    }
+
+  } catch (e) {
+      console.log("ERROR", e);
+  }
+
+}
+
 export default function* appSagas(){
   yield all([
 
     yield takeEvery(TYPES.FETCH_ENTITY, fetchEntitySaga),
     yield takeEvery(TYPES.CREATE_ENTITY_REQUEST, createEntitySaga),
     yield takeEvery(TYPES.UPDATE_ENTITY_REQUEST, updateEntitySaga),
+    yield takeEvery(TYPES.CREATE_STEP_REQUEST, createStepSaga),
+    yield takeEvery(TYPES.DELETE_STEP_REQUEST, deleteStepSaga),
+    yield takeEvery(TYPES.REORDER_STEP_REQUEST, reorderStepSaga),
     yield authSaga(),
   ])
 }

@@ -17,7 +17,7 @@ export const loginSchema = object().shape({
 
 export const inviteSchema = object().shape({
   email: string().email('Invalid email').required('This field is required'),
-  name: string().required('This field is required'),
+  //name: string().required('This field is required'),
   roleable: string().required('This field is required')
 })
 

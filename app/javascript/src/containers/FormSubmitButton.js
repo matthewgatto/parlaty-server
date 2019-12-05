@@ -16,11 +16,10 @@ function FormSubmitButton(props){
 
 export default connect(
   ({meta, form}, {id, entityKey}) => {
-
     const formState = (id && entityKey) ? meta[entityKey][id] : form.meta
     return({
       fieldErrors: (formState && formState.fieldErrors) ? formState.fieldErrors : {},
-      isProcessing: formState.isProcessing
+      isProcessing: formState ? formState.isProcessing : false
     })
   },
 )(FormSubmitButton)

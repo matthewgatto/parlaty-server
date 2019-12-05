@@ -10,6 +10,8 @@ export default function(props){
   return(
     <PageLayout header={props.header}>
       <FormWrapper
+        entityKey="creating"
+        id={props.initialValues.id}
         formik={{
           initialValues: props.initialValues,
           validationSchema: inviteSchema,
@@ -17,13 +19,13 @@ export default function(props){
         }}
       >
         <Input label="Email*" type="email" name="email" />
-        <Input label="Name*" type="text" name="name" />
+        {/*<Input label="Name*" type="text" name="name" />*/}
 
         <div className={styles.buttons}>
           <div onClick={props.back} className={styles.label}>
             Cancel
           </div>
-          <FormSubmitButton text="Submit" />
+          <FormSubmitButton entityKey="creating" text="Submit" id={props.initialValues.id} />
         </div>
       </FormWrapper>
     </PageLayout>

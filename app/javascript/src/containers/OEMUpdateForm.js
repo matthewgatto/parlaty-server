@@ -13,7 +13,7 @@ class OEMUpdateFormContainer extends React.PureComponent {
     this.props.fetchEntity(`/oems/${this.props.id}`, "oems", this.props.id)
   }
   handleSubmit = values => {
-    this.props.handleEntityUpdateSubmit(`/oems/${this.props.id}`, 'oems', this.props.id, values)
+    this.props.handleEntityUpdateSubmit(`/oems/${this.props.id}`, 'oems', this.props.id, values, `/oem/${this.props.id}`)
   }
   render(){
     if(this.props.isLoading) return <div>Loading...</div>
