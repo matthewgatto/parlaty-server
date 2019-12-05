@@ -6,7 +6,9 @@ const initialState = {oems: {}, businesses: {}, procedures: {}, steps: {}, landi
 export default function(state = initialState, {type, entityKey, entities, id, meta}){
   switch (type) {
     case types.RECIEVE_ENTITIES:
-      return merge({}, state, entities)
+      return merge({}, state, entities);
+    case type.LOGOUT:
+      return initialState;
     default:
       return state;
   }

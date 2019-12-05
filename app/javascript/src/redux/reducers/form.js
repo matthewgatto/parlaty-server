@@ -34,10 +34,16 @@ export default function(state = initialState, { type, payload, meta }){
         images: [...state.images, payload]
       }
     case types.REMOVE_IMAGE:
+      console.log(type, payload);
       const idx = state.images.findIndex(x => x.id === payload);
       return {
         ...state,
         images: [...state.images.slice(0, idx),...state.images.slice(idx + 1)]
+      }
+    case types.SET_IMAGES:
+      return {
+        ...state,
+        images: payload
       }
     case types.CREATE_ENTITY_REQUEST:
     case types.UPDATE_ENTITY_REQUEST:
@@ -58,6 +64,7 @@ export default function(state = initialState, { type, payload, meta }){
         ...state,
         meta
       }
+    case type.LOGOUT:
     case types.CLEAR_FORM:
       return initialState;
     default:

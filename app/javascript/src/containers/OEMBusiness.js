@@ -16,7 +16,6 @@ class OEMBusinessPage extends React.PureComponent {
     this.props.fetchEntity(`/oem_businesses/${this.props.match.params.id}`, "businesses", this.props.match.params.id);
   }
   render(){
-    console.log("BUSINESS PROPS", this.props);
     if(this.props.error) return <FetchError error={this.props.error} retry={this.makeEntityRequest}/>
     return(
       <PageLayout

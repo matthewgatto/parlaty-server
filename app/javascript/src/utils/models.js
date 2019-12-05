@@ -12,7 +12,3 @@ export const businessSchema = new schema.Entity("businesses", {
 export const oemSchema = new schema.Entity("oems", {
   businesses: [businessSchema]
 });
-
-export const adminLandingSchema = new schema.Entity("landing", {
-  oems: [oemSchema]
-});

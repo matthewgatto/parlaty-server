@@ -10,6 +10,7 @@ export const SET_IMAGE = "SET_IMAGE";
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
 export const SET_FORM_ERRORS = "SET_FORM_ERRORS";
 export const CLEAR_FORM = "CLEAR_FORM";
+export const SET_IMAGES = "SET_IMAGES";
 
 //meta
 export const SET_ENTITY_META = "SET_ENTITY_META";

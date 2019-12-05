@@ -1,0 +1,22 @@
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.polygon {
+  position: relative;
+  font-size: 0.6em;
+  width: 7.5em !important;
+  height: 5.8em !important;
+}
+
+.text {
+  font-size: 1.4em;
+  color: #7b7979;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-left: 0.4em;
+}

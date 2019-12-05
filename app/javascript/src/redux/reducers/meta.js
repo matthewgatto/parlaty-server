@@ -24,6 +24,8 @@ export default function(state = initialState, {type, entityKey, entities, id, me
           [id]: ({})
         }) : ({})
       }
+    case type.LOGOUT:
+      return initialState;
     default:
       return state;
   }

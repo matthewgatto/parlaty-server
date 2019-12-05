@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useFormikContext} from 'formik';
 import StepSaveButton from '../components/StepSaveButton';
-import { setStep, setImage } from '../redux/actions';
+import { setStep, setImage, removeImage } from '../redux/actions';
 
-function StepSaveButtonContainer({idx, setStep, setImage, move, step, addImage}){
+function StepSaveButtonContainer({idx, setStep, setImage, move, step, addImage, removeImage}){
   const {values: {steps}, validateForm} = useFormikContext();
   const onClick = async () => {
     let errors = await validateForm({steps, name: 'valid_string', description: 'valid_string'});
@@ -12,16 +12,24 @@ function StepSaveButtonContainer({idx, setStep, setImage, move, step, addImage})
       setStep(null)
       const newStep = steps[idx]
       var newIdx = newStep.number - 1;
-
       if(idx != newIdx){
         move(idx, newIdx)
       }
-      if(newStep.image && (!step.initialValues || newStep.image != step.initialValues.image)){
-        var reader = new FileReader();
-        reader.onload = (e) => {
-          setImage({id: newStep.id, number: newStep.number, src: e.target.result})
+      if((newStep.image && (!step.initialValues || !step.initialValues.image)) || !newStep.image != step.initialValues.image){
+        if(newStep.image){
+          if(typeof newStep.image === "string"){
+            setImage({id: newStep.id, number: newStep.number, src: newStep.image})
+          } else {
+            var reader = new FileReader();
+            reader.onload = (e) => {
+              setImage({id: newStep.id, number: newStep.number, src: e.target.result})
+            }
+            reader.readAsDataURL(newStep.image)
+          }
+
+        } else {
+          removeImage(newStep.id)
         }
-        reader.readAsDataURL(newStep.image)
       }
     }
   }
@@ -32,5 +40,5 @@ function StepSaveButtonContainer({idx, setStep, setImage, move, step, addImage})
 
 export default connect(
   ({form}) => ({step: form.step}),
-  {setStep, setImage}
+  {setStep, setImage, removeImage}
 )(StepSaveButtonContainer)

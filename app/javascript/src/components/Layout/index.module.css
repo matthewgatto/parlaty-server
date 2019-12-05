@@ -44,6 +44,7 @@
   text-decoration: none;
   color: #7b7979;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .link:hover {

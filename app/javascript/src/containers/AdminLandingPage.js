@@ -15,6 +15,6 @@ class AdminLandingPageContainer extends React.PureComponent {
 }
 
 export default connect(
-  ({entities, meta}) => ({oems: entities.landing.oems, meta: meta.landing}),
+  ({entities, meta}) => ({oems: entities.landing, meta: meta.landing}),
   {fetchEntity}
 )(AdminLandingPageContainer)

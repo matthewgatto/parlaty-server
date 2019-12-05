@@ -3,9 +3,9 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoginPage from '../components/LoginPage';
 import OEMLandingPage from './OEMLandingPage';
-import OEMBusinessPage from './OEMBusiness';
-import NewProcedurePage from './NewProcedurePage';
-import EditProcedurePage from './EditProcedurePage';
+import OEMBusinessPage from '../components/OEMBusinessPage';
+import CreateProcedurePage from '../components/CreateProcedurePage';
+import EditProcedurePage from '../components/EditProcedurePage';
 import AdminLandingPage from '../components/AdminLandingPage';
 import OEMPage from '../components/OEMPage';
 import OEMUpdatePage from '../components/OEMUpdatePage';
@@ -31,7 +31,7 @@ class Routes extends React.PureComponent {
         case "Oem":
           return(<Switch>
             <Route exact path="/" component={OEMLandingPage} />
-            <Route exact path="/business/:business_id/procedures/create" component={NewProcedurePage} />
+            <Route exact path="/business/:business_id/procedures/create" component={CreateProcedurePage} />
             <Route exact path="/business/:business_id/procedures/:id/update" component={EditProcedurePage} />
             <Route exact path="/business/:id" component={OEMBusinessPage} />
             <Redirect to="/" />
@@ -40,11 +40,11 @@ class Routes extends React.PureComponent {
           return(<Switch>
             <Route exact path="/" component={AdminLandingPage} />
             <Route exact path="/invite/:roleable" component={InvitationForm} />
+            <Route exact path="/oem/:oem_id/business/:business_id/procedures/create" component={CreateProcedurePage} />
+            <Route exact path="/oem/:oem_id/business/:business_id/procedures/:id/update" component={EditProcedurePage} />
+            <Route exact path="/oem/:oem_id/business/:id" component={OEMBusinessPage} />
             <Route exact path="/oem/:id/update" component={OEMUpdatePage} />
             <Route exact path="/oem/:id" component={OEMPage} />
-            <Route exact path="/business/:business_id/procedures/create" component={NewProcedurePage} />
-            <Route exact path="/business/:business_id/procedures/:id/update" component={EditProcedurePage} />
-            <Route exact path="/business/:id" component={OEMBusinessPage} />
             <Redirect to="/" />
           </Switch>)
         default:

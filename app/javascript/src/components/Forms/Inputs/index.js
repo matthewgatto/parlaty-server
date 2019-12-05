@@ -108,7 +108,9 @@ class FileInputComponent extends React.PureComponent {
     }
   }
   render(){
+    console.log("FILE INPUT PROPS", this.props);
     const { value } = this.props.field;
+    console.log("FILE VALUE", value);
     var inputText = "Upload"
     if(value){
       inputText = value.name ? value.name : "File";
@@ -135,7 +137,7 @@ export function FileInput({label, name}){
     <FastField name={name}>
       {({field, meta, form}) => (
         <Field name={name} meta={meta}>
-          <FileInputComponent setFieldValue={form.setFieldValue} name={name} field={field} label={label} />
+          <FileInputComponent setFieldValue={form.setFieldValue} name={name} field={field} meta={meta} form={form} label={label} />
         </Field>
       )}
     </FastField>

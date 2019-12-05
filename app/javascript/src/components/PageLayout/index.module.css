@@ -16,13 +16,25 @@
   border-radius: 0.4em;
   height: 4.8em;
   padding: 0 1em;
-  line-height: 4.8em;
   margin-bottom: 3em;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .link {
   float: right;
+  background: #67328d;
+  color: #fff;
+  cursor: pointer;
+  height: 2.5em;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3em;
+  text-decoration: none;
+  padding: 0 0.6em;
 }
 
 .title {
@@ -34,7 +46,24 @@
 .back {
   position: absolute;
   top: -2.5em;
-  color: #000;
+  color: #7b7979;
+  text-decoration: none;
+  font-size: 1.1em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.triangle {
+  transform: rotate(90deg);
+  width: 0.6em;
+  margin-right: 0.2em;
+  position: relative;
+  margin-right: 0.2em;
+  top: -0.08em;
+}
+
+.triangle > polygon {
+  fill: #7b7979;
 }
 
 .loadingContent {

@@ -1,8 +1,12 @@
 import React from 'react';
+import PolygonGroup from '../SVG/PolygonGroup';
 import styles from './index.module.css';
 
-export default function(){
+export default function(props){
   return(
-    <div>Loading...</div>
+    <div className={styles.container}>
+    <PolygonGroup className={styles.polygon} />
+    <div className={styles.text}>Loading{props.text && ` ${props.text}`}...</div>
+    </div>
   )
 }

@@ -4,8 +4,11 @@
 }
 
 .text {
-  font-weight: 500;
-  font-size: 1.6em;
+  color: #ac91bd;
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  margin-bottom: 1em;
 }
 .icon {
   width: 1.8em;

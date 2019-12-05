@@ -27,21 +27,31 @@ const postFetchEntityHandlerMap = {
     response.oem_business_id = id;
     return normalize(response, businessSchema).entities
   },
-  "procedures": function*(response){
-    if(response.step){
-      yield call(renameParam, response, 'step', 'steps')
-      response.steps.map(({visual, ...step}) => {
-        if(visual) step.image = visual;
-        return step;
-      })
+  "procedures": function*({procedure_id, steps, ...procedure}){
+    const stepArray = []
+    if(steps && steps.length){
+      for (var i = 0; i < steps.length; i++) {
+        const { visual, ...step } = steps[i];
+        if(visual){
+          stepArray.push({...step, image: visual})
+        } else {
+          stepArray.push(step)
+        }
+      }
+
     }
-    if(response.procedure_id){
-      yield call(renameParam, response, 'procedure_id', 'id')
-    }
-    return normalize(response, procedureSchema).entities
+    return normalize({
+      ...procedure,
+      id: procedure_id,
+      steps: stepArray
+    }, procedureSchema).entities
   },
   "landing": function*(response){
-    return normalize(response, adminLandingSchema).entities;
+    const {entities, result} = normalize(response, [oemSchema]);
+    return {
+      oems: entities.oems,
+      landing: {oem_list: result}
+    }
   },
 }
 
@@ -113,6 +123,7 @@ function returnFormattedProcedure({steps, ...procedure}){
     steps: steps.map(({id, number, skip, actions, image, audio, visuals, visual, ...step}) => {
       if(image){
         step.visuals =  [image];
+        step.has_visual = true;
       } else if(visual){
         step.visual = visual;
       } else if(visuals && visuals.length > 0) {
@@ -137,7 +148,6 @@ const postCreateEntityHandlerMap = {
   "procedures": function*(procedure, values){
     return {
       entities: yield call(getNewEntitiesFromProcedure, {id: procedure.id, name: values.name, oem_business_id: values.oem_business_id}),
-      to: `/business/${values.oem_business_id}`
     }
   },
   "invite": function(body){
@@ -155,19 +165,16 @@ const postCreateEntityHandlerMap = {
 }
 
 
-function* createEntitySaga({url, entityKey, values}){
+function* createEntitySaga({url, entityKey, values, to}){
   try {
     const body = yield call(preCreateEntityHandlerMap[entityKey], values);
     const formData = yield call(objectToFormData, body);
-    console.log("BODY", body);
     //const response = {errors: {formError: "Invalid", fieldErrors: {name: "Invalid"}}}
     const response = yield call(API.multipost, url, formData);
-    console.log("RESPONSE", response);
     if(response.errors){
       throw {code: "ServerMessage", ...response.errors}
     }
-    const { entities, to } = yield call(postCreateEntityHandlerMap[entityKey], response, values)
-    console.log("ENTITIES", entities);
+    const { entities } = yield call(postCreateEntityHandlerMap[entityKey], response, values)
     if(entities) yield put(addEntities(entities))
     if(to) yield put(push(to))
   } catch (e) {
@@ -190,7 +197,6 @@ const postUpdateEntityHandlerMap = {
   "procedures": function*({steps_order, ...procedure}, values){
     return {
       entities: yield call(getNewEntitiesFromProcedure, {...procedure, steps: values.steps}),
-      to: `/business/${procedure.oem_business_id}`
     }
   },
   "oems": (response, values, id) => ({
@@ -199,18 +205,15 @@ const postUpdateEntityHandlerMap = {
   })
 }
 
-function* updateEntitySaga({url, entityKey, id, values}){
+function* updateEntitySaga({url, entityKey, id, values, to}){
   try {
     const body = yield call(preUpdateEntityHandlerMap[entityKey], values)
     const formData = yield call(objectToFormData, body);
-    console.log("BODY", body);
     const response = yield call(API.multiput, url, formData);
-    console.log("RESPONSE", response);
     if(response.errors){
       throw {code: "ServerMessage", ...response.errors}
     }
-    const { entities, to } = yield call(postUpdateEntityHandlerMap[entityKey], response, values, id)
-    console.log("ENTITIES", entities);
+    const { entities } = yield call(postUpdateEntityHandlerMap[entityKey], response, values, id)
     yield put(addEntities(entities))
     yield put(push(to))
   } catch (e) {
@@ -225,41 +228,47 @@ function* updateEntitySaga({url, entityKey, id, values}){
 
 
 export function* loginSaga(){
-  while (true) {
+  try {
     const { payload } = yield take(TYPES.LOGIN_REQUEST);
-    try {
-      const response = yield call(API.post, '/login', {email: payload.email, password: payload.password});
-      if(!response.jwt) throw new Error();
-      yield put({type: TYPES.LOGIN_REQUEST__SUCCESS, payload: response})
-      return response.jwt
-    } catch (e) {
-      if(e == 401){
-        yield put({type: TYPES.LOGIN_REQUEST__FAILURE, payload: "Invalid login credentials" })
-      } else {
-        yield put({type: TYPES.LOGIN_REQUEST__FAILURE, payload: "An unexpected error has occurred" })
-      }
+    const response = yield call(API.post, '/login', {email: payload.email, password: payload.password});
+    if(!response.jwt) throw new Error();
+    localStorage.setItem('user', JSON.stringify(response));
+    return response
+  } catch (e) {
+    if(e == 401){
+      yield put({type: TYPES.LOGIN_REQUEST__FAILURE, payload: "Invalid login credentials" })
+    } else {
+      yield put({type: TYPES.LOGIN_REQUEST__FAILURE, payload: "An unexpected error has occurred" })
     }
+    return
   }
+}
+function* getUserFromStorage(){
+  const userFromStorage = localStorage.getItem('user');
+  var user;
+  if(userFromStorage){
+    user = JSON.parse(userFromStorage)
+  }
+  return user
 }
 
 function* authSaga(){
   try {
-    var token = undefined;// = yield call(getAuthFromStorage) // read and validate auth data from localstorage if found
+    var user = yield call(getUserFromStorage) // read and validate auth data from localstorage if found
     while (true) {
-      while (!token) {
-        token = yield call(loginSaga);
+      while (!user) {
+        user = yield call(loginSaga);
       }
-
-      API.setToken(token);
-      localStorage.setItem('token', token);
-
+      API.setToken(user.jwt);
+      yield put({type: TYPES.LOGIN_REQUEST__SUCCESS, payload: user})
       yield take(TYPES.LOGOUT);
-      //API.removeToken();
-      localStorage.removeItem('token');
-      token = undefined;
+      API.setToken(null);
+      localStorage.removeItem('user');
+      user = undefined;
     }
   } catch (e) {
-    localStorage.removeItem('auth');
+    console.log("ERROR", e);
+    localStorage.removeItem('user');
   }
 }
 export default function* appSagas(){
