@@ -26,7 +26,18 @@ class EditProcedureForm extends React.PureComponent {
         visuals.push({id: this.props.procedure.steps[i].id, src: this.props.procedure.steps[i].image})
       }
     }
-    if(visuals.length > 0) this.props.setImages(visuals)
+    if(visuals.length > 0){
+      var count = 0;
+      for (var i = 0; i < visuals.length; i++) {
+        const img = new Image();
+        img.src = visuals[i].src;
+        img.onload = () => {
+          if(++count >= visuals.length){
+            this.props.setImages(visuals)
+          }
+        }
+      }
+    }
   }
   makeEntityRequest = () => {
     this.props.fetchEntity(`/procedures/${this.props.id}`, 'procedures', this.props.id)
