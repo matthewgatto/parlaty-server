@@ -63,7 +63,8 @@ class ProceduresController < ApplicationController
 		@procedure = Procedure.new(procedure_params)
 
 		count = 0
-		while count < params[:steps].count
+		#params[:steps]?.count
+		while params[:steps] && count < params[:steps].count
 			step = @procedure.steps.build(step_params(count))
 			config.logger.debug "**** about to save step: step.visuals.count: " + step.visuals.count.to_s
 			step.save

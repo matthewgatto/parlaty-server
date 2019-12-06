@@ -299,7 +299,7 @@ function* createStepSaga({payload}){
     const step = yield call(returnFormattedStep, payload);
     const procedures = yield select(getProcedures);
     const previousProcedure = procedures[payload.procedure_id];
-    const previous_step_id = previousProcedure.steps[payload.number - 2].id;
+    const previous_step_id = (payload.number - 2 >= 0) ? previousProcedure.steps[payload.number - 2].id : 0;
 
     const formData = yield call(objectToFormData, {
       step,
