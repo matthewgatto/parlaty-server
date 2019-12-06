@@ -44,13 +44,6 @@ export default function(state = initialState, { type, payload, meta }){
         ...state,
         images: payload
       }
-    case types.CREATE_ENTITY_REQUEST:
-      return {
-        ...state,
-        meta: {
-          isProcessing: true
-        }
-      }
     case types.SET_FORM_ERRORS:
       return {
         ...state,

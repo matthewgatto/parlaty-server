@@ -25,24 +25,6 @@ export default function(state = initialState, {type, entityKey, entities, id, me
           }
         }
       }
-    case types.CREATE_STEP_REQUEST:
-      return {
-        ...state,
-        creating: {
-          ...state.creating,
-          [payload.step.id]: {
-            isProcessing: true
-          }
-        }
-      }
-    case types.CREATE_STEP_REQUEST__SUCCESS:
-      return {
-        ...state,
-        creating: {
-          ...state.creating,
-          [id]: {}
-        }
-      }
     case types.RECIEVE_ENTITIES:
       var entityMap;
       if(entityKey == "creating"){

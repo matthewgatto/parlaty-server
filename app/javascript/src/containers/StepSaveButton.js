@@ -86,7 +86,7 @@ class StepSaveButtonContainer extends React.PureComponent {
       if(getUpdatedProperties(newStep, initialValues)){
         var newIdx = newStep.number != idx + 1 ? newStep.number - 1 : idx;
         if(newStep.shouldCreate){
-          this.createStep(nexIdx)
+          this.createStep(newIdx)
         } else if(!newStep.shouldntUpdate){
           handleEntityUpdateSubmit(`/steps/${newStep.id}`, 'steps', newStep.id, newStep)
         } else {

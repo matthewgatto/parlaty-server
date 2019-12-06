@@ -5,7 +5,6 @@ import * as types from '../types'
 const initialState = {oems: {}, businesses: {}, procedures: {}, steps: {}, landing: {}};
 export default function(state = initialState, {type, entityKey, entities, id, meta, payload}){
   switch (type) {
-    case types.CREATE_STEP_REQUEST__SUCCESS:
     case types.RECIEVE_ENTITIES:
       return merge({}, state, entities);
     case types.DELETE_STEP_REQUEST__SUCCESS:
