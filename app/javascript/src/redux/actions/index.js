@@ -19,8 +19,8 @@ export const createStep = (step) => ({type: types.CREATE_STEP_REQUEST, payload: 
 export const setEntityFetchError = (fetchError, entityKey, id) => ({type: types.SET_ENTITY_META, entityKey, id, meta: {fetchError}})
 export const setEntityFormErrors = (formError, fieldErrors, entityKey, id) => ({type: types.SET_ENTITY_META, entityKey, id, meta: {formError, fieldErrors, isProcessing: false}})
 export const handleEntityUpdateSubmit = (url, entityKey, id, values, to) => ({type: types.UPDATE_ENTITY_REQUEST, url, entityKey, id, values, to, meta: {isProcessing: true}});
-export const handleEntityCreateSubmit = (url, entityKey, values, to) => ({type: types.CREATE_ENTITY_REQUEST, url, entityKey, values, to});
-export const setCreateMeta = (entity) => ({type: types.SET_ENTITY_META, id: entity.id, entityKey: "create", meta: {initialValues: entity}})
+export const handleEntityCreateSubmit = (url, entityKey, values, id, to) => ({type: types.CREATE_ENTITY_REQUEST, url, entityKey, id, values, to});
+export const setCreateMeta = (entity) => ({type: types.SET_ENTITY_META, id: entity.id, entityKey: "creating", meta: {initialValues: entity}})
 
 //user
 export const handleLoginSubmit = values => ({type: types.LOGIN_REQUEST, payload: values});

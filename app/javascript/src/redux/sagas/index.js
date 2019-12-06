@@ -1,4 +1,4 @@
-import { take, call, put, takeEvery, fork, cancel, all, select } from 'redux-saga/effects';
+import { take, call, put, takeEvery, fork, all, select } from 'redux-saga/effects';
 import API from '../../utils/API';
 import * as TYPES from '../types';
 import {
@@ -10,74 +10,16 @@ import {
   setImages
 } from '../actions';
 import { normalize } from 'normalizr'
-import { oemSchema, businessSchema, procedureSchema, adminLandingSchema, stepSchema } from '../../utils/models';
+import Schemas from '../../utils/models';
 import { push } from 'connected-react-router';
 import uniq from 'lodash/uniq'
-
-
-function renameParam(object, originalParam, newParam){
-  Object.defineProperty(object, newParam,
-    Object.getOwnPropertyDescriptor(object, originalParam));
-  delete object[originalParam];
-}
-
-const postFetchEntityHandlerMap = {
-  "oems": function*(response, id){
-    response.id = id;
-    return normalize({id, businesses: response.oem_businesses}, oemSchema).entities
-  },
-  "businesses": function*(response, id){
-    response.oem_business_id = id;
-    return normalize(response, businessSchema).entities
-  },
-  "procedures": function*({procedure_id, steps, ...procedure}){
-    const stepArray = []
-    if(steps && steps.length){
-      for (var i = 0; i < steps.length; i++) {
-        const { visual, ...step } = steps[i];
-        if(visual){
-          stepArray.push({...step, image: visual})
-        } else {
-          stepArray.push(step)
-        }
-      }
-
-    }
-    return normalize({
-      ...procedure,
-      id: procedure_id,
-      steps: stepArray
-    }, procedureSchema).entities
-  },
-  "landing": function*(response){
-    const {entities, result} = normalize(response, [oemSchema]);
-    return {
-      oems: entities.oems,
-      landing: {oem_list: result}
-    }
-  },
-}
-
-function* fetchEntitySaga({url, entityKey, id}){
-  try {
-    const response = yield call(API.get, url)
-    const entities = yield call(postFetchEntityHandlerMap[entityKey], response, id);
-
-      yield put(addEntities(entities, entityKey, id))
-
-  } catch (e) {
-    console.log("ERROR", e);
-    yield put(setEntityFetchError("An unexpected error has occurred.", entityKey, id))
-  }
-
-}
 
 const getEntityMap = ({entities}) => entities
 
 function* getNewEntitiesFromProcedure(body){
   const entityMap = yield select(getEntityMap);
   const business = entityMap.businesses[body.oem_business_id]
-  const data = normalize(body, procedureSchema)
+  const data = normalize(body, Schemas.procedure)
   return {
     businesses: {
       [body.oem_business_id]: business ? (
@@ -100,7 +42,6 @@ function objectToFormData(obj) {
             for (var i = 0; i < data.length; i++) {
                 appendFormData(data[i], root + '[]');
             }
-
           } else if (typeof data === 'object' && data) {
               for (var key in data) {
                   if (data.hasOwnProperty(key)) {
@@ -149,44 +90,190 @@ function returnFormattedProcedure({steps, id, ...procedure}){
     steps: steps.map(returnFormattedStep)
   }
 }
-const preCreateEntityHandlerMap = {
-  "procedures": returnFormattedProcedure,
-  "invite": values => ({user: {email: values.email}, roleable: values.roleable}),
-  "forgot_password": returnUserValues,
-  "invite_confirmation": returnUserValues
-}
 
 const goHome = () => ({to: '/'})
 
-const postCreateEntityHandlerMap = {
-  "procedures": function*(procedure, values){
-    return {
-      entities: yield call(getNewEntitiesFromProcedure, {id: procedure.id, name: values.name, oem_business_id: values.oem_business_id}),
-    }
-  },
-  "invite": function(response, values){
-    if(values.roleable === "oem"){
-      return {
-        entities: normalize({email: values.email, id: values.id}, oemSchema).entities,
+const fetchOemHandlers = {
+  "post": function*(response, id){
+    response.id = id;
+    return normalize({id, businesses: response.oem_businesses}, Schemas.oem).entities
+  }
+}
+const fetchBusinessHandlers = {
+  "post": function*(response, id){
+    response.oem_business_id = id;
+    return normalize(response, Schemas.business).entities
+  }
+}
+const fetchProcedureHandlers = {
+  "post": function*({procedure_id, steps, ...procedure}){
+    const stepArray = []
+    if(steps && steps.length){
+      for (var i = 0; i < steps.length; i++) {
+        const { visual, ...step } = steps[i];
+        if(visual){
+          stepArray.push({...step, number: i+1, image: visual})
+        } else {
+          step.number = i+1;
+          stepArray.push(step)
+        }
       }
+
     }
-  },
-  "forgot_password": goHome,
-  "invite_confirmation": goHome
+    return normalize({
+      ...procedure,
+      id: procedure_id,
+      steps: stepArray
+    }, Schemas.procedure).entities
+  }
+}
+const fetchLandingHandlers = {
+  "post": function*(response){
+    const {entities, result} = normalize(response, [Schemas.oem]);
+    return {
+      oems: entities.oems,
+      landing: {oem_list: result}
+    }
+  }
 }
 
 
-function* createEntitySaga({url, entityKey, values, to}){
+const updateStepHandlers = {
+  "pre": (values) => ({step: returnFormattedStep(values)}),
+  "post": (response, values) => ({
+    entities: normalize(values, Schemas.step).entities
+  })
+}
+const updateOemHandlers = {
+  "pre": values => ({oem: values}),
+  "post": (response, values, id) => ({
+    entities: normalize({...values, id}, Schemas.oem).entities,
+    to: `/oem/`+id
+  }),
+}
+const updateProcedureHandlers = {
+  "pre": (procedure) => ({procedure}),
+  "post": function*({steps_order, ...procedure}){
+    return {
+      entities: normalize(procedure, Schemas.procedure).entities
+    }
+  },
+}
+
+const createStepHandlers = {
+  "pre": function({step, previous_step_id}){
+    return {
+      step: returnFormattedStep(step),
+      previous_step_id
+    }
+  },
+  "post": function*({visual, has_visual, image, ...newStep}, values){
+    if(visual){
+      newStep.image = visual;
+    }
+    const procedures = yield select(getProcedures);
+    const previousProcedure = procedures[values.step.procedure_id];
+    previousProcedure.steps = [...previousProcedure.steps, newStep];
+    return {
+      entities: normalize(previousProcedure, Schemas.procedure).entities
+    }
+  }
+}
+const createProcedureHandlers = {
+  "pre": returnFormattedProcedure,
+  "post": function*(procedure, values){
+    return {
+      entities: yield call(getNewEntitiesFromProcedure, {id: procedure.id, name: values.name, oem_business_id: values.oem_business_id}),
+    }
+  }
+}
+const createInviteHandlers = {
+  "pre": values => ({user: {email: values.email}, roleable: values.roleable}),
+  "post": function(response, values){
+    if(values.roleable === "oem"){
+      return {
+        entities: normalize({email: values.email, id: values.id}, Schemas.oem).entities,
+      }
+    }
+  },
+}
+const createForgotPasswordHandlers = {
+  "pre": returnUserValues,
+  "post": goHome,
+}
+const createInviteConfirmationHandlers = {
+  "pre": returnUserValues,
+  "post": goHome,
+}
+
+
+const stepHandlers = {
+  "update": updateStepHandlers,
+  "create": createStepHandlers
+}
+const oemHandlers = {
+  "update": updateOemHandlers,
+  "fetch": fetchOemHandlers
+}
+const procedureHandlers = {
+  "update": updateProcedureHandlers,
+  "create": createProcedureHandlers,
+  "fetch": fetchProcedureHandlers
+}
+const inviteHandlers = {
+  "create": createInviteHandlers,
+}
+const forgotPasswordHandlers = {
+  "create": createForgotPasswordHandlers,
+}
+const inviteConfirmationHandlers = {
+  "create": createInviteConfirmationHandlers,
+}
+const businessHandlers = {
+  "fetch": fetchBusinessHandlers,
+}
+const landingHandlers = {
+  "fetch": fetchLandingHandlers,
+}
+
+
+const handlerMap = {
+  "procedures": procedureHandlers,
+  "oems": oemHandlers,
+  "invite": inviteHandlers,
+  "forgot_password": forgotPasswordHandlers,
+  "invite_confirmation": inviteConfirmationHandlers,
+  "businesses": businessHandlers,
+  "steps": stepHandlers,
+  "landing": landingHandlers
+}
+
+
+function* fetchEntitySaga({url, entityKey, id}){
   try {
-    const body = yield call(preCreateEntityHandlerMap[entityKey], values);
+    const response = yield call(API.get, url)
+    const entities = yield call(handlerMap[entityKey].fetch.post, response, id);
+    yield put(addEntities(entities, entityKey, id))
+  } catch (e) {
+    //if 404 not found
+    console.log("ERROR", e);
+    yield put(setEntityFetchError("An unexpected error has occurred.", entityKey, id))
+  }
+
+}
+
+
+
+function* createEntitySaga({url, entityKey, values, id, to}){
+  try {
+    const body = yield call(handlerMap[entityKey].create.pre, values);
     const formData = yield call(objectToFormData, body);
-    //const response = {errors: {formError: "Invalid", fieldErrors: {name: "Invalid"}}}
     const response = yield call(API.multipost, url, formData);
     if(response.errors){
       throw {code: "ServerMessage", ...response.errors}
     }
-    const { entities } = yield call(postCreateEntityHandlerMap[entityKey], response, values)
-    if(entities) yield put(addEntities(entities, entityKey, values.id))
+    const { entities } = yield call(handlerMap[entityKey].create.post, response, values)
+    if(entities) yield put(addEntities(entities, "creating", id))
     if(to) yield put(push(to))
   } catch (e) {
     console.log("ERROR", e);
@@ -201,36 +288,16 @@ function* createEntitySaga({url, entityKey, values, to}){
   }
 }
 
-const preUpdateEntityHandlerMap = {
-  "procedures": (procedure) => ({procedure}),
-  "oems": values => ({oem: values}),
-  "steps": (values) => ({step: returnFormattedStep(values)})
-}
-
-const postUpdateEntityHandlerMap = {
-  "procedures": function*({steps_order, ...procedure}){
-    return {
-      entities: normalize(procedure, procedureSchema).entities
-    }
-  },
-  "oems": (response, values, id) => ({
-    entities: normalize({...values, id}, oemSchema).entities,
-    to: `/oem/`+id
-  }),
-  "steps": (response, values) => ({
-    entities: normalize(values, stepSchema).entities
-  })
-}
 
 function* updateEntitySaga({url, entityKey, id, values, to}){
   try {
-    const body = yield call(preUpdateEntityHandlerMap[entityKey], values)
+    const body = yield call(handlerMap[entityKey].update.pre, values)
     const formData = yield call(objectToFormData, body);
     const response = yield call(API.multiput, url, formData);
     if(response.errors){
       throw {code: "ServerMessage", ...response.errors}
     }
-    const { entities } = yield call(postUpdateEntityHandlerMap[entityKey], response, values, id)
+    const { entities } = yield call(handlerMap[entityKey].update.post, response, values, id)
     yield put(addEntities(entities, entityKey, id))
     if(to){
       yield put(push(to))
@@ -296,22 +363,21 @@ const getProcedures = ({entities}) => entities.procedures
 
 function* createStepSaga({payload}){
   try {
-    const step = yield call(returnFormattedStep, payload);
-    const procedures = yield select(getProcedures);
-    const previousProcedure = procedures[payload.procedure_id];
-    const previous_step_id = previousProcedure.steps[payload.number - 2].id;
 
+    const step = yield call(returnFormattedStep, payload.step);
     const formData = yield call(objectToFormData, {
       step,
-      previous_step_id
+      previous_step_id: payload.previous_step_id
     });
     const response = yield call(API.multipost, '/steps', formData);
     const {visual, has_visual, image, ...newStep} = response;
     if(visual){
       newStep.image = visual;
     }
+    const procedures = yield select(getProcedures);
+    const previousProcedure = procedures[payload.procedure_id];
     previousProcedure.steps = [...previousProcedure.steps, newStep]
-    const entities = normalize(previousProcedure, procedureSchema).entities
+    const entities = normalize(previousProcedure, Schemas.procedure).entities
     yield put(addStep(entities, payload.id))
 
   } catch (e) {
@@ -369,7 +435,6 @@ function* reorderStepSaga({id, hasImage, stepOrder}){
 
 export default function* appSagas(){
   yield all([
-
     yield takeEvery(TYPES.FETCH_ENTITY, fetchEntitySaga),
     yield takeEvery(TYPES.CREATE_ENTITY_REQUEST, createEntitySaga),
     yield takeEvery(TYPES.UPDATE_ENTITY_REQUEST, updateEntitySaga),

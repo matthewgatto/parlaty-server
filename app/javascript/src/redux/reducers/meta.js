@@ -20,7 +20,7 @@ export default function(state = initialState, {type, entityKey, entities, id, me
         ...state,
         creating: {
           ...state.creating,
-          [values.id]: {
+          [id]: {
             isProcessing: true
           }
         }
@@ -30,7 +30,7 @@ export default function(state = initialState, {type, entityKey, entities, id, me
         ...state,
         creating: {
           ...state.creating,
-          [payload.id]: {
+          [payload.step.id]: {
             isProcessing: true
           }
         }
@@ -44,12 +44,19 @@ export default function(state = initialState, {type, entityKey, entities, id, me
         }
       }
     case types.RECIEVE_ENTITIES:
-      return {
-        ...state,
-        [entityKey]: id ? ({
+      var entityMap;
+      if(entityKey == "creating"){
+        const {[id]: oldMeta, ...newMap} = state.creating;
+        entityMap = newMap
+      } else {
+        entityMap = id ? ({
           ...state[entityKey],
           [id]: ({})
         }) : ({})
+      }
+      return {
+        ...state,
+        [entityKey]: entityMap
       }
     case types.LOGOUT:
       return initialState;

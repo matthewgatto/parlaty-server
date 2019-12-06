@@ -9,7 +9,7 @@ class CreateProcedureForm extends React.PureComponent {
     this.props.setCreateMeta(this.initialValues)
   }
   handleSubmit = values => {
-    this.props.handleEntityCreateSubmit('/procedures', 'procedures', values, this.props.to)
+    this.props.handleEntityCreateSubmit('/procedures', 'procedures', values, this.initialValues.id, this.props.to)
   }
   componentWillUnmount(){
     this.props.clearForm()

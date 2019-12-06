@@ -1,6 +1,6 @@
 import { normalize, schema } from 'normalizr';
 
-export const stepSchema = new schema.Entity("steps", {}, {
+const step = new schema.Entity("steps", {}, {
   processStrategy: (value, parent) => {
     if(!value.procedure_id && parent && parent.id){
       value.procedure_id = parent.id
@@ -8,21 +8,28 @@ export const stepSchema = new schema.Entity("steps", {}, {
     return value
   }
 });
-stepSchema.define({
-  procedure_id: procedureSchema
+step.define({
+  procedure_id: procedure
 })
 
-export const procedureSchema = new schema.Entity("procedures", {});
-procedureSchema.define({
-  oem_business_id: businessSchema,
-  steps: [stepSchema]
+const procedure = new schema.Entity("procedures", {});
+procedure.define({
+  oem_business_id: business,
+  steps: [step]
 })
 
-export const businessSchema = new schema.Entity("businesses", {}, {idAttribute: 'oem_business_id'});
-businessSchema.define({
-  procedures: [procedureSchema]
+const business = new schema.Entity("businesses", {}, {idAttribute: 'oem_business_id'});
+business.define({
+  procedures: [procedure]
 })
-export const oemSchema = new schema.Entity("oems", {})
-oemSchema.define({
-  businesses: [businessSchema]
+const oem = new schema.Entity("oems", {})
+oem.define({
+  businesses: [business]
 })
+
+export default {
+  step,
+  procedure,
+  business,
+  oem
+}

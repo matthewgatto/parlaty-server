@@ -1,7 +1,6 @@
 import React from 'react';
 import AnimateHeight from 'react-animate-height';
-import {Input, Select, FileInput, CheckBox, Radio} from '../Forms/Inputs';
-import PositionSelect from '../../containers/PositionSelect';
+import {Input, Select, FileInput, CheckBox, Radio, PositionSelectContainer} from '../Forms/Inputs';
 import ActionList from '../ActionList';
 import StepSaveButton from '../../containers/StepSaveButton';
 import StepCloseButton from '../../containers/StepCloseButton';
@@ -14,7 +13,7 @@ export default function(props){
     <AnimateHeight height={props.isOpen ? 'auto' : 0} duration={200}>
     <div className={styles.content}>
       <Input type="text" name={`steps.${props.idx}.title`} label="Title*" />
-      {/*<PositionSelect label="Number*" name={`steps.${props.idx}.number`} steps={props.steps} />*/}
+      <PositionSelectContainer label="Number*" idx={props.idx} name={`steps.${props.idx}.number`} steps={props.steps} />
       <Select label="Time*" name={`steps.${props.idx}.time`} options={DURATION_OPTIONS} />
       <div className={styles.boxes}>
         <Radio label="Continuous" name={`steps.${props.idx}.mode`} value="continuous" />

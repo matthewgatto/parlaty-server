@@ -72,28 +72,62 @@ export function Textarea({label, ...props}){
   )
 }
 
+function SelectField({label, options, meta, field, ...props}){
+  return(
+    <Field name={props.name} meta={meta} label={label}>
+      <div className={styles.selectContainer}>
+        <select {...field} {...props}>
+          {(options && options.length > 0) ? (
+            options.map(option =>
+              <option key={option.value} value={option.value}>{option.label}</option>
+            )
+          ) : null}
+        </select>
+        <Triangle className={styles.selectIcon} />
+      </div>
+    </Field>
+  )
+}
 
-export function Select({label, options, ...props}){
+export function Select(props){
   return(
     <FastField name={props.name}>
       {({field, meta}) => (
-        <Field name={props.name} meta={meta} label={label}>
-          <div className={styles.selectContainer}>
-            <select {...field} {...props}>
-              {(options && options.length > 0) ? (
-                options.map(option =>
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                )
-              ) : null}
-            </select>
-            <Triangle className={styles.selectIcon} />
-          </div>
-        </Field>
+        <SelectField {...props} field={field} meta={meta} />
       )}
     </FastField>
   )
 }
 
+class PositionSelect extends React.PureComponent {
+  componentDidMount(){
+    this.props.setFieldValue(this.props.name, this.props.idx+1)
+  }
+  componentDidUpdate(prevProps){
+    if(prevProps.idx != this.props.idx){
+      this.props.setFieldValue(this.props.name, this.props.idx+1)
+    }
+  }
+  render(){
+    const { setFieldValue, idx, field, meta, ...props } = this.props;
+    return(
+      <SelectField {...props} field={field} meta={meta} />
+    )
+  }
+}
+export function PositionSelectContainer({steps, ...props}){
+  const options = [{value: 1, label: "Number 1"}]
+  for (var i = 2; i < steps + 1; i++) {
+    options.push({value: i, label: "Number "+i})
+  }
+  return(
+    <FastField name={props.name}>
+      {({field, meta, form}) => (
+        <PositionSelect {...props} options={options} field={field} meta={meta} setFieldValue={form.setFieldValue}  />
+      )}
+    </FastField>
+  )
+}
 class FileInputComponent extends React.PureComponent {
   inputRef = React.createRef();
   handleChange = (e) => {

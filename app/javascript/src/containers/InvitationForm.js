@@ -9,7 +9,7 @@ class InvitationFormContainer extends React.PureComponent {
     this.props.setCreateMeta(this.initialValues)
   }
   handleSubmit = values => {
-    this.props.handleEntityCreateSubmit('/users', 'invite', values, '/')
+    this.props.handleEntityCreateSubmit('/users', 'invite', values, this.initialValues.id, '/')
   }
   componentWillUnmount(){
     this.props.clearForm()
