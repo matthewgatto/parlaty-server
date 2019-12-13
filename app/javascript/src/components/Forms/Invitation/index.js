@@ -19,8 +19,7 @@ export default function(props){
         }}
       >
         <Input label="Email*" type="email" name="email" />
-        {/*<Input label="Name*" type="text" name="name" />*/}
-
+        <Input label="Name*" type="text" name="name" />
         <div className={styles.buttons}>
           <div onClick={props.back} className={styles.label}>
             Cancel

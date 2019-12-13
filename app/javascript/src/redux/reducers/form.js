@@ -8,47 +8,135 @@ export default function(state = initialState, { type, payload, meta }){
         ...state,
         step: payload
       }
-    case types.SET_IMAGE:
-      if(!state.images.length){
-        return {
-          ...state,
-          images: [payload]
+    case types.STEP_SUBMIT_CLICK:
+      return {
+        ...state,
+        step: {
+          ...state.step,
+          isProcessing: true
         }
       }
-      for (var i = 0; i < state.images.length; i++) {
-        if(state.images[i].id === payload.id){
-          return {
-            ...state,
-            images: [...state.images.slice(0, i),payload,...state.images.slice(i + 1)]
-          }
-        }
-        if(state.images[i].number > payload.number){
-          return {
-            ...state,
-            images: [...state.images.slice(0, i), payload, ...state.images.slice(i)]
-          }
-        }
+    case types.INSERT_IMAGE:
+      return {
+        ...state,
+        images: [...state.images.slice(0, payload.idx), payload.image, ...state.images.slice(payload.idx).map(image => ({...image, idx: image.idx+1}))]
+      }
+    case types.SET_IMAGE:
+      var newImageIdx = state.images.findIndex(image => image.idx >= payload.idx),
+          newImages;
+      if(newImageIdx === -1){
+        newImages = [...state.images, payload]
+      } else if(newImageIdx === 0){
+        newImages = [payload,...state.images]
+      } else {
+        newImages = [...state.images.slice(0, newImageIdx), payload, ...state.images.slice(newImageIdx)]
       }
       return {
         ...state,
-        images: [...state.images, payload]
+        images: newImages
       }
     case types.REMOVE_IMAGE:
       const idx = state.images.findIndex(x => x.id === payload);
+      if(idx >= 0){
+        return {
+          ...state,
+          images: [...state.images.slice(0, idx),...state.images.slice(idx + 1)]
+        }
+      }
+      return state;
+    case types.DELETE_STEP_VISUALS:
+      var imageIdx = state.images.findIndex(image => image.idx >= payload.idx);
+      if(imageIdx === -1){
+        return state;
+      }
+      const updateIdxFrom = state.images[imageIdx].id === payload.id ? imageIdx + 1 : imageIdx
       return {
         ...state,
-        images: [...state.images.slice(0, idx),...state.images.slice(idx + 1)]
+        images: [...state.images.slice(0, imageIdx),...state.images.slice(updateIdxFrom).map(image => ({...image, idx: image.idx - 1}))]
+      }
+    case types.REMOVE_IMAGE_AND_REORDER_STEP:
+      var a = state.images.findIndex(image => image.idx >= payload.to),
+          b = state.images.findIndex(image => image.idx === payload.from),
+          imageArray;
+      if(payload.from > payload.to){
+        imageArray = [...state.images.slice(0, a), ...state.images.slice(a, b).map(image => ({...image, idx: image.idx+1})), ...state.images.slice(b+1)]
+      } else {
+        imageArray = [...state.images.slice(0, b), ...state.images.slice(b+1, a).map(image => ({...image, idx: image.idx-1})), ...state.images.slice(a)]
+      }
+      return {
+        ...state,
+        images: imageArray
+      }
+    case types.REORDER_IMAGES:
+      var to = state.images.findIndex(image => image.idx >= payload.to),
+          from = state.images.findIndex(image => image.idx === payload.from),
+          images,
+          image;
+
+      if(payload.image){
+        image = payload.image
+      } else if(from >= 0){
+        image = {...state.images[from], idx: payload.to}
+      }
+      if(from === -1 && to === -1){
+        from = state.images.findIndex(image => image.idx >= payload.from);
+        if(payload.from > payload.to){
+          if(image){
+            images = [...state.images.slice(0, image.idx), image, ...state.images.slice(image.idx, from).map(image => ({...image, idx: image.idx+1})), ...state.images.slice(from)]
+          } else {
+            images = [...state.images.slice(0, to), ...state.images.slice(to, from).map(image => ({...image, idx: image.idx+1})), ...state.images.slice(from)]
+          }
+        } else {
+          if(image){
+            images = [...state.images.slice(0, from), ...state.images.slice(from, to).map(image => ({...image, idx: image.idx-1})), image]
+          } else {
+            images = [...state.images.slice(0, from), ...state.images.slice(from, to).map(image => ({...image, idx: image.idx-1})), ...state.images.slice(to)]
+          }
+        }
+      } else if (to === -1){
+        images = [...state.images.slice(0, from), ...state.images.slice(from+1).map(image => ({...image, idx: image.idx-1})), image]
+      } else if (from === -1){
+        from = state.images.findIndex(image => image.idx >= payload.from);
+        if(payload.from > payload.to){
+          if(image){
+            if(from === -1){
+              images = [...state.images.slice(0, to), image, ...state.images.slice(to).map(image => ({...image, idx: image.idx+1}))]
+            } else {
+              images = [...state.images.slice(0, to), image, ...state.images.slice(to, from).map(image => ({...image, idx: image.idx+1})), ...state.images.slice(from)]
+            }
+          } else {
+            if(from === -1){
+              images = [...state.images.slice(0, to), ...state.images.slice(to).map(image => ({...image, idx: image.idx+1}))]
+            } else {
+              images = [...state.images.slice(0, to), ...state.images.slice(to, from).map(image => ({...image, idx: image.idx+1})), ...state.images.slice(from)]
+            }
+          }
+        } else {
+          if(image){
+            images = [...state.images.slice(0, from), ...state.images.slice(from, to+1).map(image => ({...image, idx: image.idx-1})), image, ...state.images.slice(to + 1)]
+          } else {
+            images = [...state.images.slice(0, from), ...state.images.slice(from, to+1).map(image => ({...image, idx: image.idx-1})), ...state.images.slice(to + 1)]
+          }
+        }
+      } else {
+        if(payload.from > payload.to){
+          images = [...state.images.slice(0, to), image, ...state.images.slice(to, from).map(image => ({...image, idx: image.idx+1})), ...state.images.slice(from+1)]
+        } else {
+          if(state.images[to].idx === image.idx){
+            images = [...state.images.slice(0, from), ...state.images.slice(from+1, to+1).map(image => ({...image, idx: image.idx-1})), image, ...state.images.slice(to+1)]
+          } else {
+            images = [...state.images.slice(0, from), ...state.images.slice(from+1, to).map(image => ({...image, idx: image.idx-1})), image, ...state.images.slice(to)]
+          }
+        }
+      }
+      return {
+        ...state,
+        images
       }
     case types.SET_IMAGES:
       return {
         ...state,
         images: payload
-      }
-    case types.SET_FORM_ERRORS:
-      return {
-        ...state,
-        ...payload,
-        isProcessing: false
       }
     case types.LOGOUT:
     case types.CLEAR_FORM:

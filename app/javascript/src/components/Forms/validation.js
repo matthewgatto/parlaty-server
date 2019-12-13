@@ -7,7 +7,7 @@ export const forgotPasswordSchema = object().shape({
 export const resetPasswordSchema = object().shape({
   reset_password_token: string().required('SHOULD NOT BE SEEING THIS User should be directed away from page and error displayed'),
   password: string().required('Password is required'),
-  password_confirmation: string().oneOf([ref('password'), null], 'Passwords must match')
+  password_confirmation: string().required('Passwords must match').oneOf([ref('password'), null], 'Passwords must match')
 })
 
 export const loginSchema = object().shape({
@@ -17,14 +17,14 @@ export const loginSchema = object().shape({
 
 export const inviteSchema = object().shape({
   email: string().email('Invalid email').required('This field is required'),
-  //name: string().required('This field is required'),
+  name: string().required('This field is required'),
   roleable: string().required('This field is required')
 })
 
 export const inviteConfirmationSchema = object().shape({
   confirmation_token: string().required('SHOULD NOT BE SEEING THIS User should be directed away from page and error displayed'),
   password: string().required('Password is required'),
-  password_confirmation: string().oneOf([ref('password'), null], 'Passwords must match')
+  password_confirmation: string().required('Passwords must match').oneOf([ref('password'), null], 'Passwords must match')
 })
 
 export const oemSchema = object().shape({
@@ -33,7 +33,7 @@ export const oemSchema = object().shape({
   password: string()
 })
 
-const stepSchema = object().shape({
+export const stepSchema = object().shape({
   title: string().required('This field is required'),
   //time: number().required('This field is required'),
   location: string().required('This field is required'),

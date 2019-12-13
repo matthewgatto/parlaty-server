@@ -12,7 +12,14 @@ step.define({
   procedure_id: procedure
 })
 
-const procedure = new schema.Entity("procedures", {});
+const procedure = new schema.Entity("procedures", {}, {
+  mergeStrategy: (a, b) => {
+    return {
+      ...a,
+      ...b
+    }
+  }
+});
 procedure.define({
   oem_business_id: business,
   steps: [step]

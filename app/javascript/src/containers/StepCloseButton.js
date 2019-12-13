@@ -8,14 +8,14 @@ function StepCloseButtonContainer(props){
   const {errors: {steps,...nonStepErrors}, setFieldValue, setErrors} = useFormikContext();
 
   const onClick = () => {
+    const {initialValues} = props.step;
     props.setStep(null);
-    if(props.step.initialValues){
-      setFieldValue(`steps[${props.step.idx}]`, props.step.initialValues)
-      setErrors(nonStepErrors)
+    if(initialValues && Object.keys(initialValues).length > 0){
+      setFieldValue(`steps[${props.idx}]`, initialValues)
     } else {
-      props.remove(props.step.idx)
+      props.remove(props.idx)
     }
-
+    setErrors(nonStepErrors)
   }
   return <StepCloseButton onClick={onClick} />
 }

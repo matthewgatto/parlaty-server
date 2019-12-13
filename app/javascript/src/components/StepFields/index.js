@@ -1,5 +1,4 @@
 import React from 'react';
-import AnimateHeight from 'react-animate-height';
 import {Input, Select, FileInput, CheckBox, Radio, PositionSelectContainer} from '../Forms/Inputs';
 import ActionList from '../ActionList';
 import StepSaveButton from '../../containers/StepSaveButton';
@@ -10,7 +9,6 @@ const DURATION_OPTIONS = [{value: 1, label: "1 second"}, {value: 2, label: "2 se
 const DEVICE_OPTIONS = [{value: "Crank handle", label: "Crank handle"}, {value: "Part with Lock", label: "Part with Lock"}, {value: "Blowtorch", label: "Blowtorch"}, {value: "Pressure Washer", label: "Pressure Washer"}, {value: "Wrench", label: "Wrench"}]
 export default function(props){
   return(
-    <AnimateHeight height={props.isOpen ? 'auto' : 0} duration={200}>
     <div className={styles.content}>
       <Input type="text" name={`steps.${props.idx}.title`} label="Title*" />
       <PositionSelectContainer label="Number*" idx={props.idx} name={`steps.${props.idx}.number`} steps={props.steps} />
@@ -29,8 +27,7 @@ export default function(props){
         <FileInput label="Audio" name={`steps.${props.idx}.audio`} placeholder_name="audio" />
       </div>
       <StepSaveButton move={props.arrayHelpers.move} idx={props.idx} />
-      <StepCloseButton remove={props.arrayHelpers.remove} />
+      <StepCloseButton remove={props.arrayHelpers.remove} idx={props.idx} />
       </div>
-    </AnimateHeight>
   )
 }

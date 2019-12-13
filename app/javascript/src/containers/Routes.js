@@ -21,7 +21,7 @@ class Routes extends React.PureComponent {
         return(<Switch>
           <Route exact path="/" component={LoginPage} />
           <Route path="/register" component={SignUpPage} />
-          <Route path="/confirmation/:confirmation_token" component={InvitationConfirmationForm} />
+          <Route path="/users/confirmation" component={InvitationConfirmationForm} />
           <Route path="/forgot-password" component={ForgotPasswordForm} />
           <Route path="/reset-password/:reset_password_token" component={ResetPasswordForm} />
           <Redirect to="/" />

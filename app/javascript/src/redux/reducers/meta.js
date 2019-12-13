@@ -6,14 +6,13 @@ export default function(state = initialState, {type, entityKey, entities, id, me
     case types.FETCH_ENTITY:
     case types.SET_ENTITY_META:
     case types.UPDATE_ENTITY_REQUEST:
+      const newMeta = state[entityKey][id] ? {...state[entityKey][id], ...meta} : meta
       return {
         ...state,
-        [entityKey]: id ? ({
+        [entityKey]: {
           ...state[entityKey],
-          [id]: meta
-        }) : (
-          meta
-        )
+          [id]: newMeta
+        }
       }
     case types.CREATE_ENTITY_REQUEST:
       return {
@@ -27,6 +26,9 @@ export default function(state = initialState, {type, entityKey, entities, id, me
       }
     case types.RECIEVE_ENTITIES:
       var entityMap;
+      if(!entityKey){
+        return state
+      }
       if(entityKey == "creating"){
         const {[id]: oldMeta, ...newMap} = state.creating;
         entityMap = newMap

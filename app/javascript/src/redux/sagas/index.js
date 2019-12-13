@@ -6,7 +6,12 @@ import {
   setEntityFetchError,
   setEntityFormErrors,
   removeImage,
-  setImages
+  setImages,
+  reorderImages,
+  insertImage,
+  setStep,
+  setImage,
+  removeImageAndReorderStep
 } from '../actions';
 import { normalize } from 'normalizr'
 import Schemas from '../../utils/models';
@@ -82,7 +87,7 @@ function returnFormattedStep({id, shouldCreate, shouldntUpdate, number, skip, ac
   }
   return step;
 }
-const returnUserValues = values => ({user: values})
+const returnUserValues = ({id, password_confirmation,...values}) => ({user: values})
 function returnFormattedProcedure({steps, id, ...procedure}){
   return {
     procedure,
@@ -186,13 +191,30 @@ const createProcedureHandlers = {
     }
   }
 }
+const getOemList = ({entities}) => entities.landing.oem_list
 const createInviteHandlers = {
-  "pre": values => ({user: {email: values.email}, roleable: values.roleable}),
-  "post": function(response, values){
+  "pre": values => ({user: {email: values.email, name: values.name}, roleable: values.roleable}),
+  "post": function*(response, values){
     if(values.roleable === "oem"){
-      return {
-        entities: normalize({email: values.email, id: values.id}, Schemas.oem).entities,
+      const oems = yield select(getOemList);
+      var list;
+      if(oems){
+        list = [...oems, {...response, name: values.name}]
+      } else {
+        list = [{...response, name: values.name}]
       }
+      const {entities, result} = normalize(list, [Schemas.oem]);
+      return {
+        entities: {
+          oems: entities.oems,
+          landing: {oem_list: result}
+        }
+      }
+      /*
+      return {
+        entities: normalize({email: values.email, name: values.name, id: values.id}, Schemas.oem).entities,
+      }
+      */
     }
   },
 }
@@ -268,22 +290,16 @@ function* createEntitySaga({url, entityKey, values, id, to}){
     const body = yield call(handlerMap[entityKey].create.pre, values);
     const formData = yield call(objectToFormData, body);
     const response = yield call(API.multipost, url, formData);
-    if(response.errors){
-      throw {code: "ServerMessage", ...response.errors}
+    if(response.formError || response.fieldErrors){
+      yield put(setEntityFormErrors(response.formError, response.fieldErrors, "creating", id))
+    } else {
+      const { entities } = yield call(handlerMap[entityKey].create.post, response, values)
+      if(entities) yield put(addEntities(entities, "creating", id))
+      if(to) yield put(push(to))
     }
-    const { entities } = yield call(handlerMap[entityKey].create.post, response, values)
-    if(entities) yield put(addEntities(entities, "creating", id))
-    if(to) yield put(push(to))
   } catch (e) {
     console.log("ERROR", e);
-    if(e.code === "ServerMessage"){
-      yield put(setEntityFormErrors(e.formError, e.fieldErrors, "create"))
-    } else if(e === 500) {
-      yield put(setEntityFormErrors("An unexpected error has occured", undefined, "creating", values.id))
-    } else {
-      yield put(setEntityFormErrors("An unexpected error has occured", undefined, "creating", values.id))
-    }
-
+    yield put(setEntityFormErrors("An unexpected error has occured", undefined, "creating", id))
   }
 }
 
@@ -361,13 +377,38 @@ function* authSaga(){
 const getProcedures = ({entities}) => entities.procedures
 
 const getSteps = ({entities}) => entities.steps
-function* deleteStepSaga({id, idx}){
+function* deleteStepSaga({id, idx, procedure_id}){
   try {
-    yield put(removeImage(id))
-    const steps = yield select(getSteps);
-    if(steps[id]){
-      yield put({type: TYPES.DELETE_STEP_REQUEST__SUCCESS, payload: {id, idx, procedure_id: steps[id].procedure_id}})
-      yield fork(API.delete, `/steps/${id}`)
+    yield put({type: TYPES.DELETE_STEP_REQUEST__SUCCESS, payload: {id, idx, procedure_id}})
+    yield fork(API.delete, `/steps/${id}`)
+  } catch (e) {
+      console.log("ERROR", e);
+  }
+
+}
+
+const getImages = ({form}) => form.images
+
+function* reorderStepSaga({procedure_id, from, to}){
+  try {
+    yield put(reorderImages(from, to))
+    if(procedure_id){
+      const procedures = yield select(getProcedures);
+      const {steps} = procedures[procedure_id];
+      var stepOrder;
+      if(from > to){
+        stepOrder = [...steps.slice(0, to), steps[from], ...steps.slice(to, from), ...steps.slice(from+1)]
+      } else {
+        stepOrder = [...steps.slice(0, from), ...steps.slice(from+1, to+1), steps[from], ...steps.slice(to + 1)]
+      }
+        var steps_order = stepOrder[0]+"";
+        for (var i = 1; i < stepOrder.length; i++) {
+          steps_order += `, ${stepOrder[i]}`
+        }
+        const formData = yield call(objectToFormData, {procedure: {steps_order}});
+        const response = yield call(API.multiput, `/procedures/${procedure_id}/reorder`, formData);
+        yield put(addEntities({procedures: {[procedure_id]: {steps: stepOrder}}}, "procedures", procedure_id));
+
     }
 
   } catch (e) {
@@ -375,37 +416,135 @@ function* deleteStepSaga({id, idx}){
   }
 
 }
-const getImages = ({form}) => form.images
-function* reorderStepSaga({id, hasImage, stepOrder}){
+
+function returnStepBody({id, shouldCreate, shouldntUpdate, number, actions, image, audio, visuals, visual, has_visual, ...step}){
+  if(image){
+    step.visuals =  [image];
+    step.has_visual = true;
+  }
+  return step;
+}
+function* createStepSaga({step, from, to}){
   try {
-    if(hasImage){
-      const images = yield select(getImages)
-      const steps = yield select(getSteps);
-      const newImages = [];
-      for (var i = 0; i < stepOrder.length; i++) {
-        const idx = images.findIndex(a => a.id === stepOrder[i]);
-        if(idx >= 0){
-          newImages.push({...images[idx], number: i + 1})
+    const procedures = yield select(getProcedures);
+    const procedure = procedures[step.procedure_id];
+    const previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
+    const formData = yield call(objectToFormData, {
+      step: returnStepBody(step),
+      previous_step_id
+    });
+    const response = yield call(API.multipost, "/steps", formData);
+    if(response.errors){
+      throw {code: "ServerMessage", ...response.errors}
+    }
+    const {visual, has_visual, image, ...newStep} = response;
+    if(visual){
+      newStep.image = visual;
+    }
+    var steps;
+    if(from !== to){
+      steps = [...procedure.steps.slice(0, to), newStep, ...procedure.steps.slice(to)]
+    } else {
+      steps = [...procedure.steps, newStep]
+    }
+    yield put(addEntities(normalize({id:procedure.id, steps}, Schemas.procedure).entities));
+    return newStep;
+  } catch (e) {
+    console.log("ERROR", e);
+
+  }
+}
+
+function* updateStepSaga({step, from, to}){
+  try {
+    const procedures = yield select(getProcedures);
+    const procedure = procedures[step.procedure_id];
+    step.id = procedure.steps[from];
+    const formData = yield call(objectToFormData, {step: returnFormattedStep(step)});
+    const response = yield call(API.multiput, `/steps/${step.id}`, formData);
+    if(response.errors){
+      throw {code: "ServerMessage", ...response.errors}
+    }
+    if(from !== to){
+      var steps;
+      if(from > to){
+        steps = [...procedure.steps.slice(0, to), response, ...procedure.steps.slice(to, from), ...procedure.steps.slice(from+1)]
+      } else {
+        steps = [...procedure.steps.slice(0, from), ...procedure.steps.slice(from+1, to+1), response, ...procedure.steps.slice(to + 1)]
+      }
+      yield put(addEntities(normalize({id:response.procedure_id, steps}, Schemas.procedure).entities))
+    } else {
+      yield put(addEntities(normalize(response, Schemas.step).entities))
+    }
+    const {has_visual, image, ...newStep} = response;
+    if(image){
+      newStep.image = image
+    }
+    return newStep;
+  } catch (e) {
+    console.log("ERROR", e);
+  }
+}
+
+function getUpdatedProperties(newObj = {}, initialObj = {}){
+  const updates = {};
+  for (var field in newObj) {
+    if (newObj.hasOwnProperty(field) && newObj[field] !== initialObj[field]){
+      updates[field] = newObj[field]
+    }
+  }
+  return Object.keys(updates).length > 0 ? updates : false;
+}
+
+const getStepMeta = ({form}) => form.step;
+function readFile(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = reject
+    reader.readAsDataURL(file)
+  })
+}
+
+function* stepSubmitSaga({payload: {step, idx}}){
+  const {isCreating, isEditing, initialValues} = yield select(getStepMeta);
+  if(getUpdatedProperties(step, initialValues)){
+    const numberMinusOne = step.number - 1,
+          newIdx = numberMinusOne != idx ? numberMinusOne : idx;
+    if(isCreating){
+      step = yield call(createStepSaga, {step, from: idx, to: newIdx})
+    } else if(isEditing){
+      step = yield call(updateStepSaga, {step, from: idx, to: newIdx})
+    }
+    const newImage = step.image;
+    const initialImage = initialValues ? initialValues.image : false;
+    if((initialImage || newImage) && newImage != initialImage){
+      if(newImage){
+        const image = {id: step.id, idx: newIdx, src: newImage};
+        if(typeof image.src != "string"){
+          image.src = yield call(readFile, image.src)
+        }
+        if(idx != newIdx){
+          if(isEditing || (initialValues && initialValues.id === step.id)){
+            yield put(reorderImages(idx, newIdx, image))
+          } else if(isCreating || (!initialValues || initialValues.id !== step.id)) {
+            yield put(insertImage(newIdx, image))
+          }
+        } else {
+          yield put(setImage(image))
+        }
+      } else {
+        if(idx != newIdx){
+          yield put(removeImageAndReorderStep(idx, newIdx))
+        } else {
+          yield put(removeImage(step.id))
         }
       }
-      yield put(setImages(newImages))
+    } else if(idx != newIdx){
+      yield put(reorderImages(idx, newIdx));
     }
-
-    if(id){
-        var steps_order = stepOrder[0]+"";
-        for (var i = 1; i < stepOrder.length; i++) {
-          steps_order += `, ${stepOrder[i]}`
-        }
-        const formData = yield call(objectToFormData, {procedure: {steps_order}});
-        const response = yield call(API.multiput, `/procedures/${id}/reorder`, formData);
-        yield put(addEntities({procedures: {[id]: {steps: stepOrder}}}, "procedures", id));
-
-    }
-
-  } catch (e) {
-      console.log("ERROR", e);
   }
-
+  yield put(setStep(null))
 }
 
 export default function* appSagas(){
@@ -415,6 +554,9 @@ export default function* appSagas(){
     yield takeEvery(TYPES.UPDATE_ENTITY_REQUEST, updateEntitySaga),
     yield takeEvery(TYPES.DELETE_STEP_REQUEST, deleteStepSaga),
     yield takeEvery(TYPES.REORDER_STEP_REQUEST, reorderStepSaga),
+    //yield takeEvery(TYPES.CREATE_STEP_REQUEST, createStepSaga),
+    //yield takeEvery(TYPES.UPDATE_STEP_REQUEST, updateStepSaga),
+    yield takeEvery(TYPES.STEP_SUBMIT_CLICK, stepSubmitSaga),
     yield authSaga(),
   ])
 }

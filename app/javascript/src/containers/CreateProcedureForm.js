@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ProcedureForm from '../components/Forms/Procedure';
-import { handleEntityCreateSubmit, clearForm, setCreateMeta, reorderStep } from '../redux/actions';
+import { handleEntityCreateSubmit, clearForm, setCreateMeta, reorderStep, setStep } from '../redux/actions';
 
 class CreateProcedureForm extends React.PureComponent {
   initialValues = {id: new Date().getTime(), oem_business_id: this.props.oem_business_id, steps: [], author: this.props.userName}
@@ -20,6 +20,7 @@ class CreateProcedureForm extends React.PureComponent {
         initialValues={this.initialValues}
         handleSubmit={this.handleSubmit}
         reorderStep={this.props.reorderStep}
+        setStep={this.props.setStep}
       />
     )
   }
@@ -27,5 +28,5 @@ class CreateProcedureForm extends React.PureComponent {
 
 export default connect(
   null,
-  {handleEntityCreateSubmit, clearForm, setCreateMeta, reorderStep}
+  {handleEntityCreateSubmit, clearForm, setCreateMeta, reorderStep, setStep}
 )(CreateProcedureForm);

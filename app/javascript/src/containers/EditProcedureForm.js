@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ProcedureForm from '../components/Forms/Procedure';
 import FetchLoader from '../components/FetchLoader';
 import FetchError from '../components/FetchError';
-import { fetchEntity, handleEntityUpdateSubmit, clearForm, setImages, reorderStep } from '../redux/actions';
+import { fetchEntity, handleEntityUpdateSubmit, clearForm, setImages, reorderStep, setStep } from '../redux/actions';
 
 class EditProcedureForm extends React.PureComponent {
   componentDidMount(){
@@ -20,20 +20,20 @@ class EditProcedureForm extends React.PureComponent {
     }
   }
   addVisuals = () => {
-    const visuals = []
-    for (var i = 0; i < this.props.procedure.steps.length; i++) {
-      if(this.props.procedure.steps[i].image){
-        visuals.push({id: this.props.procedure.steps[i].id, src: this.props.procedure.steps[i].image})
-      }
-    }
-    if(visuals.length > 0){
-      var count = 0;
-      for (var i = 0; i < visuals.length; i++) {
+    const steps = this.props.procedure.steps,
+          visuals = [];
+    var count = 0;
+    for (var i = 0; i < steps.length; i++) {
+      const step = steps[i];
+      if(step.image){
+        count++;
         const img = new Image();
-        img.src = visuals[i].src;
+        const idx = i;
+        img.src = step.image;
         img.onload = () => {
-          if(++count >= visuals.length){
-            this.props.setImages(visuals)
+          visuals.push({id: step.id, idx, src: step.image})
+          if(--count <= 0){
+            this.props.setImages(visuals.sort((a,b) => (a.idx - b.idx)))
           }
         }
       }
@@ -57,8 +57,7 @@ class EditProcedureForm extends React.PureComponent {
         handleSubmit={this.handleSubmit}
         procedure_id={this.props.id}
         reorderStep={this.props.reorderStep}
-        setImages={this.props.setImages}
-        isEditing
+        setStep={this.props.setStep}
       />
     )
   }
@@ -83,5 +82,5 @@ export default connect(
       procedure
     }
   },
-  {handleEntityUpdateSubmit, fetchEntity, clearForm, setImages, reorderStep, setImages}
+  {handleEntityUpdateSubmit, fetchEntity, clearForm, setImages, reorderStep, setStep}
 )(EditProcedureForm);

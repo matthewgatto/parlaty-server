@@ -1,10 +1,21 @@
 const API = (function(){
   var _token = null;
   var checkStatus = function(res){
-    if(res.status >= 200 && res.status < 300) return res.text().then(function(text) {
-      return text ? JSON.parse(text) : {}
-    });
-    throw res.status
+    if(res.status >= 200 && res.status < 300) {
+      return res.text().then(function(text) {
+        return text ? JSON.parse(text) : {}
+      });
+    } else {
+      return res.text().then(function(text) {
+        if(text){
+          const {error} = JSON.parse(text);
+          return {formError: (error && error[0]) ? error[0] : "An unexpected error has occured"}
+        } else {
+          return {formError: "An unexpected error has occured"}
+        }
+      })
+    }
+
   }
   return {
         setToken: token => {_token = token},
