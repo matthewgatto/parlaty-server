@@ -30,7 +30,10 @@ json[:steps] = @procedure.steps.map do |step|
   device: step.device,
 	location: step.location,
   note: step.note,
-  visual: visual_check(step)
+  visual: visual_check(step),
+  mode: step.mode,
+  parameter: step.parameter,
+  time: step.time
 }
 end
 
