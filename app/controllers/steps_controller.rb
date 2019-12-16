@@ -23,6 +23,8 @@ class StepsController < ApplicationController
 				i = pso.index(prev_si)
 				pso.insert(i+1, @step.id)
 			end
+			@step.has_visual = (@step.visuals.count > 0)
+			@step.save
 			@procedure.save
 
 			render json: @step, status: :created
@@ -45,6 +47,8 @@ class StepsController < ApplicationController
 		# oem associated, padmin
 		@step = Step.find(params[:id])
 		if(@step.update_attributes(step_params))
+			@step.has_visual = (@step.visuals.count > 0)
+			@step.save
 			render json: @step, status: :ok
 		else
 			head :bad_request
@@ -83,6 +87,8 @@ class StepsController < ApplicationController
 		@saved_step = Step.new(save_step_params)
 		
 		if(@saved_step.save)
+			@saved_step.has_visual = (@step.visuals.count > 0)
+			@saved_step.save
 			render json: @saved_step, status: :created
 		else
 			render json: { "error": @saved_step.errors.full_messages }, status: :bad_request
@@ -95,6 +101,7 @@ class StepsController < ApplicationController
 		@table = CSV.parse(file) 
 		@headers = @table.shift #remove first element of file to get the headers
 	end
+
 
 	# # reorder steps of a procedure
 	# # have to refactor to minimize query calls
