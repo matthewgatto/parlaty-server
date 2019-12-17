@@ -27,7 +27,8 @@ class StepsController < ApplicationController
 			@step.save
 			@procedure.save
 
-			render json: @step, status: :created
+			#render json: @step, status: :created
+			render status: :created
 		else
 			render json: { "error": @step.errors.full_messages }, status: :bad_request
 		end
@@ -49,7 +50,8 @@ class StepsController < ApplicationController
 		if(@step.update_attributes(step_params))
 			@step.has_visual = (@step.visuals.count > 0)
 			@step.save
-			render json: @step, status: :ok
+			#render json: @step, status: :ok
+			render status: :ok
 		else
 			head :bad_request
 		end
@@ -140,7 +142,7 @@ class StepsController < ApplicationController
 	private
 
 		def step_params
-			params.require(:step).permit(:title, :device, :location, :note, :safety, :procedure_id, :mode, :time, :parameter, visuals: [])
+			params.require(:step).permit(:title, :device, :location, :note, :safety, :procedure_id, :mode, :time, :parameter, :has_visual, visuals: [])
 		end
 
 		def save_step_params
