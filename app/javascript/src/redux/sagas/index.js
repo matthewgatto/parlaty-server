@@ -11,7 +11,8 @@ import {
   insertImage,
   setStep,
   setImage,
-  removeImageAndReorderStep
+  removeImageAndReorderStep,
+  addToast
 } from '../actions';
 import { normalize } from 'normalizr'
 import Schemas from '../../utils/models';
@@ -224,7 +225,10 @@ const createForgotPasswordHandlers = {
 }
 const createInviteConfirmationHandlers = {
   "pre": returnUserValues,
-  "post": goHome,
+  "post": function*(){
+    yield put(addToast("success", "Your password has been set, you may now login."))
+    return goHome
+  }
 }
 
 
@@ -353,7 +357,6 @@ function* getUserFromStorage(){
   }
   return user
 }
-
 function* authSaga(){
   try {
     var user = yield call(getUserFromStorage) // read and validate auth data from localstorage if found

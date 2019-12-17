@@ -27,3 +27,8 @@ export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_REQUEST__SUCCESS = "LOGIN_REQUEST__SUCCESS";
 export const LOGIN_REQUEST__FAILURE = "LOGIN_REQUEST__FAILURE";
 export const LOGOUT = "LOGOUT";
+
+
+//toast
+export const ADD_TOAST = 'ADD_TOAST';
+export const REMOVE_TOAST = 'REMOVE_TOAST';

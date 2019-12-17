@@ -28,3 +28,7 @@ export const setCreateMeta = (entity) => ({type: types.SET_ENTITY_META, id: enti
 //user
 export const handleLoginSubmit = values => ({type: types.LOGIN_REQUEST, payload: values});
 export const logout = () => ({type: types.LOGOUT})
+
+//toast
+export const addToast = (status, text) => ({type: types.ADD_TOAST, payload: {id: new Date().getTime(), status, text}})
+export const removeToast = id => ({type: types.REMOVE_TOAST, payload: id})
