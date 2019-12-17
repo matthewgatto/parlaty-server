@@ -6,6 +6,7 @@ import user from './reducers/user';
 import entities from './reducers/entities';
 import form from './reducers/form';
 import meta from './reducers/meta';
+import toast from './reducers/toast';
 import rootSaga from './sagas';
 
 export const history = createBrowserHistory();
@@ -17,6 +18,7 @@ const store = createStore(
     entities,
     form,
     meta,
+    toast,
     router: connectRouter(history)
   }),
   {},
