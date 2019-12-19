@@ -81,13 +81,13 @@ button {
 
 @media (min-width: 1024px){
   html {
-    font-size: 7.11458px;
+    font-size: 8px;
   }
 }
 
 @media (min-width: 1366px){
   html {
-    font-size: 10px;
+    font-size: 10.5px;
   }
 }
 

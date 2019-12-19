@@ -31,7 +31,7 @@ function StepLabel({idx, setStep, id, canOpen, arrayHelpers, deleteStep, deleteS
     <ActionBar
       text={`Step ${idx + 1}`}
       rightIcon={
-        <StepMenu idx={idx} deleteStep={handleDeleteStep} duplicateStep={duplicateStep} />
+        <StepMenu idx={idx} deleteStep={handleDeleteStep} duplicateStep={duplicateStep} isFormOpen={isOpen} />
       }
       onClick={onClick}
       {...props}

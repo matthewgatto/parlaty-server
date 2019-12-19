@@ -9,17 +9,18 @@ export default function(state = initialState, {type, entityKey, entities, id, me
       return merge({}, state, entities);
     case types.DELETE_STEP_REQUEST__SUCCESS:
       const { [payload.id]: deletedStep, ...steps} = state.steps;
-      const oldProcedure = state.procedures[payload.procedure_id]
+      const oldProcedure = state.procedures[payload.procedure_id];
       const newProcedure = {
         ...oldProcedure,
         steps: [...oldProcedure.steps.slice(0, payload.idx), ...oldProcedure.steps.slice(payload.idx + 1)]
       }
-      const newEntities = {procedures: {[payload.procedure_id]: newProcedure}}
-      const newState = {
+      return {
         ...state,
-        steps
+        procedures: {
+          ...state.procedures,
+          [payload.procedure_id]: {...oldProcedure,...newProcedure}
+        }
       }
-      return merge({}, newState, newEntities)
     case types.LOGOUT:
       return initialState;
     default:

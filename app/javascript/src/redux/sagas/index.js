@@ -440,8 +440,8 @@ function* createStepSaga({step, from, to}){
     if(response.errors){
       throw {code: "ServerMessage", ...response.errors}
     }
-    const {visual, has_visual, image, ...newStep} = response;
-    if(visual){
+    const {visual, has_visual, ...newStep} = response;
+    if(has_visual){
       newStep.image = visual;
     }
     var steps;
@@ -479,9 +479,9 @@ function* updateStepSaga({step, from, to}){
     } else {
       yield put(addEntities(normalize(response, Schemas.step).entities))
     }
-    const {has_visual, image, ...newStep} = response;
-    if(image){
-      newStep.image = image
+    const {has_visual, visual, ...newStep} = response;
+    if(has_visual){
+      newStep.image = visual
     }
     return newStep;
   } catch (e) {

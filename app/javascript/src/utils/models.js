@@ -1,11 +1,14 @@
 import { normalize, schema } from 'normalizr';
 
 const step = new schema.Entity("steps", {}, {
-  processStrategy: (value, parent) => {
-    if(!value.procedure_id && parent && parent.id){
-      value.procedure_id = parent.id
+  processStrategy: ({visual, procedure_id, ...step}, procedure) => {
+    if(!procedure_id && procedure && procedure.id){
+      step.procedure_id = procedure.id
     }
-    return value
+    if(visual){
+      step.image = visual;
+    }
+    return step
   }
 });
 step.define({

@@ -28,7 +28,7 @@ class StepMenuContainer extends React.Component {
     e.stopPropagation();
     if(this.state.isOpen){
       this.closeMenu()
-    } else {
+    } else if(!this.props.isFormOpen) {
       this.openMenu()
     }
   }

@@ -45,11 +45,12 @@ export default function(state = initialState, { type, payload, meta }){
       }
       return state;
     case types.DELETE_STEP_VISUALS:
+
       var imageIdx = state.images.findIndex(image => image.idx >= payload.idx);
       if(imageIdx === -1){
         return state;
       }
-      const updateIdxFrom = state.images[imageIdx].id === payload.id ? imageIdx + 1 : imageIdx
+      const updateIdxFrom = state.images[imageIdx].id === payload.id ? imageIdx + 1 : imageIdx;
       return {
         ...state,
         images: [...state.images.slice(0, imageIdx),...state.images.slice(updateIdxFrom).map(image => ({...image, idx: image.idx - 1}))]
