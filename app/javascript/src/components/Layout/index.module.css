@@ -7,21 +7,20 @@
 }
 
 .content {
-  height: 100%;
+  min-height: 100%;
   padding-top: 18em !important;
   box-sizing: border-box;
   background: #f8f8f7;
 }
 
-main,.content {
+.content,main {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
 }
-
 main {
   flex-grow: 1;
+  justify-content: center;
 }
 
 .header {
