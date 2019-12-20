@@ -8,6 +8,10 @@ textarea,input,select {
   margin: 0;
 }
 
+html,body,body>div {
+  height: 100%;
+  position: relative;
+}
 body {
   margin: 0;
 }
@@ -87,7 +91,7 @@ button {
 
 @media (min-width: 1366px){
   html {
-    font-size: 10.5px;
+    font-size: 10px;
   }
 }
 

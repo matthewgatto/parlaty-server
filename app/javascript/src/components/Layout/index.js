@@ -5,7 +5,7 @@ import styles from './index.module.css';
 import logo from '../../assets/images/logo.png';
 
 const Layout = ({children}) =>
-  <div className={styles.container}>
+  <>
     <div className={styles.header}>
       <img className={styles.logo} src={logo} />
       <div className={styles.links}>
@@ -15,17 +15,19 @@ const Layout = ({children}) =>
       </div>
     </div>
     <div className={styles.content}>
+      <main>
       {children}
-    </div>
-    <div className={styles.footer}>
-      <div>&copy; Copyright 2019 Parlaty</div>
-      <div className={styles.social}>
-        <div>Facebook</div>
-        <div>Instagram</div>
-        <div>Twitter</div>
+      </main>
+      <div className={styles.footer}>
+        <div>&copy; Copyright 2019 Parlaty</div>
+        <div className={styles.social}>
+          <div>Facebook</div>
+          <div>Instagram</div>
+          <div>Twitter</div>
+        </div>
+        <div>Lorem Ipsum</div>
       </div>
-      <div>Lorem Ipsum</div>
     </div>
-  </div>
+  </>
 
 export default Layout;
