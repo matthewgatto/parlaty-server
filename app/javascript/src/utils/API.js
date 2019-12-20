@@ -9,9 +9,9 @@ const API = (function(){
       return res.text().then(function(text) {
         if(text){
           const {error} = JSON.parse(text);
-          return {formError: (error && error[0] && typeof error[0] === 'string') ? error[0] : "An unexpected error has occured"}
+          return {formError: (error && Array.isArray(error) && error.length > 0) ? error[0] : "An unexpected error has occurred"}
         } else {
-          return {formError: "An unexpected error has occured"}
+          return {formError: "An unexpected error has occurred"}
         }
       })
     }
