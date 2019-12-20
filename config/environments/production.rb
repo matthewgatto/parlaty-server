@@ -82,4 +82,18 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  # so email link can go back to host
+  config.action_mailer.default_url_options = { host: 'sandbox.parlaty.com', port: 80 }
+  config.action_mailer.perform_deliveries = true
+  # config.action_mailer.delivery_method = :smtp --default
+  # config.action_controller.asset_host = 'http://localhost:3035'
+  config.action_mailer.smtp_settings = {
+    user_name:      'parlatytestemail@gmail.com',
+    password:       'parlatypassword123',
+    domain:         'sandbox.parlaty.com:80', #gmail.com works too ???
+    address:       'smtp.gmail.com',
+    port:          '587',
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 end
