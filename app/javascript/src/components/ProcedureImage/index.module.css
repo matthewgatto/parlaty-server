@@ -5,7 +5,7 @@
   margin-bottom: 0.6em;
 }
 
-.container:nth-child(2n) {
+.container:nth-child(2n+1) {
   margin-left: 2%;
 }
 
@@ -30,4 +30,22 @@
   fill: #fff;
   width: 1em;
   height: 1em;
+}
+
+.loading {
+  padding-top: 100%;
+  position: relative;
+}
+
+.loading > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ddd;
+  color: #7b7979;
 }

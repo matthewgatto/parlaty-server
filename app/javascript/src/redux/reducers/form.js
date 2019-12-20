@@ -22,18 +22,14 @@ export default function(state = initialState, { type, payload, meta }){
         images: [...state.images.slice(0, payload.idx), payload.image, ...state.images.slice(payload.idx).map(image => ({...image, idx: image.idx+1}))]
       }
     case types.SET_IMAGE:
-      var newImageIdx = state.images.findIndex(image => image.idx >= payload.idx),
-          newImages;
-      if(newImageIdx === -1){
-        newImages = [...state.images, payload]
-      } else if(newImageIdx === 0){
-        newImages = [payload,...state.images]
-      } else {
-        newImages = [...state.images.slice(0, newImageIdx), payload, ...state.images.slice(newImageIdx)]
-      }
+      var newImageIdx = state.images.findIndex(image => image.idx >= payload.idx);
       return {
         ...state,
-        images: newImages
+        images: newImageIdx === -1 ? (
+          [...state.images, payload]
+        ) : (
+          [...state.images.slice(0, newImageIdx), payload, ...state.images.slice(newImageIdx+1)]
+        )
       }
     case types.REMOVE_IMAGE:
       const idx = state.images.findIndex(x => x.id === payload);

@@ -12,7 +12,7 @@ function ProcedureImageContainer(props){
     setFieldValue(`steps.${idx}.image`, '');
   }
   return(
-    <ProcedureImage image={props.image.src} onClick={remove} />
+    <ProcedureImage image={props.image} onClick={remove} />
   )
 }
 

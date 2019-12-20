@@ -509,6 +509,24 @@ function readFile(file){
   })
 }
 
+function loadImageURL(imageURL){
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = imageURL;
+    img.onload = () => resolve()
+    img.onerror = reject
+  })
+}
+
+function* loadImage(image){
+  if(typeof image.src === "string"){
+    yield call(loadImageURL, image.src);
+  } else if(image.src instanceof File){
+    image.src = yield call(readFile, image.src);
+  }
+  yield put(setImage(image));
+}
+
 function* stepSubmitSaga({payload: {step, idx}}){
   const {isCreating, isEditing, initialValues} = yield select(getStepMeta);
   if(getUpdatedProperties(step, initialValues)){
@@ -523,10 +541,8 @@ function* stepSubmitSaga({payload: {step, idx}}){
     const initialImage = initialValues ? initialValues.image : false;
     if((initialImage || newImage) && newImage != initialImage){
       if(newImage){
-        const image = {id: step.id, idx: newIdx, src: newImage};
-        if(typeof image.src != "string"){
-          image.src = yield call(readFile, image.src)
-        }
+        const image = {id: step.id, idx: newIdx, isLoading: true};
+        yield fork(loadImage, {id: step.id, idx: newIdx, src: newImage})
         if(idx != newIdx){
           if(isEditing || (initialValues && initialValues.id === step.id)){
             yield put(reorderImages(idx, newIdx, image))
