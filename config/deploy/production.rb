@@ -8,7 +8,7 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 
 #server "antlet20.attlocal.net", user: "deploy", roles: %w{app db web}
-server "45.79.48.61", user: "deploy", roles: %w{app db web}
+server "sandbox.parlaty.com", user: "deploy", roles: %w{app db web}
 
 
 

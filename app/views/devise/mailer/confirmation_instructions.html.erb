@@ -1,6 +1,6 @@
 <%
 	require 'uri'
-	uri = URI.parse("https://45.79.48.61/users/confirmation")
+	uri = URI.parse("https://sandbox.parlaty.com/users/confirmation")
 	new_query_ar = URI.decode_www_form(uri.query || '') << ["confirmation_token", @token]
 	uri.query = URI.encode_www_form(new_query_ar)
 %>
