@@ -26,7 +26,7 @@ class EditProcedureForm extends React.PureComponent {
     for (var i = 0; i < steps.length; i++) {
       const step = steps[i];
       if(step.image){
-        visuals.push({id: step.id, idx: i, src: step.image, isLoading: true})
+        visuals.push({id: step.id, idx: i, src: step.image})
       }
     }
     if(visuals.length > 0){

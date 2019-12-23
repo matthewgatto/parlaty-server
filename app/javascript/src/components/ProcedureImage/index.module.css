@@ -13,6 +13,10 @@
   width: 100%;
 }
 
+.hide {
+  display: none;
+}
+
 .iconWrapper {
   position: absolute;
   bottom: 0.4em;

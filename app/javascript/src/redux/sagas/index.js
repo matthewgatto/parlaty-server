@@ -521,22 +521,12 @@ function readFile(file){
   })
 }
 
-function loadImageURL(imageURL){
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.src = imageURL;
-    img.onload = () => resolve()
-    img.onerror = reject
-  })
-}
 
-function* loadImage(image){
-  if(typeof image.src === "string"){
-    yield call(loadImageURL, image.src);
-  } else if(image.src instanceof File){
-    image.src = yield call(readFile, image.src);
+function* loadImage(image, newImage){
+  if(newImage instanceof File){
+    image.src = yield call(readFile, newImage);
+    yield put(setImage(image));
   }
-  yield put(setImage(image));
 }
 
 function* handleNewStep(step, initialValues, idx, newIdx, isCreating, isEditing){
@@ -544,8 +534,8 @@ function* handleNewStep(step, initialValues, idx, newIdx, isCreating, isEditing)
   const initialImage = initialValues ? initialValues.image : false;
   if((initialImage || newImage) && newImage != initialImage){
     if(newImage){
-      const image = {id: step.id, idx: newIdx, isLoading: true};
-      yield fork(loadImage, {id: step.id, idx: newIdx, src: newImage})
+      const image = {id: step.id, idx: newIdx};
+      yield fork(loadImage, image, newImage)
       if(idx != newIdx){
         if(isEditing || (initialValues && initialValues.id === step.id)){
           yield put(reorderImages(idx, newIdx, image))
@@ -588,19 +578,6 @@ function* stepSubmitSaga({payload: {step, idx}}){
   }
 }
 
-function* loadImages(images){
-  for (var i = 0; i < images.length; i++) {
-    const {isLoading, ...image} = images[i]
-    yield fork(loadImage, image)
-  }
-}
-
-function* setProcedureImagesSaga({payload}){
-  const loadImagesTask = yield fork(loadImages, payload)
-  yield take(LOCATION_CHANGE);
-  yield cancel(loadImagesTask)
-
-}
 
 export default function* appSagas(){
   yield all([
@@ -612,7 +589,6 @@ export default function* appSagas(){
     //yield takeEvery(TYPES.CREATE_STEP_REQUEST, createStepSaga),
     //yield takeEvery(TYPES.UPDATE_STEP_REQUEST, updateStepSaga),
     yield takeEvery(TYPES.STEP_SUBMIT_CLICK, stepSubmitSaga),
-    yield takeEvery(TYPES.SET_IMAGES, setProcedureImagesSaga),
     yield authSaga(),
   ])
 }
