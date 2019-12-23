@@ -19,3 +19,12 @@
   flex-direction: row-reverse;
   align-items: center;
 }
+
+.errorContainer {
+  height: 2em;
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}

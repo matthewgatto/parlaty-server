@@ -1,6 +1,7 @@
 import React from 'react';
 import { FieldArray } from 'formik';
 import FormWrapper from '../FormWrapper';
+import FormError from '../../../containers/FormError';
 import {Input, Textarea} from '../Inputs';
 import StepList from '../../StepList';
 import PolygonGroup from '../../SVG/PolygonGroup';
@@ -16,8 +17,6 @@ export default function(props){
   const id = props.procedure_id || props.initialValues.id
   return(
       <FormWrapper
-        entityKey={entityKey}
-        id={id}
         formik={{
           initialValues: props.initialValues,
           validationSchema: procedureSchema,
@@ -47,6 +46,7 @@ export default function(props){
                 <div className={styles.columnTitle}>Uploaded Imagery</div>
                 <ImageList />
                 <FormSubmitButton entityKey={entityKey} id={id} text="Submit" className={styles.submit} />
+                <FormError entityKey={entityKey} id={id} className={styles.error} large />
               </div>
             </>
           )}

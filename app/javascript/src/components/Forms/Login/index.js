@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input } from '../Inputs';
 import FormWrapper from '../FormWrapper';
-import SubmitButton from '../../SubmitButton';
+import SubmitButton from '../../../containers/SubmitButton';
 import { loginSchema } from '../validation';
 
 export default function(props){
@@ -15,7 +15,7 @@ export default function(props){
     >
       <Input type="email" name="email" placeholder="Email/Username" />
       <Input type="password" name="password" placeholder="Password" />
-      <SubmitButton label="Login" entityKey="login" />
+      <SubmitButton label="Login" />
     </FormWrapper>
   )
 }

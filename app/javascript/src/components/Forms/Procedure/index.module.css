@@ -25,9 +25,13 @@
   color: #67318d !important;
 }
 
+.error {
+  margin-top: 0.6em;
+  display: block;
+}
 .submit {
-  margin-top: 2em;
   width: 84%;
+  margin-top: 2em;
 }
 
 .columnTitle {

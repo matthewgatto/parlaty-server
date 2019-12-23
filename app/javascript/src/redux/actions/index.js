@@ -11,7 +11,7 @@ export const setStep = step => ({type: types.SET_STEP, payload: step});
 export const setImage = (image) => ({type: types.SET_IMAGE, payload: image});
 export const removeImage = (id) => ({type: types.REMOVE_IMAGE, payload: id});
 export const clearForm = () => ({type: types.CLEAR_FORM});
-export const setImages = (images) => ({type: types.SET_IMAGES, payload: images});
+export const setImages = (images) => ({type: types.SET_IMAGES, payload: images.sort((a,b) => (a.idx - b.idx))});
 export const reorderImages = (from, to, image) => ({type: types.REORDER_IMAGES, payload: {from, to, image}})
 export const insertImage = (idx, image) => ({type: types.INSERT_IMAGE, payload: {image, idx}})
 export const handleStepSubmit = (step, idx) => ({type: types.STEP_SUBMIT_CLICK, payload: {step, idx}})

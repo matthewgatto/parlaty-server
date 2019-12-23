@@ -44,7 +44,7 @@ function Step(props){
     <>
       <StepLabel deleteStep={props.deleteStep} deleteStepVisuals={props.deleteStepVisuals} setStep={props.setStep} isOpen={props.isOpen} canOpen={props.canOpen} id={props.id} idx={props.idx} arrayHelpers={props.arrayHelpers} steps={props.steps} isEditing={props.isEditing} setRef={props.provided.innerRef} {...props.provided.dragHandleProps} {...props.provided.draggableProps} />
       <AnimateHeight height={props.isOpen ? 'auto' : 0} duration={200}>
-        <StepFields idx={props.idx} arrayHelpers={props.arrayHelpers} steps={props.steps} />
+        <StepFields isOpen={props.isOpen} idx={props.idx} id={props.id} arrayHelpers={props.arrayHelpers} steps={props.steps} />
       </AnimateHeight>
     </>
   )

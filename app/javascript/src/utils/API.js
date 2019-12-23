@@ -5,6 +5,8 @@ const API = (function(){
       return res.text().then(function(text) {
         return text ? JSON.parse(text) : {}
       });
+    } else if(res.status === 401){
+      return {formError: "Invalid email/password combination"}
     } else {
       return res.text().then(function(text) {
         if(text){
@@ -15,7 +17,6 @@ const API = (function(){
         }
       })
     }
-
   }
   return {
         setToken: token => {_token = token},

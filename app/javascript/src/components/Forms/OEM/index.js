@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import FormWrapper from '../FormWrapper';
+import FormError from '../../../containers/FormError';
 import {Input} from '../Inputs';
 import FormSubmitButton from '../../../containers/FormSubmitButton';
 import { oemSchema } from '../validation';
@@ -15,6 +16,7 @@ export default function(props){
         onSubmit: props.handleSubmit
       }}
     >
+      <FormError entityKey="oems" id={props.id} large top />
       <Input label="Name*" type="text" name="name" />
       <Input label="Email*" type="email" name="email" />
       <Input label="New Password" type="password" name="password" />
@@ -24,7 +26,6 @@ export default function(props){
         </Link>
         <FormSubmitButton entityKey="oems" id={props.id} text="Submit"  />
       </div>
-
     </FormWrapper>
   )
 }

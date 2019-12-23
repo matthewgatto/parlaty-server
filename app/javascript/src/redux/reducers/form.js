@@ -13,6 +13,7 @@ export default function(state = initialState, { type, payload, meta }){
         ...state,
         step: {
           ...state.step,
+          error: false,
           isProcessing: true
         }
       }

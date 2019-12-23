@@ -1,6 +1,7 @@
 import React from 'react';
 import {Input, Select, FileInput, CheckBox, Radio, PositionSelectContainer} from '../Forms/Inputs';
 import ActionList from '../ActionList';
+import StepError from '../../containers/StepError';
 import StepSaveButton from '../../containers/StepSaveButton';
 import StepCloseButton from '../../containers/StepCloseButton';
 import styles from './index.module.css';
@@ -25,6 +26,9 @@ export default function(props){
       <div className={styles.files}>
         <FileInput label="Imagery" name={`steps.${props.idx}.image`} placeholder_name="image" />
         <FileInput label="Audio" name={`steps.${props.idx}.audio`} placeholder_name="audio" />
+      </div>
+      <div className={styles.errorContainer}>
+        {props.isOpen && <StepError large className={styles.absolute} />}
       </div>
       <StepSaveButton move={props.arrayHelpers.move} idx={props.idx} />
       <StepCloseButton remove={props.arrayHelpers.remove} idx={props.idx} />

@@ -1,4 +1,4 @@
-import { take, call, put, takeEvery, fork, all, select } from 'redux-saga/effects';
+import { take, call, put, takeEvery, fork, all, select, cancel } from 'redux-saga/effects';
 import API from '../../utils/API';
 import * as TYPES from '../types';
 import {
@@ -16,7 +16,7 @@ import {
 } from '../actions';
 import { normalize } from 'normalizr'
 import Schemas from '../../utils/models';
-import { push } from 'connected-react-router';
+import { push, LOCATION_CHANGE } from 'connected-react-router';
 import uniq from 'lodash/uniq'
 
 const getEntityMap = ({entities}) => entities
@@ -337,9 +337,12 @@ export function* loginSaga(){
   try {
     const { payload } = yield take(TYPES.LOGIN_REQUEST);
     const response = yield call(API.post, '/login', {email: payload.email, password: payload.password});
-    if(!response.jwt) throw new Error();
-    localStorage.setItem('user', JSON.stringify(response));
-    return response
+    if(response.formError){
+      yield put({type: TYPES.LOGIN_REQUEST__FAILURE, payload: response.formError })
+    } else {
+      localStorage.setItem('user', JSON.stringify(response));
+      return response
+    }
   } catch (e) {
     if(e == 401){
       yield put({type: TYPES.LOGIN_REQUEST__FAILURE, payload: "Invalid login credentials" })
@@ -427,7 +430,7 @@ function returnStepBody({id, shouldCreate, shouldntUpdate, number, actions, imag
   }
   return step;
 }
-function* createStepSaga({step, from, to}){
+function* createStepSaga({step, from, to, initialValues}){
   try {
     const procedures = yield select(getProcedures);
     const procedure = procedures[step.procedure_id];
@@ -437,55 +440,64 @@ function* createStepSaga({step, from, to}){
       previous_step_id
     });
     const response = yield call(API.multipost, "/steps", formData);
-    if(response.errors){
-      throw {code: "ServerMessage", ...response.errors}
-    }
-    const {visual, has_visual, ...newStep} = response;
-    if(has_visual){
-      newStep.image = visual;
-    }
-    var steps;
-    if(from !== to){
-      steps = [...procedure.steps.slice(0, to), newStep, ...procedure.steps.slice(to)]
+    if(response.formError){
+      const stepMeta = yield select(getStepMeta);
+      stepMeta.isProcessing = false;
+      stepMeta.error = response.formError;
+      yield put(setStep(stepMeta))
     } else {
-      steps = [...procedure.steps, newStep]
+      const {visual, has_visual, ...newStep} = response;
+      if(has_visual){
+        newStep.image = visual;
+      }
+      var steps;
+      if(from !== to){
+        steps = [...procedure.steps.slice(0, to), newStep, ...procedure.steps.slice(to)]
+      } else {
+        steps = [...procedure.steps, newStep]
+      }
+      yield put(addEntities(normalize({id:procedure.id, steps}, Schemas.procedure).entities));
+      yield call(handleNewStep, newStep, initialValues, from, to, true)
     }
-    yield put(addEntities(normalize({id:procedure.id, steps}, Schemas.procedure).entities));
-    return newStep;
   } catch (e) {
     console.log("ERROR", e);
-
+    throw e
   }
 }
 
-function* updateStepSaga({step, from, to}){
+function* updateStepSaga({step, from, to, initialValues}){
   try {
     const procedures = yield select(getProcedures);
     const procedure = procedures[step.procedure_id];
     step.id = procedure.steps[from];
     const formData = yield call(objectToFormData, {step: returnFormattedStep(step)});
     const response = yield call(API.multiput, `/steps/${step.id}`, formData);
-    if(response.errors){
-      throw {code: "ServerMessage", ...response.errors}
-    }
-    if(from !== to){
-      var steps;
-      if(from > to){
-        steps = [...procedure.steps.slice(0, to), response, ...procedure.steps.slice(to, from), ...procedure.steps.slice(from+1)]
-      } else {
-        steps = [...procedure.steps.slice(0, from), ...procedure.steps.slice(from+1, to+1), response, ...procedure.steps.slice(to + 1)]
-      }
-      yield put(addEntities(normalize({id:response.procedure_id, steps}, Schemas.procedure).entities))
+    if(response.formError){
+      const stepMeta = yield select(getStepMeta);
+      stepMeta.isProcessing = false;
+      stepMeta.error = response.formError;
+      yield put(setStep(stepMeta))
     } else {
-      yield put(addEntities(normalize(response, Schemas.step).entities))
+      if(from !== to){
+        var steps;
+        if(from > to){
+          steps = [...procedure.steps.slice(0, to), response, ...procedure.steps.slice(to, from), ...procedure.steps.slice(from+1)]
+        } else {
+          steps = [...procedure.steps.slice(0, from), ...procedure.steps.slice(from+1, to+1), response, ...procedure.steps.slice(to + 1)]
+        }
+        yield put(addEntities(normalize({id:response.procedure_id, steps}, Schemas.procedure).entities))
+      } else {
+        yield put(addEntities(normalize(response, Schemas.step).entities))
+      }
+      const {has_visual, visual, ...newStep} = response;
+      if(has_visual){
+        newStep.image = visual
+      }
+      yield call(handleNewStep, newStep, initialValues, from, to, false, true)
     }
-    const {has_visual, visual, ...newStep} = response;
-    if(has_visual){
-      newStep.image = visual
-    }
-    return newStep;
   } catch (e) {
     console.log("ERROR", e);
+    throw e
   }
 }
 
@@ -527,43 +539,67 @@ function* loadImage(image){
   yield put(setImage(image));
 }
 
-function* stepSubmitSaga({payload: {step, idx}}){
-  const {isCreating, isEditing, initialValues} = yield select(getStepMeta);
-  if(getUpdatedProperties(step, initialValues)){
-    const numberMinusOne = step.number - 1,
-          newIdx = numberMinusOne != idx ? numberMinusOne : idx;
-    if(isCreating){
-      step = yield call(createStepSaga, {step, from: idx, to: newIdx})
-    } else if(isEditing){
-      step = yield call(updateStepSaga, {step, from: idx, to: newIdx})
-    }
-    const newImage = step.image;
-    const initialImage = initialValues ? initialValues.image : false;
-    if((initialImage || newImage) && newImage != initialImage){
-      if(newImage){
-        const image = {id: step.id, idx: newIdx, isLoading: true};
-        yield fork(loadImage, {id: step.id, idx: newIdx, src: newImage})
-        if(idx != newIdx){
-          if(isEditing || (initialValues && initialValues.id === step.id)){
-            yield put(reorderImages(idx, newIdx, image))
-          } else if(isCreating || (!initialValues || initialValues.id !== step.id)) {
-            yield put(insertImage(newIdx, image))
-          }
-        } else {
-          yield put(setImage(image))
+function* handleNewStep(step, initialValues, idx, newIdx, isCreating, isEditing){
+  const newImage = step.image;
+  const initialImage = initialValues ? initialValues.image : false;
+  if((initialImage || newImage) && newImage != initialImage){
+    if(newImage){
+      const image = {id: step.id, idx: newIdx, isLoading: true};
+      yield fork(loadImage, {id: step.id, idx: newIdx, src: newImage})
+      if(idx != newIdx){
+        if(isEditing || (initialValues && initialValues.id === step.id)){
+          yield put(reorderImages(idx, newIdx, image))
+        } else if(isCreating || (!initialValues || initialValues.id !== step.id)) {
+          yield put(insertImage(newIdx, image))
         }
       } else {
-        if(idx != newIdx){
-          yield put(removeImageAndReorderStep(idx, newIdx))
-        } else {
-          yield put(removeImage(step.id))
-        }
+        yield put(setImage(image))
       }
-    } else if(idx != newIdx){
-      yield put(reorderImages(idx, newIdx));
+    } else {
+      if(idx != newIdx){
+        yield put(removeImageAndReorderStep(idx, newIdx))
+      } else {
+        yield put(removeImage(step.id))
+      }
     }
+  } else if(idx != newIdx){
+    yield put(reorderImages(idx, newIdx));
   }
-  yield put(setStep(null))
+}
+
+function* stepSubmitSaga({payload: {step, idx}}){
+  const stepMeta = yield select(getStepMeta);
+  try {
+    if(getUpdatedProperties(step, stepMeta.initialValues)){
+      const numberMinusOne = step.number - 1,
+            newIdx = numberMinusOne != idx ? numberMinusOne : idx;
+      if(stepMeta.isCreating){
+        yield call(createStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues})
+      } else if(stepMeta.isEditing){
+        yield call(updateStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues})
+      } else {
+        yield call(handleNewStep, step, stepMeta.initialValues, idx, newIdx, stepMeta.isCreating, stepMeta.isEditing)
+      }
+    }
+    yield put(setStep(null))
+  } catch (e) {
+    console.log("stepSubmitSaga ERROR", e);
+    yield put(setStep({...stepMeta, error: "An unexpected error has occurred", isProcessing: false}))
+  }
+}
+
+function* loadImages(images){
+  for (var i = 0; i < images.length; i++) {
+    const {isLoading, ...image} = images[i]
+    yield fork(loadImage, image)
+  }
+}
+
+function* setProcedureImagesSaga({payload}){
+  const loadImagesTask = yield fork(loadImages, payload)
+  yield take(LOCATION_CHANGE);
+  yield cancel(loadImagesTask)
+
 }
 
 export default function* appSagas(){
@@ -576,6 +612,7 @@ export default function* appSagas(){
     //yield takeEvery(TYPES.CREATE_STEP_REQUEST, createStepSaga),
     //yield takeEvery(TYPES.UPDATE_STEP_REQUEST, updateStepSaga),
     yield takeEvery(TYPES.STEP_SUBMIT_CLICK, stepSubmitSaga),
+    yield takeEvery(TYPES.SET_IMAGES, setProcedureImagesSaga),
     yield authSaga(),
   ])
 }

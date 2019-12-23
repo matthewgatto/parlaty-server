@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ProcedureForm from '../components/Forms/Procedure';
 import FetchLoader from '../components/FetchLoader';
 import FetchError from '../components/FetchError';
-import { fetchEntity, handleEntityUpdateSubmit, clearForm, setImages, reorderStep, setStep, setImage } from '../redux/actions';
+import { fetchEntity, handleEntityUpdateSubmit, clearForm, setImages, reorderStep, setStep} from '../redux/actions';
 
 class EditProcedureForm extends React.PureComponent {
   componentDidMount(){
@@ -26,19 +26,11 @@ class EditProcedureForm extends React.PureComponent {
     for (var i = 0; i < steps.length; i++) {
       const step = steps[i];
       if(step.image){
-        this.addVisual(visuals, step, i)
+        visuals.push({id: step.id, idx: i, src: step.image, isLoading: true})
       }
     }
     if(visuals.length > 0){
-      this.props.setImages(visuals.sort((a,b) => (a.idx - b.idx)))
-    }
-  }
-  addVisual = (visuals, step, i) => {
-    visuals.push({id: step.id, idx: i, isLoading: true})
-    const img = new Image();
-    img.src = step.image;
-    img.onload = () => {
-      this.props.setImage({id: step.id, idx: i, src: step.image})
+      this.props.setImages(visuals)
     }
   }
   makeEntityRequest = () => {
@@ -84,5 +76,5 @@ export default connect(
       procedure
     }
   },
-  {handleEntityUpdateSubmit, fetchEntity, clearForm, setImages, reorderStep, setStep, setImage}
+  {handleEntityUpdateSubmit, fetchEntity, clearForm, setImages, reorderStep, setStep}
 )(EditProcedureForm);
