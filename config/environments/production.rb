@@ -88,10 +88,10 @@ Rails.application.configure do
   # config.action_mailer.delivery_method = :smtp --default
   # config.action_controller.asset_host = 'http://localhost:3035'
   config.action_mailer.smtp_settings = {
-    user_name:      'parlatytestemail@gmail.com',
-    password:       'parlatypassword123',
-    domain:         'sandbox.parlaty.com:80', #gmail.com works too ???
-    address:       'smtp.gmail.com',
+    user_name:      'apikey',
+    password:       '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',
+    domain:         'parlaty.com', 
+    address:       'smtp.sendgrid.net',
     port:          '587',
     authentication: :plain,
     enable_starttls_auto: true
