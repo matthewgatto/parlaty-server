@@ -10,5 +10,5 @@ const ImageList = ({images}) => images.length > 0 ? (
   )
 
 export default connect(
-  ({form}) => ({images: form.images})
+  ({images}) => ({images})
 )(ImageList);

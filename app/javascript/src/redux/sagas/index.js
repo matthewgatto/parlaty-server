@@ -1,22 +1,26 @@
-import { take, call, put, takeEvery, fork, all, select, cancel } from 'redux-saga/effects';
+import { take, call, put, takeEvery, fork, all, select } from 'redux-saga/effects';
 import API from '../../utils/API';
 import * as TYPES from '../types';
 import {
   addEntities,
   setEntityFetchError,
   setEntityFormErrors,
-  removeImage,
   setImages,
-  reorderImages,
   insertImage,
   setStep,
   setImage,
   removeImageAndReorderStep,
-  addToast
+  addToast,
+  reorderImage,
+  removeImage,
+  updateImage,
+  addImage,
+  reIndexImages,
+  removeImageAndReIndex
 } from '../actions';
 import { normalize } from 'normalizr'
 import Schemas from '../../utils/models';
-import { push, LOCATION_CHANGE } from 'connected-react-router';
+import { push } from 'connected-react-router';
 import uniq from 'lodash/uniq'
 
 const getEntityMap = ({entities}) => entities
@@ -397,7 +401,7 @@ const getImages = ({form}) => form.images
 
 function* reorderStepSaga({procedure_id, from, to}){
   try {
-    yield put(reorderImages(from, to))
+    yield put(reorderImage(from, to))
     if(procedure_id){
       const procedures = yield select(getProcedures);
       const {steps} = procedures[procedure_id];
@@ -512,6 +516,7 @@ function getUpdatedProperties(newObj = {}, initialObj = {}){
 }
 
 const getStepMeta = ({form}) => form.step;
+
 function readFile(file){
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -522,44 +527,43 @@ function readFile(file){
 }
 
 
-function* loadImage(image, newImage){
-  if(newImage instanceof File){
-    image.src = yield call(readFile, newImage);
-    yield put(setImage(image));
-  }
-}
-
 function* handleNewStep(step, initialValues, idx, newIdx, isCreating, isEditing){
-  const newImage = step.image;
+  var newImage = step.image;
   const initialImage = initialValues ? initialValues.image : false;
-  if((initialImage || newImage) && newImage != initialImage){
-    if(newImage){
-      const image = {id: step.id, idx: newIdx};
-      yield fork(loadImage, image, newImage)
-      if(idx != newIdx){
-        if(isEditing || (initialValues && initialValues.id === step.id)){
-          yield put(reorderImages(idx, newIdx, image))
-        } else if(isCreating || (!initialValues || initialValues.id !== step.id)) {
-          yield put(insertImage(newIdx, image))
-        }
+  if(newImage instanceof File){
+    newImage = yield call(readFile, newImage);
+  }
+  if(isEditing || (initialValues && initialValues.id)){
+    if(idx != newIdx){
+      if(initialImage && !newImage){
+        yield put(removeImageAndReIndex(idx, newIdx))
       } else {
-        yield put(setImage(image))
+        yield put(reorderImage(idx, newIdx, {id: step.id, idx: newIdx, src: newImage}))
       }
+    } else if(!initialImage && newImage){
+      yield put(addImage({id: step.id, idx: newIdx, src: newImage}))
+    } else if(initialImage && newImage && initialImage != newImage){
+      yield put(updateImage(step.id, {src: newImage}))
+    } else if(initialImage && !newImage){
+      yield put(removeImage(step.id))
     } else {
-      if(idx != newIdx){
-        yield put(removeImageAndReorderStep(idx, newIdx))
-      } else {
-        yield put(removeImage(step.id))
-      }
+      console.log("FIRST EMPTY");
     }
-  } else if(idx != newIdx){
-    yield put(reorderImages(idx, newIdx));
+  } else if (isCreating || (!initialValues || !initialValues.id)){
+    if(newImage){
+      yield put(addImage({id: step.id, idx: newIdx, src: newImage}, true))
+    } else {
+      yield put(reIndexImages(newIdx))
+    }
+  } else {
+    console.log("SECOND  EMPTY");
   }
 }
 
 function* stepSubmitSaga({payload: {step, idx}}){
   const stepMeta = yield select(getStepMeta);
   try {
+
     if(getUpdatedProperties(step, stepMeta.initialValues)){
       const numberMinusOne = step.number - 1,
             newIdx = numberMinusOne != idx ? numberMinusOne : idx;

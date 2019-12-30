@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 import user from './reducers/user';
 import entities from './reducers/entities';
 import form from './reducers/form';
+import images from './reducers/images';
 import meta from './reducers/meta';
 import toast from './reducers/toast';
 import rootSaga from './sagas';
@@ -17,6 +18,7 @@ const store = createStore(
     user,
     entities,
     form,
+    images,
     meta,
     toast,
     router: connectRouter(history)

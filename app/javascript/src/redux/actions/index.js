@@ -9,14 +9,19 @@ export const reorderStep = (from, to, procedure_id) => ({type: types.REORDER_STE
 //form
 export const setStep = step => ({type: types.SET_STEP, payload: step});
 export const setImage = (image) => ({type: types.SET_IMAGE, payload: image});
-export const removeImage = (id) => ({type: types.REMOVE_IMAGE, payload: id});
 export const clearForm = () => ({type: types.CLEAR_FORM});
 export const setImages = (images) => ({type: types.SET_IMAGES, payload: images.sort((a,b) => (a.idx - b.idx))});
-export const reorderImages = (from, to, image) => ({type: types.REORDER_IMAGES, payload: {from, to, image}})
 export const insertImage = (idx, image) => ({type: types.INSERT_IMAGE, payload: {image, idx}})
 export const handleStepSubmit = (step, idx) => ({type: types.STEP_SUBMIT_CLICK, payload: {step, idx}})
 export const deleteStepVisuals = (id, idx) => ({type: types.DELETE_STEP_VISUALS, payload: {id, idx}})
 export const removeImageAndReorderStep = (from, to) => ({type: types.REMOVE_IMAGE_AND_REORDER_STEP, payload: {from, to}})
+
+export const reorderImage = (from, to, image) => ({type: types.REORDER_IMAGE, payload: {from, to, image}});
+export const addImage = (image, reIndex) => ({type: types.ADD_IMAGE, payload: {image, reIndex}});
+export const updateImage = (id, image) => ({type: types.UPDATE_IMAGE, payload: {id, image}});
+export const removeImage = (id) => ({type: types.REMOVE_IMAGE, payload: id});
+export const reIndexImages = (idx) => ({type: types.REINDEX_IMAGES, payload: idx});
+export const removeImageAndReIndex = (from, to) => ({type: types.REMOVE_IMAGE_AND_REINDEX, payload: {from, to}})
 
 //meta
 export const setEntityFetchError = (fetchError, entityKey, id) => ({type: types.SET_ENTITY_META, entityKey, id, meta: {fetchError}})
