@@ -16,6 +16,9 @@ export default function(props){
           validationSchema: inviteSchema,
           onSubmit: props.handleSubmit
         }}
+        form={{
+          className: styles.container
+        }}
       >
         <FormError entityKey="creating" id={props.initialValues.id} large top />
         <Input label="Email*" type="email" name="email" />

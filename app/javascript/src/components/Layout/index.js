@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import Logout from '../../containers/Logout';
 import styles from './index.module.css';
 import logo from '../../assets/images/logo.png';
@@ -7,7 +7,7 @@ import logo from '../../assets/images/logo.png';
 const Layout = ({children}) =>
   <>
     <div className={styles.header}>
-      <img className={styles.logo} src={logo} />
+      <Link to="/"><img className={styles.logo} src={logo} /></Link>
       <div className={styles.links}>
         <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>
         <NavLink className={styles.link} activeClassName={styles.active} to="/support">Support</NavLink>

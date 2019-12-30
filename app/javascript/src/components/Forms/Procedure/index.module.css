@@ -6,15 +6,15 @@
 }
 
 .content > div {
-  width: 31%;
+  width: 32%;
   position: relative;
 }
 
 
 .polygonContainer {
   position: absolute;
-  left: -13em;
-  bottom: -1.4em;
+  left: 1em;
+  bottom: 0em;
 }
 
 .margin {
@@ -41,4 +41,20 @@
   font-weight: 600;
   line-height: 1em;
   margin-bottom: 1em;
+}
+
+@media (min-width: 1024px){
+  .polygonContainer {
+    left: -6em;
+  }
+}
+
+@media (min-width: 1366px){
+  .content > div {
+    width: 31%;
+  }
+  .polygonContainer {
+    left: -13em;
+    bottom: -1.4em;
+  }
 }

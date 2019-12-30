@@ -15,6 +15,9 @@ export default function(props){
         validationSchema: oemSchema,
         onSubmit: props.handleSubmit
       }}
+      form={{
+        className: styles.container
+      }}
     >
       <FormError entityKey="oems" id={props.id} large top />
       <Input label="Name*" type="text" name="name" />

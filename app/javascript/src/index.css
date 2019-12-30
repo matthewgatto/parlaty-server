@@ -1,22 +1,23 @@
-html,textarea,input,select {
+html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
   font-size: 5px;
   font-family: "Poppins", sans-serif;
 }
 
 @media (min-width: 768px){
-  html,textarea,input,select {
-    font-size: 8px;
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+    font-size: 9px;
   }
 }
 
+
 @media (min-width: 1366px){
-  html,textarea,input,select {
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
     font-size: 10px;
   }
 }
 
 @media (min-width: 2560px){
-  html,textarea,input,select {
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
     font-size: 12.708px;
   }
 }
@@ -93,12 +94,19 @@ form#procedure_form input[type='text'],form#procedure_form input[type='password'
   height: 2.16667em;
 }
 form#procedure_form textarea,form#procedure_form input[type='text'],form#procedure_form input[type='password'],form#procedure_form input[type='number'], form#procedure_form input[type='email'] {
-  padding: 0 0.333em;
+  padding: 0 0.333em !important;
 }
 
-form#procedure_form input,form#procedure_form textarea,form#procedure_form select {
+form#procedure_form input[type='text'],form#procedure_form input[type='password'],form#procedure_form input[type='number'], form#procedure_form input[type='email'],form#procedure_form textarea,form#procedure_form select {
   font-size: 1.2em;
 }
+
 button {
   border: none;
+}
+
+@media (max-width: 480px) {
+  form#procedure_form textarea {
+    text-indent:-3px;
+  }
 }
