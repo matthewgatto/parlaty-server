@@ -6,4 +6,11 @@ json = {
 	roleable_id: @user.roleable_id
 }
 
+json[:oem_businesses] = @sorted_ob.map do |oem_business|
+	{
+		name: oem_business.name,	
+		oem_business_id: oem_business.id	
+	}
+end
+
 json

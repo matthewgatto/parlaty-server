@@ -12,6 +12,16 @@ class SessionsController < ApplicationController
 				render json: {"error": "User has been deactivated"}, status: :unauthorized and return
 			else
 				@jwt = Auth.encode({ uid: @user.id})
+				
+				begin
+					oem = Oem.find(@user.id)
+					if oem
+						oem_bus = oem.oem_businesses
+						@sorted_ob = oem_bus.sort_by &:name
+					end
+				rescue ActiveRecord::RecordNotFound
+					@sorted_ob = {}
+				end
 			end
 		else
 			head :unauthorized
