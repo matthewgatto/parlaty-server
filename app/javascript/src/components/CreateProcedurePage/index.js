@@ -1,24 +1,26 @@
 import React from 'react';
 import PageLayout from '../PageLayout';
-import BusinessName from '../../containers/BusinessName';
-import CreateProcedureForm from '../../containers/CreateProcedureForm';
+import Name from '../../containers/Name';
+import ProcedureForm from '../Forms/Procedure';
+import { CREATE_PROCEDURE_REQUEST } from '../../redux/types/procedure';
 
-export default function(props){
-  return(
-    <PageLayout
-      header="New Procedure"
-      back={props.match.params.business_id ? ({
-        to: props.match.params.oem_id ? `/oem/${props.match.params.oem_id}/business/${props.match.params.business_id}` : `/business/${props.match.params.business_id}`,
-        label: <BusinessName id={props.match.params.business_id} />
-        }) : ({
-          to: "/",
-          label: "Home"
-        })}
-    >
-      <CreateProcedureForm
-        oem_business_id={props.match.params.business_id}
-        to={props.match.params.oem_id ? `/oem/${props.match.params.oem_id}/business/${props.match.params.business_id}` : `/business/${props.match.params.business_id}`}
-      />
-    </PageLayout>
-  )
-};
+export default ({match:{params:{oem_id,business_id}}}) => (
+  <PageLayout
+    header="New Procedure"
+    back={business_id ? ({
+      to: oem_id ? `/oem/${oem_id}/business/${business_id}` : `/business/${business_id}`,
+      label: <Name entityKey="businesses" id={business_id} />
+      }) : ({
+        to: "/",
+        label: "Home"
+      })}
+  >
+    <ProcedureForm
+      url="/procedures"
+      type={CREATE_PROCEDURE_REQUEST}
+      initialValues={{description: ''}}
+      extraValues={{author: "Me", oem_business_id: business_id}}
+      id={new Date().getTime()}
+    />
+  </PageLayout>
+)

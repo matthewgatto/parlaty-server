@@ -1,56 +1,38 @@
 import React from 'react';
-import { FieldArray } from 'formik';
-import FormWrapper from '../FormWrapper';
-import FormError from '../../../containers/FormError';
-import {Input, Textarea} from '../Inputs';
-import StepList from '../../StepList';
+import Form, {Input, FormError, SubmitButton, Textarea } from '../Login';
+import StepList, {AddStepButton} from '../StepList';
 import PolygonGroup from '../../SVG/PolygonGroup';
-import Button from '../../Button';
 import ImageList from '../../../containers/ImageList';
-import AddStepButton from '../../../containers/AddStepButton';
-import FormSubmitButton from '../../../containers/FormSubmitButton';
 import { procedureSchema } from '../validation';
 import styles from './index.module.css';
 
-export default function(props){
-  const entityKey = props.isEditing ? "procedures" : "creating"
-  const id = props.procedure_id || props.initialValues.id
-  return(
-      <FormWrapper
-        formik={{
-          initialValues: props.initialValues,
-          validationSchema: procedureSchema,
-          onSubmit: props.handleSubmit
-        }}
-        form={{
-          className: styles.content,
-          id: "procedure_form"
-        }}
-      >
-        <FieldArray validateOnChange={false} name="steps">
-          {arrayHelpers => (
-            <>
-              <div>
-                <div className={styles.margin}>
-                  <Input label="Procedure Name" name="name" type='text' />
-                  <Textarea label="Description" name="description" />
-                </div>
-                <AddStepButton procedure_id={props.procedure_id} pushStep={arrayHelpers.push} />
-                <PolygonGroup className={styles.polygonContainer} />
-              </div>
-              <div>
-                <div className={styles.columnTitle}>Procedure Steps</div>
-                <StepList procedure_id={props.procedure_id} setStep={props.setStep} reorderStep={props.reorderStep} arrayHelpers={arrayHelpers} />
-              </div>
-              <div>
-                <div className={styles.columnTitle}>Uploaded Imagery</div>
-                <ImageList />
-                <FormSubmitButton entityKey={entityKey} id={id} text="Submit" className={styles.submit} />
-                <FormError entityKey={entityKey} id={id} className={styles.error} large />
-              </div>
-            </>
-          )}
-        </FieldArray>
-      </FormWrapper>
-  )
-}
+export default (props) => (
+  <Form
+    {...props}
+    entity="procedure"
+    validationSchema={procedureSchema}
+    wrapperId="procedure_form"
+    className={styles.content}
+  >
+    {({handleSubmit, formKey}) => (<>
+      <div>
+        <div className={styles.margin}>
+          <Input name="name" type="text" label="Procedure Name" required formKey={formKey} />
+          <Textarea label="Description" name="description" required formKey={formKey} />
+        </div>
+        <AddStepButton formKey={formKey} />
+        <PolygonGroup className={styles.polygonContainer} />
+      </div>
+      <div>
+        <div className={styles.columnTitle}>Procedure Steps</div>
+        <StepList procedure_id={props.procedure_id} formKey={formKey} initialStepIds={props.initialValues.steps} />
+      </div>
+      <div>
+        <div className={styles.columnTitle}>Uploaded Imagery</div>
+        <ImageList />
+        <SubmitButton formKey={formKey} onClick={handleSubmit} label="Submit" className={styles.submit} />
+        <FormError formKey={formKey} large className={styles.error} />
+      </div>
+    </>)}
+  </Form>
+)

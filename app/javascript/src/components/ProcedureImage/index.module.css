@@ -19,11 +19,11 @@
 
 .iconWrapper {
   position: absolute;
-  bottom: 0.4em;
-  left: 0.4em;
+  bottom: 0.5em;
+  left: 0.5em;
   background: rgba(0,0,0,0.6);
-  width: 1.4em;
-  height: 1.4em;
+  width: 1.5em;
+  height: 1.5em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,8 +32,8 @@
 
 .icon {
   fill: #fff;
-  width: 1em;
-  height: 1em;
+  width: 1.1em;
+  height: 1.1em;
 }
 
 .loading {

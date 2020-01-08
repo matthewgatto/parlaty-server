@@ -10,5 +10,5 @@ const ImageList = ({images}) => images.length > 0 ? (
   )
 
 export default connect(
-  ({images}) => ({images})
+  ({steps}) => ({images:steps.images})
 )(ImageList);

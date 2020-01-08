@@ -75,30 +75,21 @@ input[type='text']::placeholder,input[type='password']::placeholder,input[type='
   color: #7b7979;
 }
 
-label {
-  height: 1em;
-  display: block;
-  text-align: left;
-  font-size: 1.2em;
-  line-height: 1em;
-  margin: 0.4em;
-  font-weight: 600;
-  color: #7b7979;
-}
 
-form#auth .invalidField {
+
+#auth .invalidField {
   border-bottom: 1px solid #e23e4d;
 }
-form#procedure_form input[type='text'],form#procedure_form input[type='password'],form#procedure_form input[type='number'], form#procedure_form input[type='email'] {
+#procedure_form input[type='text'],#procedure_form input[type='password'],#procedure_form input[type='number'], #procedure_form input[type='email'] {
   background-color: #fff;
   border: none;
   height: 2.16667em;
 }
-form#procedure_form textarea,form#procedure_form input[type='text'],form#procedure_form input[type='password'],form#procedure_form input[type='number'], form#procedure_form input[type='email'] {
+#procedure_form textarea,#procedure_form input[type='text'],#procedure_form input[type='password'],#procedure_form input[type='number'], #procedure_form input[type='email'] {
   padding: 0 0.333em !important;
 }
 
-form#procedure_form input[type='text'],form#procedure_form input[type='password'],form#procedure_form input[type='number'], form#procedure_form input[type='email'],form#procedure_form textarea,form#procedure_form select {
+#procedure_form input[type='text'],#procedure_form input[type='password'],#procedure_form input[type='number'], #procedure_form input[type='email'],#procedure_form textarea,#procedure_form select {
   font-size: 1.2em;
 }
 
@@ -106,8 +97,423 @@ button {
   border: none;
 }
 
+.button {
+  height: 2.4em;
+  background: #67328d;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.3em;
+  padding: 0 1em;
+  border: none;
+  border-radius: 0.3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.button.secondary {
+  color: #67318d;
+  background: #e9e4ee;
+  width: 100%;
+  margin-top: 0.8em;
+}
+
+.field {
+  margin-bottom: 1.2em;
+  display: block;
+}
+
+.field__label {
+  height: 1em;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  line-height: 1em;
+  margin: 0.4em;
+  font-weight: 600;
+  color: #7b7979;
+}
+
+.field__label > *:nth-child(2) {
+  margin-left: 0.8em;
+}
+
+
 @media (max-width: 480px) {
-  form#procedure_form textarea {
+  #procedure_form textarea {
     text-indent:-3px;
+  }
+}
+
+
+
+.form_buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3em;
+}
+
+.form_label {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  color: #67318d;
+  cursor: pointer;
+}
+.form_container {
+  font-size: 1.8em;
+}
+
+.list_label {
+  margin-bottom: 1em;
+  color: #ac91bd;
+  font-size: 1.9em;
+  font-weight: 600;
+}
+
+.header_bar {
+  background: #eeefef;
+  border-radius: 0.4em;
+  height: 6.2em;
+  padding: 0 1em;
+  margin-bottom: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header_bar__title {
+  font-size: 2.6em;
+  color: #7b7979;
+  font-weight: 500;
+}
+
+.select {
+  width: 100%;
+  border-radius: .4em;
+  height: 2.6em;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.select__icon {
+  position: absolute;
+  right: .8em;
+}
+
+.file_input__hidden {
+  display: none;
+}
+
+.file_input {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 50%;
+  min-width: 43%;
+  position: relative;
+}
+
+.file_input label {
+  height: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.file_input__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #e9e4ee;
+  color: #67318d;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 0.6em 0.7em;
+  border-radius: 0.2em;
+}
+
+.file_input__icon {
+  width: 1em;
+  height: 1em;
+  fill: #67318d;
+  margin-left: 0.6em;
+}
+
+.file_input__name {
+  font-size: 1.1em;
+  width: 3.8em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1em;
+}
+
+.step_header {
+  padding: 0 1.6em 0 0.8em;
+  height: 3.4em;
+  margin-bottom: 0.4em;
+  cursor: pointer;
+  justify-content: center;
+  background: #eeefef;
+  border-radius: 0.4em;
+  display: flex;
+  align-items: center;
+}
+
+.step_header.color {
+  background: #e9e4ee;
+}
+
+.step_header__text {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  color: #000;
+  flex-grow: 1;
+}
+
+.step_header.color .step_header__text {
+  color: #67318d;
+}
+
+.step_form {
+  padding: 1em .8em 2.6em;
+  border-bottom: 1px solid #e9e8e8;
+  margin-top: 0.4em;
+  margin-bottom: 2.6em;
+}
+
+.step_form__files {
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.9em;
+  margin: 1.6em 0 1em 0;
+}
+
+.step_form__boxes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1em;
+}
+.step_form__boxes > * {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.spoken_box {
+  margin: -1em 0 -0.4em 0;
+  font-size: 1em;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.add_step_icon {
+  width: 1.4em;
+  height: 1.4em;
+  margin-right: 1em;
+}
+
+.add_step_icon > * {
+  stroke: #67318d;
+}
+
+.step_button {
+  padding: 0 1.6em 0 0.8em;
+  height: 3.4em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9e4ee;
+  border-radius: 0.4em;
+}
+
+.step_button__text {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  color: #67318d;
+}
+
+.step_button.secondary {
+  background: #fff;
+  margin-top: 1.2em;
+}
+
+.action_input {
+  display: flex;
+  align-items: center;
+  margin: 0.5em 0;
+}
+
+.action_input > *:nth-child(3) {
+  flex-grow: 1;
+  margin-bottom: 0;
+}
+.action_input > *:nth-child(3) label {
+  display: none;
+}
+
+
+.action_input__burger {
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+}
+
+.action_input__burger > * {
+  stroke: #888;
+}
+
+.action_input__text {
+  color: #888;
+  font-size: 1.3em;
+  flex-shrink: 0;
+  font-weight: bold;
+  width: 2em;
+  text-align: center;
+}
+
+.action_input__icon {
+  visibility: hidden;
+  cursor: pointer;
+  margin-left: 0.2em;
+  fill: #888;
+}
+
+.action_input:hover .action_input__icon {
+  visibility: visible !important;
+}
+
+.action_list {
+  margin: 1.2em 0;
+}
+
+.action_list__add_button {
+  background: #e9e4ee;
+  border-radius: 0.8em;
+  color: #67328d;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9em;
+  font-weight: 600;
+  padding: 0.2em 0.6em;
+  cursor: pointer;
+  margin: 1em 0 2em 0;
+}
+
+.action_list__add_button__icon {
+  width: 0.8em;
+  margin-right: 0.4em;
+}
+
+.action_input label {
+  width: 100%;
+}
+
+.header_bar__button {
+  background: #67328d;
+  color: #fff;
+  cursor: pointer;
+  height: 2em;
+  font-size: 1.2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.2em;
+  text-decoration: none;
+  padding: 0 0.6em;
+}
+
+.device_form__action_list {
+  margin: 1.2em 0;
+  min-height: 28.256em;
+}
+
+.device_select__action_list {
+  padding: 0.6em;
+  background-color: #fff;
+  border-radius: 0.3em;
+  box-sizing: border-box;
+  color: #888;
+  font-size: 1.1em;
+  margin: -0.5em 0 1.2em;
+}
+
+.device_select__action_list__item {
+  display: flex;
+  align-items: center;
+}
+
+.device_select__action_list__item_number {
+  flex: 0 0 1em;
+}
+
+.device_select__action_list__item_text {
+  flex-grow: 1;
+}
+
+.step_error_container {
+  height: 2.4em;
+  position: relative;
+}
+
+.step_error_container > * {
+  position: absolute;
+}
+
+@media (min-width: 768px){
+  .list_label {
+    font-size: 1.6em;
+  }
+  .form_container {
+    font-size: 1em;
+  }
+  .header_bar {
+    height: 5.2em;
+  }
+  .header_bar__title {
+    font-size: 2.2em;
+  }
+  .step_form__boxes,.step_form__files,.spoken_box {
+    font-size: 0.7em;
+  }
+}
+@media (min-width: 1024px){
+  .list_label {
+    font-size: 1.4em;
+  }
+  .header_bar {
+    height: 4.6em;
+  }
+  .header_bar__title {
+    font-size: 1.7em;
+  }
+  .step_form__boxes,.step_form__files,.spoken_box {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 460px){
+  .step_form__boxes input[type='checkbox'],.step_form__boxes input[type='radio'],.spoken_box input[type='checkbox'] {
+    height: 0.8em;
+  }
+  .step_form__boxes {
+    flex-wrap: wrap;
+  }
+  .step_form__boxes label {
+    margin: 0;
+  }
+  .step_form__boxes > * {
+    justify-content: flex-end;
   }
 }

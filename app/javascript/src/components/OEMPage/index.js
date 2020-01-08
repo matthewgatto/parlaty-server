@@ -1,38 +1,30 @@
 import React from 'react';
-import PageLayout from '../PageLayout';
-import OEMBusinesses from '../../containers/OEMBusinesses';
-import OEMName from '../../containers/OEMName';
-import styles from './index.module.css';
+import {useSelector} from 'react-redux'
+import ListPage from '../ListPage';
+import { FETCH_OEM_BUSINESSES_REQUEST } from '../../redux/types';
 
-export default function(props){
-  return(
-    <PageLayout
-      back={props.id ? (
-          undefined
-        ) : ({
-          to: "/",
-          label: "Home"
-        })}
-      header={props.id ? (
-        "Home"
-      ) : (
-        <>OEM: <OEMName id={props.id || props.match.params.id}/></>
-      )}
-      link={props.match.params.id ? (
-          {text: "Update OEM", to: `/oem/${props.match.params.id}/update`}
-        ) : (
-          undefined
-        )}
-    >
-      <OEMBusinesses
-        id={props.id || props.match.params.id}
-        requestURL={`/oems/${props.id || props.match.params.id}/oem_businesses`}
-        requestEntity="oems"
-        text="Businesses"
-        to={props.id ? "/business" : `/oem/${props.match.params.id}/business`}
-        entityKey="businesses"
-        placeholder={props.id ? "You have no businesses" : "This OEM has no businesses"}
-      />
-    </PageLayout>
-  )
+export default ({match: {params}}) => {
+  const isAdmin = (params && params.id) ? true : false
+  const id = isAdmin ? params.id : useSelector(({auth}) => (auth && auth.roleable_type === "Oem") ? auth.roleable_id : undefined)
+  const p = {
+    label: "Businesses",
+    list: {
+      id,
+      type: FETCH_OEM_BUSINESSES_REQUEST,
+      url: `/oems/${id}/oem_businesses`,
+      text: "Businesses",
+      entityKey: "businesses",
+      selector: ({oems:{byId:{[id]:oem}}}) => ((oem && oem.businesses) ? oem.businesses : undefined)
+    }
+  }
+  if(isAdmin){
+    p.header = {header: {text: "OEM: ", entityKey: "oems", id}, back: {to: "/", label: "Home"}, link: [{text: "Update OEM", to: `/oem/${id}/update`}, {text: "Add Business", to: `/oem/${id}/business/create`}]}
+    p.list.to = `/oem/${id}/business`
+    p.list.placeholder = "This OEM has no businesses"
+  } else {
+    p.header = {header: "Home", link: {text: "Add Business", to: "/business/create"}}
+    p.list.to = "/business"
+    p.list.placeholder = "You have no businesses"
+  }
+  return <ListPage {...p} />
 }

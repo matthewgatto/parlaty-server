@@ -1,10 +1,7 @@
 import { normalize, schema } from 'normalizr';
 
 const step = new schema.Entity("steps", {}, {
-  processStrategy: ({visual, procedure_id, ...step}, procedure) => {
-    if(!procedure_id && procedure && procedure.id){
-      step.procedure_id = procedure.id
-    }
+  processStrategy: ({visual, has_visual, visuals, ...step}, procedure) => {
     if(visual){
       step.image = visual;
     }
@@ -16,6 +13,7 @@ step.define({
 })
 
 const procedure = new schema.Entity("procedures", {}, {
+  processStrategy: (procedure, {oem_business_id,id}) => ({oem_business_id: id || oem_business_id, ...procedure}),
   mergeStrategy: (a, b) => {
     return {
       ...a,
@@ -28,7 +26,10 @@ procedure.define({
   steps: [step]
 })
 
-const business = new schema.Entity("businesses", {}, {idAttribute: 'oem_business_id'});
+const business = new schema.Entity("businesses", {}, {
+  idAttribute: 'oem_business_id',
+  processStrategy: (business, {id}) => ({oem_id: id, ...business})
+});
 business.define({
   procedures: [procedure]
 })

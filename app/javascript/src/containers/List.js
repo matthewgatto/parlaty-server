@@ -1,38 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ListItem from './ListItem';
-import ListLabel from '../components/ListLabel';
 import FetchLoader from '../components/FetchLoader';
 import FetchError from '../components/FetchError';
 import ListPlaceholder from '../components/ListPlaceholder';
-import { fetchEntity } from '../redux/actions';
 
-export default class extends React.PureComponent {
-  componentDidMount(){
-    if(this.props.shouldLoad){
-      this.makeEntityRequest();
+export default function(props){
+  const items = useSelector(props.selector);
+  const dispatch = useDispatch();
+  const fetchData = () => dispatch({type: props.type, payload: {url: props.url, id: props.id}});
+  useEffect(() => {
+    if(!items){
+      fetchData()
     }
-  }
-  makeEntityRequest = () => {
-    this.props.dispatch(fetchEntity(this.props.requestURL, this.props.requestEntity, this.props.id));
-  }
-  render(){
-    if(this.props.error) return <FetchError error={this.props.error} retry={this.makeEntityRequest} />
-    if(this.props.isLoading) return <FetchLoader text={this.props.text} />
-    if(!this.props.items || (this.props.items && this.props.items.length === 0)){
-      return <ListPlaceholder text={this.props.placeholder} />
-    }
-    return(
-      <>
-        <ListLabel
-          text={this.props.text}
-          showRefresh={false/*this.props.items && !this.props.error*/}
-          refresh={this.makeEntityRequest}
-        />
-        {this.props.items.map(id =>
-          <ListItem key={id} entityKey={this.props.entityKey} to={this.props.action ? `${this.props.to}/${id}/${this.props.action}` : `${this.props.to}/${id}`} id={id} />
-        )}
-      </>
-    )
-
-  }
+  },[])
+  //if(error) return <FetchError error={error} retry={fetchData} />
+  if(!items) return <FetchLoader text={props.text} />
+  if(items.length === 0) return <ListPlaceholder text={props.placeholder} />
+  return items.map(id =>
+    <ListItem key={id} entityKey={props.entityKey} to={props.action ? `${props.to}/${id}/${props.action}` : `${props.to}/${id}`} id={id} />
+  )
 }

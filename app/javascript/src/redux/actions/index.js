@@ -21,7 +21,7 @@ export const addImage = (image, reIndex) => ({type: types.ADD_IMAGE, payload: {i
 export const updateImage = (id, image) => ({type: types.UPDATE_IMAGE, payload: {id, image}});
 export const removeImage = (id) => ({type: types.REMOVE_IMAGE, payload: id});
 export const reIndexImages = (idx) => ({type: types.REINDEX_IMAGES, payload: idx});
-export const removeImageAndReIndex = (from, to) => ({type: types.REMOVE_IMAGE_AND_REINDEX, payload: {from, to}})
+
 
 //meta
 export const setEntityFetchError = (fetchError, entityKey, id) => ({type: types.SET_ENTITY_META, entityKey, id, meta: {fetchError}})
@@ -31,9 +31,11 @@ export const handleEntityCreateSubmit = (url, entityKey, values, id, to) => ({ty
 export const setCreateMeta = (entity) => ({type: types.SET_ENTITY_META, id: entity.id, entityKey: "creating", meta: {initialValues: entity}})
 
 //user
-export const handleLoginSubmit = values => ({type: types.LOGIN_REQUEST, payload: values});
 export const logout = () => ({type: types.LOGOUT})
 
 //toast
 export const addToast = (status, text) => ({type: types.ADD_TOAST, payload: {id: new Date().getTime(), status, text}})
 export const removeToast = id => ({type: types.REMOVE_TOAST, payload: id})
+
+
+export const receiveEntities = entities => ({type: types.RECEIVE_ENTITIES, payload: entities});

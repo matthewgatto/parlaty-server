@@ -11,25 +11,14 @@
   flex-shrink: 0;
 }
 
-.header {
-  background: #eeefef;
-  border-radius: 0.4em;
-  height: 6.2em;
-  padding: 0 1em;
-  margin-bottom: 3em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 
 .link {
-  float: right;
   background: #67328d;
   color: #fff;
   cursor: pointer;
   height: 2.5em;
   font-size: 1.4em;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 0.3em;
@@ -37,11 +26,6 @@
   padding: 0 0.6em;
 }
 
-.title {
-  font-size: 2.6em;
-  color: #7b7979;
-  font-weight: 500;
-}
 
 .back {
   position: absolute;
@@ -65,22 +49,16 @@
 .triangle > polygon {
   fill: #7b7979;
 }
-
-.loadingContent {
-  background: #eeefef;
-  border-radius: 0.4em;
-  flex-grow: 1;
+.links {
+  display: flex;
+}
+.links > *:nth-child(n+2){
+  margin-left: 0.6em;
 }
 @media (min-width: 768px){
   .back {
     font-size: 1.6em;
     top: -2.5em;
-  }
-  .title {
-    font-size: 2.2em;
-  }
-  .header {
-    height: 5.2em;
   }
   .triangle {
     width: 0.7em;
@@ -94,12 +72,6 @@
 @media (min-width: 1024px){
   .back {
     font-size: 1.3em;
-  }
-  .title {
-    font-size: 1.7em;
-  }
-  .header {
-    height: 4.6em;
   }
   .triangle {
     width: 0.6em;

@@ -39,15 +39,17 @@ function StepLabel({idx, setStep, id, canOpen, arrayHelpers, deleteStep, deleteS
   )
 }
 
-function Step(props){
-  return(
-    <>
-      <StepLabel deleteStep={props.deleteStep} deleteStepVisuals={props.deleteStepVisuals} setStep={props.setStep} isOpen={props.isOpen} canOpen={props.canOpen} id={props.id} idx={props.idx} arrayHelpers={props.arrayHelpers} steps={props.steps} isEditing={props.isEditing} setRef={props.provided.innerRef} {...props.provided.dragHandleProps} {...props.provided.draggableProps} />
-      <AnimateHeight height={props.isOpen ? 'auto' : 0} duration={200}>
-        <StepFields isOpen={props.isOpen} idx={props.idx} id={props.id} arrayHelpers={props.arrayHelpers} steps={props.steps} />
-      </AnimateHeight>
-    </>
-  )
+class Step extends React.PureComponent {
+  render(){
+    return(
+      <>
+        <StepLabel deleteStep={this.props.deleteStep} deleteStepVisuals={this.props.deleteStepVisuals} setStep={this.props.setStep} isOpen={this.props.isOpen} canOpen={this.props.canOpen} id={this.props.id} idx={this.props.idx} arrayHelpers={this.props.arrayHelpers} steps={this.props.steps} isEditing={this.props.isEditing} setRef={this.props.provided.innerRef} {...this.props.provided.dragHandleProps} {...this.props.provided.draggableProps} />
+        <AnimateHeight height={this.props.isOpen ? 'auto' : 0} duration={200}>
+          <StepFields isOpen={this.props.isOpen} idx={this.props.idx} id={this.props.id} arrayHelpers={this.props.arrayHelpers} steps={this.props.steps} />
+        </AnimateHeight>
+      </>
+    )
+  }
 }
 
 export default connect(

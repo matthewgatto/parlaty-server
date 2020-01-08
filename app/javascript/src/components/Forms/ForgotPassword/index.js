@@ -1,23 +1,38 @@
 import React from 'react';
 import PageLayout from '../../PageLayout';
-import FormWrapper from '../FormWrapper';
-import {Input} from '../Inputs';
-import FormSubmitButton from '../../../containers/FormSubmitButton';
+import Form, {Input, FormError, SubmitButton} from '../Login';
+import { CREATE_PASSWORD_RESET_EMAIL_REQUEST } from '../../../redux/types/auth';
 import { forgotPasswordSchema } from '../validation';
 
-export default function(props){
-  return(
-    <PageLayout header={props.header}>
-      <FormWrapper
-        formik={{
-          initialValues: props.initialValues,
-          validationSchema: forgotPasswordSchema,
-          onSubmit: props.handleSubmit
-        }}
-      >
-        <Input label="Email*" type="email" name="email" />
-        <FormSubmitButton text="Submit" />
-      </FormWrapper>
-    </PageLayout>
-  )
-}
+const inputs = [{
+  type: "email",
+  name: "email",
+  label: "Email*",
+  required: true
+}]
+
+export default ({history:{goBack}}) => (
+  <PageLayout header="Get A Password Reset Email">
+    <Form
+      entity="password_reset_email"
+      url='/users/password'
+      type={CREATE_PASSWORD_RESET_EMAIL_REQUEST}
+      initialValues={{email: ''}}
+      validationSchema={forgotPasswordSchema}
+      className="form_container"
+      id={new Date().getTime()}
+      submitOnEnter
+    >
+      {({handleSubmit, formKey}) => (<>
+        <FormError formKey={formKey} large top />
+        {inputs.map(input => <Input key={input.name} {...input} formKey={formKey} />)}
+        <div className="form_buttons">
+          <div onClick={goBack} className="form_label">
+            Cancel
+          </div>
+          <SubmitButton formKey={formKey} onClick={handleSubmit} label="Submit" />
+        </div>
+        </>)}
+    </Form>
+  </PageLayout>
+)

@@ -1,12 +1,12 @@
-import * as types from '../types'
+import * as types from '../types/toast'
 
-export default function reducer(previousState = [], {type, payload}){
+export default function reducer(state = [], {type, payload}){
   switch (type) {
     case types.ADD_TOAST:
-      return [...previousState, payload]
+      return [...state, payload]
     case types.REMOVE_TOAST:
-      return previousState.filter(toast => toast.id !== payload)
+      return state.filter(toast => toast.id !== payload)
     default:
-      return previousState
+      return state
   }
 }

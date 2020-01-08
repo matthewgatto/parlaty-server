@@ -1,22 +1,19 @@
 import React from 'react';
-import PageLayout from '../PageLayout';
-import OEMList from '../../containers/OEMList';
-import styles from './index.module.css';
+import ListPage from '../ListPage';
+import { FETCH_OEMS_REQUEST } from '../../redux/types/oem';
 
-export default function(props){
-  return(
-    <PageLayout
-      header="Home"
-      link={{text: "Invite OEM", to: '/invite/oem'}}
-    >
-      <OEMList
-        requestURL="/oems"
-        requestEntity="landing"
-        text="OEMs"
-        to="/oem"
-        entityKey="oems"
-        placeholder="There are no OEMs"
-      />
-    </PageLayout>
-  )
+const oemListProps = {
+  header: { header: "Home", link: { text: "Invite OEM", to: "/invite/oem" }},
+  label: "OEMs",
+  list: {
+    url: "/oems",
+    text: "OEMs",
+    to: "/oem",
+    entityKey: "oems",
+    placeholder: "There are no OEMs",
+    type: FETCH_OEMS_REQUEST,
+    selector: ({oems:{allIds}}) => allIds
+  }
 }
+
+export default () => <ListPage {...oemListProps} />

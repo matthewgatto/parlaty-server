@@ -18,15 +18,16 @@ function Field(props){
   )
 }
 
-
 export function Input({label, ...props}){
     return(
       <FastField name={props.name} >
-        {({field, meta}) => (
-          <Field name={props.name} meta={meta} label={label}>
-            <input {...field} {...props}  />
-          </Field>
-        )}
+        {({field, meta}) => {
+          return(
+            <Field name={props.name} meta={meta} label={label}>
+              <input {...field} {...props}  />
+            </Field>
+          )
+        }}
       </FastField>
     )
 }

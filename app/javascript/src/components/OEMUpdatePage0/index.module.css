@@ -1,0 +1,23 @@
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2em 0 3em 0;
+}
+
+.label {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  color: #7b7979;
+  cursor: pointer;
+}
+.container {
+  font-size: 1.8em;
+}
+
+@media (min-width: 720px) {
+  .container {
+    font-size: 1em;
+  }
+}

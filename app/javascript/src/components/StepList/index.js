@@ -5,9 +5,7 @@ import Placeholder from '../Placeholder';
 import Step from '../../containers/Step';
 import styles from './index.module.css';
 
-export default function(props){
-  const {values: {steps}} = useFormikContext();
-  if(!steps || steps.length == 0 ) return <Placeholder text="This procedure currently has no steps" />
+function StepList(props) {
   const handleDragEnd = ({destination, source}) => {
     if (!destination || destination.index === source.index) {
       return;
@@ -23,9 +21,9 @@ export default function(props){
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
           <div {...provided.droppableProps} ref={provided.innerRef} className={styles.list}>
-            {steps.map((step, i) => (
-              <Draggable key={step.id} draggableId={step.id} index={i}>
-                {(provided, snapshot) => <Step idx={i} id={step.id} steps={steps.length} provided={provided} isDragging={snapshot.isDragging} isEditing={props.procedure_id ? true : false} arrayHelpers={props.arrayHelpers} />}
+            {props.steps.map((step, i) => (
+              <Draggable key={step} draggableId={step} index={i}>
+                {(provided, snapshot) => <Step idx={i} id={step} steps={props.length} provided={provided} isDragging={snapshot.isDragging} isEditing={props.procedure_id ? true : false} arrayHelpers={props.arrayHelpers} />}
               </Draggable>
             ))}
             {provided.placeholder}
@@ -34,4 +32,14 @@ export default function(props){
       </Droppable>
     </DragDropContext>
   )
+}
+
+StepList = React.memo(StepList);
+
+export default function(props){
+  const {values: {steps}} = useFormikContext();
+  const length = steps.length;
+  if(length === 0) return <Placeholder text="This procedure currently has no steps" />
+  const stepIds = steps.map(step => step.id);
+  return <StepList steps={stepIds} length={length} {...props} />
 }

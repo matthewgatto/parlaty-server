@@ -1,15 +1,27 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import Logout from '../../containers/Logout';
 import styles from './index.module.css';
 import logo from '../../assets/images/logo.png';
 
+const AuthLinks = () => {
+  const isAdmin = useSelector(({auth}) => auth && auth.roleable_type === "ParlatyAdmin");
+  if(isAdmin){
+    return(<>
+      <NavLink className={styles.link} activeClassName={styles.active} to="/invite">Invite</NavLink>
+      <NavLink className={styles.link} activeClassName={styles.active} to="/devices">Devices</NavLink>
+    </>)
+  }
+  return null
+}
 const Layout = ({children}) =>
   <>
     <div className={styles.header}>
       <Link to="/"><img className={styles.logo} src={logo} /></Link>
       <div className={styles.links}>
         <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>
+        <AuthLinks />
         <NavLink className={styles.link} activeClassName={styles.active} to="/support">Support</NavLink>
         <Logout className={styles.link} />
       </div>

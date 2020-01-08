@@ -5,15 +5,13 @@ const API = (function(){
       return res.text().then(function(text) {
         return text ? JSON.parse(text) : {}
       });
-    } else if(res.status === 401){
-      return {formError: "Invalid email/password combination"}
     } else {
       return res.text().then(function(text) {
         if(text){
           const {error} = JSON.parse(text);
-          return {formError: (error && Array.isArray(error) && error.length > 0) ? error[0] : "An unexpected error has occurred"}
+          throw {formError: (error && Array.isArray(error) && error.length > 0) ? error[0] : "An unexpected error has occurred"}
         } else {
-          return {formError: "An unexpected error has occurred"}
+          throw res.status
         }
       })
     }
@@ -29,6 +27,16 @@ const API = (function(){
           ).then(checkStatus),
         post: (url, body) => fetch(url, {
               method: 'POST',
+              headers: {
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${_token}`,
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(body)
+            }
+          ).then(checkStatus),
+        put: (url, body) => fetch(url, {
+              method: 'PUT',
               headers: {
                 'Content-Type':'application/json',
                 'Authorization': `Bearer ${_token}`,

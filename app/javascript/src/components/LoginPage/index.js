@@ -1,11 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LoginForm from '../../containers/LoginForm';
-import FormErrorMessage from '../../containers/FormErrorMessage';
+import Form, {Input, FormError, SubmitButton} from '../Forms/Login';
 import Polygon from '../SVG/PolygonH';
 import styles from './index.module.css';
+import { loginSchema } from '../Forms/validation';
+import { CREATE_AUTH_REQUEST } from '../../redux/types';
 
-const LoginPage = () =>
+const inputs = [{
+  type: "email",
+  name: "email",
+  placeholder: "Email/Username",
+  required: true
+}, {
+  type: "password",
+  name: "password",
+  placeholder: "Password",
+  required: true
+}]
+
+export default () => (
   <div className={styles.container}>
     <div className={styles.topPolygonContainer}>
       <Polygon className={styles.topPolygonOne} fill="#c6c6c6" stroke="#c6c6c6" size="2.7em" />
@@ -15,10 +28,27 @@ const LoginPage = () =>
     </div>
     <div className={styles.header}>Log into Parlaty<sup className={styles.tm}>&#8482;</sup></div>
     <div className={styles.subheader}>Or <Link to="/#" className={styles.underline}>Create Account</Link></div>
-    <div className={styles.error}>
-      <FormErrorMessage />
-    </div>
-    <LoginForm />
+    <Form
+      entity="auth"
+      url="/login"
+      type={CREATE_AUTH_REQUEST}
+      initialValues={{
+        email: '',
+        password: ''
+      }}
+      validationSchema={loginSchema}
+      className={styles.form}
+      id={new Date().getTime()}
+      submitOnEnter
+    >
+      {({handleSubmit, formKey}) => (<>
+        <div className={styles.error}>
+          <FormError formKey={formKey} />
+        </div>
+        {inputs.map(input => <Input key={input.name} {...input} formKey={formKey} />)}
+        <SubmitButton formKey={formKey} onClick={handleSubmit} label="Login" secondary />
+      </>)}
+    </Form>
     <Link to="/forgot-password" className={styles.link}>I forgot my username/password</Link>
     <div className={styles.bottomPolygonContainer}>
       <Polygon className={styles.bottomPolygonOne} fill="#c6c6c6" stroke="#c6c6c6" size="2.7em" />
@@ -27,5 +57,4 @@ const LoginPage = () =>
       <Polygon className={styles.bottomPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
     </div>
   </div>
-
-export default LoginPage
+)

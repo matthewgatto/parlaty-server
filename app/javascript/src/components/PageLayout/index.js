@@ -1,29 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Triangle from '../SVG/Triangle';
+import HeaderBar from '../HeaderBar';
+import Name from '../../containers/Name';
 import styles from './index.module.css';
 
-export default function(props){
-  if(props.isLoading){
-    return(
-      <div className={styles.container}>
-        <div className={styles.header}>
-        </div>
-        <div className={styles.loadingContent}>
-        </div>
-      </div>
-    )
-  }
-  return(
-    <div className={styles.container}>
-      {props.back &&
-        <Link className={styles.back} to={props.back.to}><Triangle className={styles.triangle} /> {props.back.label}</Link>
-      }
-      <div className={styles.header}>
-        <span className={styles.title}>{props.header}</span>
-        {props.link && <Link className={styles.link} to={props.link.to}>{props.link.text}</Link>}
-      </div>
-      {props.children}
-    </div>
-  )
-}
+const makeLabel = (label) => ((typeof label === "object" && label.entityKey) ? (
+  <>{label.text}<Name entityKey={label.entityKey} id={label.id}/></>
+) : (
+  label
+))
+const renderLinks = (link) => (Array.isArray(link) ? (
+  <div className={styles.links}>
+    {link.map(l => <Link key={l.to} className={styles.link} to={l.to}>{l.text}</Link>)}
+  </div>
+) : (
+  <Link className={styles.link} to={link.to}>{link.text}</Link>
+))
+
+export default ({back, header, link, children}) => (
+  <div className={styles.container}>
+    {back && <Link className={styles.back} to={back.to}><Triangle className={styles.triangle} /> {makeLabel(back.label)}</Link>}
+    <HeaderBar title={makeLabel(header)} right={link && renderLinks(link)} />
+    {children}
+  </div>
+)

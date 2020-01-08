@@ -1,6 +1,7 @@
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import ListItem from '../components/ListItem';
 
-export default connect(
-  ({entities}, {id, entityKey}) => ({name: entities[entityKey][id] ? entities[entityKey][id].name : undefined})
-)(ListItem);
+export default (props) => (
+  <ListItem name={useSelector(state => state[props.entityKey].byId[props.id] ? state[props.entityKey].byId[props.id].name : undefined)} {...props} />
+)
