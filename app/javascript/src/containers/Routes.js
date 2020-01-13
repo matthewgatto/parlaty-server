@@ -2,21 +2,20 @@ import React, {useEffect} from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoginPage from '../components/LoginPage';
-import OEMBusinessPage from '../components/OEMBusinessPage';
-import CreateProcedurePage from '../components/CreateProcedurePage';
-import EditProcedurePage from '../components/EditProcedurePage';
+import OEMBusinessPage from '../components/Business/Show';
+import CreateProcedurePage from '../components/Procedure/Create';
+import EditProcedurePage from '../components/Procedure/Edit';
 import AdminLandingPage from '../components/AdminLandingPage';
-import OEMPage from '../components/OEMPage';
-import OEMUpdatePage from '../components/OEMUpdatePage';
-import OEMInvitationForm from '../components/Forms/Invitation';
-import DeviceListPage from '../components/DeviceListPage';
-import DeviceEditPage from '../components/DeviceEditPage';
-import DeviceCreatePage from '../components/DeviceCreatePage';
-import UserInvitationForm from '../components/Forms/UserInvitation';
-import BusinessForm from '../components/Forms/Business';
-import ForgotPasswordForm from '../components/Forms/ForgotPassword';
-import ResetPasswordForm from '../components/Forms/ResetPassword';
-import InvitationConfirmationForm from '../components/Forms/InvitationConfirmation'
+import OEMPage from '../components/OEM/Show';
+import OEMUpdatePage from '../components/OEM/Edit';
+import DeviceListPage from '../components/Device/List';
+import DeviceEditPage from '../components/Device/Edit';
+import DeviceCreatePage from '../components/Device/Create';
+//import BusinessForm from '../components/Business/Create';
+import {UserInvitationForm,OEMInvitationForm} from '../components/EmailForms/Invitation';
+import ForgotPasswordForm from '../components/EmailForms/ForgotPassword';
+import ResetPasswordForm from '../components/EmailForms/ResetPassword';
+import InvitationConfirmationForm from '../components/EmailForms/InvitationConfirmation'
 //import SignUpPage from './SignUpPage';
 
 export default () => {
@@ -36,7 +35,7 @@ export default () => {
         <Route exact path="/" component={OEMPage} />
         <Route path="/business/:business_id/procedures/:id/update" component={EditProcedurePage} />
         <Route path="/business/:business_id/procedures/create" component={CreateProcedurePage} />
-        <Route path="/business/create" component={BusinessForm} />
+        {/*<Route path="/business/create" component={BusinessForm} />*/}
         <Route path="/business/:id" component={OEMBusinessPage} />
         <Redirect to="/" />
       </Switch>)
@@ -50,7 +49,7 @@ export default () => {
         <Route path="/devices" component={DeviceListPage} />
         <Route path="/oem/:oem_id/business/:business_id/procedures/:id/update" component={EditProcedurePage} />
         <Route path="/oem/:oem_id/business/:business_id/procedures/create" component={CreateProcedurePage} />
-        <Route path="/oem/:oem_id/business/create" component={BusinessForm} />
+        {/*<Route path="/oem/:oem_id/business/create" component={BusinessForm} />*/}
         <Route path="/oem/:oem_id/business/:id" component={OEMBusinessPage} />
         <Route path="/oem/:id/update" component={OEMUpdatePage} />
         <Route path="/oem/:id" component={OEMPage} />

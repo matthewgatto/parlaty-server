@@ -46,15 +46,15 @@ function* handleProcedureCreateSuccess(response, {payload}){
   yield call(handleProcedureRequestSuccess, payload, `Procedure '${payload.values.procedure.name}' was successfully added.`);
 }
 
-const makeStep = (stepId, values,devices) => {
+const makeStep = (stepId, values) => {
   const step = {}
   if(values[`steps[${stepId}].title`]) step.title = values[`steps[${stepId}].title`]
   if(values[`steps[${stepId}].time`]) step.time = values[`steps[${stepId}].time`]
   if(values[`steps[${stepId}].mode`]) step.mode = values[`steps[${stepId}].mode`]
   //if(values[`steps[${stepId}].skip`]) step.skip = values[`steps[${stepId}].skip`]
   if(values[`steps[${stepId}].location`]) step.location = values[`steps[${stepId}].location`]
-  if(values[`steps[${stepId}].device`]) step.device = devices[values[`steps[${stepId}].device`]].id
-  if(values[`steps[${stepId}].parameter_name`]) step.parameter_name = values[`steps[${stepId}].parameter_name`]
+  if(values[`steps[${stepId}].device`]) step.device = values[`steps[${stepId}].device`]
+  if(values[`steps[${stepId}].parameter`]) step.parameter = values[`steps[${stepId}].parameter`]
   const image = values[`steps[${stepId}].image`];
   if(values[`steps[${stepId}].image`]){
     step.visuals =  [values[`steps[${stepId}].image`]];
@@ -73,8 +73,7 @@ export function* createProcedureSaga(action){
     }
   }
   if(stepIds.length > 0){
-    const devices = yield select(({devices}) => devices.byId);
-    values.steps = stepIds.map(step => makeStep(step, action.payload.values, devices))
+    values.steps = stepIds.map(step => makeStep(step, action.payload.values))
   }
   action.payload.values = values
   yield call(multipostSaga,action, getNewEntitiesFromProcedure, handleProcedureCreateSuccess);

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Form, {Input, FormError, SubmitButton} from '../Forms/Login';
+import Form from '../Form';
+import {Input} from '../Inputs';
 import Polygon from '../SVG/PolygonH';
+import SubmitButton from '../../containers/SubmitButton'
 import styles from './index.module.css';
-import { loginSchema } from '../Forms/validation';
-import { CREATE_AUTH_REQUEST } from '../../redux/types';
+import { loginSchema } from '../../utils/validation';
+import { CREATE_AUTH_REQUEST } from '../../redux/types/auth';
 
 const inputs = [{
   type: "email",

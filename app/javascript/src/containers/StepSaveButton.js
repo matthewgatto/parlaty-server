@@ -1,45 +1,31 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { useFormikContext} from 'formik';
-import StepSaveButton from '../components/StepSaveButton';
-import { handleStepSubmit } from '../redux/actions';
-import { stepSchema } from '../components/Forms/validation';
+import { useFormContext } from "react-hook-form";
+import { useDispatch, useSelector } from 'react-redux';
+import StepSaveButton from '../components/Step/SaveButton';
+import useStepValues from './useStepValues';
+import {STEP_SAVE_REQUEST,STEP_SAVE_REQUEST__FAILURE} from '../redux/types/step';
+import { stepSchema } from '../utils/validation';
 
-class StepSaveButtonContainer extends React.PureComponent {
-  componentDidUpdate(prevProps){
-    if(prevProps.isProcessing && this.props.isClosed && (this.props.step.number !== this.props.idx)){
-      this.props.move(this.props.idx, this.props.step.number - 1);
-    }
-  }
-  onClick = async () => {
+export default ({root, formKey, procedure_id, id}) => {
+  const { getValues } = useFormContext()
+  const isProcessing = useSelector(({form}) => form[formKey] && form[formKey].isProcessing)
+  const dispatch = useDispatch();
+  const handleSubmit = async () => {
     try {
-      await stepSchema.validate(this.props.step, {abortEarly: false, stripUnknown: true})
-      this.props.handleStepSubmit(this.props.step, this.props.idx)
+      const step = useStepValues(getValues, root)
+      console.log("STEP", step);
+      await stepSchema.validate(step, {abortEarly: false, stripUnknown: true})
+      dispatch({type: STEP_SAVE_REQUEST, payload: {formKey, procedure_id, id, formKey: `step,${id}`, step}})
     } catch (e) {
+      console.log("e",e);
       if(e.inner && e.inner.length > 0){
-        const errors = {};
+        const fieldErrors = {};
         for (var i = 0; i < e.inner.length; i++) {
-          errors[e.inner[i].path] = e.inner[i].message
+          fieldErrors[e.inner[i].path] = e.inner[i].message
         }
-        const stepArray = new Array(this.props.idx+1);
-        stepArray[this.props.idx] = errors;
-        this.props.setErrors({steps: stepArray})
+        dispatch({type: STEP_SAVE_REQUEST__FAILURE, payload: {formKey, errors:{fieldErrors}}})
       }
     }
   }
-  render(){
-    return(
-      <StepSaveButton onClick={this.onClick} isProcessing={this.props.isProcessing} />
-    )
-  }
-}
-
-const StepSaveButtonWrapper = connect(
-  ({form}, {step}) => (form.step && form.step.id === step.id) ? {isProcessing: form.step.isProcessing} : {isClosed: true},
-  {handleStepSubmit}
-)(StepSaveButtonContainer)
-
-export default function({idx, move}){
-  const {values: {steps}, setErrors} = useFormikContext();
-  return <StepSaveButtonWrapper idx={idx} step={steps[idx]} setErrors={setErrors} move={move} />
+  return <StepSaveButton isProcessing={isProcessing} onClick={handleSubmit} />
 }

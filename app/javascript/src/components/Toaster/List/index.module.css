@@ -1,0 +1,27 @@
+.enter {
+  transform: translateX(200%);
+}
+
+.enterActive {
+  transform: translateX(0);
+  transition: transform 300ms ease-in;
+}
+
+.exit {
+  transform: translateX(0);
+}
+
+.exitActive {
+  transform: translateX(200%);
+  transition: transform 300ms ease-in;
+}
+
+.toastList {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+  width: 42.5em;
+  display: flex;
+  flex-direction: column-reverse;
+  z-index: 30000;
+}

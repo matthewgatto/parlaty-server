@@ -54,8 +54,8 @@ const getDevices = ({devices}) => devices.byId
 function* createStepSaga({procedure, step, from, to, initialValues}){
   try {
     const previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
-    const devices = yield select(getDevices)
-    step.device = devices[step.device] ? devices[step.device].name : "Crank Handle"
+    //const devices = yield select(getDevices)
+    //step.device = devices[step.device] ? devices[step.device].name : "Crank Handle"
     const formData = utils.objectToFormData({
       step: {
         ...cleanStepCreateParams(step),
@@ -97,8 +97,8 @@ const cleanStepUpdateParams = ({id, number, skip, spoken,actions,image,audio,vis
 function* updateStepSaga({procedure, step, from, to, initialValues}){
   try {
     step.id = procedure.steps[from];
-    const devices = yield select(getDevices)
-    step.device = devices[step.device] ? devices[step.device].name : "Crank Handle"
+    //const devices = yield select(getDevices)
+    //step.device = devices[step.device] ? devices[step.device].name : "Crank Handle"
     const body = {step: cleanStepUpdateParams(step)};
     if(from !== to){
       body.previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;

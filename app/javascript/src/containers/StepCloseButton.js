@@ -1,26 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import StepCloseButton from '../components/StepCloseButton';
-import { useFormikContext} from 'formik';
-import { setStep } from '../redux/actions';
+import { useFormContext } from "react-hook-form";
+import { useDispatch } from 'react-redux';
+import StepCloseButton from '../components/Step/CloseButton';
+import {setStepForm,removeStepForm} from '../redux/actions/step';
 
-function StepCloseButtonContainer(props){
-  const {errors: {steps,...nonStepErrors}, setFieldValue, setErrors} = useFormikContext();
-
-  const onClick = () => {
-    const {initialValues} = props.step;
-    props.setStep(null);
-    if(initialValues && Object.keys(initialValues).length > 0){
-      setFieldValue(`steps[${props.idx}]`, initialValues)
+export default ({initialValues, isDuplicate, procedureFormKey, root, idx}) => {
+  const { setValue } = useFormContext()
+  const dispatch = useDispatch();
+  const handleCloseButtonClick = () => {
+    if(!isDuplicate){
+      dispatch(setStepForm(procedureFormKey))
+      for (var field in initialValues) {
+        if (initialValues.hasOwnProperty(field)) {
+          setValue(`${root}${field}`, initialValues[field])
+        }
+      }
     } else {
-      props.remove(props.idx)
+      dispatch(setStepForm(procedureFormKey))
+      dispatch(removeStepForm(procedureFormKey, idx))
     }
-    setErrors(nonStepErrors)
   }
-  return <StepCloseButton onClick={onClick} />
+  return <StepCloseButton onClick={handleCloseButtonClick} />
 }
-
-export default connect(
-  ({form}) => ({step: form.step}),
-  {setStep}
-)(StepCloseButtonContainer)

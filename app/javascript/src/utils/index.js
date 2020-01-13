@@ -71,3 +71,4 @@ export function readFile(file){
 }
 
 export const checkWith = (fn,k) => (p, t) => ((fn(p) && t && t[k]) ? true : false)
+export const makeName = (root, name) => root ? `${root}${name}` : name

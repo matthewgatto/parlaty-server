@@ -1,63 +1,39 @@
-import React, {useEffect} from 'react';
-import { connect } from 'react-redux';
-import AnimateHeight from 'react-animate-height';
-import { useFormikContext} from 'formik';
-import StepFields from '../components/StepFields';
-import StepMenu from './StepMenu';
-import ActionBar from '../components/ActionBar';
-import { setStep, deleteStep, deleteStepVisuals } from '../redux/actions';
+import React,{useCallback,useEffect} from 'react';
+import { useFormContext } from "react-hook-form";
+import { useSelector,useDispatch } from 'react-redux';
+import {mountForm,unmountForm} from '../redux/actions/form';
+import Step from '../components/Step';
 
-function StepLabel({idx, setStep, id, canOpen, arrayHelpers, deleteStep, deleteStepVisuals, isEditing, isOpen, ...props}){
-  const {values: {steps}} = useFormikContext();
-  const step = steps[idx]
-  const onClick = () => {
-    if(canOpen) setStep({id: step.id, isEditing, initialValues: step})
+const TIME_OPTIONS = [{value: 1, label: "1 second"}, {value: 2, label: "2 seconds"}, {value: 3, label: "3 seconds"}, {value: 4, label: "4 seconds"}, {value: 5, label: "5 seconds"}, {value: 6, label: "6 seconds"}, {value: 7, label: "7 seconds"}, {value: 8, label: "8 seconds"}]
+export default ({formKey,...props}) => {
+  const { getValues } = useFormContext()
+  const initialValue = useSelector(({steps}) => steps.byId[props.id]);
+  const isOpen = useSelector(({steps:{open}}) => open && open.id === props.id ? open : false);
+  const root = `steps[${props.id}].`
+  const stepFormKey = `step,${props.id}`
+  const isDuplicate = isOpen && isOpen.isDuplicate;
+  console.log("INITIAL VALUE", initialValue);
+  var title;
+  if(isDuplicate && (!isOpen.initialValues || !isOpen.initialValues.title)){
+    title = "New Step"
+  } else if(initialValue && initialValue.title){
+    title = `Step ${props.idx+1}: ${initialValue.title}`
+  } else {
+    title = `Step ${props.idx+1}: ${getValues()[`${root}title`]}`
   }
-  const duplicateStep = (e) => {
-    e.stopPropagation();
-    const newStep = {...step, number: steps.length + 1, id: Date.now()}
-    arrayHelpers.push(newStep);
-    setStep({id: newStep.id, isCreating: isEditing, initialValues: {}})
-  }
-  const handleDeleteStep = (e) => {
-    if(step.procedure_id){
-      deleteStep(id, idx, step.procedure_id);
+  const initialValues = isDuplicate ? isOpen.initialValues : (initialValue || {});
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if(isOpen){
+      dispatch(mountForm(stepFormKey, isOpen.initialValues));
+    } else {
+      dispatch(unmountForm(stepFormKey));
     }
-    deleteStepVisuals(id, idx)
-    e.stopPropagation();
-    arrayHelpers.remove(idx)
-  }
-  return(
-    <ActionBar
-      text={`Step ${idx + 1}`}
-      rightIcon={
-        <StepMenu idx={idx} deleteStep={handleDeleteStep} duplicateStep={duplicateStep} isFormOpen={isOpen} />
+    return () => {
+      if(isOpen){
+        dispatch(unmountForm(`step,${props.id}`));
       }
-      onClick={onClick}
-      {...props}
-    />
-  )
+    }
+  }, [isOpen])
+  return <Step title={title} procedureFormKey={formKey} formKey={stepFormKey} root={root} isOpen={isOpen} initialValues={initialValues} isDuplicate={isDuplicate} timeOptions={TIME_OPTIONS}  {...props} />
 }
-
-class Step extends React.PureComponent {
-  render(){
-    return(
-      <>
-        <StepLabel deleteStep={this.props.deleteStep} deleteStepVisuals={this.props.deleteStepVisuals} setStep={this.props.setStep} isOpen={this.props.isOpen} canOpen={this.props.canOpen} id={this.props.id} idx={this.props.idx} arrayHelpers={this.props.arrayHelpers} steps={this.props.steps} isEditing={this.props.isEditing} setRef={this.props.provided.innerRef} {...this.props.provided.dragHandleProps} {...this.props.provided.draggableProps} />
-        <AnimateHeight height={this.props.isOpen ? 'auto' : 0} duration={200}>
-          <StepFields isOpen={this.props.isOpen} idx={this.props.idx} id={this.props.id} arrayHelpers={this.props.arrayHelpers} steps={this.props.steps} />
-        </AnimateHeight>
-      </>
-    )
-  }
-}
-
-export default connect(
-  ({form: {step}}, {id}) => {
-    return({
-      canOpen: step ? false : true,
-      isOpen: (step && step.id === id) ? true : false
-    })
-  },
-  { setStep, deleteStep, deleteStepVisuals }
-)(Step)
