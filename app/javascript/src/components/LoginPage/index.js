@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import FormError from '../../containers/FormError';
 import Form from '../Form';
 import {Input} from '../Inputs';
 import Polygon from '../SVG/PolygonH';

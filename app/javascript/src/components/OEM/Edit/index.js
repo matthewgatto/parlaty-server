@@ -22,7 +22,6 @@ const inputs = [{
 
 export default ({history:{push},match:{params:{id}}}) => {
   const initialValues = useSelector(({oems:{byId:{[id]:oem}}}) => oem ? ({id: oem.id, name: oem.name, email: oem.email}) : undefined);
-  console.log("INITIAL VALUES", initialValues);
   return(
     <FormPage
       header="Update OEM"

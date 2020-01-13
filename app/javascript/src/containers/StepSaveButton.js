@@ -13,7 +13,6 @@ export default ({root, formKey, procedure_id, id}) => {
   const handleSubmit = async () => {
     try {
       const step = useStepValues(getValues, root)
-      console.log("STEP", step);
       await stepSchema.validate(step, {abortEarly: false, stripUnknown: true})
       dispatch({type: STEP_SAVE_REQUEST, payload: {formKey, procedure_id, id, formKey: `step,${id}`, step}})
     } catch (e) {

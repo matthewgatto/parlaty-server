@@ -10,8 +10,6 @@ const DeviceSelect = withLabel(withSelectContainer(SelectComponent));
 
 const DeviceSelectContainer = ({value, ...props}) => {
   const devices = useSelector(({devices}) => devices.byId);
-  console.log("DEVICES", devices);
-  console.log("VALUE", value);
   const device = devices[value]
   return(<>
     <DeviceSelect value={value} {...props} />

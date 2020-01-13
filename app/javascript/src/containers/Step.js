@@ -12,7 +12,6 @@ export default ({formKey,...props}) => {
   const root = `steps[${props.id}].`
   const stepFormKey = `step,${props.id}`
   const isDuplicate = isOpen && isOpen.isDuplicate;
-  console.log("INITIAL VALUE", initialValue);
   var title;
   if(isDuplicate && (!isOpen.initialValues || !isOpen.initialValues.title)){
     title = "New Step"

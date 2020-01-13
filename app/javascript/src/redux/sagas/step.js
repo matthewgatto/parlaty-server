@@ -165,7 +165,6 @@ export function* stepSaveSaga(action){
 
 export function* reorderStepSaga({payload:{procedure_id, from, to}}){
   try {
-    console.log("PROCEDURE", procedure_id);
     if(procedure_id){
       const procedures = yield select(getProcedures);
       const {steps} = procedures[procedure_id];
