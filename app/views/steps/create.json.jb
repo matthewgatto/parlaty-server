@@ -6,7 +6,7 @@ json = {
   note: @step.note,
   visual: visual_check(@step),
   mode: @step.mode,
-  parameter: @step.parameter,
+  parameter_name: @step.parameter_name,
   time: @step.time,
   has_visual: @step.has_visual
 }

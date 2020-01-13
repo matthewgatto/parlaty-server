@@ -22,7 +22,7 @@ export default function(props){
       <Input type="text" label="Location*" name={`steps.${props.idx}.location`} />
       <Select label="Device*" name={`steps.${props.idx}.device`} options={DEVICE_OPTIONS} />
       <ActionList idx={props.idx} />
-      <Input type="text" name={`steps.${props.idx}.parameter`} label="Parameter*" />
+      <Input type="text" name={`steps.${props.idx}.parameter_name`} label="Parameter*" />
       <div className={styles.files}>
         <FileInput label="Imagery" name={`steps.${props.idx}.image`} placeholder_name="image" />
         <FileInput label="Audio" name={`steps.${props.idx}.audio`} placeholder_name="audio" />

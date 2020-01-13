@@ -30,7 +30,7 @@ const findStepValues = (getValues, root) => {
     audio: values[`${root}audio`],
     location: values[`${root}location`],
     device: values[`${root}device`],
-    parameter: values[`${root}parameter`]
+    parameter_name: values[`${root}parameter_name`]
   })
 }
 
@@ -219,7 +219,7 @@ function Step({idx, procedure_id, formKey, provided, id, positions, initialValue
         </div>
         <Input defaultValue={initValues.location} formKey={stepFormKey} type="text" required label="Location*" name={`${root}location`}  />
         <DeviceSelect options={devices} label="Device*" name={`${root}device`} defaultValue={initValues.device} />
-        <Input defaultValue={initValues.parameter} formKey={stepFormKey} type="text" required label="Parameter*" name={`${root}parameter`} />
+        <Input defaultValue={initValues.parameter_name} formKey={stepFormKey} type="text" required label="Parameter*" name={`${root}parameter_name`} />
         <div className="step_form__files">
           <FileInput initialValue={initValues.image} label="Image*" name={`${root}image`} />
           <FileInput initialValue={initValues.audio} label="Audio*" name={`${root}audio`} />
