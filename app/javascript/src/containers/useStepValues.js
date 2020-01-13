@@ -12,6 +12,6 @@ export default (getValues, root) => {
     audio: values[`${root}audio`],
     location: values[`${root}location`],
     device: values[`${root}device`],
-    parameter: values[`${root}parameter`]
+    parameter_name: values[`${root}parameter_name`]
   })
 }

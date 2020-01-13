@@ -22,7 +22,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         </div>
         <Input defaultValue={initialValues.location} formKey={formKey} type="text" required label="Location*" root={root} name="location"  />
         <DeviceSelect options={devices} label="Device*" root={root} name="device" defaultValue={initialValues.device} />
-        <Input defaultValue={/*REMOVE check for null values*/initialValues.parameter ? initialValues.parameter : undefined} formKey={formKey} type="text" required label="Parameter*" root={root} name="parameter" />
+        <Input defaultValue={/*REMOVE check for null values*/initialValues.parameter_name ? initialValues.parameter_name : undefined} formKey={formKey} type="text" required label="Parameter*" root={root} name="parameter_name" />
         <div className="step_form__files">
           <FileInput defaultValue={initialValues.image} label="Image*" root={root} name="image" />
           <FileInput defaultValue={initialValues.audio} label="Audio*" root={root} name="audio" />

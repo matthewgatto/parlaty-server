@@ -54,7 +54,7 @@ const makeStep = (stepId, values) => {
   //if(values[`steps[${stepId}].skip`]) step.skip = values[`steps[${stepId}].skip`]
   if(values[`steps[${stepId}].location`]) step.location = values[`steps[${stepId}].location`]
   if(values[`steps[${stepId}].device`]) step.device = values[`steps[${stepId}].device`]
-  if(values[`steps[${stepId}].parameter`]) step.parameter = values[`steps[${stepId}].parameter`]
+  if(values[`steps[${stepId}].parameter_name`]) step.parameter_name = values[`steps[${stepId}].parameter_name`]
   const image = values[`steps[${stepId}].image`];
   if(values[`steps[${stepId}].image`]){
     step.visuals =  [values[`steps[${stepId}].image`]];
