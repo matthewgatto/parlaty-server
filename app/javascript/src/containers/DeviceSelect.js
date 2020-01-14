@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import { Controller } from "react-hook-form";
 import SelectComponent, {withSelectContainer} from '../components/Inputs/Select';
 import DeviceActionList from '../components/Device/ActionList';
-import withLabel from '../components/Inputs/withLabel';
+import withField from '../components/Inputs/withField';
 import {makeName} from '../utils'
 
-const DeviceSelect = withLabel(withSelectContainer(SelectComponent));
+const DeviceSelect = withField(withSelectContainer(SelectComponent));
 
 const DeviceSelectContainer = ({value, ...props}) => {
   const devices = useSelector(({devices}) => devices.byId);

@@ -10,13 +10,26 @@ export const history = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = createReducer(history);
 const getInitialState = () => {
-  const userFromStorage = localStorage.getItem('auth');
-  var auth;
+  const userFromStorage = localStorage.getItem('user_data');
   if(userFromStorage){
-    auth = JSON.parse(userFromStorage)
-    API.setToken(auth.jwt)
+    const user_data = JSON.parse(userFromStorage)
+    API.setToken(user_data.auth.jwt)
+    if(user_data.auth.roleable_type === "Oem"){
+      return {
+        auth: user_data.auth,
+        oems: {
+          byId: user_data.oems,
+          allIds: Object.keys(user_data.oems)
+        },
+        businesses: {
+          byId: user_data.businesses,
+          allIds: Object.keys(user_data.businesses)
+        }
+      }
+    }
+    return {auth: user_data.auth}
   }
-  return {auth}
+  return {}
 }
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

@@ -1,30 +1,20 @@
 import React from 'react';
-import {useSelector} from 'react-redux'
-import ListPage from '../../ListPage';
+import ListPage from '../../List/Page';
 import { FETCH_OEM_BUSINESSES_REQUEST } from '../../../redux/types/oem';
 
-export default ({match: {params}}) => {
-  const isAdmin = (params && params.id) ? true : false
-  const id = isAdmin ? params.id : useSelector(({auth}) => (auth && auth.roleable_type === "Oem") ? auth.roleable_id : undefined)
-  const p = {
-    label: "Businesses",
-    list: {
+export default ({match: {params:{id}}}) => (
+  <ListPage
+    label="Businesses"
+    header={{header: {text: "OEM: ", entityKey: "oems", id}, back: {to: "/", label: "Home"}, link: [{text: "Update OEM", to: `/oem/${id}/update`}]}}
+    list={{
       id,
       type: FETCH_OEM_BUSINESSES_REQUEST,
       url: `/oems/${id}/oem_businesses`,
       text: "Businesses",
       entityKey: "businesses",
+      to: `/oem/${id}/business`,
+      placeholder: "This OEM has no businesses",
       selector: ({oems:{byId:{[id]:oem}}}) => ((oem && oem.businesses) ? oem.businesses : undefined)
-    }
-  }
-  if(isAdmin){
-    p.header = {header: {text: "OEM: ", entityKey: "oems", id}, back: {to: "/", label: "Home"}, link: [{text: "Update OEM", to: `/oem/${id}/update`}]}
-    p.list.to = `/oem/${id}/business`
-    p.list.placeholder = "This OEM has no businesses"
-  } else {
-    p.header = {header: "Home", link: {text: "Add Business", to: "/business/create"}}
-    p.list.to = "/business"
-    p.list.placeholder = "You have no businesses"
-  }
-  return <ListPage {...p} />
-}
+    }}
+  />
+)

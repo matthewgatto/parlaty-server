@@ -1,9 +1,6 @@
 import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ListItem from './ListItem';
-import FetchLoader from '../components/FetchLoader';
-import FetchError from '../components/FetchError';
-import ListPlaceholder from '../components/ListPlaceholder';
+import List from '../components/List';
 
 export default function(props){
   const items = useSelector(props.selector);
@@ -14,10 +11,5 @@ export default function(props){
       fetchData()
     }
   },[])
-  //if(error) return <FetchError error={error} retry={fetchData} />
-  if(!items) return <FetchLoader text={props.text} />
-  if(items.length === 0) return <ListPlaceholder text={props.placeholder} />
-  return items.map(id =>
-    <ListItem key={id} entityKey={props.entityKey} to={props.action ? `${props.to}/${id}/${props.action}` : `${props.to}/${id}`} id={id} />
-  )
+  return <List /*error={false}*/ fetchData={fetchData} items={items} action={props.action} entityKey={props.entityKey} to={props.to} text={props.text} placeholder={props.placeholder} />
 }

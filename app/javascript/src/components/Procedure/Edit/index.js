@@ -1,7 +1,7 @@
 import React, {useEffect,useMemo} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PageLayout from '../../PageLayout';
-import FetchLoader from '../../FetchLoader';
+import FetchLoader from '../../List/Loader';
 import Name from '../../../containers/Name';
 import ProcedureForm from '../Form';
 import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '../../../redux/types/procedure';

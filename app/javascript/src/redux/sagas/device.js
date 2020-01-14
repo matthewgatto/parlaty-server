@@ -6,22 +6,22 @@ import { addToast } from '../actions/toast';
 
 export function* createDeviceSaga({payload:{values}}){
   const id = new Date().getTime();
-  const newDevice = {name:values.name}
+  const newDevice = {id, name:values.name}
   const actionIds = yield select(({devices}) => devices.forms)
   if(actionIds.length > 0){
     newDevice.actions = actionIds.map(id => values[`actions[${id}]`])
   }
-  yield put({type: "CREATE_DEVICE_REQUEST__SUCCESS", payload: {devices: {[id]: {...newDevice,id}}}})
+  yield put({type: "CREATE_DEVICE_REQUEST__SUCCESS", payload: {devices: {[id]: newDevice}}})
   yield put(push("/devices"))
   yield put(addToast("success", "Device successfully created."))
 }
 export function* updateDeviceSaga({payload}){
-  const newDevice = {name:payload.values.name}
+  const newDevice = {id: payload.id, name: payload.values.name}
   const actionIds = yield select(({devices}) => devices.forms)
   if(actionIds.length > 0){
     newDevice.actions = actionIds.map(id => payload.values[`actions[${id}]`])
   }
-  yield put({type: "UPDATE_DEVICE_REQUEST__SUCCESS", payload: {devices: {[payload.id]: newDevice}}})
+  yield put({type: "UPDATE_DEVICE_REQUEST__SUCCESS", payload: newDevice})
   yield put(push("/devices"))
   yield put(addToast("success", "Device successfully updated."))
 }

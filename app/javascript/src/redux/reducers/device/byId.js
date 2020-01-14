@@ -8,13 +8,18 @@ const initialDeviceMap = {
   "4": {id: "4", name: "Pressure Washer", actions: ["Pressure One", "Pressure Two", "Pressure Three"]},
   "5": {id: "5", name: "Wrench", actions: ["Wrench One", "Wrench Two", "Wrench Three"]}
 }
-const shouldUpdateDeviceMap = (type) => (
-  type === types.FETCH_DEVICES_REQUEST__SUCCESS
-  || type === types.CREATE_DEVICE_REQUEST__SUCCESS
-  || type === types.UPDATE_DEVICE_REQUEST__SUCCESS
-)
-export default (state = initialDeviceMap, {type,payload}) => shouldUpdateDeviceMap(type) ? (
-  merge({}, state, payload.devices)
-) : (
-  state
-)
+
+export default (state = initialDeviceMap, {type,payload}) => {
+  switch (type) {
+    case types.FETCH_DEVICES_REQUEST__SUCCESS:
+    case types.CREATE_DEVICE_REQUEST__SUCCESS:
+      return merge({}, state, payload.devices)
+    case types.UPDATE_DEVICE_REQUEST__SUCCESS:
+      return {
+        ...state,
+        [payload.id]: payload
+      }
+    default:
+      return state
+  }
+}

@@ -1,8 +1,8 @@
 import * as types from '../types/auth'
 
-export default (state = null, action) => {
-  if(action.type === types.CREATE_AUTH_REQUEST__SUCCESS){
-    return action.payload
+export default (state = null, {type, payload}) => {
+  if(type === types.CREATE_AUTH_REQUEST__SUCCESS){
+    return payload.auth
   }
   return state
 }

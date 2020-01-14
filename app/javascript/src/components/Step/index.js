@@ -5,7 +5,7 @@ import DeviceSelect from '../../containers/DeviceSelect';
 import FormError from '../../containers/FormError';
 import StepSaveButton from '../../containers/StepSaveButton';
 import StepCloseButton from '../../containers/StepCloseButton';
-import { Input, CheckBox, Select, FileInput, ModeRadio } from '../Inputs';
+import { Input, CheckBox, Select, FileInput, ModeRadio, ParameterFields } from '../Inputs';
 
 export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, positions, initialValues, devices, timeOptions, procedureFormKey}) => (
   <>
@@ -18,11 +18,11 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         <Select options={timeOptions} label="Time*" root={root} name="time" defaultValue={initialValues.time} />
         <div className="step_form__boxes">
           <ModeRadio root={root} name="mode" defaultValue={initialValues.mode} />
-          <CheckBox label="Option to Skip" root={root} name="skip" defaultValue={initialValues.skip || false} />
+          <CheckBox label="Option to Skip" root={root} name="safety" defaultValue={initialValues.safety || false} />
         </div>
         <Input defaultValue={initialValues.location} formKey={formKey} type="text" required label="Location*" root={root} name="location"  />
         <DeviceSelect options={devices} label="Device*" root={root} name="device" defaultValue={initialValues.device} />
-        <Input defaultValue={/*REMOVE check for null values*/initialValues.parameter_name ? initialValues.parameter_name : undefined} formKey={formKey} type="text" required label="Parameter*" root={root} name="parameter_name" />
+        <ParameterFields initialName={/*REMOVE check for null values*/initialValues.parameter_name ? initialValues.parameter_name : undefined} initialValue={/*REMOVE check for null values*/initialValues.parameter_value_8_pack ? initialValues.parameter_value_8_pack : undefined} formKey={formKey} root={root} />
         <div className="step_form__files">
           <FileInput defaultValue={initialValues.image} label="Image*" root={root} name="image" />
           <FileInput defaultValue={initialValues.audio} label="Audio*" root={root} name="audio" />

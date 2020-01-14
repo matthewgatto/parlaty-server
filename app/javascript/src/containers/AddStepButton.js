@@ -11,6 +11,6 @@ export default ({formKey}) => {
   const dispatch = useDispatch();
   const stepFormOpen = useSelector(isAStepFormOpen)
   const lastStepId = useSelector(getLastStepId)
-  const handleClick = () => dispatch(addStepForm(formKey, lastStepId ? useStepValues(getValues, `steps[${lastStepId}].`) : {mode: "continuous", time: 8, skip: true, device: 1}, true));
+  const handleClick = () => dispatch(addStepForm(formKey, lastStepId ? useStepValues(getValues, `steps[${lastStepId}].`) : {mode: "continuous", time: 8, safety: true, device: 1}, true));
   return <AddStepButton onClick={stepFormOpen ? undefined : handleClick} />
 }

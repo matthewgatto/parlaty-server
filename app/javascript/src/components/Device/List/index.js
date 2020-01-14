@@ -1,5 +1,5 @@
 import React from 'react';
-import ListPage from '../../ListPage';
+import ListPage from '../../List/Page';
 import { FETCH_DEVICES_REQUEST } from '../../../redux/types/device';
 
 const deviceListProps = {

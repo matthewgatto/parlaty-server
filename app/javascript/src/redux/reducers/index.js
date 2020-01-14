@@ -25,7 +25,7 @@ export default function(history){
   return function(state,action){
     if(action.type === "LOGOUT"){
       API.setToken(null);
-      localStorage.removeItem('auth')
+      localStorage.removeItem('user_data')
       state = {};
     }
     return reducers(state, action);

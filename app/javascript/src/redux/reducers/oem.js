@@ -1,6 +1,7 @@
 import merge from 'lodash/merge';
 import { combineReducers } from 'redux';
 import * as types from '../types/oem'
+import * as authTypes from '../types/auth'
 
 const addOem = (state, oems) => state ? (
   [...state, ...Object.keys(oems)]
@@ -13,17 +14,22 @@ const allOems = (state = null, {type, payload}) => {
   return state
 }
 
-const shouldUpdateOEMMap = (type) => (
-  type === types.FETCH_OEMS_REQUEST__SUCCESS
-  || type === types.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS
-  || type === types.CREATE_OEM_REQUEST__SUCCESS
-  || type === types.UPDATE_OEM_REQUEST__SUCCESS
-)
-const oemsById = (state = {}, {type,payload}) => shouldUpdateOEMMap(type) ? (
-  merge({}, state, payload.oems)
-) : (
-  state
-)
+ const oemsById = (state = {}, {type,payload}) => {
+  switch (type) {
+    case types.FETCH_OEMS_REQUEST__SUCCESS:
+    case types.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
+    case types.CREATE_OEM_REQUEST__SUCCESS:
+    case types.UPDATE_OEM_REQUEST__SUCCESS:
+      return merge({}, state, payload.oems)
+      break;
+    case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
+      if(payload.oems === "Oem"){
+        return merge({}, state, payload.oems)
+      }
+    default:
+      return state
+  }
+}
 
 export default combineReducers({
   byId: oemsById,

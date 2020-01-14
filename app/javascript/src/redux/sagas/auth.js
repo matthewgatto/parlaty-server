@@ -1,11 +1,20 @@
 import { call, put } from 'redux-saga/effects';
+import { normalize } from 'normalizr';
 import API from '../../utils/API';
 import {formSaga,pushAndNotify} from './form';
 import {normalizeOEMInvite} from './oem';
-function handleLoginResponse(response){
-  localStorage.setItem('auth', JSON.stringify(response));
-  API.setToken(response.jwt);
-  return response;
+import Schemas from '../../utils/models';
+
+function handleLoginResponse({oem_businesses,...auth}){
+  const user_data = {auth};
+  if(auth.roleable_type === "Oem"){
+    const {entities} = normalize({id: auth.user_id, name: auth.name, email: auth.email, businesses: oem_businesses}, Schemas.oem)
+    user_data.oems = entities.oems;
+    user_data.businesses = entities.businesses;
+  }
+  localStorage.setItem('user_data', JSON.stringify(user_data));
+  API.setToken(auth.jwt);
+  return user_data;
 }
 const p = (i,x) => ({[i]:x})
 export function* loginSaga(action){

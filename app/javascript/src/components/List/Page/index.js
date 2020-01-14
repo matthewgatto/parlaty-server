@@ -1,6 +1,6 @@
 import React from 'react';
-import PageLayout from '../PageLayout';
-import List from '../../containers/List';
+import PageLayout from '../../PageLayout';
+import List from '../../../containers/List';
 
 export default ({header, label, list}) => (
   <PageLayout

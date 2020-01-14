@@ -45,7 +45,7 @@ function* handleNewStep(stepMeta, payload, idx, newIdx){
   yield put(setStepForm(payload.stepFormKey))
 }
 
-const cleanStepCreateParams = ({id, number, skip,spoken, actions,image,audio,visual,visuals,has_visual,...step}) => {
+const cleanStepCreateParams = ({id, number, actions,image,audio,visual,visuals,has_visual,...step}) => {
 
   return image ? ({...step,visuals:[image], has_visual: true}) : step
 }
@@ -80,7 +80,7 @@ function* createStepSaga({procedure, step, from, to, initialValues}){
     throw e
   }
 }
-const cleanStepUpdateParams = ({id, number, skip, spoken,actions,image,audio,visual,visuals,has_visual,...step}) => {
+const cleanStepUpdateParams = ({id, number, actions,image,audio,visual,visuals,has_visual,...step}) => {
   /*
   if(image){
     if(typeof image === "string"){

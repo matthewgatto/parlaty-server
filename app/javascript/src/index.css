@@ -5,20 +5,20 @@ html,textarea,input[type='text'],input[type='password'],input[type='number'],inp
 
 @media (min-width: 768px){
   html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
-    font-size: 9px;
+    font-size: 10px;
   }
 }
 
 
 @media (min-width: 1366px){
   html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
-    font-size: 10px;
+    font-size: 11px;
   }
 }
 
 @media (min-width: 2560px){
   html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
-    font-size: 12.708px;
+    font-size: 13.708px;
   }
 }
 
@@ -476,6 +476,44 @@ button {
 
 .step_error_container > * {
   position: absolute;
+}
+
+.parameter_fields {
+  margin-bottom: 1.2em;
+  display: block;
+}
+
+.parameter_fields__row {
+  background: #fff;
+  border-radius: 0.2em;
+  padding: 0 0.333em;
+  height: 2.6em;
+  position: relative;
+}
+
+.parameter_fields__label {
+  display: inline-block;
+  color: #888;
+  font-size: 1.1em;
+}
+
+.parameter_fields input {
+  display: inline;
+  border: none;
+  height: 100%;
+  font-size: 1.2em;
+}
+
+.parameter_fields input:first-of-type {
+  margin-left: 0.5em;
+  width: 10em;
+  margin-right: 0.5em;
+  border-right: 1px solid #f1f1f1;
+}
+
+.parameter_fields input:last-of-type {
+  width: 4em;
+  margin-left: 0.5em;
 }
 
 @media (min-width: 768px){

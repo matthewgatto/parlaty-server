@@ -36,7 +36,8 @@ export const stepSchema = object().shape({
   time: number().required('This field is required'),
   location: string().required('This field is required'),
   device: string().required('This field is required'),
-  parameter_name: string().required('This field is required')
+  parameter_name: string().required('This field is required'),
+  parameter_value_8_pack: string().required('This field is required')
 })
 
 export const procedureSchema = object().shape({

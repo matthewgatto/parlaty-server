@@ -7,6 +7,7 @@ import CreateProcedurePage from '../components/Procedure/Create';
 import EditProcedurePage from '../components/Procedure/Edit';
 import AdminLandingPage from '../components/AdminLandingPage';
 import OEMPage from '../components/OEM/Show';
+import OEMLandingPage from '../components/OEM/Landing';
 import OEMUpdatePage from '../components/OEM/Edit';
 import DeviceListPage from '../components/Device/List';
 import DeviceEditPage from '../components/Device/Edit';
@@ -32,7 +33,7 @@ export default () => {
       </Switch>)
     case "Oem":
       return(<Switch>
-        <Route exact path="/" component={OEMPage} />
+        <Route exact path="/" component={OEMLandingPage} />
         <Route path="/business/:business_id/procedures/:id/update" component={EditProcedurePage} />
         <Route path="/business/:business_id/procedures/create" component={CreateProcedurePage} />
         {/*<Route path="/business/create" component={BusinessForm} />*/}
