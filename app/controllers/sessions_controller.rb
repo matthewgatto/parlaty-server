@@ -14,7 +14,8 @@ class SessionsController < ApplicationController
 				@jwt = Auth.encode({ uid: @user.id})
 				
 				begin
-					oem = Oem.find(@user.id)
+					#oem = Oem.find(@user.id)
+					oem = Oem.find(@user.roleable_id)
 					if oem
 						oem_bus = oem.oem_businesses
 						@sorted_ob = oem_bus.sort_by &:name
