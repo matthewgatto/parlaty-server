@@ -6,6 +6,8 @@ import Name from '../../../containers/Name';
 import ProcedureForm from '../Form';
 import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '../../../redux/types/procedure';
 import { loadStepForms } from '../../../redux/actions/step';
+import { getProcedureById } from '../../../redux/selectors/procedure';
+import { getStepMap } from '../../../redux/selectors/step';
 
 const withStepLoader = (WrappedComponent) =>  (
   class extends React.PureComponent {
@@ -37,8 +39,8 @@ const EditProcedureForm = ({initialValues, id, oem_business_id}) => useMemo(() =
 const EditProcedureFormWithStepLoader = withStepLoader(EditProcedureForm);
 
 const EditProcedureFormContainer = (props) => {
-  const initialValues = useSelector(({procedures:{byId}}) => byId[props.id]);
-  const stepMap = useSelector(({steps}) => steps.byId)
+  const initialValues = useSelector(getProcedureById(props.id));
+  const stepMap = useSelector(getStepMap)
   const dispatch = useDispatch();
   const addSteps = () => {
     if(initialValues.steps){
@@ -70,7 +72,7 @@ export default ({match:{params:{oem_id,business_id,id}}}) => (
   <PageLayout
     header="Edit Procedure"
     back={business_id ? ({
-      to: oem_id ? `/oem/${oem_id}/business/${business_id}` : `/business/${business_id}`,
+      to: oem_id ? `/oems/${oem_id}/businesses/${business_id}` : `/businesses/${business_id}`,
       label: <Name entityKey="businesses" id={business_id} />
       }) : ({
         to: "/",

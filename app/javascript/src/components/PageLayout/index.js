@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Triangle from '../SVG/Triangle';
-import HeaderBar from '../HeaderBar';
+import Bar from '../Bar/Large';
 import Name from '../../containers/Name';
 import styles from './index.module.css';
 
@@ -21,7 +21,7 @@ const renderLinks = (link) => (Array.isArray(link) ? (
 export default ({back, header, link, children}) => (
   <div className={styles.container}>
     {back && <Link className={styles.back} to={back.to}><Triangle className={styles.triangle} /> {makeLabel(back.label)}</Link>}
-    <HeaderBar title={makeLabel(header)} right={link && renderLinks(link)} />
+    <Bar title={makeLabel(header)} right={link && renderLinks(link)} />
     {children}
   </div>
 )

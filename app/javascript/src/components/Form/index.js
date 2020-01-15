@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect,useCallback} from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm as useReactHookForm, FormContext } from "react-hook-form";
 import { mountForm, unmountForm } from '../../redux/actions/form';
@@ -27,31 +27,35 @@ export const useForm = withFormKey((options, formKey) => {
 })
 
 const useMountForm = (dispatch, formKey, initialValues, submitOnEnterPress) => {
-  const handleKeyPress = (e) => {
-    var key = e.which || e.keyCode || 0;
-    if (key === 13) {
-        submitOnEnterPress();
-    }
-  }
   useEffect(() => {
     if(submitOnEnterPress){
+      const handleKeyPress = (e) => {
+        var key = e.which || e.keyCode || 0;
+        if (key === 13) {
+            submitOnEnterPress();
+        }
+      }
+      document.removeEventListener("keypress", handleKeyPress);
       document.addEventListener("keypress", handleKeyPress);
-    }
-    dispatch(mountForm(formKey, initialValues));
-    return () => {
-      if(submitOnEnterPress){
+      return () => {
         document.removeEventListener("keypress", handleKeyPress);
       }
+    }
+  }, [submitOnEnterPress])
+  useEffect(() => {
+    dispatch(mountForm(formKey, initialValues));
+    return () => {
       dispatch(unmountForm(formKey));
     }
-  }, [])
+  },[dispatch,formKey,initialValues])
 }
 
-export default ({className, children, wrapperId,...props}) => {
+
+export default ({className, children, ...props}) => {
   const {handleSubmit, formKey, form} = useForm(props)
   return(
     <FormContext {...form}>
-      <div id={wrapperId} className={className}>
+      <div className={className}>
         {children({handleSubmit, formKey, form})}
       </div>
     </FormContext>

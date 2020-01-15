@@ -1,0 +1,17 @@
+.container {
+  margin-bottom: 1em;
+  color: #ac91bd;
+  font-size: 1.9em;
+  font-weight: 600;
+}
+
+@media (min-width: 768px){
+  .container {
+    font-size: 1.6em;
+  }
+}
+@media (min-width: 1024px){
+  .container {
+    font-size: 1.4em;
+  }
+}

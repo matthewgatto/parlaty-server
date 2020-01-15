@@ -2,16 +2,18 @@ import React from 'react';
 import {useSelector} from 'react-redux'
 import PageLayout from '../../PageLayout';
 import List from '../../List';
+import Label from '../../List/Label';
+import {getAllIds} from '../../../redux/selectors/business';
 
 export default ({match: {params}}) => {
-  const businesses = useSelector(({businesses}) => businesses.allIds);
+  const businesses = useSelector(getAllIds);
   return(
     <PageLayout
       header="Home"
-      link={{text: "Add Business", to: "/business/create"}}
+      link={{text: "Add Business", to: "/businesses/create"}}
     >
-      <div className='list_label'>Businesses</div>
-      <List items={businesses} to="/business" placeholder="You have no businesses" text="Businesses" entityKey="businesses"  />
+      <Label>Businesses</Label>
+      <List items={businesses} to="/businesses" placeholder="You have no businesses" text="Businesses" entityKey="businesses"  />
     </PageLayout>
   )
 }

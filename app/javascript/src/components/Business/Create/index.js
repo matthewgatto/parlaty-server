@@ -11,9 +11,14 @@ const inputs = [{
   required: true
 }]
 
-export default ({match:{params},history:{goBack}}) => {
-  const isAdmin = (params && params.oem_id) ? true : false
-  const oem_id = isAdmin ? params.oem_id : useSelector(({auth}) => (auth && auth.roleable_type === "Oem") ? auth.roleable_id : undefined)
+export default ({match:{params}}) => {
+  var oem_id, cancel;
+  if(params && params.oem_id){
+    oem_id = params.oem_id
+    cancel = `/oems/${params.oem_id}`
+  } else {
+    oem_id = useSelector(({auth}) => (auth && auth.roleable_type === "Oem") ? auth.roleable_id : undefined)
+  }
   return(
     <FormPage
       header="New Business"
@@ -24,11 +29,9 @@ export default ({match:{params},history:{goBack}}) => {
         initialValues: {email: ''},
         extraValues: {oem_id},
         validationSchema: businessSchema,
-        id: new Date().getTime(),
-        className: "form_container",
-        submitOnEnter: true
+        id: new Date().getTime()
       }}
-      handleCancel={goBack}
+      cancel={cancel}
       inputs={inputs}
     />
   )

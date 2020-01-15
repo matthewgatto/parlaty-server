@@ -5,12 +5,12 @@ import SelectComponent, {withSelectContainer} from '../components/Inputs/Select'
 import DeviceActionList from '../components/Device/ActionList';
 import withField from '../components/Inputs/withField';
 import {makeName} from '../utils'
+import {getDeviceMap} from '../redux/selectors/device';
 
 const DeviceSelect = withField(withSelectContainer(SelectComponent));
 
 const DeviceSelectContainer = ({value, ...props}) => {
-  const devices = useSelector(({devices}) => devices.byId);
-  const device = devices[value]
+  const device = useSelector(getDeviceMap)[value];
   return(<>
     <DeviceSelect value={value} {...props} />
     <DeviceActionList actions={device.actions} />

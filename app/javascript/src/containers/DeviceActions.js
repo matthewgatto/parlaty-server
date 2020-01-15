@@ -2,13 +2,14 @@ import React,{useCallback} from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import { useSelector,useDispatch } from 'react-redux';
 import {reorderDeviceAction,removeDeviceAction,addDeviceAction} from '../redux/actions/device';
+import {getActionFields} from '../redux/selectors/device';
 import withDND from '../components/withDND';
 import Placeholder from '../components/Placeholder';
-import HeaderBar from '../components/HeaderBar';
+import Bar from '../components/Bar/Large';
 import ActionInput from '../components/Device/ActionField';
 
 const DNDActionFields = withDND(({initialActions, handleDeleteAction, formKey}) => {
-  const actionForms = useSelector(({devices}) => devices.forms);
+  const actionForms = useSelector(getActionFields);
   if(actionForms.length > 0){
     return actionForms.map((id,idx) => (
       <Draggable key={id} draggableId={id} index={idx}>
@@ -34,8 +35,8 @@ export default (props) => {
     [dispatch]
   )
   return(<>
-    <HeaderBar title="Add Actions" right={
-      <button className="header_bar__button" onClick={handleAddAction}>
+    <Bar title="Actions" right={
+      <button className="primary button align_center header_bar__button" onClick={handleAddAction}>
         Add Action
       </button>
     } />

@@ -10,7 +10,7 @@ const inputs = [{
   required: true
 }]
 
-export default ({history:{goBack}}) => (
+export default () => (
   <FormPage
     header="Get A Password Reset Email"
     form={{
@@ -20,7 +20,6 @@ export default ({history:{goBack}}) => (
       initialValues: {email: ''},
       validationSchema: forgotPasswordSchema,
     }}
-    handleCancel={GoBack}
     inputs={inputs}
   />
 )

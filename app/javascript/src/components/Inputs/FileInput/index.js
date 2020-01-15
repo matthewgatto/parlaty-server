@@ -1,8 +1,8 @@
 import React, {useRef,useEffect} from 'react';
-import { useSelector } from 'react-redux';
 import { useFormContext } from "react-hook-form";
-import Close from '../SVG/Close';
-import Upload from '../SVG/Upload';
+import Close from '../../SVG/Close';
+import Upload from '../../SVG/Upload';
+import styles from './index.module.css';
 
 const getInputText = (value) => {
   if(value){
@@ -31,17 +31,17 @@ export default ({label, name, initialValue, value, onChange}) => {
     }
   },[value])
   return(
-    <div className="file_input" onClick={handleClick}>
-      <label className="field__label">{label}</label>
-      <span className="file_input__button">
-      <div className="file_input__name">{inputText}</div>
+    <div className={`${styles.container} align_center`} onClick={handleClick}>
+      <label className={`${styles.label} align_center`}>{label}</label>
+      <span className={`button align_center ${styles.button}`}>
+      <div className={styles.name}>{inputText}</div>
       {inputText === "Upload" ? (
-        <Upload className="file_input__icon" />
+        <Upload className={styles.icon} />
       ) : (
-        <Close className="file_input__icon" />
+        <Close className={styles.icon} />
       )}
       </span>
-      <input ref={inputRef} className="file_input__hidden" name={name} type="file" onChange={onChange} />
+      <input ref={inputRef} className={styles.hidden} name={name} type="file" onChange={onChange} />
     </div>
   )
 }

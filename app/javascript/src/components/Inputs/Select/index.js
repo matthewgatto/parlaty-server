@@ -1,10 +1,11 @@
 import React from 'react';
-import Triangle from '../SVG/Triangle';
+import Triangle from '../../SVG/Triangle';
+import styles from './index.module.css';
 
 export const withSelectContainer = WrappedComponent => ({className, ...props}) => (
-  <div className={className ? `select ${className}` : "select"}>
+  <div className={className ? `${styles.container} align_center ${className}` : `${styles.container} align_center`}>
     <WrappedComponent {...props} />
-    <Triangle className="select__icon" />
+    <Triangle className={styles.icon} />
   </div>
 )
 

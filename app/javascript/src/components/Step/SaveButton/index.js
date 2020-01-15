@@ -1,8 +1,9 @@
 import React from 'react';
+import Button,{Text} from '../Button';
 import Loader from '../../Loader';
 
 export default ({isProcessing, onClick}) => (
-  <div className="step_button" onClick={isProcessing ? undefined : onClick}>
-    {isProcessing ? <Loader fill="#fff" /> : <div className="step_button__text">Save</div>}
-  </div>
+  <Button onClick={isProcessing ? undefined : onClick}>
+    {isProcessing ? <Loader fill="#fff" /> : <Text>Save</Text>}
+  </Button>
 )

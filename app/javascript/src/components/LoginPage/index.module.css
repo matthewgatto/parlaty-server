@@ -1,4 +1,6 @@
-
+/*.invalidField {
+  border-bottom: 1px solid #e23e4d;
+}*/
 .container {
   width: 24em;
   margin: 0 auto;

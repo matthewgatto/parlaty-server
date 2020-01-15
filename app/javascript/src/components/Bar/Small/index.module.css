@@ -1,0 +1,26 @@
+.container {
+  padding: 0 1.6em 0 0.8em;
+  height: 3.4em;
+  margin-bottom: 0.4em;
+  cursor: pointer;
+  justify-content: center;
+  background: #eeefef;
+  border-radius: 0.4em;
+}
+
+.container:hover,.container.color {
+  background: #e9e4ee;
+}
+
+
+.text {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  color: #000;
+  flex-grow: 1;
+}
+
+.container.color .text {
+  color: #67318d;
+}

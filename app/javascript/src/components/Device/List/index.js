@@ -3,7 +3,7 @@ import ListPage from '../../List/Page';
 import { FETCH_DEVICES_REQUEST } from '../../../redux/types/device';
 
 const deviceListProps = {
-  header: { header: "Home", link: { text: "Add Device", to: "/devices/create" }},
+  header: { header: "Devices", link: { text: "Add Device", to: "/devices/create" }},
   label: "Devices",
   list: {
     url: "/devices",

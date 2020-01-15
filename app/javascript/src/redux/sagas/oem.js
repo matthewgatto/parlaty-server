@@ -19,7 +19,7 @@ export function* inviteOEMSaga(action){
   yield call(formSaga, "post", action, normalizeOEMInvite, handleOEMInvite);
 }
 function* handleOEMUpdate(response, {payload:{id}}){
-  yield put(push(`/oem/${id}`))
+  yield put(push(`/oems/${id}`))
   yield put(addToast("success", "OEM successfully updated."))
 }
 export function* updateOEMSaga(action){

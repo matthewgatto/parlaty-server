@@ -10,16 +10,3 @@
   font-size: 1.2em;
   margin-bottom: 0.5em;
 }
-
-.button {
-  background: #67328d;
-  color: #fff;
-  cursor: pointer;
-  height: 2.6154em;
-  font-size: 1.3em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.3em;
-  padding: 0 1em;
-}

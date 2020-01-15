@@ -1,6 +1,8 @@
 import React,{useCallback} from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import {setStepForm,reorderStep} from '../redux/actions/step';
+import {getStepForms} from '../redux/selectors/step';
+import {getAllDevices} from '../redux/selectors/device';
 import withDND from '../components/withDND';
 import Placeholder from '../components/Placeholder';
 import Step from './Step';
@@ -16,8 +18,8 @@ const makePositionOptions = (stepCount) => {
 }
 
 export default (props) => {
-  const devices = useSelector(({devices}) => devices.allIds.map(id => ({value: id, label: devices.byId[id].name})));
-  const steps = useSelector(({steps}) => steps.forms);
+  const devices = useSelector(getAllDevices);
+  const steps = useSelector(getStepForms);
   const dispatch = useDispatch();
   const onDragEnd = useCallback(
     (from, to) => dispatch(reorderStep(props.procedure_id, from, to)),

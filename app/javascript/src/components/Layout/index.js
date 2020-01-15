@@ -4,16 +4,16 @@ import {useSelector} from 'react-redux';
 import Logout from '../../containers/Logout';
 import styles from './index.module.css';
 import logo from '../../assets/images/logo.png';
+import {getUserRole} from '../../redux/selectors/auth';
 
 const AuthLinks = () => {
-  const isAdmin = useSelector(({auth}) => auth && auth.roleable_type === "ParlatyAdmin");
-  if(isAdmin){
-    return(<>
-      <NavLink className={styles.link} activeClassName={styles.active} to="/invite">Invite</NavLink>
-      <NavLink className={styles.link} activeClassName={styles.active} to="/devices">Devices</NavLink>
-    </>)
+  if(useSelector(getUserRole) !== "ParlatyAdmin"){
+    return null
   }
-  return null
+  return(<>
+    <NavLink className={styles.link} activeClassName={styles.active} to="/invite">Invite</NavLink>
+    <NavLink className={styles.link} activeClassName={styles.active} to="/devices">Devices</NavLink>
+  </>)
 }
 const Layout = ({children}) =>
   <>

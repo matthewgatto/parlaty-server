@@ -1,12 +1,13 @@
 import React from 'react';
+import styles from './index.module.css';
 
 export default ({actions}) => (
-  <div className="device_select__action_list">
+  <div className={styles.container}>
     {(actions && actions.length > 0) ? (
       actions.map((action, i) => (
-        <div className="device_select__action_list__item" key={i}>
-          <div className="device_select__action_list__item_number">{i+1}.</div>
-          <div className="device_select__action_list__item_text">{action}</div>
+        <div className="align_center" key={i}>
+          <div className={styles.number}>{i+1}.</div>
+          <div className={styles.text}>{action}</div>
         </div>
       ))
     ) : (

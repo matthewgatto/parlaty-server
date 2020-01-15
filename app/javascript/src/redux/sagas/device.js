@@ -1,13 +1,12 @@
 import { put, select } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { addToast } from '../actions/toast';
-
-
+import { getActionFields } from '../selectors/device';
 
 export function* createDeviceSaga({payload:{values}}){
   const id = new Date().getTime();
   const newDevice = {id, name:values.name}
-  const actionIds = yield select(({devices}) => devices.forms)
+  const actionIds = yield select(getActionFields)
   if(actionIds.length > 0){
     newDevice.actions = actionIds.map(id => values[`actions[${id}]`])
   }
@@ -17,7 +16,7 @@ export function* createDeviceSaga({payload:{values}}){
 }
 export function* updateDeviceSaga({payload}){
   const newDevice = {id: payload.id, name: payload.values.name}
-  const actionIds = yield select(({devices}) => devices.forms)
+  const actionIds = yield select(getActionFields)
   if(actionIds.length > 0){
     newDevice.actions = actionIds.map(id => payload.values[`actions[${id}]`])
   }

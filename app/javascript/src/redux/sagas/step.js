@@ -10,6 +10,9 @@ import {
   reorderStep,
   removeImageAndReIndex
 } from '../actions/step'
+import {getDeviceName} from '../selectors/device';
+import {getProcedureById} from '../selectors/procedure';
+import {getStepSaveData} from '../selectors/step';
 import * as utils from '../../utils';
 import Schemas from '../../utils/models';
 import API from '../../utils/API';
@@ -50,12 +53,10 @@ const cleanStepCreateParams = ({id, number, actions,image,audio,visual,visuals,h
   return image ? ({...step,visuals:[image], has_visual: true}) : step
 }
 
-const getDevices = ({devices}) => devices.byId
 function* createStepSaga({procedure, step, from, to, initialValues}){
   try {
     const previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
-    //const devices = yield select(getDevices)
-    //step.device = devices[step.device] ? devices[step.device].name : "Crank Handle"
+    //step.device = yield select(getDeviceName)
     const formData = utils.objectToFormData({
       step: {
         ...cleanStepCreateParams(step),
@@ -97,8 +98,7 @@ const cleanStepUpdateParams = ({id, number, actions,image,audio,visual,visuals,h
 function* updateStepSaga({procedure, step, from, to, initialValues}){
   try {
     step.id = procedure.steps[from];
-    //const devices = yield select(getDevices)
-    //step.device = devices[step.device] ? devices[step.device].name : "Crank Handle"
+    //step.device = yield select(getDeviceName)
     const body = {step: cleanStepUpdateParams(step)};
     if(from !== to){
       body.previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
@@ -133,17 +133,13 @@ export function* deleteStepSaga({payload}){
 }
 
 
-const getProcedures = ({procedures}) => procedures.byId
 export function* stepSaveSaga(action){
   try {
-    const stepMeta = yield select(({steps}) => steps.open);
-    const steps = yield select(({steps}) => steps.forms);
-    const idx = steps.findIndex(s => s === stepMeta.id);
+    const {stepMeta, idx} = yield select(getStepSaveData);
     if(utils.getUpdatedProperties(action.payload.step, stepMeta.initialValues)){
       const newIdx = action.payload.step.number - 1;
       if(action.payload.procedure_id){
-        const procedures = yield select(getProcedures);
-        const procedure = procedures[action.payload.procedure_id];
+        const procedure = yield select(getProcedureById(action.payload.procedure_id));
         if(stepMeta.isDuplicate){
           yield call(createStepSaga, {step: action.payload.step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
         } else {
@@ -166,8 +162,7 @@ export function* stepSaveSaga(action){
 export function* reorderStepSaga({payload:{procedure_id, from, to}}){
   try {
     if(procedure_id){
-      const procedures = yield select(getProcedures);
-      const {steps} = procedures[procedure_id];
+      const {steps} = yield select(getProcedureById(procedure_id));
       var stepOrder;
       if(from > to){
         stepOrder = [...steps.slice(0, to), steps[from], ...steps.slice(to, from), ...steps.slice(from+1)]

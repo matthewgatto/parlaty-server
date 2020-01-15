@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import StepSaveButton from '../components/Step/SaveButton';
 import useStepValues from './useStepValues';
 import {STEP_SAVE_REQUEST,STEP_SAVE_REQUEST__FAILURE} from '../redux/types/step';
+import {isFormProcessing} from '../redux/selectors/form';
 import { stepSchema } from '../utils/validation';
 
 export default ({root, formKey, procedure_id, id}) => {
   const { getValues } = useFormContext()
-  const isProcessing = useSelector(({form}) => form[formKey] && form[formKey].isProcessing)
+  const isProcessing = useSelector(isFormProcessing(formKey))
   const dispatch = useDispatch();
   const handleSubmit = async () => {
     try {

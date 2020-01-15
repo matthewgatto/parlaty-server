@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import FormPage from '../../FormPage';
 import { oemSchema } from '../../../utils/validation';
 import { UPDATE_OEM_REQUEST } from '../../../redux/types/oem';
+import { getOEMById } from '../../../redux/selectors/oem';
 
 const inputs = [{
   type: "text",
@@ -20,22 +21,21 @@ const inputs = [{
   label: "New Password*"
 }]
 
-export default ({history:{push},match:{params:{id}}}) => {
-  const initialValues = useSelector(({oems:{byId:{[id]:oem}}}) => oem ? ({id: oem.id, name: oem.name, email: oem.email}) : undefined);
+export default ({match:{params:{id}}}) => {
+  const {name,email} = useSelector(getOEMById(id)),
+        url = `/oems/${id}`;
   return(
     <FormPage
       header="Update OEM"
       form={{
-        entity: "oem",
-        url: `/oems/${id}`,
+        entity: "update_oem",
         type: UPDATE_OEM_REQUEST,
+        initialValues: {name,email},
         validationSchema: oemSchema,
-        className: "form_container",
-        submitOnEnter: true,
-        id,
-        initialValues
+        url,
+        id
       }}
-      handleCancel={() => {push(`/oem/${id}`)}}
+      cancel={url}
       inputs={inputs}
     />
   )

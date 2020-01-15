@@ -2,6 +2,7 @@ import React from 'react';
 import FormPage from '../../FormPage';
 import DeviceActions from '../../../containers/DeviceActions';
 import { deviceSchema } from '../../../utils/validation';
+import styles from './index.module.css';
 
 const inputs = [{
   type: "text",
@@ -10,19 +11,17 @@ const inputs = [{
   required: true
 }]
 
-export default ({goBack, device_id, header,...props}) => (
+export default ({device_id, header,...props}) => (
   <FormPage
     header={header}
     form={{
       ...props,
       entity: "device",
-      validationSchema: deviceSchema,
-      className: "form_container",
-      submitOnEnter: true
+      validationSchema: deviceSchema
     }}
-    handleCancel={goBack}
+    cancel="/devices"
     inputs={inputs}
   >
-    <DeviceActions device_id={device_id} initialActions={props.initialValues && props.initialValues.actions}  />
+    <DeviceActions className={styles.actionsContainer} device_id={device_id} initialActions={props.initialValues && props.initialValues.actions}  />
   </FormPage>
 )

@@ -3,7 +3,7 @@ import PasswordForm from '../Password';
 import { resetPasswordSchema } from '../../../utils/validation';
 import { UPDATE_PASSWORD_REQUEST } from '../../../redux/types/auth';
 
-export default ({match:{params:{reset_password_token}},history:{goBack}}) => (
+export default ({match:{params:{reset_password_token}}}) => (
   <PasswordForm
     form={{
       entity: "password",
@@ -13,6 +13,5 @@ export default ({match:{params:{reset_password_token}},history:{goBack}}) => (
       extraValues: {reset_password_token},
       validationSchema: resetPasswordSchema,
     }}
-    handleCancel={goBack}
   />
 )

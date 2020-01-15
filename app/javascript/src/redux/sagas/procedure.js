@@ -5,14 +5,15 @@ import {formSaga,multipostSaga} from './form';
 import {getSaga} from './fetch';
 import { push } from 'connected-react-router';
 import { addToast } from '../actions/toast';
+import { getBusinessById } from '../selectors/business';
+import { getUserRole } from '../selectors/auth';
+import { getStepForms } from '../selectors/step';
 import Schemas from '../../utils/models';
 
-const getBusinessMap = ({businesses:{byId}}) => byId
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
-  const businesses = yield select(getBusinessMap);
-  const business = businesses[values.procedure.oem_business_id];
-  const data = normalize({id: response.id, name: values.procedure.name}, Schemas.procedure);
-  const returnData = {
+  const business = yield select(getBusinessById(values.procedure.oem_business_id)),
+        data = normalize({id: response.id, name: values.procedure.name}, Schemas.procedure);
+  return {
     businesses: {
       [values.procedure.oem_business_id]: business ? (
         {procedures: business.procedures ? uniq([...business.procedures, data.result]) : [data.result]}
@@ -22,17 +23,16 @@ function* getNewEntitiesFromProcedure(response,{payload:{values}}){
     },
     procedures: data.entities.procedures
   }
-  return returnData
 }
 
-const checkIfAdmin = ({auth}) => (auth.roleable_type ===  "ParlatyAdmin")
 function* handleProcedureRequestSuccess({values:{procedure:{oem_business_id}}}, message){
+  const role = yield select(getUserRole);
   var to;
-  if(yield select(checkIfAdmin)){
-    const businesses = yield select(getBusinessMap);
-    to = `/oem/${businesses[oem_business_id].oem_id}/business/${oem_business_id}`
+  if(role === "ParlatyAdmin"){
+    const business = yield select(getBusinessById(oem_business_id));
+    to = `/oems/${business.oem_id}/businesses/${oem_business_id}`
   } else {
-    to = `/business/${oem_business_id}`
+    to = `/businesses/${oem_business_id}`
   }
   yield put(push(to))
   yield put(addToast("success", message))
@@ -65,15 +65,16 @@ const makeStep = (stepId, values) => {
   return step;
 }
 export function* createProcedureSaga(action){
-  const stepIds = yield select(({steps}) => steps.forms);
-  const values = {
-    procedure: {
-      name: action.payload.values.name,
-      description: action.payload.values.description,
-      author: action.payload.values.author,
-      oem_business_id: action.payload.values.oem_business_id,
-    }
-  }
+  const stepIds = yield select(getStepForms),
+        values = {
+          procedure: {
+            name: action.payload.values.name,
+            description: action.payload.values.description,
+            author: action.payload.values.author,
+            oem_business_id: action.payload.values.oem_business_id,
+          }
+        }
+  
   if(stepIds.length > 0){
     values.steps = stepIds.map(step => makeStep(step, action.payload.values))
   }

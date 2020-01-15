@@ -13,16 +13,13 @@ const inputs = [{
   required: true
 }]
 
-export default ({handleCancel,form}) => (
+export default ({cancel,form}) => (
   <FormPage
     header="Set Your Password"
     form={{
       ...form,
-      id: new Date().getTime(),
-      className: "form_container",
-      submitOnEnter: true
+      id: new Date().getTime()
     }}
-    handleCancel={handleCancel}
     inputs={inputs}
   />
 )

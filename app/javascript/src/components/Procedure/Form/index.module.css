@@ -3,6 +3,7 @@
   display: flex;
   justify-content: space-between;
   position: relative;
+  align-items: baseline;
 }
 
 .content > div {
@@ -44,6 +45,19 @@
   margin-bottom: 1em;
 }
 
+.content input[type='text'],.content input[type='password'],.content input[type='number'], .content input[type='email'] {
+  background-color: #fff;
+  border: none;
+  height: 2.16667em;
+}
+.content textarea,.content input[type='text'],.content input[type='password'],.content input[type='number'], .content input[type='email'] {
+  padding: 0 0.333em !important;
+}
+
+.content input[type='text'],.content input[type='password'],.content input[type='number'], .content input[type='email'],.content textarea,.content select {
+  font-size: 1.2em;
+}
+
 @media (min-width: 1024px){
   .polygonContainer {
     left: -6em;
@@ -57,5 +71,11 @@
   .polygonContainer {
     left: -13em;
     bottom: -1.4em;
+  }
+}
+
+@media (max-width: 480px) {
+  .content textarea {
+    text-indent:-3px;
   }
 }

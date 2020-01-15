@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-
 import styles from './index.module.css';
 
 class ErrorBoundary extends React.Component {
@@ -27,7 +26,7 @@ class ErrorBoundary extends React.Component {
       return(
         <div className={styles.container}>
           <div className={styles.text}>An Unexpected Error Has Occurred</div>
-          <button className={styles.button} onClick={this.reload}>Home</button>
+          <button className="primary button align_center" onClick={this.reload}>Home</button>
         </div>
       )
     }

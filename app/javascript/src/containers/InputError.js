@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Error from '../components/Error';
+import {getFormFieldError} from '../redux/selectors/form';
 
 export default ({formKey, name}) => {
-  const error = useSelector(({form}) => form[formKey] && form[formKey].errors && form[formKey].errors.fieldErrors ? form[formKey].errors.fieldErrors[name] : undefined)
+  const error = useSelector(getFormFieldError(formKey, name))
   return <Error error={error} />
 }

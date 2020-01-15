@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import { inviteConfirmationSchema } from '../../../utils/validation';
 import { CREATE_INVITE_CONFIRMATION_REQUEST } from '../../../redux/types/auth';
 
-export default ({location:{search},history:{push}}) => (
+export default ({location:{search}}) => (
     <PasswordForm
       form={{
         entity: "invite_confirmation",
@@ -14,6 +14,6 @@ export default ({location:{search},history:{push}}) => (
         extraValues: {confirmation_token: queryString.parse(search).confirmation_token},
         validationSchema: inviteConfirmationSchema
       }}
-      handleCancel={() => {push('/')}}
+      cancel="/"
     />
 )

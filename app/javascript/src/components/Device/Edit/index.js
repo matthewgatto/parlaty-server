@@ -3,10 +3,11 @@ import { useSelector,useDispatch } from 'react-redux';
 import DeviceForm from '../Form';
 import { UPDATE_DEVICE_REQUEST } from '../../../redux/types/device';
 import { loadDeviceActions } from '../../../redux/actions/device';
+import {getDeviceById} from '../../../redux/selectors/device'
 import uuid from 'uuid/v4';
 
-export default ({history:{goBack},match:{params:{id}}}) => {
-  const initialValues = useSelector(({devices:{byId:{[id]:device}}}) => device);
+export default ({match:{params:{id}}}) => {
+  const initialValues = useSelector(getDeviceById(id));
   const dispatch = useDispatch();
   useEffect(() => {
     if(initialValues.actions && initialValues.actions.length > 0){
@@ -20,7 +21,6 @@ export default ({history:{goBack},match:{params:{id}}}) => {
       type={UPDATE_DEVICE_REQUEST}
       initialValues={initialValues}
       id={id}
-      goBack={goBack}
       device_id={id}
     />
   )

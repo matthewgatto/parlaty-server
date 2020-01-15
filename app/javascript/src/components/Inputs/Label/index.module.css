@@ -1,0 +1,12 @@
+.container {
+  height: 1em;
+  font-size: 1.2em;
+  line-height: 1em;
+  margin: 0.4em;
+  font-weight: 600;
+  color: #7b7979;
+}
+
+.container > *:nth-child(2) {
+  margin-left: 0.8em;
+}

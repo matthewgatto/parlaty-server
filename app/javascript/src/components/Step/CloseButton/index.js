@@ -1,7 +1,8 @@
 import React from 'react';
+import Button,{Text} from '../Button';
 
 export default ({onClick}) => (
-  <div className="step_button secondary" onClick={onClick}>
-    <div className="step_button__text">Close</div>
-  </div>
+  <Button light onClick={onClick}>
+    <Text>Close</Text>
+  </Button>
 )
