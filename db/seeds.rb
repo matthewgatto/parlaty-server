@@ -117,6 +117,11 @@ user.confirm
 user.roleable = Oem.first
 user.save
 
+user = User.new(email: "oem2@gmail.com", password: "password")
+user.confirm
+user.roleable = Oem.second
+user.save
+
 user = User.new(email: "operator@gmail.com", password: "password")
 user.confirm
 user.roleable = Operator.first
@@ -126,7 +131,7 @@ user = User.new(email: "oadmin@gmail.com", password: "password")
 user.confirm
 user.roleable = OperatorAdmin.first
 user.save
-
+ 
 padmin = ParlatyAdmin.create!(name: "Chet")
 
 user = User.new(email: "chet@parlaty.com", password: "password")
@@ -161,3 +166,5 @@ user = User.new(email: "rob@jmg.rocks", password: "password")
 user.confirm
 user.roleable = ParlatyAdmin.first
 user.save
+
+

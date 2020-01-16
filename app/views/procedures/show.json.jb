@@ -10,16 +10,9 @@ json = {
 
 def visual_check(step)
 	if (step.has_visual)
-    config.logger.debug "**** step.has_visual = true ****"
-
-    # breaks url_for(step.visual)
-    # breaks url_for(step.visuals)
-    # breaks url_for(step.visuals.attach(..).first)
-    # works rails_blob_url(step.visuals.first)
     url_for(step.visuals.first)
 	else
-    config.logger.debug "**** step.has_visual = false ****"
-		nil
+    nil
 	end
 end
 
@@ -32,7 +25,9 @@ json[:steps] = @procedure.steps.map do |step|
   note: step.note,
   visual: visual_check(step),
   mode: step.mode,
-  parameter: step.parameter,
+  parameter_name: step.parameter_name,
+  parameter_value_8_pack: step.parameter_value_8_pack,
+  parameter_value_12_pack: step.parameter_value_12_pack,
   time: step.time
 }
 end
