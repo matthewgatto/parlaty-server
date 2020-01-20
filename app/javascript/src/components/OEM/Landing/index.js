@@ -5,15 +5,15 @@ import List from '../../List';
 import Label from '../../List/Label';
 import {getAllIds} from '../../../redux/selectors/business';
 
-export default ({match: {params}}) => {
+export default ({match:{url}}) => {
   const businesses = useSelector(getAllIds);
   return(
     <PageLayout
       header="Home"
-      link={{text: "Add Business", to: "/businesses/create"}}
+      link={{text: "Add Business", to: `${url}/create`}}
     >
       <Label>Businesses</Label>
-      <List items={businesses} to="/businesses" placeholder="You have no businesses" text="Businesses" entityKey="businesses"  />
+      <List items={businesses} to={url} placeholder="You have no businesses" text="Businesses" entityKey="businesses"  />
     </PageLayout>
   )
 }

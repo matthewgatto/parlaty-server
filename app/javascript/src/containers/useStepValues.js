@@ -9,7 +9,7 @@ export default (getValues, root) => {
     time: values[`${root}time`],
     mode: values[`${root}mode`],
     safety: values[`${root}safety`],
-    image: values[`${root}image`],
+    visual: values[`${root}visual`],
     audio: values[`${root}audio`],
     location: values[`${root}location`],
     device: values[`${root}device`],

@@ -1,13 +1,6 @@
 import { normalize, schema } from 'normalizr';
 
-const step = new schema.Entity("steps", {}, {
-  processStrategy: ({visual, has_visual, visuals, ...step}, procedure) => {
-    if(visual){
-      step.image = visual;
-    }
-    return step
-  }
-});
+const step = new schema.Entity("steps", {});
 step.define({
   procedure_id: procedure
 })

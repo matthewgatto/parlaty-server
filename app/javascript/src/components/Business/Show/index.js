@@ -1,6 +1,7 @@
 import React from 'react';
 import ListPage from '../../List/Page';
 import { FETCH_BUSINESS_PROCEDURES_REQUEST } from '../../../redux/types/business';
+import { getBusinessProcedures } from '../../../redux/selectors/business';
 
 export default ({match:{params:{id,oem_id},url}}) => (
   <ListPage
@@ -18,7 +19,7 @@ export default ({match:{params:{id,oem_id},url}}) => (
       entityKey: "procedures",
       action: "update",
       placeholder: "This business has no procedures",
-      selector: ({businesses:{byId:{[id]:business}}}) => ((business && business.procedures) ? business.procedures : undefined),
+      selector: getBusinessProcedures(id),
       to: `${url}/procedures`
     }}
   />

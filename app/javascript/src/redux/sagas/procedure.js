@@ -49,7 +49,7 @@ function* handleProcedureCreateSuccess(response, {payload}){
 const makeStep = (stepId, values) => {
   const step = {}
   if(values[`steps[${stepId}].title`]) step.title = values[`steps[${stepId}].title`]
-  if(values[`steps[${stepId}].title`]) step.spoken = values[`steps[${stepId}].spoken`]
+  if(values[`steps[${stepId}].spoken`]) step.spoken = values[`steps[${stepId}].spoken`]
   if(values[`steps[${stepId}].time`]) step.time = values[`steps[${stepId}].time`]
   if(values[`steps[${stepId}].mode`]) step.mode = values[`steps[${stepId}].mode`]
   if(values[`steps[${stepId}].safety`]) step.safety = values[`steps[${stepId}].safety`]
@@ -57,9 +57,9 @@ const makeStep = (stepId, values) => {
   if(values[`steps[${stepId}].device`]) step.device = values[`steps[${stepId}].device`]
   if(values[`steps[${stepId}].parameter_name`]) step.parameter_name = values[`steps[${stepId}].parameter_name`]
   if(values[`steps[${stepId}].parameter_value_8_pack`]) step.parameter_value_8_pack = values[`steps[${stepId}].parameter_value_8_pack`]
-  const image = values[`steps[${stepId}].image`];
-  if(values[`steps[${stepId}].image`]){
-    step.visuals =  [values[`steps[${stepId}].image`]];
+  const visual = values[`steps[${stepId}].visual`];
+  if(values[`steps[${stepId}].visual`]){
+    step.visuals =  [values[`steps[${stepId}].visual`]];
     step.has_visual = true;
   }
   return step;
@@ -74,7 +74,7 @@ export function* createProcedureSaga(action){
             oem_business_id: action.payload.values.oem_business_id,
           }
         }
-  
+
   if(stepIds.length > 0){
     values.steps = stepIds.map(step => makeStep(step, action.payload.values))
   }
@@ -94,7 +94,7 @@ function normalizeFullProcedure({procedure_id, steps, ...procedure}){
     for (var i = 0; i < steps.length; i++) {
       const { visual, ...step } = steps[i];
       if(visual){
-        stepArray.push({...step, number: i+1, image: visual})
+        stepArray.push({...step, number: i+1, visual})
       } else {
         step.number = i+1;
         stepArray.push(step)

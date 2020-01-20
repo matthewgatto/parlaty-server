@@ -1,6 +1,7 @@
 import React from 'react';
 import ListPage from '../../List/Page';
 import { FETCH_OEM_BUSINESSES_REQUEST } from '../../../redux/types/oem';
+import { getOEMBusinesses } from '../../../redux/selectors/oem';
 
 export default ({match:{url,params:{id}}}) => (
   <ListPage
@@ -14,7 +15,7 @@ export default ({match:{url,params:{id}}}) => (
       entityKey: "businesses",
       to: `${url}/businesses`,
       placeholder: "This OEM has no businesses",
-      selector: ({oems:{byId:{[id]:oem}}}) => ((oem && oem.businesses) ? oem.businesses : undefined)
+      selector: getOEMBusinesses(id)
     }}
   />
 )

@@ -12,7 +12,7 @@ import { getStepMap } from '../../../redux/selectors/step';
 const withStepLoader = (WrappedComponent) =>  (
   class extends React.PureComponent {
     componentDidUpdate(prevProps){
-      if((!prevProps.initialValues || !prevProps.initialValues.description) && (this.props.initialValues && this.props.initialValues.steps)){
+      if((!prevProps.initialValues || !prevProps.initialValues.steps) && (this.props.initialValues && this.props.initialValues.steps)){
         this.props.addSteps()
       }
     }
@@ -49,11 +49,11 @@ const EditProcedureFormContainer = (props) => {
       var count = 0;
       for (var i = 0; i < steps.length; i++) {
         const step = stepMap[steps[i]];
-        if(step.image){
-          visuals.push({id: step.id, idx: i, src: step.image})
+        if(step.visual){
+          visuals.push({id: step.id, idx: i, src: step.visual})
         }
       }
-      if(visuals.length > 0){
+      if(steps.length > 0){
         dispatch(loadStepForms(steps,visuals))
       }
     }

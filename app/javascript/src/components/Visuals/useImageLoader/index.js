@@ -1,11 +1,14 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useRef} from 'react';
 
 export default (src) => {
+  const img = useRef(new Image());
   const [isLoading, setLoading] = useState(true)
   useEffect(() => {
-    if(isLoading && src.complete) {
-      setLoading(false)
-    }
-  }, [src, isLoading])
-  return {isLoading, onLoad: () => setLoading(false)}
+    img.current.onload = () => setLoading(false)
+  },[])
+  useEffect(() => {
+    setLoading(true)
+    img.current.src = src;
+  }, [src])
+  return isLoading
 }

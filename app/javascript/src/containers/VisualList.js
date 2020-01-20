@@ -11,7 +11,7 @@ export default () => {
   const dispatch = useDispatch();
   const handleCloseIconClick = (id) => () => {
     dispatch(removeImage(id));
-    setValue(`steps[${id}].image`, '');
+    setValue(`steps[${id}].visual`, '');
   }
   return <VisualList visuals={visuals} handleCloseIconClick={handleCloseIconClick} />
 }

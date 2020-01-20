@@ -18,62 +18,64 @@ import Schemas from '../../utils/models';
 import API from '../../utils/API';
 
 function* handleNewStep(stepMeta, payload, idx, newIdx){
-  const initialImage = (!stepMeta.isDuplicate && stepMeta.initialValues && stepMeta.initialValues.image) ? stepMeta.initialValues.image : false;
-  var src = payload.step.image instanceof File ? (
-    yield call(utils.readFile, payload.step.image)
+  const initialImage = (!stepMeta.isDuplicate && stepMeta.initialValues && stepMeta.initialValues.visual) ? stepMeta.initialValues.visual : false;
+  var src = payload.step.visual instanceof File ? (
+    yield call(utils.readFile, payload.step.visual)
   ) : (
-    payload.step.image
+    payload.step.visual
   );
   if(!stepMeta.isDuplicate){
     if(idx != newIdx){
-      if(initialImage && !payload.step.image){
+      if(initialImage && !payload.step.visual){
         yield put(removeImageAndReIndex(payload.formKey, idx, newIdx))
       } else {
-        yield put(reorderStep(payload.formKey, idx, newIdx, payload.step.image && {id: stepMeta.id, idx: newIdx, src}))
+        yield put(reorderStep(payload.formKey, idx, newIdx, payload.step.visual && {id: stepMeta.id, idx: newIdx, src}))
       }
-    } else if(!initialImage && payload.step.image){
+    } else if(!initialImage && payload.step.visual){
       yield put(addImage({id: stepMeta.id, idx: newIdx, src}))
-    } else if(initialImage && payload.step.image && initialImage != payload.step.image){
+    } else if(initialImage && payload.step.visual && initialImage != payload.step.visual){
       yield put(updateImage(stepMeta.id, {src}))
-    } else if(initialImage && !payload.step.image){
+    } else if(initialImage && !payload.step.visual){
       yield put(removeImage(stepMeta.id))
     }
   } else {
     if(idx != newIdx){
-      yield put(reorderStep(payload.formKey, idx, newIdx, payload.step.image ? {id: stepMeta.id, idx: newIdx, src} : undefined))
-    } else if(payload.step.image){
+      yield put(reorderStep(payload.formKey, idx, newIdx, payload.step.visual ? {id: stepMeta.id, idx: newIdx, src} : undefined))
+    } else if(payload.step.visual){
       yield put(addImage({id: stepMeta.id, idx: newIdx, src}, true))
     }
   }
   yield put(setStepForm(payload.stepFormKey))
 }
 
-const cleanStepCreateParams = ({id, number, actions,image,audio,visual,visuals,has_visual,...step}) => {
-
-  return image ? ({...step,visuals:[image], has_visual: true}) : step
+const cleanStepCreateParams = ({id, number,visual,audio,...step}) => {
+  if(visual){
+    return typeof visual === "string" ? ({...step, visual}) : ({...step,visuals:[visual], has_visual: true})
+  }
+  return step
 }
 
 function* createStepSaga({procedure, step, from, to, initialValues}){
   try {
-    const previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
-    //step.device = yield select(getDeviceName)
-    const formData = utils.objectToFormData({
-      step: {
-        ...cleanStepCreateParams(step),
-        procedure_id: procedure.id
-      },
-      previous_step_id
-    });
-    const response = yield call(API.multipost, "/steps", formData);
-    const {visual, has_visual, ...newStep} = response;
-    if(has_visual){
-      newStep.image = visual;
+    const body = {}
+    if(from !== to){
+      body.previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
     }
+
+    //step.device = yield select(getDeviceName)
+    const cleanStep = cleanStepCreateParams({
+      ...step,
+      procedure_id: procedure.id
+    });
+    body.step = cleanStep;
+    const formData = utils.objectToFormData(body);
+    const response = yield call(API.multipost, "/steps", formData);
+    const stepState = {...cleanStep, ...response};
     var steps;
     if(from !== to){
-      steps = [...procedure.steps.slice(0, to), newStep, ...procedure.steps.slice(to)]
+      steps = [...procedure.steps.slice(0, to), stepState, ...procedure.steps.slice(to)]
     } else {
-      steps = [...procedure.steps, newStep]
+      steps = [...procedure.steps, stepState]
     }
     yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize({id:procedure.id, steps}, Schemas.procedure).entities});
   } catch (e) {
@@ -81,40 +83,30 @@ function* createStepSaga({procedure, step, from, to, initialValues}){
     throw e
   }
 }
-const cleanStepUpdateParams = ({id, number, actions,image,audio,visual,visuals,has_visual,...step}) => {
-  /*
-  if(image){
-    if(typeof image === "string"){
-      step.visual = image
-    } else {
-      step.visuals = [image];
-      step.has_visual = true;
-    }
-  }
-  */
-  return step
-}
+const cleanStepUpdateParams = ({id, number,visual,audio,...step}) => step
 
 function* updateStepSaga({procedure, step, from, to, initialValues}){
   try {
     step.id = procedure.steps[from];
     //step.device = yield select(getDeviceName)
-    const body = {step: cleanStepUpdateParams(step)};
+    const cleanStep = cleanStepUpdateParams(step)
+    const body = {step: cleanStep};
     if(from !== to){
       body.previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
     }
     const formData = utils.objectToFormData(body);
     const response = yield call(API.multiput, `/steps/${step.id}`, formData);
+    const stepState = {...cleanStep, ...response};
     if(from !== to){
       var steps;
       if(from > to){
-        steps = [...procedure.steps.slice(0, to), response, ...procedure.steps.slice(to, from), ...procedure.steps.slice(from+1)]
+        steps = [...procedure.steps.slice(0, to), stepState, ...procedure.steps.slice(to, from), ...procedure.steps.slice(from+1)]
       } else {
-        steps = [...procedure.steps.slice(0, from), ...procedure.steps.slice(from+1, to+1), response, ...procedure.steps.slice(to + 1)]
+        steps = [...procedure.steps.slice(0, from), ...procedure.steps.slice(from+1, to+1), stepState, ...procedure.steps.slice(to + 1)]
       }
-      yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize({id:response.procedure_id, steps}, Schemas.procedure).entities})
+      yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize({id:procedure.id, steps}, Schemas.procedure).entities})
     } else {
-      yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize(response, Schemas.step).entities})
+      yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize(stepState, Schemas.step).entities})
     }
   } catch (e) {
     console.log("ERROR", e);

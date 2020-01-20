@@ -1,1 +1,1 @@
-export const getProcedureById = (id) => ({procedures:{byId}}) => byId[id]
+export const getProcedureById = (id) => (state) => state.procedures.byId[id]

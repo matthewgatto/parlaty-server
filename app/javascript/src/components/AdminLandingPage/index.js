@@ -1,6 +1,7 @@
 import React from 'react';
 import ListPage from '../List/Page';
 import { FETCH_OEMS_REQUEST } from '../../redux/types/oem';
+import { getAllOEMIds } from '../../redux/selectors/oem';
 
 const oemListProps = {
   label: "OEMs",
@@ -11,7 +12,7 @@ const oemListProps = {
     entityKey: "oems",
     placeholder: "There are no OEMs",
     type: FETCH_OEMS_REQUEST,
-    selector: ({oems:{allIds}}) => allIds,
+    selector: getAllOEMIds,
     url: "/oems"
   }
 }

@@ -26,7 +26,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         <DeviceSelect options={devices} label="Device*" root={root} name="device" defaultValue={initialValues.device} />
         <ParameterFields initialName={/*REMOVE check for null values*/initialValues.parameter_name ? initialValues.parameter_name : undefined} initialValue={/*REMOVE check for null values*/initialValues.parameter_value_8_pack ? initialValues.parameter_value_8_pack : undefined} formKey={formKey} root={root} />
         <div className={styles.files}>
-          <FileInput defaultValue={initialValues.image} label="Image*" root={root} name="image" />
+          <FileInput defaultValue={initialValues.visual} label="Image*" root={root} name="visual" />
           <FileInput defaultValue={initialValues.audio} label="Audio*" root={root} name="audio" />
         </div>
         <div className={styles.error}>

@@ -1,9 +1,18 @@
-export const isAStepFormOpen = ({steps}) => !!steps.open
-export const getLastStepId = ({steps}) => steps.forms[steps.forms.length - 1]
-export const getStepMap = ({steps}) => steps.byId
-export const getVisuals = ({steps}) => steps.images
+export const getStepMap = (state) => state.steps.byId
+export const getVisuals = (state) => state.steps.visuals
+export const getStepForms = (state) => state.steps.forms
+export const getStepMeta = (state) => state.steps.open
+export const isAStepFormOpen = (state) => !!getStepMeta(state)
+export const getLastStepId = (state) => state.steps.forms[getStepForms(state).length - 1]
 export const getStepById = (state,id) => getStepMap(state)[id]
-export const getStepDataIfOpen = ({steps:{open}},id) => open && open.id === id ? open : false
+
+export const getStepDataIfOpen = (state,id) => {
+  const stepMeta = getStepMeta(state);
+  return stepMeta && stepMeta.id === id ? stepMeta : false
+}
 export const getStepFormData = (id) => (state) => ({initialValue: getStepById(state,id), isOpen: getStepDataIfOpen(state,id)})
-export const getStepForms = ({steps}) => steps.forms
-export const getStepSaveData = ({steps:{open,forms}}) => ({stepMeta: open, idx: forms.findIndex(s => s === open.id)})
+
+export const getStepSaveData = (state) => {
+  const stepMeta = getStepMeta(state)
+  return({stepMeta, idx: getStepForms(state).findIndex(s => s === stepMeta.id)})
+}
