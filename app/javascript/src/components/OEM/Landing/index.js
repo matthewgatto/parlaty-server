@@ -10,10 +10,10 @@ export default ({match:{url}}) => {
   return(
     <PageLayout
       header="Home"
-      link={{text: "Add Business", to: `${url}/create`}}
+      link={{text: "Add Business", to: `/businesses/create`}}
     >
       <Label>Businesses</Label>
-      <List items={businesses} to={url} placeholder="You have no businesses" text="Businesses" entityKey="businesses"  />
+      <List items={businesses} to="/businesses" placeholder="You have no businesses" text="Businesses" entityKey="businesses"  />
     </PageLayout>
   )
 }

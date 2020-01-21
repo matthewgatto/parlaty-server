@@ -23,7 +23,7 @@ const allBusinesses = (state = null, {type,payload}) => {
       return payload.businesses ? getIds(payload.businesses) : state
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(payload.auth.roleable_type === "Oem"){
-        return addBusiness(state, payload.businesses)
+        return getIds(payload.businesses)
       }
     default:
       return state
@@ -38,6 +38,10 @@ const businessesById = (state = {}, {type,payload}) => {
     case businessTypes.CREATE_BUSINESS_REQUEST__SUCCESS:
     case procedureTypes.CREATE_PROCEDURE_REQUEST__SUCCESS:
       if(payload.businesses){
+        return merge({}, state, payload.businesses)
+      }
+    case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
+      if(payload.auth.roleable_type === "Oem"){
         return merge({}, state, payload.businesses)
       }
     default:
