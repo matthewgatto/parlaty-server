@@ -5,6 +5,7 @@ export default (getValues, root) => {
   return({
     title: values[`${root}title`],
     spoken: values[`${root}spoken`],
+    note: values[`${root}note`],
     number: values[`${root}number`],
     time: values[`${root}time`],
     mode: values[`${root}mode`],

@@ -50,6 +50,7 @@ const makeStep = (stepId, values) => {
   const step = {}
   if(values[`steps[${stepId}].title`]) step.title = values[`steps[${stepId}].title`]
   if(values[`steps[${stepId}].spoken`]) step.spoken = values[`steps[${stepId}].spoken`]
+  if(values[`steps[${stepId}].note`]) step.note = values[`steps[${stepId}].note`]
   if(values[`steps[${stepId}].time`]) step.time = values[`steps[${stepId}].time`]
   if(values[`steps[${stepId}].mode`]) step.mode = values[`steps[${stepId}].mode`]
   if(values[`steps[${stepId}].safety`]) step.safety = values[`steps[${stepId}].safety`]

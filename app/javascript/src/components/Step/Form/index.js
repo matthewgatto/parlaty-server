@@ -5,7 +5,7 @@ import DeviceSelect from '../../../containers/DeviceSelect';
 import FormError from '../../../containers/FormError';
 import StepSaveButton from '../../../containers/StepSaveButton';
 import StepCloseButton from '../../../containers/StepCloseButton';
-import { Input, CheckBox, Select, FileInput, ModeRadio } from '../../Inputs';
+import { Input, CheckBox, Select, FileInput, ModeRadio, Textarea } from '../../Inputs';
 import ParameterFields from '../../Inputs/Parameter';
 import styles from './index.module.css';
 
@@ -16,6 +16,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
       <div className={styles.container}>
         <Input defaultValue={initialValues.title} formKey={formKey} type="text" required label="Title*" root={root} name="title" />
         <CheckBox labelClass={`${styles.spoken} align_center`} label="Spoken" root={root} name="spoken" defaultValue={initialValues.spoken || false} />
+        <Textarea label="Note*" root={root} name="note" defaultValue={initialValues.note} required rows="4" formKey={formKey} />
         <Select defaultValue={idx+1} formKey={formKey} label="Number*" root={root} name="number" options={positions} />
         <Select options={timeOptions} label="Time*" root={root} name="time" defaultValue={initialValues.time} />
         <div className={`${styles.boxes} align_center`}>
