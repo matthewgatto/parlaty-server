@@ -1,3 +1,5 @@
+import uniq from 'lodash/uniq';
+
 export function immutableMove(arr, from, to) {
   return arr.reduce((prev, current, idx, self) => {
     if (from === to) {
@@ -70,5 +72,11 @@ export function readFile(file){
   })
 }
 
-export const checkWith = (fn,k) => (p, t) => ((fn(p) && t && t[k]) ? true : false)
+
 export const makeName = (root, name) => root ? `${root}${name}` : name
+
+export const addIds = (state, entityMap) => state ? (
+  uniq([...state, ...Object.keys(entityMap)])
+) : (
+  Object.keys(entityMap)
+)

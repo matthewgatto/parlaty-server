@@ -21,7 +21,7 @@ export default (props) => (
       <div>
         <div className={styles.margin}>
           <Input name="name" type="text" label="Procedure Name" required formKey={formKey} />
-          <Textarea label="Description" name="description" required formKey={formKey} />
+          <Textarea label="Description" name="description" required rows="6" formKey={formKey} />
         </div>
         <AddStepFormButton formKey={formKey} />
         <PolygonGroup className={styles.polygonContainer} />

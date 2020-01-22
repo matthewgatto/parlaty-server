@@ -8,10 +8,13 @@ import {
 
 
 export default (state = {}, {type,payload}) => {
-  if(type === types.STEP_SAVE_REQUEST__SUCCESS
-  || type === CREATE_PROCEDURE_REQUEST__SUCCESS
-  || type === UPDATE_PROCEDURE_REQUEST__SUCCESS
-  || type === FETCH_PROCEDURE_REQUEST__SUCCESS
-  ) return merge({}, state, payload.steps)
-  return state
+  switch (type) {
+    case types.STEP_SAVE_REQUEST__SUCCESS:
+    case CREATE_PROCEDURE_REQUEST__SUCCESS:
+    case UPDATE_PROCEDURE_REQUEST__SUCCESS:
+    case FETCH_PROCEDURE_REQUEST__SUCCESS:
+      return merge({}, state, payload.steps)
+    default:
+      return state
+  }
 }
