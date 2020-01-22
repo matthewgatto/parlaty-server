@@ -3,17 +3,44 @@ html,textarea,input[type='text'],input[type='password'],input[type='number'],inp
   font-family: "Poppins", sans-serif;
 }
 
-@media (min-width: 768px){
+@media (orientation: landscape){
   html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
-    font-size: 12px;
+    font-size: 6px;
   }
 }
 
+@media (min-width: 768px) {
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+    font-size: 7px;
+  }
+}
+
+@media (min-width: 768px) and (orientation: landscape){
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+    font-size: 8px;
+  }
+}
+
+@media (min-width: 1024px){
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+    font-size: 10px;
+  }
+}
 
 @media (min-width: 1340px){
   html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
     font-size: 12px;
   }
+}
+
+@media only screen
+  and (min-device-width: 1024px)
+  and (max-device-width: 1366px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+    html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+      font-size: 11px;
+    }
 }
 
 @media (min-width: 2560px){
@@ -31,12 +58,15 @@ html,body,body>div {
   height: 100%;
   position: relative;
 }
+
 body {
   margin: 0;
 }
+
 textarea:focus, input:focus, button:focus,select:focus{
-    outline: none;
+  outline: none;
 }
+
 h1 {
   font-size: 1.8em;
   padding: 0.8em;
@@ -54,6 +84,7 @@ input[type='text'],input[type='password'],input[type='number'],input[type='email
   font-size: 1.5em;
   box-sizing: border-box;
 }
+
 input[type='text'],input[type='password'],input[type='number'], input[type='email']{
   border-bottom: 1px solid #e9e8e8;
   background: none;

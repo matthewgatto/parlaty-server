@@ -25,7 +25,7 @@ const allOems = (state = null, {type, payload}) => {
   switch (type) {
     //case authTypes.CREATE_USER_REQUEST__SUCCESS:
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
-      if(!payload.oems){
+      if(!payload.oems || payload.auth.roleable_type !== "Oem"){
         return state
       }
     case types.FETCH_OEMS_REQUEST__SUCCESS:

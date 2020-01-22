@@ -100,11 +100,41 @@ main {
 
 @media (min-width: 1024px){
   .header,.footer,main {
-    padding: 0 calc((100vw - 80vw) / 2)
+    padding: 0 calc((100vw - 85vw) / 2)
   }
 }
 
 @media (min-width: 1366px){
+  .logo {
+    width: 11em;
+  }
+  .content {
+    padding-top: 16em !important;
+  }
+  .header,.footer {
+    height: 10em;
+  }
+  .footer {
+    margin-top: 10em;
+  }
+  .header,.footer,main {
+    padding: 0 calc((100vw - 66vw) / 2)
+  }
+}
+
+@media (min-width: 1460px){
+  .logo {
+    width: 11em;
+  }
+  .content {
+    padding-top: 18em !important;
+  }
+  .footer {
+    margin-top: 6em;
+  }
+  .header,.footer {
+    height: 12em;
+  }
   .header,.footer,main {
     padding: 0 calc((100vw - 58vw) / 2)
   }

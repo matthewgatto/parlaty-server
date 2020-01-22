@@ -57,7 +57,7 @@
   .boxes {
     flex-wrap: wrap;
   }
-  .boxes label {
+  .boxes label,.boxes label > div:first-child,.spoken label > div:first-child {
     margin: 0;
   }
   .boxes > * {
