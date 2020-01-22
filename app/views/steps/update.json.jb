@@ -2,11 +2,14 @@ json = {
   id: @step.id,
   title: @step.title,
   device: @step.device,
+  safety: @step.safety,
+  spoken: @step.spoken,
   location: @step.location,
   note: @step.note,
   visual: visual_check(@step),
   mode: @step.mode,
-  parameter: @step.parameter,
+  parameter_name: @step.parameter_name,
+  parameter_value_8_pack: @step.parameter_value_8_pack,
   time: @step.time,
   has_visual: @step.has_visual
 }

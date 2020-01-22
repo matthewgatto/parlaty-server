@@ -22,6 +22,8 @@ json[:steps] = @procedure.steps.map do |step|
   title: step.title,
   device: step.device,
 	location: step.location,
+	safety: step.safety,
+	spoken: step.spoken,
   note: step.note,
   visual: visual_check(step),
   mode: step.mode,

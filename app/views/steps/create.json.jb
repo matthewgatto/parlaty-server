@@ -2,6 +2,8 @@ json = {
   id: @step.id,
   title: @step.title,
   device: @step.device,
+  safety: @step.safety,
+  spoken: @step.spoken,
   location: @step.location,
   note: @step.note,
   visual: visual_check(@step),
