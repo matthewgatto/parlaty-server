@@ -29,19 +29,10 @@ html,textarea,input[type='text'],input[type='password'],input[type='number'],inp
 
 @media (min-width: 1340px){
   html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
-    font-size: 12px;
+    font-size: 11px;
   }
 }
 
-@media only screen
-  and (min-device-width: 1024px)
-  and (max-device-width: 1366px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: landscape) {
-    html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
-      font-size: 11px;
-    }
-}
 
 @media (min-width: 2560px){
   html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
