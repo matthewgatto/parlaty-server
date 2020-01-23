@@ -10,6 +10,7 @@
   min-height: 100%;
   box-sizing: border-box;
   background: #f8f8f7;
+  padding-top: 10em;
 }
 
 .content,main {
@@ -20,7 +21,6 @@
 main {
   flex-grow: 1;
   justify-content: center;
-  margin: 6em 0;
 }
 
 .header {
