@@ -8,7 +8,6 @@
 
 .content {
   min-height: 100%;
-  padding-top: 18em !important;
   box-sizing: border-box;
   background: #f8f8f7;
 }
@@ -21,6 +20,7 @@
 main {
   flex-grow: 1;
   justify-content: center;
+  margin: 6em 0;
 }
 
 .header {
@@ -28,7 +28,6 @@ main {
 }
 
 .footer {
-  margin-top: 6em;
   flex-shrink: 0;
 }
 
@@ -90,9 +89,6 @@ main {
   .header,.footer,main {
     padding: 0 calc((100vw - 90vw) / 2)
   }
-  .footer {
-    margin-top: 18em;
-  }
   .link {
     font-size: 1em;
   }
@@ -112,7 +108,7 @@ main {
     width: 11em;
   }
   .content {
-    padding-top: 16em !important;
+    padding-top: 10em;
   }
   .header,.footer {
     height: 10em;
@@ -127,7 +123,7 @@ main {
     width: 14em;
   }
   .content {
-    padding-top: 18em !important;
+    padding-top: 12em;
   }
   .header,.footer {
     height: 12em;
