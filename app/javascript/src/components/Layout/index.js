@@ -12,7 +12,7 @@ const AuthLinks = () => {
   }
   return(<>
     <NavLink className={styles.link} activeClassName={styles.active} to="/invite">Invite</NavLink>
-    <NavLink className={styles.link} activeClassName={styles.active} to="/devices">Devices</NavLink>
+    {/*<NavLink className={styles.link} activeClassName={styles.active} to="/devices">Devices</NavLink>*/}
   </>)
 }
 const Layout = ({children}) =>
