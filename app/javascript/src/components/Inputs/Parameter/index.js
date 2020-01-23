@@ -23,7 +23,7 @@ export default ({root, formKey, initialName, initialValue}) => (
       <div className={styles.label}>
         Name:
       </div>
-      <div className={styles.nameFieldInputWrapper}>
+      <div className={`${styles.nameFieldInputWrapper} align_center`}>
       <Controller name={`${root}parameter_name`} defaultValue={initialName} as="input" />
       </div>
       </div>
@@ -31,7 +31,7 @@ export default ({root, formKey, initialName, initialValue}) => (
       <div className={styles.label}>
         Value:
       </div>
-      <div className={styles.valueFieldInputWrapper}>
+      <div className={`${styles.valueFieldInputWrapper} align_center`}>
       <Controller name={`${root}parameter_value_8_pack`} defaultValue={initialValue} as="input" />
       </div>
       </div>

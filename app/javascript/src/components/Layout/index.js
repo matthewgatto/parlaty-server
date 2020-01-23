@@ -7,7 +7,8 @@ import logo from '../../assets/images/logo.png';
 import {getUserRole} from '../../redux/selectors/auth';
 
 const AuthLinks = () => {
-  if(useSelector(getUserRole) !== "ParlatyAdmin"){
+  const role = useSelector(getUserRole);
+  if(role !== "ParlatyAdmin"){
     return null
   }
   return(<>
