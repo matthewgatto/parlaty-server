@@ -8,6 +8,7 @@
   border-radius: 0.2em;
   height: 2.6em;
   position: relative;
+  overflow: hidden;
 }
 
 .label {
@@ -27,6 +28,7 @@
 
 .container input,.nameFieldContainer,.nameFieldInputWrapper,.valueFieldContainer,.valueFieldInputWrapper {
   height: 100%;
+  position: relative;
 }
 
 .nameFieldContainer {

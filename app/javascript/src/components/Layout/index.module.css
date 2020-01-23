@@ -90,6 +90,9 @@ main {
   .header,.footer,main {
     padding: 0 calc((100vw - 90vw) / 2)
   }
+  .footer {
+    margin-top: 18em;
+  }
   .link {
     font-size: 1em;
   }
@@ -114,9 +117,6 @@ main {
   .header,.footer {
     height: 10em;
   }
-  .footer {
-    margin-top: 10em;
-  }
   .header,.footer,main {
     padding: 0 calc((100vw - 66vw) / 2)
   }
@@ -128,9 +128,6 @@ main {
   }
   .content {
     padding-top: 18em !important;
-  }
-  .footer {
-    margin-top: 6em;
   }
   .header,.footer {
     height: 12em;
