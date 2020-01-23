@@ -12,22 +12,26 @@ const rootReducer = createReducer(history);
 const getInitialState = () => {
   const userFromStorage = localStorage.getItem('user_data');
   if(userFromStorage){
-    const user_data = JSON.parse(userFromStorage)
-    API.setToken(user_data.auth.jwt)
-    if(user_data.auth.roleable_type === "Oem"){
-      return {
-        auth: user_data.auth,
-        oems: {
-          byId: user_data.oems,
-          allIds: Object.keys(user_data.oems)
-        },
-        businesses: {
-          byId: user_data.businesses,
-          allIds: Object.keys(user_data.businesses)
-        }
+    const storageData = JSON.parse(userFromStorage)
+    API.setToken(storageData.auth.jwt)
+    const user_data = {auth: storageData.auth}
+    if(storageData.auth.roleable_type === "Oem"){
+      user_data.oems = {
+        byId: storageData.oems,
+        allIds: Object.keys(storageData.oems)
+      }
+      user_data.businesses = {
+        byId: storageData.businesses,
+        allIds: Object.keys(storageData.businesses)
       }
     }
-    return {auth: user_data.auth}
+    if(storageData.devices){
+      user_data.devices = {
+        byId: storageData.devices,
+        allIds: Object.keys(storageData.devices)
+      }
+    }
+    return user_data
   }
   return {}
 }

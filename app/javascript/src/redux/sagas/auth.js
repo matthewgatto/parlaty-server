@@ -5,13 +5,14 @@ import {formSaga,pushAndNotify} from './form';
 import {normalizeOEMInvite} from './oem';
 import Schemas from '../../utils/models';
 
-function handleLoginResponse({oem_businesses,...auth}){
+function handleLoginResponse({oem_businesses,devices,...auth}){
   const user_data = {auth};
   if(auth.roleable_type === "Oem"){
     const {entities} = normalize({id: auth.user_id, name: auth.name, email: auth.email, businesses: oem_businesses}, Schemas.oem)
     user_data.oems = entities.oems;
     user_data.businesses = entities.businesses || {};
   }
+  user_data.devices = devices;
   localStorage.setItem('user_data', JSON.stringify(user_data));
   API.setToken(auth.jwt);
   return user_data;

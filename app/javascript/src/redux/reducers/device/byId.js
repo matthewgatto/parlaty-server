@@ -1,5 +1,6 @@
 import merge from 'lodash/merge';
 import * as types from '../../types/device'
+import * as authTypes from '../../types/auth';
 
 const initialDeviceMap = {
   "1": {id: "1", name: "Crank handle", actions: ["Crank Action One", "Crank Action Two", "Crank Action Three"]},
@@ -9,8 +10,12 @@ const initialDeviceMap = {
   "5": {id: "5", name: "Wrench", actions: ["Wrench One", "Wrench Two", "Wrench Three"]}
 }
 
-export default (state = initialDeviceMap, {type,payload}) => {
+export default (state = {}, {type,payload}) => {
   switch (type) {
+    case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
+      if(!payload.devices){
+        return state;
+      }
     case types.FETCH_DEVICES_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
       return merge({}, state, payload.devices)
