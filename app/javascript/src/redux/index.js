@@ -25,12 +25,14 @@ const getInitialState = () => {
         allIds: Object.keys(storageData.businesses)
       }
     }
+    /*
     if(storageData.devices){
       user_data.devices = {
         byId: storageData.devices,
         allIds: Object.keys(storageData.devices)
       }
     }
+    */
     return user_data
   }
   return {}

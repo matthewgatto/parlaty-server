@@ -12,7 +12,11 @@ function handleLoginResponse({oem_businesses,devices,...auth}){
     user_data.oems = entities.oems;
     user_data.businesses = entities.businesses || {};
   }
-  user_data.devices = devices;
+  /*
+  if(devices){
+    user_data.devices = devices;
+  }
+  */
   localStorage.setItem('user_data', JSON.stringify(user_data));
   API.setToken(auth.jwt);
   return user_data;

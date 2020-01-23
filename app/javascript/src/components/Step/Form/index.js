@@ -24,7 +24,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
           <CheckBox label="Option to Skip" root={root} name="safety" defaultValue={initialValues.safety || false} />
         </div>
         <Input defaultValue={initialValues.location} formKey={formKey} type="text" required label="Location*" root={root} name="location"  />
-        <DeviceSelect options={devices} label="Device*" root={root} name="device" defaultValue={initialValues.device} />
+        <DeviceSelect options={devices} label="Device*" root={root} name="device" defaultValue={/*REMOVE*/(initialValues.device && !isNaN(initialValues.device)) ? initialValues.device : 1} />
         <ParameterFields initialName={/*REMOVE check for null values*/initialValues.parameter_name ? initialValues.parameter_name : undefined} initialValue={/*REMOVE check for null values*/initialValues.parameter_value_8_pack ? initialValues.parameter_value_8_pack : undefined} formKey={formKey} root={root} />
         <div className={styles.files}>
           <FileInput defaultValue={initialValues.visual} label="Image*" root={root} name="visual" />
