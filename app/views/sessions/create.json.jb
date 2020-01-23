@@ -13,4 +13,12 @@ json[:oem_businesses] = @sorted_ob.map do |oem_business|
 	}
 end
 
+json[:devices] = @devices.map do |device|
+{
+	id: device.id,
+	name: device.name,
+	actions: device.actions
+}
+end
+
 json
