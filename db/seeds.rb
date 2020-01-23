@@ -167,4 +167,147 @@ user.confirm
 user.roleable = ParlatyAdmin.first
 user.save
 
+device = Device.new(name: "Crank Handle")
+action = Action.create!(name: "Crank Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Crank Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Crank Action Three", device: device)
+device.actions << action
+device.save
+  
+device = Device.new(name: "Part with Lock")
+action = Action.create!(name: "Part Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Part Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Part Action Three", device: device)
+device.actions << action
+device.save
+  
+device = Device.new(name: "Blowtorch")
+action = Action.create!(name: "Blowtorch Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Blowtorch Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Blowtorch Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Pressure Washer")
+action = Action.create!(name: "Pressure Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Pressure Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Pressure Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Wrench")
+action = Action.create!(name: "Wrench Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Wrench Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Wrench Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Radiator (heating)")
+action = Action.create!(name: "Radiator Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Radiator Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Radiator Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Gas Appliance")
+action = Action.create!(name: "Gas Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Gas Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Gas Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Futon Dryer")
+action = Action.create!(name: "Futon Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Futon Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Futon Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Domestic Robot")
+action = Action.create!(name: "Domestic Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Domestic Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Domestic Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Electric Water Boiler")
+action = Action.create!(name: "Electric Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Electric Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Electric Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Hob (hearth)")
+action = Action.create!(name: "Hob Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Hob Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Hob Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Dish Draining Closet")
+action = Action.create!(name: "Dish Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Dish Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Dish Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Micathermic Heater")
+action = Action.create!(name: "Micathermic Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Micathermic Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Micathermic Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Oven")
+action = Action.create!(name: "Oven Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Oven Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Oven Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "HVAC")
+action = Action.create!(name: "HVAC Action One", device: device)
+device.actions << action
+action = Action.create!(name: "HVAC Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "HVAC Action Three", device: device)
+device.actions << action
+device.save
+
+device = Device.new(name: "Mangle (machine)")
+action = Action.create!(name: "Mangle Action One", device: device)
+device.actions << action
+action = Action.create!(name: "Mangle Action Two", device: device)
+device.actions << action
+action = Action.create!(name: "Mangle Action Three", device: device)
+device.actions << action
+device.save
 
