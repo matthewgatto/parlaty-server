@@ -6,7 +6,6 @@
 .row {
   background: #fff;
   border-radius: 0.2em;
-  padding: 0 0.333em;
   height: 2.6em;
   position: relative;
 }
@@ -15,23 +14,30 @@
   display: inline-block;
   color: #888;
   font-size: 1.1em;
+  margin: 0 0.3em;
 }
 
 .container input {
-  display: inline;
   border: none;
-  height: 100%;
+  border-radius: 0;
   font-size: 1.2em;
+  width: 100%;
 }
 
-.container input:first-of-type {
-  margin-left: 0.5em;
-  width: 10em;
-  margin-right: 0.5em;
+
+.container input,.nameFieldContainer,.nameFieldInputWrapper,.valueFieldContainer,.valueFieldInputWrapper {
+  height: 100%;
+}
+
+.nameFieldContainer {
+  width: 70%;
   border-right: 1px solid #f1f1f1;
 }
 
-.container input:last-of-type {
-  width: 4em;
-  margin-left: 0.5em;
+.valueFieldContainer {
+  width: 30%;
+}
+
+.nameFieldInputWrapper,.valueFieldInputWrapper {
+  flex-grow: 1;
 }

@@ -18,15 +18,23 @@ export default ({root, formKey, initialName, initialValue}) => (
       <div>Parameter*</div>
       <ParameterErrors formKey={formKey} />
     </LabelWrapper>
-    <div className={styles.row}>
+    <div className={`${styles.row} align_center`}>
+      <div className={`${styles.nameFieldContainer} align_center`}>
       <div className={styles.label}>
         Name:
       </div>
+      <div className={styles.nameFieldInputWrapper}>
       <Controller name={`${root}parameter_name`} defaultValue={initialName} as="input" />
+      </div>
+      </div>
+      <div className={`${styles.valueFieldContainer} align_center`}>
       <div className={styles.label}>
         Value:
       </div>
+      <div className={styles.valueFieldInputWrapper}>
       <Controller name={`${root}parameter_value_8_pack`} defaultValue={initialValue} as="input" />
+      </div>
+      </div>
     </div>
   </FieldWrapper>
 )
