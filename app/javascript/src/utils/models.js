@@ -1,18 +1,21 @@
 import { normalize, schema } from 'normalizr';
 
+const action = new schema.Entity("actions", {});
+action.define({
+  device_id: device
+})
+
+const device = new schema.Entity("devices", {});
+device.define({
+  actions: [action]
+})
 const step = new schema.Entity("steps", {});
 step.define({
   procedure_id: procedure
 })
 
 const procedure = new schema.Entity("procedures", {}, {
-  processStrategy: (procedure, {oem_business_id,id}) => ({oem_business_id: id || oem_business_id, ...procedure}),
-  mergeStrategy: (a, b) => {
-    return {
-      ...a,
-      ...b
-    }
-  }
+  processStrategy: (procedure, {oem_business_id,id}) => ({oem_business_id: id || oem_business_id, ...procedure})
 });
 procedure.define({
   oem_business_id: business,
@@ -32,6 +35,8 @@ oem.define({
 })
 
 export default {
+  action,
+  device,
   step,
   procedure,
   business,

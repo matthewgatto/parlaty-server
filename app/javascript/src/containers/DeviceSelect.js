@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Controller } from "react-hook-form";
 import SelectComponent, {withSelectContainer} from '../components/Inputs/Select';
-import DeviceActionList from '../components/Device/ActionList';
+import ActionList from '../components/Action/List';
 import withField from '../components/Inputs/withField';
 import {makeName} from '../utils'
 import {getDeviceMap} from '../redux/selectors/device';
@@ -13,7 +13,7 @@ const DeviceSelectContainer = ({value, ...props}) => {
   const device = useSelector(getDeviceMap)[value];
   return(<>
     <DeviceSelect value={value} {...props} />
-    <DeviceActionList actions={device.actions} />
+    <ActionList actions={device.actions} />
   </>)
 }
 

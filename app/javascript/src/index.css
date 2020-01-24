@@ -1,3 +1,6 @@
+body {
+  overflow-y: auto;
+}
 html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
   font-size: 5px;
   font-family: "Poppins", sans-serif;

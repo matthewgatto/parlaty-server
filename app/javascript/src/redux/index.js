@@ -9,34 +9,36 @@ import API from '../utils/API';
 export const history = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = createReducer(history);
+
+const makeSlice = (entityMap) => ({
+  byId: entityMap,
+  allIds: Object.keys(entityMap)
+})
+
+const makeInitialState = ({auth,devices,actions,oems,businesses}) => {
+  API.setToken(auth.jwt)
+  const initialState = {auth}
+  if(auth.roleable_type === "Oem"){
+    initialState.oems = makeSlice(oems)
+    initialState.businesses = makeSlice(businesses)
+  }
+  if(devices){
+    initialState.devices = makeSlice(devices)
+  }
+  if(actions){
+    initialState.actions = makeSlice(actions)
+  }
+  return initialState
+}
+
 const getInitialState = () => {
-  const userFromStorage = localStorage.getItem('user_data');
-  if(userFromStorage){
-    const storageData = JSON.parse(userFromStorage)
-    API.setToken(storageData.auth.jwt)
-    const user_data = {auth: storageData.auth}
-    if(storageData.auth.roleable_type === "Oem"){
-      user_data.oems = {
-        byId: storageData.oems,
-        allIds: Object.keys(storageData.oems)
-      }
-      user_data.businesses = {
-        byId: storageData.businesses,
-        allIds: Object.keys(storageData.businesses)
-      }
-    }
-    /*
-    if(storageData.devices){
-      user_data.devices = {
-        byId: storageData.devices,
-        allIds: Object.keys(storageData.devices)
-      }
-    }
-    */
-    return user_data
+  const localData = localStorage.getItem('initial_state');
+  if(localData){
+    return makeInitialState(JSON.parse(localData))
   }
   return {}
 }
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,

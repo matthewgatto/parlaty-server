@@ -1,0 +1,31 @@
+.container {
+  margin: 0.5em 0;
+}
+
+.container svg {
+  flex-shrink: 0;
+  padding: 0.5em;
+}
+
+.burgerIcon {
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.burgerIcon > * {
+  stroke: #888;
+}
+
+.deleteIcon {
+  cursor: pointer;
+  fill: #888;
+  cursor: pointer;
+}
+
+.input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e9e8e8;
+  flex-grow: 1;
+  font-size: 1.4em;
+}

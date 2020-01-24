@@ -4,7 +4,7 @@ import { FETCH_DEVICES_REQUEST } from '../../../redux/types/device';
 import { getAllDeviceIds } from '../../../redux/selectors/device';
 
 const deviceListProps = {
-  header: { header: "Devices", link: { text: "Add Device", to: "/devices/create" }},
+  header: { header: "Devices"/*, link: { text: "Add Device", to: "/devices/create" }*/},
   label: "Devices",
   list: {
     url: "/devices",

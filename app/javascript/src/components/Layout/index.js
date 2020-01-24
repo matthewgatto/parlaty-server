@@ -1,30 +1,20 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import {useSelector} from 'react-redux';
-import Logout from '../../containers/Logout';
 import styles from './index.module.css';
 import logo from '../../assets/images/logo.png';
-import {getUserRole} from '../../redux/selectors/auth';
 
-const AuthLinks = () => {
-  const role = useSelector(getUserRole);
-  if(role !== "ParlatyAdmin"){
-    return null
-  }
-  return(<>
-    <NavLink className={styles.link} activeClassName={styles.active} to="/invite">Invite</NavLink>
-    {/*<NavLink className={styles.link} activeClassName={styles.active} to="/devices">Devices</NavLink>*/}
-  </>)
-}
-const Layout = ({children}) =>
+const Layout = ({children, role,logout}) =>
   <>
     <div className={styles.header}>
       <Link to="/"><img className={styles.logo} src={logo} /></Link>
       <div className={styles.links}>
         <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>
-        <AuthLinks />
+        {role === "ParlatyAdmin" && <>
+          <NavLink className={styles.link} activeClassName={styles.active} to="/invite">Invite</NavLink>
+          <NavLink className={styles.link} activeClassName={styles.active} to="/devices">Devices</NavLink>
+        </>}
         <NavLink className={styles.link} activeClassName={styles.active} to="/support">Support</NavLink>
-        <Logout className={styles.link} />
+        {role && <Link to="/" onClick={logout} className={styles.link}>Logout</Link>}
       </div>
     </div>
     <div className={styles.content}>

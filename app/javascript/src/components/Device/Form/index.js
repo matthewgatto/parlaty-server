@@ -1,6 +1,6 @@
 import React from 'react';
 import FormPage from '../../FormPage';
-import DeviceActions from '../../../containers/DeviceActions';
+import ActionFormList from '../../../containers/ActionFormList';
 import { deviceSchema } from '../../../utils/validation';
 import styles from './index.module.css';
 
@@ -22,6 +22,6 @@ export default ({device_id, header,...props}) => (
     cancel="/devices"
     inputs={inputs}
   >
-    <DeviceActions className={styles.actionsContainer} device_id={device_id} initialActions={props.initialValues && props.initialValues.actions}  />
+    <ActionFormList className={styles.actionsContainer} device_id={device_id} initialActions={props.initialValues && props.initialValues.actions}  />
   </FormPage>
 )

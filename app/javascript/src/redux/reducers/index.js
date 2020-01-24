@@ -7,6 +7,7 @@ import procedures from './procedure';
 import form from './form';
 import steps from './step';
 import devices from './device';
+import actions from './action';
 import toast from './toast';
 import API from '../../utils/API';
 
@@ -17,6 +18,7 @@ export default function(history){
     businesses,
     procedures,
     devices,
+    actions,
     steps,
     form,
     toast,
@@ -25,7 +27,7 @@ export default function(history){
   return function(state,action){
     if(action.type === "LOGOUT"){
       API.setToken(null);
-      localStorage.removeItem('user_data')
+      localStorage.removeItem('initial_state')
       state = {};
     }
     return reducers(state, action);

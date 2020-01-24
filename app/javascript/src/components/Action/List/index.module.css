@@ -1,0 +1,18 @@
+
+.container {
+  padding: 0.6em;
+  background-color: #fff;
+  border-radius: 0.3em;
+  box-sizing: border-box;
+  color: #888;
+  font-size: 1.1em;
+  margin: -0.5em 0 1.2em;
+}
+
+.number {
+  flex: 0 0 1em;
+}
+
+.text {
+  flex-grow: 1;
+}
