@@ -9,7 +9,7 @@ import steps from './step';
 import devices from './device';
 import actions from './action';
 import toast from './toast';
-import API from '../../utils/API';
+import API from '@utils/API';
 
 export default function(history){
   const reducers = combineReducers({

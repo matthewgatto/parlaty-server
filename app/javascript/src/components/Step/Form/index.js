@@ -1,12 +1,12 @@
 import React from 'react';
 import AnimateHeight from 'react-animate-height';
-import StepHeader from '../../../containers/StepHeader';
-import DeviceSelect from '../../../containers/DeviceSelect';
-import FormError from '../../../containers/FormError';
-import StepSaveButton from '../../../containers/StepSaveButton';
-import StepCloseButton from '../../../containers/StepCloseButton';
-import { Input, CheckBox, Select, FileInput, ModeRadio } from '../../Inputs';
-//import ParameterFields from '../../Inputs/Parameter';
+import StepHeader from '@containers/StepHeader';
+import DeviceSelect from '@containers/DeviceSelect';
+import FormError from '@containers/FormError';
+import StepSaveButton from '@containers/StepSaveButton';
+import StepCloseButton from '@containers/StepCloseButton';
+import { Input, CheckBox, Select, FileInput, ModeRadio } from '@components/Inputs';
+//import ParameterFields from '@components/Inputs/Parameter';
 import styles from './index.module.css';
 
 export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, positions, initialValues, devices, timeOptions, procedureFormKey}) => (

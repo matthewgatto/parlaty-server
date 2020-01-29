@@ -1,8 +1,8 @@
 import merge from 'lodash/merge'
 import { combineReducers } from 'redux';
-import { addIds } from '../../utils';
-import * as types from "../types/device";
-import * as authTypes from '../types/auth';
+import { addIds } from '@utils';
+import * as types from "@types/device";
+import * as authTypes from '@types/auth';
 
 const allDevices = (state = [], {type,payload}) => {
   switch (type) {

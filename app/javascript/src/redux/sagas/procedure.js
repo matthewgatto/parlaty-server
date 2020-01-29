@@ -4,11 +4,11 @@ import uniq from 'lodash/uniq';
 import {formSaga,multipostSaga} from './form';
 import {getSaga} from './fetch';
 import { push } from 'connected-react-router';
-import { addToast } from '../actions/toast';
-import { getBusinessById } from '../selectors/business';
-import { getUserRole } from '../selectors/auth';
-import { getStepForms } from '../selectors/step';
-import Schemas from '../../utils/models';
+import { addToast } from '@actions/toast';
+import { getBusinessById } from '@selectors/business';
+import { getUserRole } from '@selectors/auth';
+import { getStepForms } from '@selectors/step';
+import Schemas from '@utils/models';
 
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
   const business = yield select(getBusinessById(values.procedure.oem_business_id)),

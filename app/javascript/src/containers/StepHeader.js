@@ -2,10 +2,10 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useFormContext } from "react-hook-form";
 import { useSelector,useDispatch } from 'react-redux';
-import {setStepForm,addStepForm,deleteStep,removeStepForm} from '../redux/actions/step';
-import {isAStepFormOpen} from '../redux/selectors/step';
+import {setStepForm,addStepForm,deleteStep,removeStepForm} from '@actions/step';
+import {isAStepFormOpen} from '@selectors/step';
 import useStepValues from './useStepValues';
-import StepHeader from '../components/Step/Header';
+import StepHeader from '@components/Step/Header';
 
 export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root}) => {
   const { getValues } = useFormContext()

@@ -1,10 +1,10 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import PageLayout from '../../PageLayout';
-import Name from '../../../containers/Name';
+import PageLayout from '@components/PageLayout';
+import Name from '@containers/Name';
 import ProcedureForm from '../Form';
-import { CREATE_PROCEDURE_REQUEST } from '../../../redux/types/procedure';
-import { getUserId } from '../../../redux/selectors/auth';
+import { CREATE_PROCEDURE_REQUEST } from '@types/procedure';
+import { getUserId } from '@selectors/auth';
 
 export default ({match:{params:{oem_id,business_id}}}) => {
   const author = useSelector(getUserId)

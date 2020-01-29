@@ -1,4 +1,4 @@
-import * as types from '../types/device';
+import * as types from '@types/device';
 
 export const reorderDeviceAction = (from,to) => ({type: types.REORDER_DEVICE_ACTION, payload: {from, to}})
 export const removeDeviceAction = (idx) => ({type: types.REMOVE_DEVICE_ACTION, payload: idx})

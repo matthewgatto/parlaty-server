@@ -1,5 +1,5 @@
 import React from 'react';
-import PolygonGroup from '../../SVG/PolygonGroup';
+import PolygonGroup from '@components/SVG/PolygonGroup';
 import styles from './index.module.css';
 
 export default function(props){

@@ -1,8 +1,8 @@
 import React from 'react';
-import PasswordForm from '../Password';
 import queryString from 'query-string';
-import { inviteConfirmationSchema } from '../../../utils/validation';
-import { CREATE_INVITE_CONFIRMATION_REQUEST } from '../../../redux/types/auth';
+import PasswordForm from '../Password';
+import { inviteConfirmationSchema } from '@utils/validation';
+import { CREATE_INVITE_CONFIRMATION_REQUEST } from '@types/auth';
 
 export default ({location:{search}}) => (
     <PasswordForm

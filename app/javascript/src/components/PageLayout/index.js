@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Triangle from '../SVG/Triangle';
 import Bar from '../Bar/Large';
-import Name from '../../containers/Name';
+import Name from '@containers/Name';
 import styles from './index.module.css';
 
 const makeLabel = (label) => ((typeof label === "object" && label.entityKey) ? (

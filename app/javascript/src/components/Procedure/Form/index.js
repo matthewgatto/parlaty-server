@@ -1,13 +1,13 @@
 import React from 'react';
-import FormContext from '../../Form/Context';
-import { Input } from '../../Inputs';
-import AddStepFormButton from '../../../containers/AddStepFormButton';
-import FormPolygons from '../../SVG/FormPolygons';
-import StepList from '../../../containers/StepList';
-import VisualList from '../../../containers/VisualList';
-import FormError from '../../../containers/FormError';
-import SubmitButton from '../../../containers/SubmitButton';
-import { procedureSchema } from '../../../utils/validation';
+import FormContext from '@components/Form/Context';
+import { Input } from '@components/Inputs';
+import FormPolygons from '@components/SVG/FormPolygons';
+import AddStepFormButton from '@containers/AddStepFormButton';
+import StepList from '@containers/StepList';
+import VisualList from '@containers/VisualList';
+import FormError from '@containers/FormError';
+import SubmitButton from '@containers/SubmitButton';
+import { procedureSchema } from '@utils/validation';
 import styles from './index.module.css';
 
 export default (props) => (

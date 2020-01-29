@@ -1,8 +1,8 @@
 import React from 'react';
 import {useSelector} from 'react-redux'
-import FormPage from '../../Form/Page';
-import { businessSchema } from '../../../utils/validation';
-import { CREATE_BUSINESS_REQUEST } from '../../../redux/types/business';
+import FormPage from '@components/Form/Page';
+import { businessSchema } from '@utils/validation';
+import { CREATE_BUSINESS_REQUEST } from '@types/business';
 
 const inputs = [{
   type: "text",

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LoginForm from '../../containers/LoginForm';
+import LoginForm from '@containers/LoginForm';
 import Polygon from '../SVG/PolygonH';
 import styles from './index.module.css';
 

@@ -1,5 +1,5 @@
 import { put, takeEvery } from 'redux-saga/effects';
-import actionWatcher, { loginSaga } from '../../sagas/user';
+import actionWatcher, { loginSaga } from '@sagas/user';
 import { LOGIN_REQUEST, LOGIN_REQUEST__SUCCESS } from '../../store/user';
 
  describe('User sagas', () => {

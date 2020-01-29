@@ -1,5 +1,5 @@
 import React from 'react';
-import FormPage from '../../Form/Page';
+import FormPage from '@components/Form/Page';
 
 const inputs = [{
   type: "password",

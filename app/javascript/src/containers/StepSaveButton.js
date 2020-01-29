@@ -1,9 +1,9 @@
 import React from 'react';
 import { useFormContext } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
-import StepSaveButton from '../components/Step/SaveButton';
-import {STEP_SAVE_REQUEST} from '../redux/types/step';
-import {isFormProcessing} from '../redux/selectors/form';
+import StepSaveButton from '@components/Step/SaveButton';
+import {STEP_SAVE_REQUEST} from '@types/step';
+import {isFormProcessing} from '@selectors/form';
 
 export default ({root, formKey, procedure_id, id}) => {
   const { getValues } = useFormContext()

@@ -1,7 +1,7 @@
 import React from 'react';
 import ListPage from '../List/Page';
-import { FETCH_OEMS_REQUEST } from '../../redux/types/oem';
-import { getAllOEMIds } from '../../redux/selectors/oem';
+import { FETCH_OEMS_REQUEST } from '@types/oem';
+import { getAllOEMIds } from '@selectors/oem';
 
 const oemListProps = {
   label: "OEMs",

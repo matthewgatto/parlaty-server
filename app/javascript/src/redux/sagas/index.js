@@ -5,12 +5,12 @@ import * as business from './business';
 import * as procedure from './procedure';
 import * as step from './step';
 import * as device from './device';
-import * as authTypes from '../types/auth';
-import * as oemTypes from '../types/oem';
-import * as businessTypes from '../types/business';
-import * as procedureTypes from '../types/procedure';
-import * as stepTypes from '../types/step';
-import * as deviceTypes from '../types/device';
+import * as authTypes from '@types/auth';
+import * as oemTypes from '@types/oem';
+import * as businessTypes from '@types/business';
+import * as procedureTypes from '@types/procedure';
+import * as stepTypes from '@types/step';
+import * as deviceTypes from '@types/device';
 
 export default function* appSagas(){
   yield all([

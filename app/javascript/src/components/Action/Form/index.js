@@ -1,10 +1,9 @@
 import React from 'react';
-import { Controller } from 'react-hook-form';
-import Header from '../../Form/Nested/Header';
-import {Input} from '../../Inputs';
-import ParameterFields from '../../Inputs/Parameter';
 import { useSelector } from 'react-redux';
-import {getActionById} from '../../../redux/selectors/action';
+import Header from '@components/Form/Nested/Header';
+import {Input} from '@components/Inputs';
+import ParameterFields from '@components/Inputs/Parameter';
+import {getActionById} from '@selectors/action';
 import styles from './index.module.css';
 
 export default ({id, idx, handleDeleteClick, handleDuplicateClick, title, formKey, provided}) => {

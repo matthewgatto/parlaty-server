@@ -1,10 +1,10 @@
 import React,{useCallback} from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import {setStepForm,reorderStep} from '../redux/actions/step';
-import {getStepForms} from '../redux/selectors/step';
-import {getAllDevices} from '../redux/selectors/device';
-import withDND from '../components/withDND';
-import Placeholder from '../components/Placeholder';
+import {setStepForm,reorderStep} from '@actions/step';
+import {getStepForms} from '@selectors/step';
+import {getAllDevices} from '@selectors/device';
+import withDND from '@components/withDND';
+import Placeholder from '@components/Placeholder';
 import Step from './Step';
 
 const StepList = withDND(({steps, ...props}) => steps.map((id, idx) => <Step key={id} id={id} idx={idx} {...props} />))

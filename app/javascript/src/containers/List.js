@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import List from '../components/List';
+import List from '@components/List';
 
 export default function(props){
   const items = useSelector(props.selector);

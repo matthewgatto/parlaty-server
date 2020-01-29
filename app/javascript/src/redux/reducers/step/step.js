@@ -2,7 +2,7 @@ import { LOCATION_CHANGE } from 'connected-react-router';
 import {
   ADD_STEP_FORM,
   SET_CURRENT_STEP_FORM
-} from '../../types/step';
+} from '@types/step';
 
 export default (state = null, {type, payload}) => {
   switch (type) {

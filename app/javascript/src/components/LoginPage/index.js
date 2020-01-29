@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import uuid from 'uuid/v4';
-import FormError from '../../containers/FormError';
-import FormContext from '../Form/Context';
-import {Input} from '../Inputs';
-import Polygon from '../SVG/PolygonH';
-import SubmitButton from '../../containers/SubmitButton'
+import FormError from '@containers/FormError';
+import FormContext from '@components/Form/Context';
+import {Input} from '@components/Inputs';
+import Polygon from '@components/SVG/PolygonH';
+import SubmitButton from '@containers/SubmitButton'
+import { loginSchema } from '@utils/validation';
+import { CREATE_AUTH_REQUEST } from '@types/auth';
 import styles from './index.module.css';
-import { loginSchema } from '../../utils/validation';
-import { CREATE_AUTH_REQUEST } from '../../redux/types/auth';
 
 const inputs = [{
   type: "email",

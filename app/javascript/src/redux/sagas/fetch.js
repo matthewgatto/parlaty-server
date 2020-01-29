@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import API from '../../utils/API';
+import API from '@utils/API';
 
 export function* getSaga(action, normalize){
   try {

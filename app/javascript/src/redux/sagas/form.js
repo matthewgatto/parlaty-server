@@ -1,8 +1,8 @@
 import { call, put } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
-import API from '../../utils/API';
-import * as utils from '../../utils';
-import { addToast } from '../actions/toast';
+import API from '@utils/API';
+import * as utils from '@utils';
+import { addToast } from '@actions/toast';
 
 export const pushAndNotify = (to,message) => (function*(){
   yield put(push(to))

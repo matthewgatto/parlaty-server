@@ -2,9 +2,9 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useFormContext } from "react-hook-form";
 import { useSelector,useDispatch } from 'react-redux';
-import {addActionForm,removeActionForm} from '../redux/actions/action';
+import {addActionForm,removeActionForm} from '@actions/action';
 import useActionValues from './useActionValues';
-import Form from '../components/Action/Form';
+import Form from '@components/Action/Form';
 
 export default ({idx, id, isOpen, formKey, provided}) => {
   const { getValues } = useFormContext()

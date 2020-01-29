@@ -1,11 +1,11 @@
 import React,{useCallback} from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import { useSelector,useDispatch } from 'react-redux';
-import {reorderActionForm,removeActionForm,addActionForm} from '../redux/actions/action';
-import {getActionForms} from '../redux/selectors/action';
-import withDND from '../components/withDND';
-import Placeholder from '../components/Placeholder';
-import Bar from '../components/Bar/Large';
+import {reorderActionForm,removeActionForm,addActionForm} from '@actions/action';
+import {getActionForms} from '@selectors/action';
+import withDND from '@components/withDND';
+import Placeholder from '@components/Placeholder';
+import Bar from '@components/Bar/Large';
 import ActionForm from './ActionForm';
 
 const DNDActionFields = withDND(({initialActions, formKey}) => {

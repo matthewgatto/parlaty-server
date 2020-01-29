@@ -1,4 +1,4 @@
-import * as types from '../types/toast'
+import * as types from '@types/toast'
 
 export default function reducer(state = [], {type, payload}){
   switch (type) {

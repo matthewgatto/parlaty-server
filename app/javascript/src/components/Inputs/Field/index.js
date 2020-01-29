@@ -1,6 +1,6 @@
 import React from 'react';
 import Label from '../Label';
-import InputError from '../../../containers/InputError';
+import InputError from '@containers/InputError';
 import styles from './index.module.css';
 
 export const FieldWrapper = ({className, children}) => (

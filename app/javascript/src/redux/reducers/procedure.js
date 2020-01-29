@@ -1,14 +1,14 @@
 import merge from 'lodash/merge'
 import { combineReducers } from 'redux';
-import { addIds } from '../../utils';
-import * as types from "../types/procedure";
+import { addIds } from '@utils';
+import * as types from "@types/procedure";
 import {
   FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS
-} from '../types/business';
+} from '@types/business';
 import {
   STEP_SAVE_REQUEST__SUCCESS,
   REORDER_STEP_REQUEST__SUCCESS
-} from '../types/step';
+} from '@types/step';
 
 
 const allProcedures = (state = null, {type,payload}) => {

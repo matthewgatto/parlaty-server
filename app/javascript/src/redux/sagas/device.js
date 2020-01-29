@@ -2,10 +2,10 @@ import { put, select, call } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import uuid from 'uuid/v4';
 import { normalize } from 'normalizr';
-import { addToast } from '../actions/toast';
-import { getActionForms } from '../selectors/action';
-import { deviceSchema } from '../../utils/validation';
-import Schemas from '../../utils/models';
+import { addToast } from '@actions/toast';
+import { getActionForms } from '@selectors/action';
+import { deviceSchema } from '@utils/validation';
+import Schemas from '@utils/models';
 
 const makeAction = (id, device_id, values) => {
   const action = {id, device_id }

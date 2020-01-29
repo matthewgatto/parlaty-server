@@ -1,8 +1,8 @@
 import merge from 'lodash/merge';
 import { combineReducers } from 'redux';
-import { addIds } from '../../utils';
-import * as types from '../types/oem'
-import * as authTypes from '../types/auth'
+import { addIds } from '@utils';
+import * as types from '@types/oem'
+import * as authTypes from '@types/auth'
 
 
 const allOems = (state = null, {type, payload}) => {

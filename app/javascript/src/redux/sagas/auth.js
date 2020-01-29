@@ -1,9 +1,9 @@
 import { call, put } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
-import API from '../../utils/API';
+import API from '@utils/API';
 import {formSaga,pushAndNotify} from './form';
 import {normalizeOEMInvite} from './oem';
-import Schemas from '../../utils/models';
+import Schemas from '@utils/models';
 
 const handleUpdatePasswordSuccess = pushAndNotify('/',"Your password was successfully updated.")
 const handlePasswordResetEmailSuccess = pushAndNotify('/',"A password recovery link has been sent to your email.")

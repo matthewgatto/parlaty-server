@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import PageLayout from '../../PageLayout';
+import PageLayout from '@components/PageLayout';
 import Context from '../Context';
-import FormError from '../../../containers/FormError';
+import FormError from '@containers/FormError';
 import Buttons from '../Buttons';
-import {Input} from '../../Inputs';
+import {Input} from '@components/Inputs';
 import styles from './index.module.css';
 
 export default ({header, form, cancel, children, inputs}) => (

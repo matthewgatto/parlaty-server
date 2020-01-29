@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { useFormContext } from "react-hook-form";
-import {addActionForm} from '../redux/actions/action';
-import {getLastActionId} from '../redux/selectors/action';
+import {addActionForm} from '@actions/action';
+import {getLastActionId} from '@selectors/action';
 import useActionValues from './useActionValues';
-import AddFormButton from '../components/Form/Nested/AddFormButton';
+import AddFormButton from '@components/Form/Nested/AddFormButton';
 
 export default ({formKey}) => {
   const { getValues } = useFormContext()

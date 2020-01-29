@@ -1,9 +1,9 @@
 import React,{useCallback,useEffect} from 'react';
 import { useFormContext } from "react-hook-form";
 import { useSelector,useDispatch } from 'react-redux';
-import {mountForm,unmountForm} from '../redux/actions/form';
-import {getStepFormData} from '../redux/selectors/step';
-import Step from '../components/Step/Form';
+import {mountForm,unmountForm} from '@actions/form';
+import {getStepFormData} from '@selectors/step';
+import Step from '@components/Step/Form';
 
 const TIME_OPTIONS = [{value: 1, label: "1 second"}, {value: 2, label: "2 seconds"}, {value: 3, label: "3 seconds"}, {value: 4, label: "4 seconds"}, {value: 5, label: "5 seconds"}, {value: 6, label: "6 seconds"}, {value: 7, label: "7 seconds"}, {value: 8, label: "8 seconds"}]
 export default ({formKey,...props}) => {

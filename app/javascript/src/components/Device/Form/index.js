@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PageLayout from '../../PageLayout';
-import Form from '../../Form/NewContext';
-import { Input } from '../../Inputs';
-import FormError from '../../../containers/FormError';
-import FormPolygons from '../../SVG/FormPolygons';
-import Buttons from '../../Form/Buttons';
-import ActionFormList from '../../../containers/ActionFormList';
-import AddActionFormButton from '../../../containers/AddActionFormButton';
-import SubmitButton from '../../../containers/SubmitButton';
+import ActionFormList from '@containers/ActionFormList';
+import AddActionFormButton from '@containers/AddActionFormButton';
+import SubmitButton from '@containers/SubmitButton';
+import FormError from '@containers/FormError';
+import PageLayout from '@components/PageLayout';
+import Form from '@components/Form/NewContext';
+import { Input } from '@components/Inputs';
+import FormPolygons from '@components/SVG/FormPolygons';
+import Buttons from '@components/Form/Buttons';
 import styles from './index.module.css';
 
 const inputs = [{

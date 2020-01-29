@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Toaster from '../components/Toaster/List';
-import { removeToast } from '../redux/actions/toast';
-import { getToasts } from '../redux/selectors/toast';
+import Toaster from '@components/Toaster/List';
+import { removeToast } from '@actions/toast';
+import { getToasts } from '@selectors/toast';
 
 export default () => {
   const toasts = useSelector(getToasts);

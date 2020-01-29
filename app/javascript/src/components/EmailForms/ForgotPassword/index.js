@@ -1,7 +1,7 @@
 import React from 'react';
-import FormPage from '../../Form/Page';
-import { CREATE_PASSWORD_RESET_EMAIL_REQUEST } from '../../../redux/types/auth';
-import { forgotPasswordSchema } from '../../../utils/validation';
+import FormPage from '@components/Form/Page';
+import { CREATE_PASSWORD_RESET_EMAIL_REQUEST } from '@types/auth';
+import { forgotPasswordSchema } from '@utils/validation';
 
 const inputs = [{
   type: "email",

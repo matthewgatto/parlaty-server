@@ -1,10 +1,10 @@
 import merge from 'lodash/merge'
 import { combineReducers } from 'redux';
-import * as businessTypes from '../types/business'
-import * as oemTypes from '../types/oem'
-import * as procedureTypes from '../types/procedure'
-import * as authTypes from '../types/auth'
-import { addIds } from '../../utils';
+import * as businessTypes from '@types/business'
+import * as oemTypes from '@types/oem'
+import * as procedureTypes from '@types/procedure'
+import * as authTypes from '@types/auth'
+import { addIds } from '@utils';
 
 const allBusinesses = (state = null, {type,payload}) => {
   switch (type) {

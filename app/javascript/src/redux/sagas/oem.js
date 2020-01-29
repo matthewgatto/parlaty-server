@@ -3,8 +3,8 @@ import { normalize } from 'normalizr';
 import { push } from 'connected-react-router';
 import {getSaga} from './fetch';
 import {formSaga,pushAndNotify} from './form';
-import Schemas from '../../utils/models';
-import { addToast } from '../actions/toast';
+import Schemas from '@utils/models';
+import { addToast } from '@actions/toast';
 
 const normalizeOEMList = (response) => normalize(response, [Schemas.oem]).entities
 const normalizeOEMBusinesses = ({oem_businesses},{payload:{id}}) => normalize({id, businesses: oem_businesses}, Schemas.oem).entities

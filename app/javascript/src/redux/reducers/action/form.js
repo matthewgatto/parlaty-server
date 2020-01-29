@@ -1,6 +1,6 @@
-import {immutableMove} from '../../../utils';
 import { LOCATION_CHANGE } from 'connected-react-router';
-import * as types from '../../types/action';
+import * as types from '@types/action';
+import {immutableMove} from '@utils';
 
 export default (state = [], {type, payload}) => {
   switch (type) {

@@ -1,7 +1,7 @@
 import React, {useRef,useEffect} from 'react';
 import { useFormContext } from "react-hook-form";
-import Close from '../../SVG/Close';
-import Upload from '../../SVG/Upload';
+import Close from '@components/SVG/Close';
+import Upload from '@components/SVG/Upload';
 import styles from './index.module.css';
 
 const getInputText = (value) => {

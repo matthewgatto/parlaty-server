@@ -1,7 +1,7 @@
 import React, {useEffect,useCallback} from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm as useReactHookForm, FormContext } from "react-hook-form";
-import { mountForm, unmountForm } from '../../../redux/actions/form';
+import { mountForm, unmountForm } from '@actions/form';
 
 
 const withFormKey = fn => (props) => fn(props, `${props.entity},${props.id}`)

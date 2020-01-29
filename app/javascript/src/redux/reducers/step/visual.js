@@ -1,5 +1,5 @@
 import { LOCATION_CHANGE } from 'connected-react-router';
-import * as types from '../../types/step';
+import * as types from '@types/step';
 
 const increaseIdx = (e) => ({...e, idx: e.idx + 1});
 const decreaseIdx = (e) => ({...e, idx: e.idx - 1});

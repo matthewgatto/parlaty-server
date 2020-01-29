@@ -1,7 +1,7 @@
 import React from 'react';
-import Bar from '../../../Bar/Small';
-import Menu from '../../../../containers/Menu';
-import Add from '../../../SVG/Add';
+import Bar from '@components/Bar/Small';
+import Menu from '@containers/Menu';
+import Add from '@components/SVG/Add';
 
 export default ({idx, handleDuplicateClick, disabled, isCreating, handleDeleteClick, ...props}) => (
   <Bar

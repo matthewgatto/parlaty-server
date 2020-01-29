@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import FormPage from '../../Form/Page';
-import { oemSchema } from '../../../utils/validation';
-import { UPDATE_OEM_REQUEST } from '../../../redux/types/oem';
-import { getOEMById } from '../../../redux/selectors/oem';
+import FormPage from '@components/Form/Page';
+import { oemSchema } from '@utils/validation';
+import { UPDATE_OEM_REQUEST } from '@types/oem';
+import { getOEMById } from '@selectors/oem';
 
 const inputs = [{
   type: "text",

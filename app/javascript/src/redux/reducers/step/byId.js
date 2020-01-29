@@ -1,10 +1,10 @@
 import merge from 'lodash/merge';
-import * as types from '../../types/step';
+import * as types from '@types/step';
 import {
   CREATE_PROCEDURE_REQUEST__SUCCESS,
   UPDATE_PROCEDURE_REQUEST__SUCCESS,
   FETCH_PROCEDURE_REQUEST__SUCCESS
-} from '../../types/procedure';
+} from '@types/procedure';
 
 
 export default (state = {}, {type,payload}) => {

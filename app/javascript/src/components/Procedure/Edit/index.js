@@ -1,13 +1,13 @@
 import React, {useEffect,useMemo} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PageLayout from '../../PageLayout';
-import FetchLoader from '../../List/Loader';
-import Name from '../../../containers/Name';
+import PageLayout from '@components/PageLayout';
+import FetchLoader from '@components/List/Loader';
+import Name from '@containers/Name';
 import ProcedureForm from '../Form';
-import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '../../../redux/types/procedure';
-import { loadStepForms } from '../../../redux/actions/step';
-import { getProcedureById } from '../../../redux/selectors/procedure';
-import { getStepMap } from '../../../redux/selectors/step';
+import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '@types/procedure';
+import { loadStepForms } from '@actions/step';
+import { getProcedureById } from '@selectors/procedure';
+import { getStepMap } from '@selectors/step';
 
 const withStepLoader = (WrappedComponent) =>  (
   class extends React.PureComponent {

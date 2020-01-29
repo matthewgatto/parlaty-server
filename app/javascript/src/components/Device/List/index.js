@@ -1,7 +1,7 @@
 import React from 'react';
-import ListPage from '../../List/Page';
-import { FETCH_DEVICES_REQUEST } from '../../../redux/types/device';
-import { getAllDeviceIds } from '../../../redux/selectors/device';
+import ListPage from '@components/List/Page';
+import { FETCH_DEVICES_REQUEST } from '@types/device';
+import { getAllDeviceIds } from '@selectors/device';
 
 const deviceListProps = {
   header: { header: "Devices", link: { text: "Add Device", to: "/devices/create" }},

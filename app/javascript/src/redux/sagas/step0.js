@@ -9,13 +9,13 @@ import {
   setStepForm,
   reorderStep,
   removeImageAndReIndex
-} from '../actions/step'
-import {getDeviceName} from '../selectors/device';
-import {getProcedureById} from '../selectors/procedure';
-import {getStepSaveData} from '../selectors/step';
-import * as utils from '../../utils';
-import Schemas from '../../utils/models';
-import API from '../../utils/API';
+} from '@actions/step'
+import {getDeviceName} from '@selectors/device';
+import {getProcedureById} from '@selectors/procedure';
+import {getStepSaveData} from '@selectors/step';
+import * as utils from '@utils';
+import Schemas from '@utils/models';
+import API from '@utils/API';
 
 function* handleNewStep(stepMeta, payload, idx, newIdx){
   const initialImage = (!stepMeta.isDuplicate && stepMeta.initialValues && stepMeta.initialValues.visual) ? stepMeta.initialValues.visual : false;

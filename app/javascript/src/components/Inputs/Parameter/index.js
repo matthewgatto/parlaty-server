@@ -1,10 +1,10 @@
 import React from 'react';
 import { Controller } from "react-hook-form";
 import { useSelector } from 'react-redux';
-import Error from '../../Error';
+import Error from '@components/Error';
 import {FieldWrapper} from '../Field';
 import {LabelWrapper} from '../Label';
-import {getParameterError} from '../../../redux/selectors/form';
+import {getParameterError} from '@selectors/form';
 import styles from './index.module.css';
 
 const ParameterErrors = ({formKey}) => {

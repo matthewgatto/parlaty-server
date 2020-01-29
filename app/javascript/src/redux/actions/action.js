@@ -1,5 +1,5 @@
 import uuid from 'uuid/v4';
-import * as types from '../types/action';
+import * as types from '@types/action';
 
 export const loadActionForms = (actions) => ({type: types.LOAD_ACTION_FORMS, payload: actions});
 export const addActionForm = () => ({type: types.ADD_ACTION_FORM, payload: uuid()})

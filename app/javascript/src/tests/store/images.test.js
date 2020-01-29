@@ -1,5 +1,5 @@
-import reducer, {initialState} from '../../redux/reducers/visuals';
-import * as types from '../../redux/types';
+import reducer, {initialState} from '@reducers/visuals';
+import * as types from '@types';
 
 const initialReorderState = [{id: 0, idx: 0, src: "0"}, {id: 1, idx: 1, src: "1"},{id: 2, idx: 2, src: "2"},{id: 3, idx: 3, src: "3"},{id: 4, idx: 4, src: "4"}]
 describe('form reducer', () => {

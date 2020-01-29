@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import styles from './index.module.css';
-import logo from '../../assets/images/logo.png';
+import logo from '@assets/images/logo.png';
 
 const Layout = ({children, role,logout}) =>
   <>

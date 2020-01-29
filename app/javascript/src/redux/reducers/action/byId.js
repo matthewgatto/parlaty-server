@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
-import * as authTypes from '../../types/auth';
-import * as deviceTypes from '../../types/device';
+import * as authTypes from '@types/auth';
+import * as deviceTypes from '@types/device';
 
 export default (state = {}, {type,payload}) => {
   switch (type) {

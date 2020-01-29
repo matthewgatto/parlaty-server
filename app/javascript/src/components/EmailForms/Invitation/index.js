@@ -1,10 +1,10 @@
 import React from 'react';
 import uuid from 'uuid/v4'
-import FormPage from '../../Form/Page';
-import {Select} from '../../Inputs';
-import { inviteSchema } from '../../../utils/validation';
-import { CREATE_OEM_REQUEST } from '../../../redux/types/oem';
-import { CREATE_USER_REQUEST } from '../../../redux/types/auth';
+import FormPage from '@components/Form/Page';
+import {Select} from '@components/Inputs';
+import { inviteSchema } from '@utils/validation';
+import { CREATE_OEM_REQUEST } from '@types/oem';
+import { CREATE_USER_REQUEST } from '@types/auth';
 import styles from './index.module.css';
 
 const inputs = [{

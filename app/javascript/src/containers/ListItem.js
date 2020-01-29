@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import ListItem from '../components/List/Item';
+import ListItem from '@components/List/Item';
 
 export default (props) => {
   // get name of entity

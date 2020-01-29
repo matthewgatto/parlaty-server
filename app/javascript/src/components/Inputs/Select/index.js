@@ -1,5 +1,5 @@
 import React from 'react';
-import Triangle from '../../SVG/Triangle';
+import Triangle from '@components/SVG/Triangle';
 import styles from './index.module.css';
 
 export const withSelectContainer = WrappedComponent => ({className, ...props}) => (

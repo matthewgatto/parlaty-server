@@ -1,26 +1,26 @@
 import React, {useEffect} from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from './redux/actions/auth';
-import Layout from './components/Layout';
-import LoginPage from './components/LoginPage';
-import OEMBusinessPage from './components/Business/Show';
-import CreateProcedurePage from './components/Procedure/Create';
-import EditProcedurePage from './components/Procedure/Edit';
-import AdminLandingPage from './components/AdminLandingPage';
-import OEMPage from './components/OEM/Show';
-import OEMLandingPage from './components/OEM/Landing';
-import OEMUpdatePage from './components/OEM/Edit';
-import DeviceListPage from './components/Device/List';
-import DeviceEditPage from './components/Device/Edit';
-import DeviceCreatePage from './components/Device/Create';
-//import BusinessForm from './components/Business/Create';
-import {UserInvitationForm,OEMInvitationForm} from './components/EmailForms/Invitation';
-import ForgotPasswordForm from './components/EmailForms/ForgotPassword';
-import ResetPasswordForm from './components/EmailForms/ResetPassword';
-import InvitationConfirmationForm from './components/EmailForms/InvitationConfirmation'
-//import SignUpPage from './components/SignUpPage';
-import {getUserRole} from './redux/selectors/auth';
+import { logout } from '@actions/auth';
+import Layout from '@components/Layout';
+import LoginPage from '@components/LoginPage';
+import OEMBusinessPage from '@components/Business/Show';
+import CreateProcedurePage from '@components/Procedure/Create';
+import EditProcedurePage from '@components/Procedure/Edit';
+import AdminLandingPage from '@components/AdminLandingPage';
+import OEMPage from '@components/OEM/Show';
+import OEMLandingPage from '@components/OEM/Landing';
+import OEMUpdatePage from '@components/OEM/Edit';
+import DeviceListPage from '@components/Device/List';
+import DeviceEditPage from '@components/Device/Edit';
+import DeviceCreatePage from '@components/Device/Create';
+//import BusinessForm from '@components/Business/Create';
+import {UserInvitationForm,OEMInvitationForm} from '@components/EmailForms/Invitation';
+import ForgotPasswordForm from '@components/EmailForms/ForgotPassword';
+import ResetPasswordForm from '@components/EmailForms/ResetPassword';
+import InvitationConfirmationForm from '@components/EmailForms/InvitationConfirmation'
+//import SignUpPage from '@components/SignUpPage';
+import {getUserRole} from '@selectors/auth';
 
 const Routes = ({role}) => {
   switch (role) {

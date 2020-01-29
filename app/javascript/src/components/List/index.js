@@ -1,5 +1,5 @@
 import React from 'react';
-import ListItem from '../../containers/ListItem';
+import ListItem from '@containers/ListItem';
 import FetchLoader from './Loader';
 import FetchError from './Error';
 import ListPlaceholder from './Placeholder';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import SignUpPage from '../components/SignUpPage';
+import SignUpPage from '@components/SignUpPage';
 
 class SignUpPageContainer extends React.PureComponent {
   componentDidMount(){

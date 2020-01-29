@@ -1,5 +1,5 @@
 import React from 'react';
-import Burger from '../../../SVG/Burger';
+import Burger from '@components/SVG/Burger';
 import styles from './index.module.css';
 
 export default ({handleDuplicate, handleDelete, onClick, isOpen, setRef}) => (

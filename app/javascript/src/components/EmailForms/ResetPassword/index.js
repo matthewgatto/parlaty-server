@@ -1,7 +1,7 @@
 import React from 'react';
 import PasswordForm from '../Password';
-import { resetPasswordSchema } from '../../../utils/validation';
-import { UPDATE_PASSWORD_REQUEST } from '../../../redux/types/auth';
+import { resetPasswordSchema } from '@utils/validation';
+import { UPDATE_PASSWORD_REQUEST } from '@types/auth';
 
 export default ({match:{params:{reset_password_token}}}) => (
   <PasswordForm

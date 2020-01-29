@@ -1,5 +1,5 @@
 import React from 'react';
-import InputError from '../../../containers/InputError';
+import InputError from '@containers/InputError';
 import styles from './index.module.css';
 
 export const LabelWrapper = ({className, children}) => (

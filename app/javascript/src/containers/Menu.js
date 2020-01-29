@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Menu from '../components/Form/Nested/Menu';
+import Menu from '@components/Form/Nested/Menu';
 
 class MenuContainer extends React.Component {
   state = { isOpen: false }

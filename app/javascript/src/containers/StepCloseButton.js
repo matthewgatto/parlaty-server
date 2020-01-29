@@ -1,8 +1,8 @@
 import React from 'react';
 import { useFormContext } from "react-hook-form";
 import { useDispatch } from 'react-redux';
-import StepCloseButton from '../components/Step/CloseButton';
-import {setStepForm,removeStepForm} from '../redux/actions/step';
+import StepCloseButton from '@components/Step/CloseButton';
+import {setStepForm,removeStepForm} from '@actions/step';
 
 export default ({initialValues, isDuplicate, procedureFormKey, root, idx}) => {
   const { setValue } = useFormContext()

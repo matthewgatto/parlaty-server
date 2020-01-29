@@ -1,7 +1,7 @@
 import React from 'react';
-import ListPage from '../../List/Page';
-import { FETCH_BUSINESS_PROCEDURES_REQUEST } from '../../../redux/types/business';
-import { getBusinessProcedures } from '../../../redux/selectors/business';
+import ListPage from '@components/List/Page';
+import { FETCH_BUSINESS_PROCEDURES_REQUEST } from '@types/business';
+import { getBusinessProcedures } from '@selectors/business';
 
 export default ({match:{params:{id,oem_id},url}}) => (
   <ListPage

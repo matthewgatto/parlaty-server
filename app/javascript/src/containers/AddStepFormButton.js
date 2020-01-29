@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { useFormContext } from "react-hook-form";
-import {addStepForm} from '../redux/actions/step';
-import {isAStepFormOpen,getLastStepId} from '../redux/selectors/step';
+import {addStepForm} from '@actions/step';
+import {isAStepFormOpen,getLastStepId} from '@selectors/step';
 import useStepValues from './useStepValues';
-import AddFormButton from '../components/Form/Nested/AddFormButton';
+import AddFormButton from '@components/Form/Nested/AddFormButton';
 
 export default ({formKey}) => {
   const { getValues } = useFormContext()

@@ -1,9 +1,9 @@
 import React,{useEffect} from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import DeviceForm from '../Form';
-import { UPDATE_DEVICE_REQUEST } from '../../../redux/types/device';
-import { loadActionForms } from '../../../redux/actions/action';
-import {getDeviceById} from '../../../redux/selectors/device';
+import { UPDATE_DEVICE_REQUEST } from '@types/device';
+import { loadActionForms } from '@actions/action';
+import {getDeviceById} from '@selectors/device';
 
 export default ({match:{params:{id}}}) => {
   const initialValues = useSelector(getDeviceById(id));

@@ -1,7 +1,7 @@
 import React from 'react';
 import uuid from 'uuid/v4';
 import DeviceForm from '../Form';
-import { CREATE_DEVICE_REQUEST } from '../../../redux/types/device';
+import { CREATE_DEVICE_REQUEST } from '@types/device';
 
 export default () => (
   <DeviceForm

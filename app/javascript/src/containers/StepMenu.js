@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import StepMenu from '../components/StepMenu';
+import StepMenu from '@components/StepMenu';
 
 class StepMenuContainer extends React.Component {
   state = { isOpen: false }

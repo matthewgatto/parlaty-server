@@ -1,6 +1,6 @@
 import React from 'react';
 import Bar from '../Bar';
-import StepMenu from '../../../containers/StepMenu';
+import StepMenu from '@containers/StepMenu';
 
 export default ({idx, title, duplicateStep, isAFormOpen, isOpen, isDuplicate, deleteStep, ...props}) => (
   <Bar

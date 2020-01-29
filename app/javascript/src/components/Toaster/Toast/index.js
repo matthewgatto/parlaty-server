@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react';
-import Check from '../../SVG/Check';
-import Alert from '../../SVG/Alert';
+import Check from '@components/SVG/Check';
+import Alert from '@components/SVG/Alert';
 import styles from './index.module.css';
 
 export default ({toast,handleRemove}) => {

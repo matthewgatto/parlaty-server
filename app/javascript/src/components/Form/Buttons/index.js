@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import SubmitButton from '../../../containers/SubmitButton';
+import SubmitButton from '@containers/SubmitButton';
 import styles from './index.module.css';
 
 export default ({handleSubmit, formKey, cancel}) => (
