@@ -1,5 +1,5 @@
 import React from 'react';
-import FormPage from '../../FormPage';
+import FormPage from '../../Form/Page';
 import { CREATE_PASSWORD_RESET_EMAIL_REQUEST } from '../../../redux/types/auth';
 import { forgotPasswordSchema } from '../../../utils/validation';
 

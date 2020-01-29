@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import {addStepForm} from '../redux/actions/step';
 import {isAStepFormOpen,getLastStepId} from '../redux/selectors/step';
 import useStepValues from './useStepValues';
-import AddStepFormButton from '../components/Step/AddFormButton';
+import AddFormButton from '../components/Form/Nested/AddFormButton';
 
 export default ({formKey}) => {
   const { getValues } = useFormContext()
@@ -12,5 +12,5 @@ export default ({formKey}) => {
   const stepFormOpen = useSelector(isAStepFormOpen)
   const lastStepId = useSelector(getLastStepId)
   const handleClick = () => dispatch(addStepForm(formKey, lastStepId ? useStepValues(getValues, `steps[${lastStepId}].`) : {mode: "continuous", time: 8, safety: true, device: 1}, true));
-  return <AddStepFormButton onClick={stepFormOpen ? undefined : handleClick} />
+  return <AddFormButton text="Add Step" onClick={stepFormOpen ? undefined : handleClick} />
 }

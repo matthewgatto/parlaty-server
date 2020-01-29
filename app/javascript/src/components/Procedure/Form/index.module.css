@@ -11,13 +11,6 @@
   position: relative;
 }
 
-
-.polygonContainer {
-  position: absolute;
-  left: 1em;
-  top: 107%;
-}
-
 .margin {
   margin: 1.6em 0 2.8em 0;
 }
@@ -56,18 +49,6 @@
 
 .content input[type='text'],.content input[type='password'],.content input[type='number'], .content input[type='email'],.content textarea,.content select {
   font-size: 1.2em;
-}
-
-@media (min-width: 1024px){
-  .polygonContainer {
-    left: -6em;
-  }
-}
-
-@media (min-width: 1366px){
-  .polygonContainer {
-    left: -13em;
-  }
 }
 
 @media (max-width: 480px) {

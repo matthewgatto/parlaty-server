@@ -21,14 +21,8 @@ export default (props) => {
   const devices = useSelector(getAllDevices);
   const steps = useSelector(getStepForms);
   const dispatch = useDispatch();
-  const onDragEnd = useCallback(
-    (from, to) => dispatch(reorderStep(props.procedure_id, from, to)),
-    [dispatch,props.procedure_id]
-  )
-  const onBeforeCapture = useCallback(
-    () => dispatch(setStepForm(props.formKey)),
-    [dispatch,props.formKey]
-  )
+  const onDragEnd = (from, to) => dispatch(reorderStep(from, to))
+  const onBeforeCapture = () => dispatch(setStepForm(props.formKey))
   if(steps.length > 0){
     const positions = makePositionOptions(steps.length)
     return <StepList steps={steps} positions={positions} onBeforeCapture={onBeforeCapture} onDragEnd={onDragEnd} {...props} devices={devices}  />

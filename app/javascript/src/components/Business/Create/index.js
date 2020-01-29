@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux'
-import FormPage from '../../FormPage';
+import FormPage from '../../Form/Page';
 import { businessSchema } from '../../../utils/validation';
 import { CREATE_BUSINESS_REQUEST } from '../../../redux/types/business';
 

@@ -1,0 +1,11 @@
+.buttons {
+  justify-content: space-between;
+  margin-top: 3em;
+}
+
+.label {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  color: #7b7979;
+}

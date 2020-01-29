@@ -29,11 +29,14 @@ const devicesById = (state = {}, {type,payload}) => {
         return state;
       }
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
-    case types.UPDATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
+    case types.UPDATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICES_REQUEST__SUCCESS:
       if(payload.devices){
-        return merge({}, state, payload.devices)
+        return {
+          ...state,
+          ...payload.devices
+        }
       }
     default:
       return state;

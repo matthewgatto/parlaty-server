@@ -1,26 +1,16 @@
 import React, {useEffect,useCallback} from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm as useReactHookForm, FormContext } from "react-hook-form";
-import { mountForm, unmountForm } from '../../redux/actions/form';
+import { mountForm, unmountForm } from '../../../redux/actions/form';
 
 
 const withFormKey = fn => (props) => fn(props, `${props.entity},${props.id}`)
 export const useForm = withFormKey((options, formKey) => {
    const form = useReactHookForm({defaultValues:options.initialValues}),
         dispatch = useDispatch(),
-        handleSubmit = async () => {
-          try {
-            const values = form.getValues();
-            await options.validationSchema.validate(values, {abortEarly: false, stripUnknown: true});
-            dispatch({type: options.type, payload: {id: options.id, entityKey: options.entity, url: options.url, formKey, values: options.extraValues ? {...values, ...options.extraValues} : values}})
-          } catch (e) {
-            console.log("e", e);
-            const errors = {};
-            for (var i = 0; i < e.inner.length; i++) {
-              errors[e.inner[i].path] = e.inner[i].message
-            }
-            dispatch({type: `${options.type}__FAILURE`, payload: {formKey, errors:{fieldErrors: errors}}})
-          }
+        handleSubmit = () => {
+          const values = form.getValues();
+          dispatch({type: options.type, payload: {id: options.id, entityKey: options.entity, url: options.url, formKey, values: options.extraValues ? {...values, ...options.extraValues} : values}})
         }
   useMountForm(dispatch, formKey, options.initialValues, options.submitOnEnter ? handleSubmit : undefined)
   return {handleSubmit, formKey, form}

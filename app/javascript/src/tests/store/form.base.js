@@ -1,5 +1,5 @@
 
-import reducer, {initialState} from '../../redux/reducers/images';
+import reducer, {initialState} from '../../redux/reducers/visuals';
 import * as types from '../../redux/types';
 
 const initialReorderState = [{id: 0, idx: 0, src: "0"}, {id: 1, idx: 1, src: "1"},{id: 2, idx: 2, src: "2"},{id: 3, idx: 3, src: "3"},{id: 4, idx: 4, src: "4"}]
@@ -8,26 +8,26 @@ describe('form reducer', () => {
     expect(reducer(undefined, {})).toEqual(initialState)
   })
   /*
-  it('should handle REORDER_IMAGE to a higher index with an updated image', () => {
+  it('should handle REORDER_IMAGE to a higher index with an updated visual', () => {
     expect(
       reducer(initialReorderState, {
         type: types.REORDER_IMAGE,
         payload: {
           from: 0,
           to: 1,
-          image: {src: "new 0"}
+          visual: {src: "new 0"}
         }
       })
     ).toEqual([{id: 1, idx: 0, src: "1"}, {id: 0, idx: 1, src: "new 0"},{id: 2, idx: 2, src: "2"},{id: 3, idx: 3, src: "3"},{id: 4, idx: 4, src: "4"}])
   })
-  it('should handle REORDER_IMAGE to a lower index with an updated image', () => {
+  it('should handle REORDER_IMAGE to a lower index with an updated visual', () => {
     expect(
       reducer(initialReorderState, {
         type: types.REORDER_IMAGE,
         payload: {
           from: 1,
           to: 0,
-          image: {src: "new 1"}
+          visual: {src: "new 1"}
         }
       })
     ).toEqual([{id: 1, idx: 0, src: "new 1"},{id: 0, idx: 1, src: "0"},{id: 2, idx: 2, src: "2"},{id: 3, idx: 3, src: "3"},{id: 4, idx: 4, src: "4"}])
@@ -108,7 +108,7 @@ describe('form reducer', () => {
         payload: {
           from: 0,
           to: 2,
-          image: {id: 0, idx: 2, src: "0"}
+          visual: {id: 0, idx: 2, src: "0"}
         }
       })
     ).toEqual([{id: 1, idx: 0, src: "1"},{id: 2, idx: 1, src: "2"},{id: 0, idx: 2, src: "0"},{id: 3, idx: 3, src: "3"}])
@@ -157,7 +157,7 @@ describe('form reducer', () => {
         payload: {
           from: 3,
           to: 0,
-          image: {id: 3, idx: 0, src: "3"}
+          visual: {id: 3, idx: 0, src: "3"}
         }
       })
     ).toEqual([{id: 3, idx: 0, src: "3"},{id: 0, idx: 1, src: "0"},{id: 1, idx: 2, src: "1"},{id: 2, idx: 3, src: "2"}])
@@ -329,7 +329,7 @@ describe('form reducer', () => {
       reducer([{id: 0, idx: 0, src: "0"}], {
         type: types.ADD_IMAGE,
         payload: {
-          image: {id: 1, idx: 1, src: "1"},
+          visual: {id: 1, idx: 1, src: "1"},
           reIndex: true
         }
       })
@@ -341,7 +341,7 @@ describe('form reducer', () => {
       reducer([{id: 0, idx: 0, src: "0"},{id: 2, idx: 1, src: "2"}], {
         type: types.ADD_IMAGE,
         payload: {
-          image: {id: 1, idx: 1, src: "1"},
+          visual: {id: 1, idx: 1, src: "1"},
           reIndex: true
         }
       })

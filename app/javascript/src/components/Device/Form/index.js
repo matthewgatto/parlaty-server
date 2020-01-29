@@ -1,7 +1,14 @@
 import React from 'react';
-import FormPage from '../../FormPage';
+import { Link } from 'react-router-dom';
+import PageLayout from '../../PageLayout';
+import Form from '../../Form/NewContext';
+import { Input } from '../../Inputs';
+import FormError from '../../../containers/FormError';
+import FormPolygons from '../../SVG/FormPolygons';
+import Buttons from '../../Form/Buttons';
 import ActionFormList from '../../../containers/ActionFormList';
-import { deviceSchema } from '../../../utils/validation';
+import AddActionFormButton from '../../../containers/AddActionFormButton';
+import SubmitButton from '../../../containers/SubmitButton';
 import styles from './index.module.css';
 
 const inputs = [{
@@ -12,16 +19,29 @@ const inputs = [{
 }]
 
 export default ({device_id, header,...props}) => (
-  <FormPage
+  <PageLayout
     header={header}
-    form={{
-      ...props,
-      entity: "device",
-      validationSchema: deviceSchema
+    back={{
+      to: "/devices",
+      label: "Devices"
     }}
-    cancel="/devices"
-    inputs={inputs}
   >
-    <ActionFormList className={styles.actionsContainer} device_id={device_id} initialActions={props.initialValues && props.initialValues.actions}  />
-  </FormPage>
+    <Form {...props} entity="device" className={styles.content}>
+      {({handleSubmit, formKey}) => (<>
+          <div>
+          <FormError formKey={formKey} large top />
+          <div className={styles.margin}>
+            <Input as="input" name="name" type="text" label="Name" formKey={formKey} />
+          </div>
+          <AddActionFormButton formKey={formKey} />
+          <FormPolygons />
+          </div>
+          <div>
+            <div className={styles.columnTitle}>Device Actions</div>
+            <ActionFormList formKey={formKey} device_id={device_id} initialActions={props.initialValues && props.initialValues.actions} />
+            <SubmitButton formKey={formKey} onClick={handleSubmit} label="Submit" className={styles.submit} />
+          </div>
+        </>)}
+    </Form>
+  </PageLayout>
 )

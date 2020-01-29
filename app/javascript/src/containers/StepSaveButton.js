@@ -2,30 +2,13 @@ import React from 'react';
 import { useFormContext } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import StepSaveButton from '../components/Step/SaveButton';
-import useStepValues from './useStepValues';
-import {STEP_SAVE_REQUEST,STEP_SAVE_REQUEST__FAILURE} from '../redux/types/step';
+import {STEP_SAVE_REQUEST} from '../redux/types/step';
 import {isFormProcessing} from '../redux/selectors/form';
-import { stepSchema } from '../utils/validation';
 
 export default ({root, formKey, procedure_id, id}) => {
   const { getValues } = useFormContext()
   const isProcessing = useSelector(isFormProcessing(formKey))
   const dispatch = useDispatch();
-  const handleSubmit = async () => {
-    try {
-      const step = useStepValues(getValues, root)
-      await stepSchema.validate(step, {abortEarly: false, stripUnknown: true})
-      dispatch({type: STEP_SAVE_REQUEST, payload: {formKey, procedure_id, id, formKey: `step,${id}`, step}})
-    } catch (e) {
-      console.log("e",e);
-      if(e.inner && e.inner.length > 0){
-        const fieldErrors = {};
-        for (var i = 0; i < e.inner.length; i++) {
-          fieldErrors[e.inner[i].path] = e.inner[i].message
-        }
-        dispatch({type: STEP_SAVE_REQUEST__FAILURE, payload: {formKey, errors:{fieldErrors}}})
-      }
-    }
-  }
+  const handleSubmit = () => dispatch({type: STEP_SAVE_REQUEST, payload: {formKey, procedure_id, id, root, values: getValues()}})
   return <StepSaveButton isProcessing={isProcessing} onClick={handleSubmit} />
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import uuid from 'uuid/v4'
-import FormPage from '../../FormPage';
+import FormPage from '../../Form/Page';
 import {Select} from '../../Inputs';
 import { inviteSchema } from '../../../utils/validation';
 import { CREATE_OEM_REQUEST } from '../../../redux/types/oem';

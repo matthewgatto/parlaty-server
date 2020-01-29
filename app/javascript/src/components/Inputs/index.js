@@ -6,32 +6,19 @@ import CheckBoxComponent from './CheckBox';
 import RadioComponent from './Radio';
 import Field from './Field';
 import withField from './withField';
-import {makeName} from '../../utils'
+import withName from './withName';
 
-export const Select = withField(withSelectContainer(({defaultValue, root, ...props}) => <Controller defaultValue={defaultValue} name={makeName(root, props.name)} as={<SelectComponent {...props} />} />))
-export const FileInput = ({defaultValue, root, name, ...props}) => {
-  const inputName = makeName(root, name);
-  return <Controller onChange={([el]) => el.currentTarget.files[0]} defaultValue={defaultValue} name={inputName} as={<FileInputComponent {...props} name={inputName} />} />
-}
-export const Input = withField(({name, root, ...props}) => <Controller name={makeName(root, name)} {...props} as="input" />)
-export const Textarea = withField(({name, root, ...props}) => <Controller name={makeName(root, name)} {...props} as="textarea" />)
-export const CheckBox = withField(props => {
-  const inputName = makeName(props.root, props.name);
-  return <Controller defaultValue={props.defaultValue} onChange={([e]) => (e.currentTarget.checked)} name={inputName} as={<CheckBoxComponent name={inputName} defaultValue={props.defaultValue} />} />
-})
-export const Radio = withField(({defaultValue, root, name, ...props}) => {
-  const inputName = makeName(root, name);
-  return <Controller defaultValue={defaultValue} name={inputName} as={<RadioComponent {...props} name={inputName} />} />
-})
+const withNamedField = (WrappedComponent) => withName(withField(WrappedComponent))
+export const Select = withNamedField(withSelectContainer(props => <Controller {...props} as={SelectComponent} />))
+export const FileInput = withName(props => <Controller onChange={([el]) => el.currentTarget.files[0]} {...props} as={FileInputComponent} />)
+export const Input = withNamedField(Controller)
+export const CheckBox = props => <Input {...props} onChange={([e]) => (e.currentTarget.checked)} as={CheckBoxComponent} />
 
-const RadioComponentWithLabel = withField(RadioComponent)
+const RadioFieldComponent = withField(RadioComponent);
 const ModeRadioComponent = props => (
   <>
-    <RadioComponentWithLabel {...props} label="Continuous" check="continuous" />
-    <RadioComponentWithLabel {...props} label="Manual" check="manual" />
+    <RadioFieldComponent {...props} label="Continuous" check="continuous" />
+    <RadioFieldComponent {...props} label="Manual" check="manual" />
   </>
 )
-export const ModeRadio = ({defaultValue, root, name, ...props}) => {
-  const inputName = makeName(root, name);
-  return <Controller defaultValue={defaultValue} name={inputName} as={<ModeRadioComponent {...props} name={inputName} />} />
-}
+export const ModeRadio = withName(props => <Controller {...props} as={ModeRadioComponent} />)

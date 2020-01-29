@@ -15,7 +15,7 @@ const ParameterErrors = ({formKey}) => {
 export default ({root, formKey, initialName, initialValue}) => (
   <FieldWrapper className={styles.container}>
     <LabelWrapper>
-      <div>Default Parameter*</div>
+      <div>Default Parameter</div>
       <ParameterErrors formKey={formKey} />
     </LabelWrapper>
     <div className={`${styles.row} align_center`}>

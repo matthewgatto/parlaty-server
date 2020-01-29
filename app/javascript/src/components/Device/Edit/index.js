@@ -3,9 +3,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import DeviceForm from '../Form';
 import { UPDATE_DEVICE_REQUEST } from '../../../redux/types/device';
 import { loadActionForms } from '../../../redux/actions/action';
-import {getDeviceById} from '../../../redux/selectors/device'
-import uuid from 'uuid/v4';
-
+import {getDeviceById} from '../../../redux/selectors/device';
 
 export default ({match:{params:{id}}}) => {
   const initialValues = useSelector(getDeviceById(id));

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import uuid from 'uuid/v4';
 import FormError from '../../containers/FormError';
-import Form from '../Form';
+import FormContext from '../Form/Context';
 import {Input} from '../Inputs';
 import Polygon from '../SVG/PolygonH';
 import SubmitButton from '../../containers/SubmitButton'
@@ -31,7 +32,7 @@ export default () => (
     </div>
     <div className={styles.header}>Parlaty Login<sup className={styles.tm}>&#8482;</sup></div>
     <div className={styles.subheader}>Or <Link to="/#" className={styles.underline}>Create Account</Link></div>
-    <Form
+    <FormContext
       entity="auth"
       url="/login"
       type={CREATE_AUTH_REQUEST}
@@ -41,17 +42,17 @@ export default () => (
       }}
       validationSchema={loginSchema}
       className={styles.form}
-      id={new Date().getTime()}
+      id={uuid()}
       submitOnEnter
     >
       {({handleSubmit, formKey}) => (<>
         <div className={styles.error}>
           <FormError formKey={formKey} />
         </div>
-        {inputs.map(input => <Input key={input.name} {...input} formKey={formKey} />)}
+        {inputs.map(input => <Input key={input.name} {...input} formKey={formKey} as="input" />)}
         <SubmitButton formKey={formKey} onClick={handleSubmit} label="Login" secondary />
       </>)}
-    </Form>
+    </FormContext>
     <Link to="/forgot-password" className={styles.link}>I forgot my username/password</Link>
     <div className={styles.bottomPolygonContainer}>
       <Polygon className={styles.bottomPolygonOne} fill="#c6c6c6" stroke="#c6c6c6" size="2.7em" />

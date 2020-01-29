@@ -1,8 +1,8 @@
 import React from 'react';
-import Form from '../../Form';
-import { Input, Textarea } from '../../Inputs';
+import FormContext from '../../Form/Context';
+import { Input } from '../../Inputs';
 import AddStepFormButton from '../../../containers/AddStepFormButton';
-import PolygonGroup from '../../SVG/PolygonGroup';
+import FormPolygons from '../../SVG/FormPolygons';
 import StepList from '../../../containers/StepList';
 import VisualList from '../../../containers/VisualList';
 import FormError from '../../../containers/FormError';
@@ -11,7 +11,7 @@ import { procedureSchema } from '../../../utils/validation';
 import styles from './index.module.css';
 
 export default (props) => (
-  <Form
+  <FormContext
     {...props}
     entity="procedure"
     validationSchema={procedureSchema}
@@ -20,11 +20,11 @@ export default (props) => (
     {({handleSubmit, formKey}) => (<>
       <div>
         <div className={styles.margin}>
-          <Input name="name" type="text" label="Procedure Name" required formKey={formKey} />
-          <Textarea label="Description" name="description" required rows="6" formKey={formKey} />
+          <Input as="input" name="name" type="text" label="Procedure Name" formKey={formKey} />
+          <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
         </div>
         <AddStepFormButton formKey={formKey} />
-        <PolygonGroup className={styles.polygonContainer} />
+        <FormPolygons />
       </div>
       <div>
         <div className={styles.columnTitle}>Procedure Steps</div>
@@ -37,5 +37,5 @@ export default (props) => (
         <FormError formKey={formKey} large className={styles.error} />
       </div>
     </>)}
-  </Form>
+  </FormContext>
 )

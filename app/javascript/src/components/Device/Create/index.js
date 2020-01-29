@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'uuid/v4';
 import DeviceForm from '../Form';
 import { CREATE_DEVICE_REQUEST } from '../../../redux/types/device';
 
@@ -8,6 +9,6 @@ export default () => (
     url="/devices"
     type={CREATE_DEVICE_REQUEST}
     initialValues={{name: ''}}
-    id={new Date().getTime()}
+    id={uuid()}
   />
 )

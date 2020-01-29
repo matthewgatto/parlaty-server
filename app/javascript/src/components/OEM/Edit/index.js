@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import FormPage from '../../FormPage';
+import FormPage from '../../Form/Page';
 import { oemSchema } from '../../../utils/validation';
 import { UPDATE_OEM_REQUEST } from '../../../redux/types/oem';
 import { getOEMById } from '../../../redux/selectors/oem';

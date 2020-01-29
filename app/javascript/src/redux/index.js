@@ -26,7 +26,7 @@ const makeInitialState = ({auth,devices,actions,oems,businesses}) => {
     initialState.devices = makeSlice(devices)
   }
   if(actions){
-    initialState.actions = makeSlice(actions)
+    initialState.actions = {byId:actions}
   }
   return initialState
 }

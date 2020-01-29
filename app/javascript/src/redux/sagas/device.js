@@ -1,63 +1,70 @@
-import { put, select } from 'redux-saga/effects';
+import { put, select, call } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import uuid from 'uuid/v4';
+import { normalize } from 'normalizr';
 import { addToast } from '../actions/toast';
 import { getActionForms } from '../selectors/action';
+import { deviceSchema } from '../../utils/validation';
+import Schemas from '../../utils/models';
 
 const makeAction = (id, device_id, values) => {
   const action = {id, device_id }
   if(values[`actions[${id}].name`]) action.name = values[`actions[${id}].name`]
+  if(values[`actions[${id}].parameter_name`]) action.parameter_name = values[`actions[${id}].parameter_name`]
+  if(values[`actions[${id}].parameter_value_8_pack`]) action.parameter_value_8_pack = values[`actions[${id}].parameter_value_8_pack`]
   return action;
 }
-export function* createDeviceSaga({payload:{values}}){
-  const device_id = uuid(),
-        actionIds = yield select(getActionForms),
-        entities = {},
-        newDevice = {
-          id: device_id,
-          name: values.name
-        }
-  if(actionIds.length > 0){
-    newDevice.actions = actionIds
-    const actions = {};
-    for (var i = 0; i < actionIds.length; i++) {
-      actions[actionIds[i]] = makeAction(actionIds[i], device_id, values)
+
+
+const validateDevice = async (device) => {
+  try {
+    await deviceSchema.validate(device, {abortEarly: false, stripUnknown: true});
+  } catch (e) {
+    const fieldErrors = {};
+    for (var i = 0; i < e.inner.length; i++) {
+      const [left,rest] = e.inner[i].path.split('[');
+      var fieldName = e.inner[i].path;
+      if(left === "actions"){
+        const [idx,right] = rest.split(']')
+        const id = device.actions[idx].id;
+        fieldName = `${left}[${id}]${right}`
+      }
+      fieldErrors[fieldName] = e.inner[i].message
     }
-    entities.actions = actions
+    throw {type: "VALIDATION_FAILURE", fieldErrors}
   }
-  entities.devices = {[device_id]: newDevice}
-  yield put({type: "CREATE_DEVICE_REQUEST__SUCCESS", payload: entities})
-  yield put(push("/devices"))
-  yield put(addToast("success", "Device successfully created."))
 }
 
-export function* updateDeviceSaga({payload:{id,values}}){
-  /*
-  const newDevice = {id: payload.id, name: payload.values.name}
-  const actionIds = yield select(getActionFields)
-  if(actionIds.length > 0){
-    newDevice.actions = actionIds.map(id => payload.values[`actions[${id}]`])
-  }
-  yield put({type: "UPDATE_DEVICE_REQUEST__SUCCESS", payload: newDevice})
-  */
-  const actionIds = yield select(getActionForms),
-        entities = {},
-        newDevice = {
-          id,
-          name: values.name
-        }
-  if(actionIds.length > 0){
-    newDevice.actions = actionIds
-    const actions = {};
-    for (var i = 0; i < actionIds.length; i++) {
-      actions[actionIds[i]] = makeAction(actionIds[i], id, values)
+function* deviceFormSaga(type, formKey, id, values, alert){
+  try {
+    const actionIds = yield select(getActionForms),
+          device = {
+            id,
+            name: values.name
+          }
+    if(actionIds.length > 0){
+      device.actions = actionIds.map(action => makeAction(action, id, values))
     }
-    entities.actions = actions
+    yield call(validateDevice, device)
+    yield put({type: `${type}__SUCCESS`, payload: normalize(device, Schemas.device).entities})
+    yield put(push("/devices"))
+    yield put(addToast("success", alert))
+  } catch (e) {
+    console.log("ERROR", e);
+    if(e.type === "VALIDATION_FAILURE"){
+      yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
+    } else {
+      yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{formError: "An unexpected error has occurred"}}})
+    }
   }
-  entities.devices = {[id]: newDevice}
-  yield put({type: "UPDATE_DEVICE_REQUEST__SUCCESS", payload: entities})
-  yield put(push("/devices"))
-  yield put(addToast("success", "Device successfully updated."))
+}
+
+export function* createDeviceSaga({type,payload:{values,formKey}}){
+  yield call(deviceFormSaga, type, formKey, uuid(), values, "Device successfully created.")
+}
+
+export function* updateDeviceSaga({type,payload:{formKey,id,values}}){
+  yield call(deviceFormSaga, type, formKey, id, values, "Device successfully updated.")
 }
 
 export function* deviceListSaga(action){

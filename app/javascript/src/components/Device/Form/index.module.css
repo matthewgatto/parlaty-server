@@ -1,4 +1,80 @@
-.actionsContainer {
-  margin: 1.2em 0;
-  min-height: 28.256em;
+.container {
+
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  align-items: baseline;
+}
+
+.content > * {
+  position: relative;
+}
+.content > *:first-child {
+  width: 42%;
+}
+.content > *:nth-child(2) {
+  width: 55%;
+}
+.buttons {
+  justify-content: space-between;
+  margin-top: 3em;
+}
+
+.margin {
+  margin: 1.6em 0 2.8em 0;
+}
+
+.margin label {
+  color: #67318d !important;
+}
+
+.label {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  color: #7b7979;
+}
+
+
+.columnTitle {
+  margin-left: 1em;
+  color: #ac91bd;
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  margin-bottom: 1em;
+}
+
+.submit {
+  width: 84% !important;
+  margin-top: 2em !important;
+  height: 2.6154em !important;
+}
+
+.content input[type='text'],.content input[type='password'],.content input[type='number'], .content input[type='email'] {
+  background-color: #fff;
+  border: none;
+  height: 2.16667em;
+}
+.content textarea,.content input[type='text'],.content input[type='password'],.content input[type='number'], .content input[type='email'] {
+  padding: 0 0.333em !important;
+}
+
+.content input[type='text'],.content input[type='password'],.content input[type='number'], .content input[type='email'],.content textarea,.content select {
+  font-size: 1.2em;
+}
+
+@media (max-width: 480px) {
+  .content textarea {
+    text-indent:-3px;
+  }
+}
+
+@media (min-width: 768px){
+  .container {
+    font-size: 1em;
+  }
 }
