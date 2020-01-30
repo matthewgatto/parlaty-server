@@ -139,6 +139,6 @@ class ProceduresController < ApplicationController
 
 		def step_params(index)
 			#JDT params.require(:steps)[index].permit(:title, :device, :location, :note, :safety, visuals: [], :mode, :time, :parameter)
-			params.require(:steps)[index].permit(:title, :device, :location, :note, :safety, :mode, :time, :parameter_name, :parameter_value_8_pack, visuals: [])
+			params.require(:steps)[index].permit(:title, :device_id, :location, :note, :safety, :mode, :time, :parameter_name, :parameter_value_8_pack, visuals: [])
 		end
 end

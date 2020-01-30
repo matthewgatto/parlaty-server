@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_22_125812) do
+ActiveRecord::Schema.define(version: 2020_01_30_023037) do
+
+  create_table "action_instances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "parameter_name"
+    t.string "parameter_value_8_pack"
+    t.string "parameter_value_12_pack"
+    t.bigint "step_id"
+    t.bigint "action_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_id"], name: "index_action_instances_on_action_id"
+    t.index ["step_id"], name: "index_action_instances_on_step_id"
+  end
 
   create_table "actions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -111,7 +123,6 @@ ActiveRecord::Schema.define(version: 2020_01_22_125812) do
 
   create_table "steps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
-    t.string "device"
     t.string "location"
     t.string "mode"
     t.text "note"
@@ -150,6 +161,8 @@ ActiveRecord::Schema.define(version: 2020_01_22_125812) do
     t.index ["roleable_type", "roleable_id"], name: "index_users_on_roleable_type_and_roleable_id"
   end
 
+  add_foreign_key "action_instances", "actions"
+  add_foreign_key "action_instances", "steps"
   add_foreign_key "actions", "devices"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "oem_businesses", "oems"

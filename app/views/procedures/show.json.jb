@@ -10,9 +10,48 @@ json = {
 
 def visual_check(step)
 	if (step.has_visual)
-    url_for(step.visuals.first)
+    	url_for(step.visuals.first)
 	else
-    nil
+    	nil
+	end
+end
+
+def get_device(device_id, step_id)
+	if (device_id)
+		mydevice = Device.find(device_id)
+		{
+			id: mydevice.id,
+			name: mydevice.name,
+			actions: get_actions(mydevice.actions, step_id)
+		}
+	else
+		nil
+	end
+end
+
+def get_actions(myactions, step_id)
+	myactions.map do |myaction|
+	{
+		id: myaction.id,
+		name: myaction.name,
+		action_instance: get_action_instance(myaction.id, step_id)
+	}
+	end
+end
+
+def get_action_instance(action_id, step_id)
+	myaction_instance = ActionInstance.where("step_id = ? AND action_id = ?", step_id, action_id).take
+	if (myaction_instance)
+	{
+		id: myaction_instance.id,
+		step_id: myaction_instance.step_id,
+		action_id: myaction_instance.action_id,
+		parameter_name: myaction_instance.parameter_name,
+		parameter_value_8_pack: myaction_instance.parameter_value_8_pack,
+		parameter_value_12_pack: myaction_instance.parameter_value_12_pack
+	}
+	else
+		nil
 	end
 end
 
@@ -20,17 +59,14 @@ json[:steps] = @procedure.steps.map do |step|
 {
   id: step.id,
   title: step.title,
-  device: step.device,
-	location: step.location,
-	safety: step.safety,
-	spoken: step.spoken,
+  location: step.location,
+  safety: step.safety,
+  spoken: step.spoken,
   note: step.note,
   visual: visual_check(step),
   mode: step.mode,
-  parameter_name: step.parameter_name,
-  parameter_value_8_pack: step.parameter_value_8_pack,
-  parameter_value_12_pack: step.parameter_value_12_pack,
-  time: step.time
+  time: step.time,
+  device: get_device(step.device_id, step.id)
 }
 end
 

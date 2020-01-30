@@ -38,6 +38,7 @@ while x <= 3
 end
 
 =begin JDT
+
 # Procedures for every oem_business
 y = 1
 while y <= 4
@@ -310,4 +311,56 @@ device.actions << action
 action = Action.create!(name: "Mangle Action Three", device: device)
 device.actions << action
 device.save
+
+# Procedures for every oem_business
+proc_index = 1
+y = 1
+while y <= 4
+	2.times do
+		Procedure.create!(
+			name: 'Proc' + proc_index.to_s,
+			version: Faker::Number.decimal(1),
+			description: Faker::Lorem.sentence,
+			category: Faker::Commerce.material,
+			author: Faker::Name.name,
+			language: Faker::Lorem.word,
+			oem_business_id: y
+		)
+                proc_index = proc_index + 1
+	end
+	y = y+1
+end
+
+# Steps
+step_index = 1
+action_instance_index = 1
+z = 1
+while z <= 6
+	order = 1
+	while order <= 2
+		@step = Step.create!(
+			title: 'Step' + step_index.to_s,
+			location: Faker::Restaurant.name,
+			note: Faker::Lorem.sentence,
+			procedure_id: z,
+                        device_id: z
+		)
+		@pro = Procedure.find(z)
+		@pro.steps_order.push(@step.id)
+		@pro.save
+		order = order+1
+		mydevice = Device.find(@step.device_id)
+		mydevice.actions.each do |myaction|
+			ActionInstance.create!(
+				step_id: @step.id,
+				action_id: myaction.id,
+				parameter_name: 'parmname' + action_instance_index.to_s,
+				parameter_value_8_pack: 'parmvalue' + action_instance_index.to_s)
+			action_instance_index = action_instance_index + 1
+		end
+                step_index = step_index + 1
+	end
+	z = z+1
+end
+
 
