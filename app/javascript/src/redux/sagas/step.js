@@ -49,34 +49,38 @@ function* handleNewStep(stepMeta, formKey, stepFormKey, step, idx, newIdx){
   yield put(setStepForm(stepFormKey))
 }
 
-const cleanStepCreateParams = ({id, number,visual,audio,...step}) => {
+export const cleanStepParams = ({id,number,audio,visual,...step}) => {
   if(visual){
-    return typeof visual === "string" ? ({...step, visual}) : ({...step,visuals:[visual], has_visual: true})
+    if(typeof visual === "string"){
+      step.visual = visual
+    } else {
+      step.visuals = [visual]
+      step.has_visual = true;
+    }
+  } else {
+    step.has_visual = false;
   }
-  return step
+  return step;
 }
 
 function* createStepSaga({procedure, step, from, to, initialValues}){
   try {
-    const body = {}
+    const body = {
+      step: cleanStepParams({
+        ...step,
+        procedure_id: procedure.id
+      })
+    }
     if(from !== to){
       body.previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
     }
-
-    //step.device = yield select(getDeviceName)
-    const cleanStep = cleanStepCreateParams({
-      ...step,
-      procedure_id: procedure.id
-    });
-    body.step = cleanStep;
     const formData = utils.objectToFormData(body);
     const response = yield call(API.multipost, "/steps", formData);
-    const stepState = {...cleanStep, ...response};
     var steps;
     if(from !== to){
-      steps = [...procedure.steps.slice(0, to), stepState, ...procedure.steps.slice(to)]
+      steps = [...procedure.steps.slice(0, to), response, ...procedure.steps.slice(to)]
     } else {
-      steps = [...procedure.steps, stepState]
+      steps = [...procedure.steps, response]
     }
     yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize({id:procedure.id, steps}, Schemas.procedure).entities});
   } catch (e) {
@@ -84,30 +88,26 @@ function* createStepSaga({procedure, step, from, to, initialValues}){
     throw e
   }
 }
-const cleanStepUpdateParams = ({id, number,visual,audio,...step}) => step
 
 function* updateStepSaga({procedure, step, from, to, initialValues}){
   try {
     step.id = procedure.steps[from];
-    //step.device = yield select(getDeviceName)
-    const cleanStep = cleanStepUpdateParams(step)
-    const body = {step: cleanStep};
+    const body = {step: cleanStepParams(step)};
     if(from !== to){
       body.previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
     }
     const formData = utils.objectToFormData(body);
     const response = yield call(API.multiput, `/steps/${step.id}`, formData);
-    const stepState = {...cleanStep, ...response};
     if(from !== to){
       var steps;
       if(from > to){
-        steps = [...procedure.steps.slice(0, to), stepState, ...procedure.steps.slice(to, from), ...procedure.steps.slice(from+1)]
+        steps = [...procedure.steps.slice(0, to), response, ...procedure.steps.slice(to, from), ...procedure.steps.slice(from+1)]
       } else {
-        steps = [...procedure.steps.slice(0, from), ...procedure.steps.slice(from+1, to+1), stepState, ...procedure.steps.slice(to + 1)]
+        steps = [...procedure.steps.slice(0, from), ...procedure.steps.slice(from+1, to+1), response, ...procedure.steps.slice(to + 1)]
       }
       yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize({id:procedure.id, steps}, Schemas.procedure).entities})
     } else {
-      yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize(stepState, Schemas.step).entities})
+      yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize(response, Schemas.step).entities})
     }
   } catch (e) {
     console.log("ERROR", e);
@@ -137,7 +137,7 @@ const validateStep = async (step, root) => {
   }
 }
 
-function getStepValues(values, root){
+export const makeStep = (values, root) => {
   const title = values[`${root}title`],
         spoken = values[`${root}spoken`],
         note = values[`${root}note`],
@@ -148,7 +148,7 @@ function getStepValues(values, root){
         visual = values[`${root}visual`],
         audio = values[`${root}audio`],
         location = values[`${root}location`],
-        device = values[`${root}device`],
+        device_id = values[`${root}device_id`],
         step = {};
 
   if(title) step.title = title
@@ -158,43 +158,41 @@ function getStepValues(values, root){
   if(time) step.time = time
   if(mode) step.mode = mode
   if(safety) step.safety = safety
-  if(visual) step.visual = visual
-  if(audio) step.audio = audio
   if(location) step.location = location
-  if(device) step.device = device
+  if(device_id) step.device_id = device_id
+  if(audio) step.audio = audio
+  if(visual) step.visual = visual
   return step;
 }
 
-export function* stepSaveSaga(action){
+export function* stepSaveSaga({type,payload:{values,root,procedure_id,formKey,stepFormKey}}){
   try {
     const {stepMeta, idx} = yield select(getStepSaveData);
-    console.log("action", action);
-    const step = getStepValues(action.payload.values, action.payload.root)
-    console.log("step", step);
-    yield call(validateStep, step, action.payload.root)
+    const step = makeStep(values, root)
+    yield call(validateStep, step, root)
     if(utils.getUpdatedProperties(step, stepMeta.initialValues)){
       const newIdx = step.number - 1;
-      if(action.payload.procedure_id){
-        const procedure = yield select(getProcedureById(action.payload.procedure_id));
+      if(procedure_id){
+        const procedure = yield select(getProcedureById(procedure_id));
         if(stepMeta.isDuplicate){
           yield call(createStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
         } else {
           yield call(updateStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
         }
       }
-      yield call(handleNewStep, stepMeta, action.payload.formKey, action.payload.stepFormKey, step, idx, newIdx)
+      yield call(handleNewStep, stepMeta, formKey, stepFormKey, step, idx, newIdx)
     } else {
-      yield put(setStepForm(action.payload.stepFormKey))
+      yield put(setStepForm(stepFormKey))
     }
   } catch (e) {
     console.log("e", e);
     if(e.type === "VALIDATION_FAILURE"){
-      yield put({type: `${action.type}__FAILURE`, payload: {formKey: action.payload.formKey, errors:{fieldErrors: e.fieldErrors}}})
+      yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
     } else {
       var formError = "An unexpected error has occurred"
       if(e.formError) formError = e.formError;
       else if(e === 401) formError = "Unauthorized";
-      yield put({type: `${action.type}__FAILURE`, payload: {formKey: action.payload.formKey, errors:{formError}}})
+      yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{formError}}})
     }
   }
 }

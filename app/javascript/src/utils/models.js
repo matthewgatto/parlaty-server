@@ -9,9 +9,12 @@ const device = new schema.Entity("devices", {});
 device.define({
   actions: [action]
 })
-const step = new schema.Entity("steps", {});
+const step = new schema.Entity("steps", {}, {
+  processStrategy: (step, procedure) => (!step.procedure_id && procedure && procedure.id) ? ({procedure_id: procedure.id, ...step}) : step
+});
 step.define({
-  procedure_id: procedure
+  procedure_id: procedure,
+  device_id: device
 })
 
 const procedure = new schema.Entity("procedures", {}, {

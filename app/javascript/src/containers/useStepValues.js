@@ -13,7 +13,7 @@ export default (getValues, root) => {
     visual: values[`${root}visual`],
     audio: values[`${root}audio`],
     location: values[`${root}location`],
-    device: values[`${root}device`],
+    device_id: values[`${root}device_id`],
     parameter_name: values[`${root}parameter_name`],
     parameter_value_8_pack: values[`${root}parameter_value_8_pack`]
   })
