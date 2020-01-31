@@ -4,17 +4,17 @@ import { useFormContext } from "react-hook-form";
 import { useSelector,useDispatch } from 'react-redux';
 import {setStepForm,addStepForm,deleteStep,removeStepForm} from '@actions/step';
 import {isAStepFormOpen} from '@selectors/step';
-import useStepValues from './useStepValues';
 import StepHeader from '@components/Step/Header';
+import * as utils from '@utils';
 
 export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root}) => {
   const { getValues } = useFormContext()
   const isAFormOpen = useSelector(isAStepFormOpen);
   const dispatch = useDispatch();
-  const handleClick = () => !isAFormOpen ? dispatch(setStepForm("remove args", {id, initialValues:{...useStepValues(getValues, root), number: idx+1}})) : undefined
+  const handleClick = () => !isAFormOpen ? dispatch(setStepForm("remove args", {id, initialValues:{...utils.makeStep(getValues(), root), number: idx+1}})) : undefined
   const duplicateStep = (e) => {
     e.stopPropagation();
-    dispatch(addStepForm("remove args", useStepValues(getValues, root), true));
+    dispatch(addStepForm("remove args", utils.makeStep(getValues(), root), true));
   }
   const handleDeleteStep = (e) => {
     e.stopPropagation();

@@ -9,7 +9,8 @@ import { getBusinessById } from '@selectors/business';
 import { getUserRole } from '@selectors/auth';
 import { getStepForms } from '@selectors/step';
 import Schemas from '@utils/models';
-import { cleanStepParams, makeStep } from '@sagas/step';
+import { cleanStepParams } from '@sagas/step';
+import * as utils from '@utils';
 
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
   const business = yield select(getBusinessById(values.procedure.oem_business_id)),
@@ -58,10 +59,9 @@ export function* createProcedureSaga(action){
           }
         }
   if(stepIds.length > 0){
-    values.steps = stepIds.map(stepId => cleanStepParams(makeStep(action.payload.values, `steps[${stepId}].`)))
+    values.steps = stepIds.map(stepId => cleanStepParams(utils.makeStep(action.payload.values, `steps[${stepId}].`)))
   }
-  action.payload.values = values
-  yield call(multipostSaga,action, getNewEntitiesFromProcedure, handleProcedureCreateSuccess);
+  yield call(multipostSaga,{...action,payload: {...action.payload,values}}, getNewEntitiesFromProcedure, handleProcedureCreateSuccess);
 }
 
 const normalizeProcedure = ({steps_order, ...procedure}) => normalize(procedure, Schemas.procedure).entities

@@ -80,3 +80,31 @@ export const addIds = (state, entityMap) => state ? (
 ) : (
   Object.keys(entityMap)
 )
+
+export const makeStep = (values, root) => {
+  const title = values[`${root}title`],
+        spoken = values[`${root}spoken`],
+        note = values[`${root}note`],
+        number = values[`${root}number`],
+        time = values[`${root}time`],
+        mode = values[`${root}mode`],
+        safety = values[`${root}safety`],
+        visual = values[`${root}visual`],
+        audio = values[`${root}audio`],
+        location = values[`${root}location`],
+        device_id = values[`${root}device_id`],
+        step = {};
+
+  if(title) step.title = title
+  if(spoken) step.spoken = spoken
+  if(note) step.note = note
+  if(number) step.number = number
+  if(time) step.time = time
+  if(mode) step.mode = mode
+  if(safety) step.safety = safety
+  if(location) step.location = location
+  if(device_id) step.device_id = device_id
+  if(audio) step.audio = audio
+  if(visual) step.visual = visual
+  return step;
+}
