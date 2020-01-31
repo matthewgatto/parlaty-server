@@ -79,7 +79,6 @@ function* createStepSaga({procedure, step, from, to, initialValues}){
     }
     yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize({id:procedure.id, steps}, Schemas.procedure).entities});
   } catch (e) {
-    console.log("ERROR", e);
     throw e
   }
 }
@@ -109,7 +108,6 @@ function* updateStepSaga({procedure, step, from, to, initialValues}){
       yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize(stepState, Schemas.step).entities})
     }
   } catch (e) {
-    console.log("ERROR", e);
     throw e
   }
 }
@@ -120,7 +118,7 @@ export function* deleteStepSaga({payload}){
     yield put({type: "DELETE_STEP_REQUEST__SUCCESS", payload})
     yield fork(API.delete, `/steps/${payload.id}`)
   } catch (e) {
-      console.log("ERROR", e);
+
   }
 }
 
@@ -143,7 +141,6 @@ export function* stepSaveSaga(action){
       yield put(setStepForm(action.payload.stepFormKey))
     }
   } catch (e) {
-    console.log("e", e);
     var formError = "An unexpected error has occurred"
     if(e.formError) formError = e.formError;
     else if(e === 401) formError = "Unauthorized";
@@ -170,6 +167,6 @@ export function* reorderStepSaga({payload:{procedure_id, from, to}}){
       yield put({type: "REORDER_STEP_REQUEST__SUCCESS", payload: {procedures: {[procedure_id]: {steps: stepOrder}}}});
     }
   } catch (e) {
-      console.log("ERROR", e);
+
   }
 }

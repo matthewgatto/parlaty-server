@@ -9,6 +9,6 @@ export function* getSaga(action, normalize){
       payload: yield call(normalize, response, action)
     })
   } catch (e) {
-    console.log("e", e);
+    
   }
 }
