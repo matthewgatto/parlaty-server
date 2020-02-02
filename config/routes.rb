@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 
   resources :steps, only: [:create, :update, :destroy]
 
+  resources :devices, only: [:create, :update, :destroy]
+
   resources :operators, only: [:update, :destroy]
 
   resources :oem_businesses, only: [:show]
@@ -53,5 +55,11 @@ Rails.application.routes.draw do
   post '/csv_steps', to: 'steps#csv_steps'
 
   get '/oems', to: 'oems#index'
+
+  post '/devices/:id', to: 'devices#create'
+
+  put '/devices/:id', to: 'devices#update'
+
+  delete '/devices/:id', to: 'devices#destroy'
 
 end
