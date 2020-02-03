@@ -21,7 +21,7 @@ function handleLoginResponse({oem_businesses,devices,...auth}){
     initialState.devices = normalizedDeviceData.entities.devices;
     initialState.actions = normalizedDeviceData.entities.actions;
   }
-  localStorage.setItem('initial_state', JSON.stringify(initialState));
+  localStorage.setItem('login_data_1_30', JSON.stringify(initialState));
   API.setToken(auth.jwt);
   return initialState;
 }

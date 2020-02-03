@@ -18,7 +18,7 @@ import { stepSchema } from '@utils/validation';
 import Schemas from '@utils/models';
 import API from '@utils/API';
 
-function* handleNewStep(stepMeta, formKey, stepFormKey, step, idx, newIdx){
+function* handleNewStep(stepMeta, formKey, step, idx, newIdx){
   const initialImage = (!stepMeta.isDuplicate && stepMeta.initialValues && stepMeta.initialValues.visual) ? stepMeta.initialValues.visual : false;
   var src = step.visual instanceof File ? (
     yield call(utils.readFile, step.visual)
@@ -28,7 +28,7 @@ function* handleNewStep(stepMeta, formKey, stepFormKey, step, idx, newIdx){
   if(!stepMeta.isDuplicate){
     if(idx != newIdx){
       if(initialImage && !step.visual){
-        yield put(removeImageAndReIndex(formKey, idx, newIdx))
+        yield put(removeImageAndReIndex(idx, newIdx))
       } else {
         yield put(reorderStep(idx, newIdx, step.visual && {id: stepMeta.id, idx: newIdx, src}))
       }
@@ -46,7 +46,7 @@ function* handleNewStep(stepMeta, formKey, stepFormKey, step, idx, newIdx){
       yield put(addImage({id: stepMeta.id, idx: newIdx, src}, true))
     }
   }
-  yield put(setStepForm(stepFormKey))
+  yield put(setStepForm())
 }
 
 export const cleanStepParams = ({id,number,audio,visual,...step}) => {
@@ -151,9 +151,9 @@ export function* stepSaveSaga({type,payload:{values,root,procedure_id,formKey,st
           yield call(updateStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
         }
       }
-      yield call(handleNewStep, stepMeta, formKey, stepFormKey, step, idx, newIdx)
+      yield call(handleNewStep, stepMeta, formKey, step, idx, newIdx)
     } else {
-      yield put(setStepForm(stepFormKey))
+      yield put(setStepForm())
     }
   } catch (e) {
     if(e.type === "VALIDATION_FAILURE"){

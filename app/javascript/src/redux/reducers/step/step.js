@@ -9,7 +9,7 @@ export default (state = null, {type, payload}) => {
     case ADD_STEP_FORM:
       return {id: payload.id, initialValues: payload.initialValues, isDuplicate: payload.isDuplicate};
     case SET_CURRENT_STEP_FORM:
-      return payload && payload.step ? payload.step : null;
+      return payload;
     case LOCATION_CHANGE:
       return null;
     default:

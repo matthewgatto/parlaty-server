@@ -22,7 +22,7 @@ export default (props) => {
   const steps = useSelector(getStepForms);
   const dispatch = useDispatch();
   const onDragEnd = (from, to) => dispatch(reorderStep(from, to))
-  const onBeforeCapture = () => dispatch(setStepForm(props.formKey))
+  const onBeforeCapture = () => dispatch(setStepForm())
   if(steps.length > 0){
     const positions = makePositionOptions(steps.length)
     return <StepList steps={steps} positions={positions} onBeforeCapture={onBeforeCapture} onDragEnd={onDragEnd} {...props} devices={devices}  />

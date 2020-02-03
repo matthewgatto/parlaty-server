@@ -8,7 +8,7 @@ const deviceListProps = {
   label: "Devices",
   list: {
     url: "/devices",
-    text: "Devicess",
+    text: "Devices",
     to: "/devices",
     entityKey: "devices",
     action: "update",

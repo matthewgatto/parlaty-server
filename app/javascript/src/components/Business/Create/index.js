@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'uuid/v4';
 import {useSelector} from 'react-redux'
 import FormPage from '@components/Form/Page';
 import { businessSchema } from '@utils/validation';
@@ -29,7 +30,7 @@ export default ({match:{params}}) => {
         initialValues: {email: ''},
         extraValues: {oem_id},
         validationSchema: businessSchema,
-        id: new Date().getTime()
+        id: uuid()
       }}
       cancel={cancel}
       inputs={inputs}

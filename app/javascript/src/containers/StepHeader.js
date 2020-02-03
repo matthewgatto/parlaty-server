@@ -11,17 +11,17 @@ export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root}) => {
   const { getValues } = useFormContext()
   const isAFormOpen = useSelector(isAStepFormOpen);
   const dispatch = useDispatch();
-  const handleClick = () => !isAFormOpen ? dispatch(setStepForm("remove args", {id, initialValues:{...utils.makeStep(getValues(), root), number: idx+1}})) : undefined
+  const handleClick = () => !isAFormOpen ? dispatch(setStepForm({id, initialValues:{...utils.makeStep(getValues(), root), number: idx+1}})) : undefined
   const duplicateStep = (e) => {
     e.stopPropagation();
-    dispatch(addStepForm("remove args", utils.makeStep(getValues(), root), true));
+    dispatch(addStepForm(utils.makeStep(getValues(), root), true));
   }
   const handleDeleteStep = (e) => {
     e.stopPropagation();
     if(procedure_id){
       dispatch(deleteStep(id, idx, procedure_id));
     }
-    dispatch(removeStepForm("remove args", idx))
+    dispatch(removeStepForm(idx))
   }
   return (
     <Draggable draggableId={id} index={idx} isDragDisabled={isAFormOpen}>

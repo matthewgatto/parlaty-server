@@ -126,8 +126,6 @@ export default (state = initialState, { type, payload }) => {
     case types.REMOVE_IMAGE_AND_REINDEX:
       return removeImageAndReIndex(state, payload.from, payload.to)
 
-
-
     case types.LOAD_STEP_FORMS:
       return payload.visuals || state;
     case types.REORDER_STEP_REQUEST:
@@ -135,8 +133,8 @@ export default (state = initialState, { type, payload }) => {
     case LOCATION_CHANGE:
       return [];
     case types.REMOVE_STEP_FORM:
-      if(state.findIndex(img => img.idx >= payload.idx) !== -1){
-        return [...state.slice(0,payload.idx), ...state.slice(state[payload.idx].idx === payload.idx ? payload.idx+1 : payload.idx).map(decreaseIdx)]
+      if(state.findIndex(({idx}) => idx >= payload) !== -1){
+        return [...state.slice(0,payload), ...state.slice(state[payload].idx === payload ? payload+1 : payload).map(decreaseIdx)]
       }
     default:
       return state;

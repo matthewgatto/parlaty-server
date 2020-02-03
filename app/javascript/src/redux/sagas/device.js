@@ -36,12 +36,16 @@ const validateDevice = async (device) => {
   }
 }
 
-function* deviceRequest(method, device){
+const cleanDeviceParams = ({id,...device}) => device
+function* deviceRequest(method, device, id){
   try {
-    const body = utils.objectToFormData({device});
-    const response = yield call(API[method], "/devices", body);
-    return response
+    return yield call(
+      API[method],
+      id ? `/devices/${id}` : "/devices",
+      utils.objectToFormData({device: cleanDeviceParams(device)})
+    );
   } catch (e) {
+
   }
 }
 
@@ -49,14 +53,14 @@ function* deviceFormSaga(method, type, formKey, id, values, alert){
   try {
     const actionIds = yield select(getActionForms),
           device = {
-            id,
+            id: id ? id : uuid(),
             name: values.name
           }
     if(actionIds.length > 0){
-      device.actions = actionIds.map(action => makeAction(action, id, values))
+      device.actions = actionIds.map(action => makeAction(action, device.id, values))
     }
     yield call(validateDevice, device)
-    yield fork(deviceRequest, method, device)
+    yield fork(deviceRequest, method, device, id)
     yield put({type: `${type}__SUCCESS`, payload: normalize(device, Schemas.device).entities})
     yield put(push("/devices"))
     yield put(addToast("success", alert))
@@ -70,7 +74,7 @@ function* deviceFormSaga(method, type, formKey, id, values, alert){
 }
 
 export function* createDeviceSaga({type,payload:{values,formKey}}){
-  yield call(deviceFormSaga, 'multipost', type, formKey, uuid(), values, "Device successfully created.")
+  yield call(deviceFormSaga, 'multipost', type, formKey, undefined, values, "Device successfully created.")
 }
 
 export function* updateDeviceSaga({type,payload:{formKey,id,values}}){

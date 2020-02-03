@@ -27,7 +27,7 @@ function* handleNewStep(stepMeta, payload, idx, newIdx){
   if(!stepMeta.isDuplicate){
     if(idx != newIdx){
       if(initialImage && !payload.step.visual){
-        yield put(removeImageAndReIndex(payload.formKey, idx, newIdx))
+        yield put(removeImageAndReIndex(idx, newIdx))
       } else {
         yield put(reorderStep(payload.formKey, idx, newIdx, payload.step.visual && {id: stepMeta.id, idx: newIdx, src}))
       }
@@ -45,7 +45,7 @@ function* handleNewStep(stepMeta, payload, idx, newIdx){
       yield put(addImage({id: stepMeta.id, idx: newIdx, src}, true))
     }
   }
-  yield put(setStepForm(payload.stepFormKey))
+  yield put(setStepForm())
 }
 
 const cleanStepCreateParams = ({id, number,visual,audio,...step}) => {
@@ -138,7 +138,7 @@ export function* stepSaveSaga(action){
       }
       yield call(handleNewStep, stepMeta, action.payload, idx, newIdx)
     } else {
-      yield put(setStepForm(action.payload.stepFormKey))
+      yield put(setStepForm())
     }
   } catch (e) {
     var formError = "An unexpected error has occurred"

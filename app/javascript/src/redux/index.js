@@ -32,7 +32,7 @@ const makeInitialState = ({auth,devices,actions,oems,businesses}) => {
 }
 
 const getInitialState = () => {
-  const localData = localStorage.getItem('initial_state');
+  const localData = localStorage.getItem('login_data_1_30');
   if(localData){
     return makeInitialState(JSON.parse(localData))
   }

@@ -7,7 +7,7 @@ export default (state = [], {type, payload}) => {
     case types.ADD_STEP_FORM:
       return state.length > 0 ? [...state, payload.id] : [payload.id]
     case types.REMOVE_STEP_FORM:
-      return [...state.slice(0,payload.idx),...state.slice(payload.idx+1)]
+      return [...state.slice(0,payload),...state.slice(payload+1)]
     case types.REORDER_STEP_REQUEST:
     case types.REMOVE_IMAGE_AND_REINDEX:
       return immutableMove(state, payload.from, payload.to)
