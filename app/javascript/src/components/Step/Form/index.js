@@ -18,7 +18,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         <CheckBox labelClass={`${styles.spoken} align_center`} label="Spoken" root={root} name="spoken" defaultValue={initialValues.spoken || false} />
         <Input as="textarea" label="Note" root={root} name="note" defaultValue={initialValues.note} required rows="4" formKey={formKey} />
         <Select defaultValue={initialValues.number || 1} formKey={formKey} label="Number*" root={root} name="number" options={positions} />
-        <Select formKey={formKey} options={timeOptions} label="Time*" root={root} name="time" defaultValue={initialValues.time} />
+        <Select defaultValue={initialValues.time || 8} formKey={formKey} options={timeOptions} label="Time*" root={root} name="time" />
         <div className={`${styles.boxes} align_center`}>
           <ModeRadio formKey={formKey} root={root} name="mode" defaultValue={initialValues.mode} />
           <CheckBox formKey={formKey} label="Option to Skip" root={root} name="safety" defaultValue={initialValues.safety || false} />

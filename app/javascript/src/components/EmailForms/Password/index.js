@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'uuid/v4'
 import FormPage from '@components/Form/Page';
 
 const inputs = [{
@@ -18,7 +19,7 @@ export default ({cancel,form}) => (
     header="Set Your Password"
     form={{
       ...form,
-      id: new Date().getTime()
+      id: uuid()
     }}
     inputs={inputs}
   />

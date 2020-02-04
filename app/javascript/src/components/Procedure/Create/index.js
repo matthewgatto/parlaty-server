@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'uuid/v4';
 import {useSelector} from 'react-redux';
 import PageLayout from '@components/PageLayout';
 import Name from '@containers/Name';
@@ -24,7 +25,7 @@ export default ({match:{params:{oem_id,business_id}}}) => {
         type={CREATE_PROCEDURE_REQUEST}
         initialValues={{description: ''}}
         extraValues={{author, oem_business_id: business_id}}
-        id={new Date().getTime()}
+        id={uuid()}
       />
     </PageLayout>
   )

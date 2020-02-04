@@ -9,14 +9,14 @@ export default ({initialValues, isDuplicate, root, idx}) => {
   const dispatch = useDispatch();
   const handleCloseButtonClick = () => {
     if(!isDuplicate){
-      dispatch(setStepForm())
+      dispatch(setStepForm(null))
       for (var field in initialValues) {
         if (initialValues.hasOwnProperty(field)) {
           setValue(`${root}${field}`, initialValues[field])
         }
       }
     } else {
-      dispatch(setStepForm())
+      dispatch(setStepForm(null))
       dispatch(removeStepForm(idx))
     }
   }

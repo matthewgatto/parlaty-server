@@ -46,7 +46,7 @@ function* handleNewStep(stepMeta, formKey, step, idx, newIdx){
       yield put(addImage({id: stepMeta.id, idx: newIdx, src}, true))
     }
   }
-  yield put(setStepForm())
+  yield put(setStepForm(null))
 }
 
 export const cleanStepParams = ({id,number,audio,visual,...step}) => {
@@ -153,7 +153,7 @@ export function* stepSaveSaga({type,payload:{values,root,procedure_id,formKey,st
       }
       yield call(handleNewStep, stepMeta, formKey, step, idx, newIdx)
     } else {
-      yield put(setStepForm())
+      yield put(setStepForm(null))
     }
   } catch (e) {
     if(e.type === "VALIDATION_FAILURE"){

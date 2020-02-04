@@ -45,7 +45,7 @@ function* handleNewStep(stepMeta, payload, idx, newIdx){
       yield put(addImage({id: stepMeta.id, idx: newIdx, src}, true))
     }
   }
-  yield put(setStepForm())
+  yield put(setStepForm(null))
 }
 
 const cleanStepCreateParams = ({id, number,visual,audio,...step}) => {
@@ -138,7 +138,7 @@ export function* stepSaveSaga(action){
       }
       yield call(handleNewStep, stepMeta, action.payload, idx, newIdx)
     } else {
-      yield put(setStepForm())
+      yield put(setStepForm(null))
     }
   } catch (e) {
     var formError = "An unexpected error has occurred"

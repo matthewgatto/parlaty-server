@@ -94,7 +94,6 @@ export const makeStep = (values, root) => {
         location = values[`${root}location`],
         device_id = values[`${root}device_id`],
         step = {};
-
   if(title) step.title = title
   if(spoken) step.spoken = spoken
   if(note) step.note = note
