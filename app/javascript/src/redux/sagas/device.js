@@ -9,14 +9,6 @@ import Schemas from '@utils/models';
 import API from '@utils/API';
 import * as utils from '@utils';
 
-const makeAction = (id, device_id, values) => {
-  const action = {id, device_id }
-  if(values[`actions[${id}].name`]) action.name = values[`actions[${id}].name`]
-  if(values[`actions[${id}].parameter_name`]) action.parameter_name = values[`actions[${id}].parameter_name`]
-  if(values[`actions[${id}].parameter_value_8_pack`]) action.parameter_value_8_pack = values[`actions[${id}].parameter_value_8_pack`]
-  return action;
-}
-
 const validateDevice = async (device) => {
   try {
     await deviceSchema.validate(device, {abortEarly: false, stripUnknown: true});
@@ -49,6 +41,8 @@ function* deviceRequest(method, device, id){
   }
 }
 
+const cleanActionParams = ({id, device_id, ...action}) => action;
+
 function* deviceFormSaga(method, type, formKey, id, values, alert){
   try {
     const actionIds = yield select(getActionForms),
@@ -57,7 +51,7 @@ function* deviceFormSaga(method, type, formKey, id, values, alert){
             name: values.name
           }
     if(actionIds.length > 0){
-      device.actions = actionIds.map(action => makeAction(action, device.id, values))
+      device.actions = actionIds.map(actionId => ({...utils.makeAction(values, `actions[${actionId}].`), id: actionId, device_id: device.id}))
     }
     yield call(validateDevice, device)
     yield fork(deviceRequest, method, device, id)

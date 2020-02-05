@@ -4,14 +4,14 @@ import StepHeader from '@containers/StepHeader';
 import DeviceSelect from '@containers/DeviceSelect';
 import FormError from '@containers/FormError';
 import StepSaveButton from '@containers/StepSaveButton';
-import StepCloseButton from '@containers/StepCloseButton';
+import StepCloseButton from '@components/Step/CloseButton';
 import { Input, CheckBox, Select, FileInput, ModeRadio } from '@components/Inputs';
 //import ParameterFields from '@components/Inputs/Parameter';
 import styles from './index.module.css';
 
-export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, positions, initialValues, devices, timeOptions, procedureFormKey}) => (
+export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, positions, initialValues, devices, timeOptions, procedureFormKey, handleCloseForm}) => (
   <>
-    <StepHeader isDuplicate={isDuplicate} isOpen={isOpen ? true : false} title={title} procedure_id={procedure_id} idx={idx} id={id} root={root} />
+    <StepHeader isDuplicate={isDuplicate} isOpen={isOpen ? true : false} title={title} procedure_id={procedure_id} idx={idx} id={id} root={root} handleCloseForm={handleCloseForm} />
     <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
       <div className={styles.container}>
         <Input as="input" defaultValue={initialValues.title} formKey={formKey} type="text" required label="Title*" root={root} name="title" />
@@ -34,7 +34,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
           <FormError formKey={formKey} large />
         </div>
         <StepSaveButton root={root} formKey={formKey} id={id} procedure_id={procedure_id} procedureFormKey={procedureFormKey} />
-        <StepCloseButton root={root} idx={idx} initialValues={isOpen.initialValues} isDuplicate={isDuplicate} />
+        <StepCloseButton onClick={handleCloseForm} />
       </div>
     </AnimateHeight>
   </>

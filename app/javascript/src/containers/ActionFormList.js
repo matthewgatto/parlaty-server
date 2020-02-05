@@ -13,7 +13,7 @@ const DNDActionFields = withDND(({initialActions, formKey}) => {
   if(actionForms.length > 0){
     return actionForms.map((id,idx) => (
       <Draggable key={id} draggableId={id} index={idx}>
-        {(provided, snapshot) => <ActionForm idx={idx} id={id} provided={provided} formKey={formKey} />}
+        {(provided, snapshot) => <ActionForm idx={idx} id={id} provided={provided} color={snapshot.isDragging} formKey={formKey} />}
       </Draggable>
     ))
   }

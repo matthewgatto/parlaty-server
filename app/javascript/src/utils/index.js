@@ -80,6 +80,16 @@ export const addIds = (state, entityMap) => state ? (
 ) : (
   Object.keys(entityMap)
 )
+export const makeAction = (values, root) => {
+  const name = values[`${root}name`],
+        parameter_name = values[`${root}parameter_name`],
+        parameter_value_8_pack = values[`${root}parameter_value_8_pack`],
+        action = {};
+  if(name) action.name = name
+  if(parameter_name) action.parameter_name = parameter_name
+  if(parameter_value_8_pack) action.parameter_value_8_pack = parameter_value_8_pack
+  return action;
+}
 
 export const makeStep = (values, root) => {
   const title = values[`${root}title`],

@@ -5,16 +5,24 @@ import { useSelector,useDispatch } from 'react-redux';
 import {setStepForm,addStepForm,deleteStep,removeStepForm} from '@actions/step';
 import {isAStepFormOpen} from '@selectors/step';
 import StepHeader from '@components/Step/Header';
-import * as utils from '@utils';
+import {makeStep} from '@utils';
 
-export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root}) => {
+export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root, handleCloseForm}) => {
   const { getValues } = useFormContext()
   const isAFormOpen = useSelector(isAStepFormOpen);
   const dispatch = useDispatch();
-  const handleClick = () => !isAFormOpen ? dispatch(setStepForm({id, initialValues:{...utils.makeStep(getValues(), root), number: idx+1}})) : undefined
+  const handleClick = () => {
+    if(isAFormOpen){
+      if(isOpen){
+        handleCloseForm()
+      }
+    } else {
+      dispatch(setStepForm({id, initialValues:{...makeStep(getValues(), root), number: idx+1}}))
+    }
+  }
   const duplicateStep = (e) => {
     e.stopPropagation();
-    dispatch(addStepForm(utils.makeStep(getValues(), root), true));
+    dispatch(addStepForm(makeStep(getValues(), root), true));
   }
   const handleDeleteStep = (e) => {
     e.stopPropagation();
@@ -25,7 +33,7 @@ export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root}) => {
   }
   return (
     <Draggable draggableId={id} index={idx} isDragDisabled={isAFormOpen}>
-      {(provided, snapshot) => <StepHeader idx={idx} title={title} isOpen={isOpen} isAFormOpen={isAFormOpen} isDuplicate={isDuplicate} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} setRef={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} onClick={handleClick} />}
+      {(provided, snapshot) => <StepHeader idx={idx} title={title} isOpen={isOpen} isAFormOpen={isAFormOpen} isDuplicate={isDuplicate} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} setRef={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} onClick={handleClick} isDragging={snapshot.isDragging} />}
     </Draggable>
   )
 }

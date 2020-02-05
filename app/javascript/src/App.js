@@ -27,6 +27,9 @@ const Routes = ({role}) => {
     case "Oem":
       return(<Switch>
         <Route exact path="/" component={OEMLandingPage} />
+        <Route path="/devices/:id/update" component={DeviceEditPage} />
+        <Route path="/devices/create" component={DeviceCreatePage} />
+        <Route path="/devices" component={DeviceListPage} />
         <Route path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
         <Route path="/businesses/:business_id/procedures/create" component={CreateProcedurePage} />
         {/*<Route path="/businesses/create" component={BusinessForm} />*/}
