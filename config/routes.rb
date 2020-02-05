@@ -60,6 +60,8 @@ Rails.application.routes.draw do
 
   put '/devices/:id', to: 'devices#update'
 
+  put '/devices', to: 'devices#update'
+
   delete '/devices/:id', to: 'devices#destroy'
 
 end
