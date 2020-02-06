@@ -34,7 +34,9 @@ def get_actions(myactions, step_id)
 	{
 		id: myaction.id,
 		name: myaction.name,
-		action_instance: get_action_instance(myaction.id, step_id)
+		#action_instance: get_action_instance(myaction.id, step_id)
+		parameter_name: myaction.parameter_name,
+		parameter_value_8_pack: myaction.parameter_value_8_pack
 	}
 	end
 end
@@ -66,7 +68,8 @@ json[:steps] = @procedure.steps.map do |step|
   visual: visual_check(step),
   mode: step.mode,
   time: step.time,
-  device_id: get_device(step.device_id, step.id)
+  device_id: get_device(step.device_id, step.id),
+  device: get_device(step.device_id, step.id)
 }
 end
 
