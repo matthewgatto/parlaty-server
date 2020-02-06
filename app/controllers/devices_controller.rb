@@ -27,7 +27,8 @@ Parameters: {"device"=>{"name"=>"New device 1",
         end
         count = count + 1
       end
-			render json: { "id": @device.id}, status: :ok and return
+			#render json: { "id": @device.id}, status: :ok and return
+      render status: :created
     else
       config.logger.error "device save 2 failed in POST /devices"
 			render json: { "error": @device.errors.full_messages }, status: :bad_request and return
@@ -67,7 +68,8 @@ Parameters: {"device"=>{"name"=>"New device 1",
         end
         count = count + 1
       end
-      render json: { "id": deviceId}, status: :ok and return
+      #render json: { "id": deviceId}, status: :ok and return
+      render status: :ok
     else
       config.logger.error "device find failed in PUT /devices/:id"
       head :bad_request and return
