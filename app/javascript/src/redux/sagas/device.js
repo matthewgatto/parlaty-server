@@ -129,8 +129,15 @@ export function* deviceListSaga(action){
       API.get,
       "/devices"
     );
-    yield put({type: `${action.type}__SUCCESS`, payload: normalize(response, [Schemas.device]).entities})
+    yield put({type: `${action.type}__SUCCESS`, payload: normalize(response.devices, [Schemas.device]).entities})
   } catch (e) {
     console.log("deviceListSaga ERROR", e);
+  }
+}
+
+export function* getFreshDeviceData(){
+  const loggedInFromStorage = yield select(({auth}) => auth && auth.jwt)
+  if(loggedInFromStorage){
+    yield call(deviceListSaga, {type: "FETCH_DEVICES_REQUEST"})
   }
 }
