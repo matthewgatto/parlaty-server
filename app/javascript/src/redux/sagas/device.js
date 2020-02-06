@@ -107,6 +107,7 @@ function* deviceUpdateFormSaga(method, type, formKey, id, values, alert){
     yield put({type: `${type}__SUCCESS`, payload: normalize(device, Schemas.device).entities})
     yield put(push("/devices"))
     yield put(addToast("success", alert))
+    yield fork(updateDeviceLocalStorage)
   } catch (e) {
     if(e.type === "VALIDATION_FAILURE"){
       yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
@@ -125,16 +126,13 @@ export function* updateDeviceSaga({type,payload:{formKey,id,values}}){
 }
 
 export function* deviceListSaga(action){
-  yield put({
-    type: "FETCH_DEVICES_REQUEST__SUCCESS",
-    payload: {
-      devices: {
-        "1": {id: "1", name: "Crank handle", actions: ["Crank Action One", "Crank Action Two", "Crank Action Three"]},
-        "2": {id: "2", name: "Part with Lock", actions: ["Part Action One", "Part Action Two", "Part Action Three"]},
-        "3": {id: "3", name: "Blowtorch", actions: ["Blowtorch Action One", "Blowtorch Action Two", "Blowtorch Action Three"]},
-        "4": {id: "4", name: "Pressure Washer", actions: ["Pressure One", "Pressure Two", "Pressure Three"]},
-        "5": {id: "5", name: "Wrench", actions: ["Wrench One", "Wrench Two", "Wrench Three"]}
-      }
-    }
-  })
+  try {
+    const response = yield call(
+      API.get,
+      "/devices"
+    );
+    yield put({type: `${action.type}__SUCCESS`, payload: normalize(response, [Schemas.device]).entities})
+  } catch (e) {
+    console.log("deviceListSaga ERROR", e);
+  }
 }
