@@ -107,7 +107,6 @@ function* deviceUpdateFormSaga(method, type, formKey, id, values, alert){
     yield put({type: `${type}__SUCCESS`, payload: normalize(device, Schemas.device).entities})
     yield put(push("/devices"))
     yield put(addToast("success", alert))
-    yield fork(updateDeviceLocalStorage)
   } catch (e) {
     if(e.type === "VALIDATION_FAILURE"){
       yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
