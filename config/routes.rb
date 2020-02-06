@@ -62,4 +62,6 @@ Rails.application.routes.draw do
 
   delete '/devices/:id', to: 'devices#destroy'
 
+  get '/devices', to: 'devices#devices_index'
+
 end

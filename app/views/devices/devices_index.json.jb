@@ -1,0 +1,23 @@
+def get_actions(myactions)
+    myactions.map do |myaction|
+    {
+        id: myaction.id,
+        name: myaction.name,
+        parameter_name: myaction.parameter_name,
+        parameter_value_8_pack: myaction.parameter_value_8_pack
+    }
+    end
+end
+
+json = {}
+
+
+json[:devices] = @devices.map do |device|
+{
+	id: device.id,
+	name: device.name,
+	actions: get_actions(device.actions)
+}
+end
+
+json

@@ -1,15 +1,6 @@
 class DevicesController < ApplicationController
   before_action :require_login
 
-=begin
-Parameters: {"device"=>{"name"=>"New device 1", 
-  "actions"=>[{"name"=>"new device 1 action 1", 
-    "parameter_name"=>"parm1", 
-    "parameter_value_8_pack"=>"parm1value", 
-    "id"=>"6f6eafc5-ecd3-4cf6-97f1-9668c7b6c088", 
-    "device_id"=>"d48c5440-f953-484f-a901-29694f88d0db"}]}}
-=end
-
   # POST /devices
   def create
     @device = Device.new(device_params)
@@ -74,26 +65,6 @@ Parameters: {"device"=>{"name"=>"New device 1",
       config.logger.error "device find failed in PUT /devices/:id"
       head :bad_request and return
     end
-
-
-=begin 
-    Parameters: {"device"=>{"id"=>"2", "name"=>"Part with Lock", 
-    "actions"=>[{"id"=>"4", "device_id"=>"2", 
-    "name"=>"Part Action One", "parameter_name"=>"parm1", 
-    "parameter_value_8_pack"=>"parm1val"}, 
-    {"id"=>"5", "device_id"=>"2", "name"=>"Part Action Two"}, 
-    {"id"=>"6", "device_id"=>"2", "name"=>"Part Action Three"}]}}
-=end
-
-    #@step = Step.find(params[:id])
-    #if(@st.update_attributes(procedure_params))
-    # render json: @procedure, status: :ok
-    #else
-    #  head :bad_request
-    #end
-    
-    #head: ok
-    #render json: { "id": deviceId}, status: :ok
   end
 
   # DELETE /devices
@@ -108,18 +79,15 @@ Parameters: {"device"=>{"name"=>"New device 1",
      
      #head :ok
      render json: { "id": 1}, status: :ok
-    end
+  end
 
-    private
+  # GET /devices
+  def devices_index
+    @devices = Device.all()
+    render status: :ok
+  end
 
-=begin
-Parameters: {"device"=>{"name"=>"New device 1", 
-  "actions"=>[{"name"=>"new device 1 action 1", 
-    "parameter_name"=>"parm1", 
-    "parameter_value_8_pack"=>"parm1value", 
-    "id"=>"6f6eafc5-ecd3-4cf6-97f1-9668c7b6c088", 
-    "device_id"=>"d48c5440-f953-484f-a901-29694f88d0db"}]}}
-=end
+  private
 
     def device_params
 			params.require(:device).permit(:name)
