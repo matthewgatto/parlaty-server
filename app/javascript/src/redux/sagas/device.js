@@ -76,11 +76,11 @@ function* deviceCreateFormSaga(method, type, formKey, id, values, alert){
             name: values.name
           }
     if(actionIds.length > 0){
-      device.actions = actionIds.map(actionId => ({...utils.makeAction(values, `actions[${actionId}].`), id: actionId}))
+      device.actions = actionIds.map(actionId => utils.makeAction(values, `actions[${actionId}].`))
     }
     yield call(validateDevice, device)
     const response = yield call(deviceRequest, method, device, id);
-    yield put({type: `${type}__SUCCESS`, payload: normalize({...device, id: response.id}, Schemas.device).entities})
+    yield put({type: `${type}__SUCCESS`, payload: normalize(response, Schemas.device).entities})
     yield put(push("/devices"))
     yield put(addToast("success", alert))
   } catch (e) {
@@ -96,15 +96,14 @@ function* deviceUpdateFormSaga(method, type, formKey, id, values, alert){
   try {
     const actionIds = yield select(getActionForms),
           device = {
-            id: id ? id : uuid(),
             name: values.name
           }
     if(actionIds.length > 0){
-      device.actions = actionIds.map(actionId => ({...utils.makeAction(values, `actions[${actionId}].`), id: actionId, device_id: device.id}))
+      device.actions = actionIds.map(actionId => ({id: actionId, ...utils.makeAction(values, `actions[${actionId}].`)}))
     }
     yield call(validateDevice, device)
-    yield fork(deviceRequest, method, device, id)
-    yield put({type: `${type}__SUCCESS`, payload: normalize(device, Schemas.device).entities})
+    const response = yield call(deviceRequest, method, device, id)
+    yield put({type: `${type}__SUCCESS`, payload: normalize(response, Schemas.device).entities})
     yield put(push("/devices"))
     yield put(addToast("success", alert))
   } catch (e) {
