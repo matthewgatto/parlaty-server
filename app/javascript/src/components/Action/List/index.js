@@ -8,7 +8,7 @@ export default ({actions, selectedAction, setSelectedAction}) => (<>
   <div>
     <Label label="Device Actions" />
     <div className={styles.labelSubText}>
-      (click on a parametized action <Gear className={styles.icon} /> to view values)
+      (click on a parameterized action <Gear className={styles.icon} /> to view values)
     </div>
   </div>
   <div className={styles.container}>

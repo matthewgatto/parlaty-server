@@ -14,9 +14,7 @@ export default (state = [], {type, payload}) => {
     case LOCATION_CHANGE:
       return [];
     case types.LOAD_STEP_FORMS:
-      if(payload.steps){
-        return payload.steps
-      }
+      return payload
     default:
       return state
   }

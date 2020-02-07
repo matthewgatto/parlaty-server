@@ -2,6 +2,10 @@
   background: #e9e4ee;
   color: #67318d;
   padding: 0.6em 0.7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35%;
 }
 
 .icon {
@@ -15,23 +19,9 @@
   display: none;
 }
 
-.container {
-  justify-content: space-between;
-  max-width: 50%;
-  min-width: 43%;
-  position: relative;
-}
-
-.container label {
-  height: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
 .label {
   height: 1em;
   font-size: 1.1em;
-  line-height: 1em;
   margin: 0.4em;
   font-weight: 600;
   color: #7b7979;
@@ -40,9 +30,8 @@
 
 .name {
   font-size: 1.1em;
-  width: 3.8em;
+  flex-grow: 1;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: 1em;
 }

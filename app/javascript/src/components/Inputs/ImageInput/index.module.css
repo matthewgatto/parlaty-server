@@ -1,0 +1,102 @@
+.button {
+  background: #e9e4ee;
+  color: #67318d;
+  padding: 0.6em 0.7em;
+  width: 100%;
+  border-radius: 0 !important;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  fill: #67318d;
+  margin-left: 0.6em;
+}
+
+.hidden {
+  display: none;
+}
+
+.container {
+  position: relative;
+}
+
+.label {
+  height: 1em;
+  font-size: 1.1em;
+  margin: 0.4em;
+  font-weight: 600;
+  color: #7b7979;
+}
+
+
+.name {
+  font-size: 1.1em;
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.imageWrapper {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconWrapper {
+  position: absolute;
+  bottom: 0.5em;
+  left: 0.5em;
+  background: rgba(0,0,0,0.6);
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.closeIcon {
+  fill: #fff;
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.imageContainer,.imagePlaceholder {
+  position: absolute;
+  top:0;
+  height:100%;
+  width:100%;
+}
+
+.imageContainer {
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: opacity 50ms ease-in;
+}
+
+.imagePlaceholder {
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.fileInputContainer {
+  width: 35%;
+  position: relative;
+  background-color: #000;
+  border-radius: 0.2em;
+  margin-bottom: 1.6em;
+}

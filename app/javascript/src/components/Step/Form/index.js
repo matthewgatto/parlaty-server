@@ -5,7 +5,7 @@ import DeviceSelect from '@containers/DeviceSelect';
 import FormError from '@containers/FormError';
 import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
-import { Input, CheckBox, Select, FileInput, ModeRadio } from '@components/Inputs';
+import { Input, CheckBox, Select, ImageInput, AudioInput, ModeRadio } from '@components/Inputs';
 //import ParameterFields from '@components/Inputs/Parameter';
 import styles from './index.module.css';
 
@@ -26,9 +26,11 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         <Input as="input" defaultValue={initialValues.location} formKey={formKey} type="text" label="Subtitle" root={root} name="location"  />
         <DeviceSelect options={devices} label="Device" root={root} name="device_id" defaultValue={/*REMOVE*/(initialValues.device_id && !isNaN(initialValues.device_id)) ? initialValues.device_id : 1} />
         {/*<ParameterFields initialName={initialValues.parameter_name ? initialValues.parameter_name : undefined} initialValue={initialValues.parameter_value_8_pack ? initialValues.parameter_value_8_pack : undefined} formKey={formKey} root={root} />*/}
-        <div className={styles.files}>
-          <FileInput formKey={formKey} defaultValue={initialValues.visual} label="Image*" root={root} name="visual" />
-          <FileInput formKey={formKey} defaultValue={initialValues.audio} label="Audio*" root={root} name="audio" />
+        <div>
+          <ImageInput formKey={formKey} defaultValue={initialValues.visual} label="Image*" root={root} name="visual" />
+        </div>
+        <div>
+          <AudioInput formKey={formKey} defaultValue={initialValues.audio} label="Audio*" root={root} name="audio" />
         </div>
         <div className={styles.error}>
           <FormError formKey={formKey} large />

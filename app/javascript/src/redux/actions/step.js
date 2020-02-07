@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4'
 import * as types from '@types/step';
 
-export const loadStepForms = (steps, visuals) => ({type: types.LOAD_STEP_FORMS, payload: {visuals: visuals ? visuals.sort((a,b) => (a.idx - b.idx)) : undefined, steps}});
+export const loadStepForms = (steps) => ({type: types.LOAD_STEP_FORMS, payload: steps});
 export const reorderImage = (from, to, visual) => ({type: types.REORDER_IMAGE, payload: {from, to, visual}});
 export const removeImage = (id) => ({type: types.REMOVE_IMAGE, payload: id});
 export const updateImage = (id, visual) => ({type: types.UPDATE_IMAGE, payload: {id, visual}});

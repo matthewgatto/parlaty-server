@@ -1,7 +1,8 @@
 import React from 'react';
 import { Controller } from "react-hook-form";
 import SelectComponent, {withSelectContainer} from './Select';
-import FileInputComponent from './FileInput';
+import ImageInputComponent from './ImageInput';
+import AudioInputComponent from './AudioInput';
 import CheckBoxComponent from './CheckBox';
 import RadioComponent from './Radio';
 import Field from './Field';
@@ -10,7 +11,9 @@ import withName from './withName';
 
 const withNamedField = (WrappedComponent) => withName(withField(WrappedComponent))
 export const Select = withNamedField(withSelectContainer(props => <Controller {...props} as={SelectComponent} />))
-export const FileInput = withName(props => <Controller onChange={([el]) => el.currentTarget.files[0]} {...props} as={FileInputComponent} />)
+export const ImageInput = withName(props => <Controller onChange={([el]) => el.currentTarget.files[0]} {...props} as={ImageInputComponent} />)
+export const AudioInput = withName(props => <Controller onChange={([el]) => el.currentTarget.files[0]} {...props} as={AudioInputComponent} />)
+
 export const Input = withNamedField(Controller)
 export const CheckBox = props => <Input {...props} onChange={([e]) => (e.currentTarget.checked)} as={CheckBoxComponent} />
 

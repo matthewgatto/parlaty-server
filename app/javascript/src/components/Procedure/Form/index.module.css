@@ -3,11 +3,11 @@
   display: flex;
   justify-content: space-between;
   position: relative;
-  align-items: baseline;
+  align-items: flex-start;
 }
 
 .content > div {
-  width: 32%;
+  width: 49%;
   position: relative;
 }
 

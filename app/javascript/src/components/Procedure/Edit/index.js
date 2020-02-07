@@ -12,7 +12,7 @@ import { getStepMap } from '@selectors/step';
 const withStepLoader = (WrappedComponent) =>  (
   class extends React.PureComponent {
     componentDidUpdate(prevProps){
-      if((!prevProps.initialValues || !prevProps.initialValues.steps) && (this.props.initialValues && this.props.initialValues.steps)){
+      if((!prevProps.initialValues || !prevProps.initialValues.steps) && (this.props.initialValues && this.props.initialValues.steps && this.props.initialValues.steps.length > 0)){
         this.props.addSteps()
       }
     }
@@ -42,26 +42,11 @@ const EditProcedureFormContainer = (props) => {
   const initialValues = useSelector(getProcedureById(props.id));
   const stepMap = useSelector(getStepMap)
   const dispatch = useDispatch();
-  const addSteps = () => {
-    if(initialValues.steps){
-      const steps = initialValues.steps,
-            visuals = [];
-      var count = 0;
-      for (var i = 0; i < steps.length; i++) {
-        const step = stepMap[steps[i]];
-        if(step.visual){
-          visuals.push({id: step.id, idx: i, src: step.visual})
-        }
-      }
-      if(steps.length > 0){
-        dispatch(loadStepForms(steps,visuals))
-      }
-    }
-  }
+  const addSteps = () => dispatch(loadStepForms(initialValues.steps))
   useEffect(() => {
     if(!initialValues || !initialValues.description){
       dispatch({type: FETCH_PROCEDURE_REQUEST, payload: {url: `/procedures/${props.id}`, id: props.id}})
-    } else if(initialValues && initialValues.steps){
+    } else if(initialValues && initialValues.steps && initialValues.steps.length > 0){
       addSteps();
     }
   },[])
