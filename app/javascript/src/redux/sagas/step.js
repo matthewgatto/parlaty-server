@@ -139,22 +139,18 @@ const validateStep = async (step, root) => {
 export function* stepSaveSaga({type,payload:{values,root,procedure_id,formKey,stepFormKey}}){
   try {
     const {stepMeta, idx} = yield select(getStepSaveData);
-    const step = utils.makeStep(values, root)
+    const step = utils.makeStep(values, root);
     yield call(validateStep, step, root)
-    if(utils.getUpdatedProperties(step, stepMeta.initialValues)){
-      const newIdx = step.number - 1;
-      if(procedure_id){
-        const procedure = yield select(getProcedureById(procedure_id));
-        if(stepMeta.isDuplicate){
-          yield call(createStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
-        } else {
-          yield call(updateStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
-        }
+    const newIdx = step.number - 1;
+    if(procedure_id){
+      const procedure = yield select(getProcedureById(procedure_id));
+      if(stepMeta.isDuplicate){
+        yield call(createStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
+      } else {
+        yield call(updateStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
       }
-      yield call(handleNewStep, stepMeta, formKey, step, idx, newIdx)
-    } else {
-      yield put(setStepForm(null))
     }
+    yield call(handleNewStep, stepMeta, formKey, step, idx, newIdx);
   } catch (e) {
     if(e.type === "VALIDATION_FAILURE"){
       yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
