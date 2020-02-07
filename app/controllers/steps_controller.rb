@@ -142,10 +142,10 @@ class StepsController < ApplicationController
 	private
 
 		def step_params
-			params.require(:step).permit(:title, :device_id, :location, :note, :safety, :procedure_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :has_visual, visuals: [])
+			params.require(:step).permit(:title, :device_id, :location, :note, :safety, :procedure_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, :has_visual, visuals: [])
 		end
 
 		def save_step_params
-			params.require(:step).permit(:title, :device_id, :location, :note, :safety, :oem_id, :mode, :time, :parameter_name, :parameter_value_8_pack, visuals: [])
+			params.require(:step).permit(:title, :device_id, :location, :note, :safety, :oem_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, visuals: [])
 		end
 end
