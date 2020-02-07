@@ -1,12 +1,5 @@
-
 .container {
-  padding: 0.6em;
-  background-color: #fff;
-  border-radius: 0.3em;
-  box-sizing: border-box;
-  color: #888;
-  font-size: 1.1em;
-  margin: -0.5em 0 1.2em;
+  padding: 0.3em;
 }
 
 .number {
@@ -15,4 +8,18 @@
 
 .text {
   flex-grow: 1;
+}
+
+.highlight {
+  background: #e9e4ee;
+  color: #67318d;
+}
+
+.selectable {
+  cursor: pointer;
+}
+
+
+.highlight .icon {
+  fill: #67318d;
 }

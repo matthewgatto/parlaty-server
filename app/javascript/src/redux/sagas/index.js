@@ -1,4 +1,4 @@
-import { takeEvery, all } from 'redux-saga/effects';
+import { takeEvery, all, fork } from 'redux-saga/effects';
 import * as auth from './auth';
 import * as oem from './oem';
 import * as business from './business';
@@ -14,6 +14,7 @@ import * as deviceTypes from '@types/device';
 
 export default function* appSagas(){
   yield all([
+
     yield takeEvery(authTypes.CREATE_AUTH_REQUEST, auth.loginSaga),
     yield takeEvery(authTypes.CREATE_INVITE_CONFIRMATION_REQUEST, auth.inviteConfirmationSaga),
     yield takeEvery(authTypes.CREATE_PASSWORD_RESET_EMAIL_REQUEST, auth.passwordResetEmailSaga),
@@ -32,6 +33,7 @@ export default function* appSagas(){
     //yield takeEvery(stepTypes.REORDER_STEP_REQUEST, step.reorderStepSaga),
     yield takeEvery(stepTypes.DELETE_STEP_REQUEST, step.deleteStepSaga),
     yield takeEvery(deviceTypes.FETCH_DEVICES_REQUEST, device.deviceListSaga),
+    yield fork(device.getFreshDeviceData),
     yield takeEvery(deviceTypes.CREATE_DEVICE_REQUEST, device.createDeviceSaga),
     yield takeEvery(deviceTypes.UPDATE_DEVICE_REQUEST, device.updateDeviceSaga),
   ])

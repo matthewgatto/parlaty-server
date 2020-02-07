@@ -1,13 +1,13 @@
 import React from 'react';
 import { useFormContext } from "react-hook-form";
 import { useDispatch } from 'react-redux';
-import StepCloseButton from '@components/Step/CloseButton';
+import StepCancelButton from '@components/Step/CancelButton';
 import {setStepForm,removeStepForm} from '@actions/step';
 
 export default ({initialValues, isDuplicate, root, idx}) => {
   const { setValue } = useFormContext()
   const dispatch = useDispatch();
-  const handleCloseButtonClick = () => {
+  const handleCancelButtonClick = () => {
     if(!isDuplicate){
       dispatch(setStepForm(null))
       for (var field in initialValues) {
@@ -20,5 +20,5 @@ export default ({initialValues, isDuplicate, root, idx}) => {
       dispatch(removeStepForm(idx))
     }
   }
-  return <StepCloseButton onClick={handleCloseButtonClick} />
+  return <StepCancelButton onClick={handleCancelButtonClick} />
 }

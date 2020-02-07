@@ -1,6 +1,11 @@
+.labelSubText {
+  font-size: 0.9em;
+  margin: 0 0.4em 1em 0.4em;
+  color: #7b7979;
+}
 
 .container {
-  padding: 0.6em;
+  padding: 0.6em 0.3em;
   background-color: #fff;
   border-radius: 0.3em;
   box-sizing: border-box;
@@ -15,4 +20,9 @@
 
 .text {
   flex-grow: 1;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
 }

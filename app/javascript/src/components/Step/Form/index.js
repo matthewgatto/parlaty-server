@@ -4,7 +4,7 @@ import StepHeader from '@containers/StepHeader';
 import DeviceSelect from '@containers/DeviceSelect';
 import FormError from '@containers/FormError';
 import StepSaveButton from '@containers/StepSaveButton';
-import StepCloseButton from '@components/Step/CloseButton';
+import StepCancelButton from '@components/Step/CancelButton';
 import { Input, CheckBox, Select, FileInput, ModeRadio } from '@components/Inputs';
 //import ParameterFields from '@components/Inputs/Parameter';
 import styles from './index.module.css';
@@ -20,7 +20,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         <Select defaultValue={initialValues.number || 1} formKey={formKey} label="Number*" root={root} name="number" options={positions} />
         <Select defaultValue={initialValues.time || 8} formKey={formKey} options={timeOptions} label="Time*" root={root} name="time" />
         <div className={`${styles.boxes} align_center`}>
-          <ModeRadio formKey={formKey} root={root} name="mode" defaultValue={initialValues.mode} />
+          <ModeRadio formKey={formKey} root={root} name="mode" defaultValue={initialValues.mode || "continuous"} />
           <CheckBox formKey={formKey} label="Option to Skip" root={root} name="safety" defaultValue={initialValues.safety || false} />
         </div>
         <Input as="input" defaultValue={initialValues.location} formKey={formKey} type="text" label="Subtitle" root={root} name="location"  />
@@ -34,7 +34,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
           <FormError formKey={formKey} large />
         </div>
         <StepSaveButton root={root} formKey={formKey} id={id} procedure_id={procedure_id} procedureFormKey={procedureFormKey} />
-        <StepCloseButton onClick={handleCloseForm} />
+        <StepCancelButton onClick={handleCloseForm} />
       </div>
     </AnimateHeight>
   </>

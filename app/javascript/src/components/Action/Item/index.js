@@ -1,14 +1,27 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import Gear from '../../SVG/Gear';
 import styles from './index.module.css';
-import {getActionById} from '@selectors/action';
 
-export default ({position, id}) => {
-  const {name} = useSelector(getActionById(id))
+const makeActionItemClassStr = (isSelected, hasParameterValues) => {
+  var classStr = `${styles.container} align_center`;
+  if(hasParameterValues) classStr += ` ${styles.selectable}`;
+  if(isSelected) classStr += ` ${styles.highlight}`;
+  return classStr;
+}
+
+export default ({position, action, selectedAction, setSelectedAction}) => {
+  const isSelected = selectedAction && selectedAction.id === action.id
+  const hasParameterValues = (action && action.parameter_name && action.parameter_value_8_pack) ? true : false
+  const handleClick = () => {
+    if(!isSelected && hasParameterValues){
+      setSelectedAction(action)
+    }
+  }
   return(
-    <div className="align_center">
+    <div onClick={handleClick} className={makeActionItemClassStr(isSelected, hasParameterValues)}>
       <div className={styles.number}>{position}</div>
-      <div className={styles.text}>{name}</div>
+      <div className={styles.text}>{action.name}</div>
+      {hasParameterValues && <Gear className={styles.icon} />}
     </div>
   )
 }
