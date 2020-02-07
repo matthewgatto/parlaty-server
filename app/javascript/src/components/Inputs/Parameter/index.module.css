@@ -3,6 +3,16 @@
   display: block;
 }
 
+.column {
+  background: #fff;
+  border-radius: 0.2em;
+  height: 4.5em;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
 .row {
   background: #fff;
   border-radius: 0.2em;
@@ -25,7 +35,6 @@
   width: 100%;
 }
 
-
 .nameFieldContainer,.nameFieldInputWrapper,.valueFieldContainer,.valueFieldInputWrapper {
   height: 100%;
   position: relative;
@@ -45,7 +54,23 @@
   color: #888;
 }
 
-.actionParameterPlaceholder {
-  padding: 0 0.4em;
+
+.nameFieldContainerTwo {
+  height: 50%;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.valueFieldContainerTwo {
+  height: 50%;
+}
+
+.nameFieldInputWrapperTwo,.valueFieldInputWrapperTwo {
+  height: 100%;
+  flex-grow: 1;
   color: #888;
+}
+.actionParameterPlaceholder {
+  color: #888;
+  text-align: center;
+  font-size: 1.2em;
 }

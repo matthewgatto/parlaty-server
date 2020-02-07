@@ -52,21 +52,21 @@ export const StatelessParameters = ({action}) => (
     <LabelWrapper>
       <div>Action Parameters</div>
     </LabelWrapper>
-    <div className={`${styles.row} align_center`}>
+    <div className={styles.column}>
     {action ? (<>
-        <div className={`${styles.nameFieldContainer} align_center`}>
+        <div className={`${styles.nameFieldContainerTwo} align_center`}>
         <div className={styles.label}>
           Name:
         </div>
-        <div className={`${styles.nameFieldInputWrapper} align_center`}>
+        <div className={`${styles.nameFieldInputWrapperTwo} align_center`}>
           {action.parameter_name}
         </div>
         </div>
-        <div className={`${styles.valueFieldContainer} align_center`}>
+        <div className={`${styles.valueFieldContainerTwo} align_center`}>
         <div className={styles.label}>
           Value:
         </div>
-        <div className={`${styles.valueFieldInputWrapper} align_center`}>
+        <div className={`${styles.valueFieldInputWrapperTwo} align_center`}>
           {action.parameter_value_8_pack}
         </div>
         </div>
