@@ -43,40 +43,17 @@ function* deviceRequest(method, device, id){
 }
 
 const cleanActionParams = ({id, device_id, ...action}) => action;
-/*
+
+const makeActionMappingFunc = (values, root, id) => id ? id => ({id: id, ...utils.makeAction(values, `actions[${id}].`)}) : id => utils.makeAction(values, `actions[${id}].`)
+
 function* deviceFormSaga(method, type, formKey, id, values, alert){
   try {
     const actionIds = yield select(getActionForms),
           device = {
-            id: id ? id : uuid(),
             name: values.name
           }
     if(actionIds.length > 0){
-      device.actions = actionIds.map(actionId => ({...utils.makeAction(values, `actions[${actionId}].`), id: actionId, device_id: device.id}))
-    }
-    yield call(validateDevice, device)
-    yield fork(deviceRequest, method, device, id)
-    yield put({type: `${type}__SUCCESS`, payload: normalize(device, Schemas.device).entities})
-    yield put(push("/devices"))
-    yield put(addToast("success", alert))
-  } catch (e) {
-    if(e.type === "VALIDATION_FAILURE"){
-      yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
-    } else {
-      yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{formError: "An unexpected error has occurred"}}})
-    }
-  }
-}
-*/
-
-function* deviceCreateFormSaga(method, type, formKey, id, values, alert){
-  try {
-    const actionIds = yield select(getActionForms),
-          device = {
-            name: values.name
-          }
-    if(actionIds.length > 0){
-      device.actions = actionIds.map(actionId => utils.makeAction(values, `actions[${actionId}].`))
+      device.actions = actionIds.map(makeActionMappingFunc(values, `actions[${id}].`, id))
     }
     yield call(validateDevice, device)
     const response = yield call(deviceRequest, method, device, id);
@@ -92,35 +69,12 @@ function* deviceCreateFormSaga(method, type, formKey, id, values, alert){
   }
 }
 
-function* deviceUpdateFormSaga(method, type, formKey, id, values, alert){
-  try {
-    const actionIds = yield select(getActionForms),
-          device = {
-            name: values.name
-          }
-    if(actionIds.length > 0){
-      device.actions = actionIds.map(actionId => ({id: actionId, ...utils.makeAction(values, `actions[${actionId}].`)}))
-    }
-    yield call(validateDevice, device)
-    const response = yield call(deviceRequest, method, device, id)
-    yield put({type: `${type}__SUCCESS`, payload: normalize(response, Schemas.device).entities})
-    yield put(push("/devices"))
-    yield put(addToast("success", alert))
-  } catch (e) {
-    if(e.type === "VALIDATION_FAILURE"){
-      yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
-    } else {
-      yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{formError: "An unexpected error has occurred"}}})
-    }
-  }
-}
-
 export function* createDeviceSaga({type,payload:{values,formKey}}){
-  yield call(deviceCreateFormSaga, 'multipost', type, formKey, undefined, values, "Device successfully created.")
+  yield call(deviceFormSaga, 'multipost', type, formKey, undefined, values, "Device successfully created.")
 }
 
 export function* updateDeviceSaga({type,payload:{formKey,id,values}}){
-  yield call(deviceUpdateFormSaga, 'multiput', type, formKey, id, values, "Device successfully updated.")
+  yield call(deviceFormSaga, 'multiput', type, formKey, id, values, "Device successfully updated.")
 }
 
 export function* deviceListSaga(action){

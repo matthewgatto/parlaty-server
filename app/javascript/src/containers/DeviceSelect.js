@@ -11,17 +11,23 @@ import {getDeviceMap} from '@selectors/device';
 const DeviceSelect = withField(withSelectContainer(SelectComponent));
 
 class DeviceSelectClass extends React.PureComponent {
+  componentDidMount(){
+    this.selectFirstActionWithParameterValues()
+  }
   componentDidUpdate(prevProps){
     if(prevProps.value !== this.props.value){
-      var action;
-      for (var i = 0; i < this.props.actions.length; i++) {
-        if(this.props.actions[i].parameter_name && this.props.actions[i].parameter_value_8_pack){
-          action = this.props.actions[i];
-          break;
-        }
-      }
-      this.props.setSelectedAction(action);
+      this.selectFirstActionWithParameterValues()
     }
+  }
+  selectFirstActionWithParameterValues = () => {
+    var action;
+    for (var i = 0; i < this.props.actions.length; i++) {
+      if(this.props.actions[i].parameter_name && this.props.actions[i].parameter_value_8_pack){
+        action = this.props.actions[i];
+        break;
+      }
+    }
+    this.props.setSelectedAction(action);
   }
   render(){
     const {value,actions,selectedAction,setSelectedAction,...props} = this.props;
@@ -35,7 +41,6 @@ class DeviceSelectClass extends React.PureComponent {
 const DeviceSelectContainer = (props) => {
   const [selectedAction, setSelectedAction] = useState()
   const actions = useSelector(({devices,actions}) => devices.byId[props.value].actions.map(actionId => actions.byId[actionId]))
-  console.log("actions", actions);
   return <DeviceSelectClass {...props} actions={actions} selectedAction={selectedAction} setSelectedAction={setSelectedAction} />
 }
 
