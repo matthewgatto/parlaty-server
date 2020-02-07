@@ -10,7 +10,18 @@ device.define({
   actions: [action]
 })
 const step = new schema.Entity("steps", {}, {
-  processStrategy: (step, procedure) => (!step.procedure_id && procedure && procedure.id) ? ({procedure_id: procedure.id, ...step}) : step
+  processStrategy: (step, procedure) => {
+    if(!step.procedure_id && procedure && procedure.id){
+      step.procedure_id = procedure.id
+    }
+    if(!step.time){
+      step.time = 8
+    }
+    if(!step.mode){
+      step.mode = "continuous"
+    }
+    return step
+  }
 });
 step.define({
   procedure_id: procedure,
