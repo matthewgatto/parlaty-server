@@ -3,6 +3,6 @@ import Button,{Text} from '../Button';
 
 export default ({onClick}) => (
   <Button light onClick={onClick}>
-    <Text>Close</Text>
+    <Text>Cancel</Text>
   </Button>
 )

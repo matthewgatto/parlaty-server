@@ -47,6 +47,34 @@ const ParameterNameInput = ({root, ...props}) => (<>
   </>)
 
 
+export const StatelessParameters = ({action}) => (
+  <FieldWrapper className={styles.container}>
+    <LabelWrapper>
+      <div>Action Parameters</div>
+    </LabelWrapper>
+    <div className={`${styles.row} align_center`}>
+    {action ? (<>
+        <div className={`${styles.nameFieldContainer} align_center`}>
+        <div className={styles.label}>
+          Name:
+        </div>
+        <div className={`${styles.nameFieldInputWrapper} align_center`}>
+          {action.parameter_name}
+        </div>
+        </div>
+        <div className={`${styles.valueFieldContainer} align_center`}>
+        <div className={styles.label}>
+          Value:
+        </div>
+        <div className={`${styles.valueFieldInputWrapper} align_center`}>
+          {action.parameter_value_8_pack}
+        </div>
+        </div>
+    </>) : <div className={styles.actionParameterPlaceholder}>No action selected</div>}
+    </div>
+  </FieldWrapper>
+)
+
 export default ({root, formKey, initialName, initialValue}) => (
   <FieldWrapper className={styles.container}>
     <LabelWrapper>

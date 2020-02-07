@@ -43,3 +43,8 @@
 .nameFieldInputWrapper,.valueFieldInputWrapper {
   flex-grow: 1;
 }
+
+.actionParameterPlaceholder {
+  padding: 0 0.4em;
+  color: #888;
+}
