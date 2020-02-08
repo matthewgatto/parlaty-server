@@ -45,8 +45,11 @@ class ProceduresController < ApplicationController
 		if !( is_p_admin? || cuser_is?("Oem", oemb.oem_id) || cuser_is?("OperatorAdmin", arr_of_oa) )
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
-
-		@steps = Step.find(@procedure.steps_order)
+		begin
+			@steps = Step.find(@procedure.steps_order)
+		rescue ActiveRecord::RecordNotFound
+			
+		end
 		#@steps = Step.includes(:visuals).find(@procedure.steps_order)
 		#json output defined in app/views/procedures/show.json.jb
 	end
