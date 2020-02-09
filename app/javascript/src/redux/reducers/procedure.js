@@ -28,6 +28,7 @@ const allProcedures = (state = null, {type,payload}) => {
 
 const proceduresById = (state = {}, {type,payload}) => {
   switch (type) {
+
     case types.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case types.UPDATE_PROCEDURE_REQUEST__SUCCESS:
     case types.FETCH_PROCEDURE_REQUEST__SUCCESS:
@@ -37,6 +38,7 @@ const proceduresById = (state = {}, {type,payload}) => {
       if(payload.procedures){
         return merge({}, state, payload.procedures)
       }
+      return state;
     case DELETE_STEP_REQUEST__SUCCESS:
       return {
         ...state,

@@ -14,6 +14,7 @@ export default (state = {}, {type,payload}) => {
           ...payload.actions
         }
       }
+      return state;
     case deviceTypes.FETCH_DEVICES_REQUEST__SUCCESS:
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(payload.actions){

@@ -28,6 +28,7 @@ const allOems = (state = null, {type, payload}) => {
       if(!payload.oems || payload.auth.roleable_type !== "Oem"){
         return state
       }
+      return state;
     case types.FETCH_OEMS_REQUEST__SUCCESS:
     case types.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case types.CREATE_OEM_REQUEST__SUCCESS:
