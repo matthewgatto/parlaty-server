@@ -14,6 +14,9 @@ export default (state = {}, {type,payload}) => {
     case UPDATE_PROCEDURE_REQUEST__SUCCESS:
     case FETCH_PROCEDURE_REQUEST__SUCCESS:
       return merge({}, state, payload.steps)
+    case types.DELETE_STEP_REQUEST__SUCCESS:
+      const {[payload.id]:removedStep,...remainingSteps} = state;
+      return remainingSteps
     default:
       return state
   }
