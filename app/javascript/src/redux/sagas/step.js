@@ -76,10 +76,10 @@ function* updateStepSaga({procedure, step, from, to, initialValues}){
 }
 
 
-export function* deleteStepSaga({payload}){
+export function* deleteStepSaga({type, payload}){
   try {
-    yield put({type: "DELETE_STEP_REQUEST__SUCCESS", payload})
-    yield fork(API.delete, `/steps/${payload.id}`)
+    yield call(API.delete, `/steps/${payload.id}`)
+    yield put({type: `${type}__SUCCESS`, payload})
   } catch (e) {
 
   }

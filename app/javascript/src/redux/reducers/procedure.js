@@ -7,7 +7,8 @@ import {
 } from '@types/business';
 import {
   STEP_SAVE_REQUEST__SUCCESS,
-  REORDER_STEP_REQUEST__SUCCESS
+  REORDER_STEP_REQUEST__SUCCESS,
+  DELETE_STEP_REQUEST__SUCCESS
 } from '@types/step';
 
 
@@ -35,6 +36,14 @@ const proceduresById = (state = {}, {type,payload}) => {
     case REORDER_STEP_REQUEST__SUCCESS:
       if(payload.procedures){
         return merge({}, state, payload.procedures)
+      }
+    case DELETE_STEP_REQUEST__SUCCESS:
+      return {
+        ...state,
+        [payload.procedure_id]: {
+          ...state[payload.procedure_id],
+          steps: [...state[payload.procedure_id].steps.slice(0,payload.idx), ...state[payload.procedure_id].steps.slice(payload.idx+1)]
+        }
       }
     default:
       return state;

@@ -8,12 +8,15 @@ import * as procedureTypes from '@types/procedure';
 const allDevices = (state = [], {type,payload}) => {
   switch (type) {
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
-    case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
-    case types.FETCH_DEVICES_REQUEST__SUCCESS:
       if(payload.devices){
         return addIds(state, payload.devices)
+      }
+    case types.FETCH_DEVICES_REQUEST__SUCCESS:
+    case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
+      if(payload.devices){
+        return Object.keys(payload.devices)
       }
     default:
       return state;
@@ -24,16 +27,19 @@ const allDevices = (state = [], {type,payload}) => {
 const devicesById = (state = {}, {type,payload}) => {
   switch (type) {
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
-    case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
     case types.UPDATE_DEVICE_REQUEST__SUCCESS:
-    case types.FETCH_DEVICES_REQUEST__SUCCESS:
       if(payload.devices){
         return {
           ...state,
           ...payload.devices
         }
+      }
+    case types.FETCH_DEVICES_REQUEST__SUCCESS:
+    case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
+      if(payload.devices){
+        return payload.devices
       }
     default:
       return state;

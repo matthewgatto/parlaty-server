@@ -39,7 +39,7 @@ export default ({device_id, header,...props}) => (
           <div>
             <div className={styles.columnTitle}>Device Actions</div>
             <ActionFormList formKey={formKey} device_id={device_id} initialActions={props.initialValues && props.initialValues.actions} />
-            <SubmitButton formKey={formKey} onClick={handleSubmit} label="Submit" className={styles.submit} />
+            <SubmitButton formKey={formKey} onClick={handleSubmit} label="Save" className={styles.submit} />
           </div>
         </>)}
     </Form>
