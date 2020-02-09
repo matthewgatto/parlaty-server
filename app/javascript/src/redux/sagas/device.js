@@ -61,6 +61,7 @@ function* deviceFormSaga(method, type, formKey, id, values, alert){
     yield put(push("/devices"))
     yield put(addToast("success", alert))
   } catch (e) {
+    console.log("deviceFormSaga ERROR", e);
     if(e.type === "VALIDATION_FAILURE"){
       yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
     } else {

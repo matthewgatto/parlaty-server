@@ -29,6 +29,7 @@ const allProcedures = (state = null, {type,payload}) => {
 
 const proceduresById = (state = {}, {type,payload}) => {
   switch (type) {
+
     case types.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case types.UPDATE_PROCEDURE_REQUEST__SUCCESS:
     case types.FETCH_PROCEDURE_REQUEST__SUCCESS:

@@ -117,6 +117,7 @@ export function* stepSaveSaga({type,payload:{values,root,procedure_id,formKey,st
     }
     yield put(closeStepForm(newIdx))
   } catch (e) {
+    console.log("stepSaveSaga ERROR", e);
     if(e.type === "VALIDATION_FAILURE"){
       yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
     } else {

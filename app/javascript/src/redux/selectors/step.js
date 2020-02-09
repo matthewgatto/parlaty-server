@@ -10,7 +10,7 @@ export const getStepDataIfOpen = (state,id) => {
   return stepMeta && stepMeta.id === id ? stepMeta : false
 }
 export const getStepFormData = (id, idx) => (state) => {
-  return({storeData: getStepById(state,id), ...state.steps.forms[idx]})
+  return({storeValues: getStepById(state,id), ...state.steps.forms[idx]})
 }
 
 export const getStepSaveData = (state) => {
