@@ -47,7 +47,7 @@ const ParameterNameInput = ({root, ...props}) => (<>
   </>)
 
 
-export const StatelessParameters = ({action}) => (
+export const StatelessParameters = ({action, value}) => (
   <FieldWrapper className={styles.container}>
     <LabelWrapper>
       <div>Action Parameters</div>
@@ -70,7 +70,7 @@ export const StatelessParameters = ({action}) => (
           {action.parameter_value_8_pack}
         </div>
         </div>
-    </>) : <div className={styles.actionParameterPlaceholder}>No action selected</div>}
+    </>) : <div className={styles.actionParameterPlaceholder}>{value ? "No action selected" : "No device selected"}</div>}
     </div>
   </FieldWrapper>
 )

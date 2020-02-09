@@ -23,7 +23,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
           <CheckBox formKey={formKey} label="Option to Skip" root={root} name="safety" defaultValue={initialValues.safety || false} />
         </div>
         <Input as="input" defaultValue={initialValues.location} formKey={formKey} type="text" label="Subtitle" root={root} name="location"  />
-        <DeviceSelect options={devices} label="Device" root={root} name="device_id" defaultValue={/*REMOVE*/(initialValues.device_id && !isNaN(initialValues.device_id)) ? initialValues.device_id : 1} />
+        <DeviceSelect options={devices} label="Device" root={root} name="device_id" defaultValue={initialValues.device_id && !isNaN(initialValues.device_id) && initialValues.device_id} />
         <div>
           <ImageInput formKey={formKey} defaultValue={initialValues.visual} label="Image*" root={root} name="visual" />
         </div>

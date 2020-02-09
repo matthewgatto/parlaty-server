@@ -10,6 +10,9 @@ export default (state = [], {type, payload}) => {
       return [...state.slice(0,payload),...state.slice(payload+1)]
     case types.REORDER_STEP_REQUEST:
       return immutableMove(state, payload.from, payload.to)
+    case types.OPEN_STEP_FORM:
+      console.log("RETURN", [...state.slice(0,payload.idx),{...payload, isOpen: true},...state.slice(payload.idx+1)]);
+      return [...state.slice(0,payload.idx),{...payload, isOpen: true},...state.slice(payload.idx+1)]
     case LOCATION_CHANGE:
       return [];
     case types.LOAD_STEP_FORMS:

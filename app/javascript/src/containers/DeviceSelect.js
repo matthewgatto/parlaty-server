@@ -12,10 +12,12 @@ const DeviceSelect = withField(withSelectContainer(SelectComponent));
 
 class DeviceSelectClass extends React.PureComponent {
   componentDidMount(){
-    this.selectFirstActionWithParameterValues()
+    if(this.props.value){
+      this.selectFirstActionWithParameterValues()
+    }
   }
   componentDidUpdate(prevProps){
-    if(prevProps.value !== this.props.value){
+    if(this.props.value && prevProps.value !== this.props.value){
       this.selectFirstActionWithParameterValues()
     }
   }
@@ -32,15 +34,15 @@ class DeviceSelectClass extends React.PureComponent {
   render(){
     const {value,actions,selectedAction,setSelectedAction,...props} = this.props;
     return(<>
-      <DeviceSelect value={value} {...props} />
+      <DeviceSelect value={value} {...props} placeholder="Choose A Device" />
       <ActionList actions={actions} selectedAction={selectedAction} setSelectedAction={setSelectedAction} />
-      <StatelessParameters action={selectedAction} />
+      <StatelessParameters action={selectedAction} value={value} />
     </>)
   }
 }
 const DeviceSelectContainer = (props) => {
   const [selectedAction, setSelectedAction] = useState()
-  const actions = useSelector(({devices,actions}) => devices.byId[props.value].actions.map(actionId => actions.byId[actionId]))
+  const actions = useSelector(({devices,actions}) => (props.value && devices.byId[props.value]) ? devices.byId[props.value].actions.map(actionId => actions.byId[actionId]) : undefined)
   return <DeviceSelectClass {...props} actions={actions} selectedAction={selectedAction} setSelectedAction={setSelectedAction} />
 }
 
