@@ -31,6 +31,8 @@ class DevicesController < ApplicationController
     deviceId = params[:id]
     @device = Device.find(deviceId)
     if (@device)
+      @device.name = device_params[:name]
+      @device.save
       count = 0
       while params[:device][:actions] && count < params[:device][:actions].count
         actionParams = action_params(count)
