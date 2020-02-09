@@ -20,6 +20,7 @@ const allProcedures = (state = null, {type,payload}) => {
       if(payload.procedures){
         return addIds(state, payload.procedures)
       }
+      return state;
     default:
       return state;
   }
@@ -37,6 +38,7 @@ const proceduresById = (state = {}, {type,payload}) => {
       if(payload.procedures){
         return merge({}, state, payload.procedures)
       }
+      return state;
     case DELETE_STEP_REQUEST__SUCCESS:
       return {
         ...state,

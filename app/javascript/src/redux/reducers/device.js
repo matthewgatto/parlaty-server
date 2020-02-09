@@ -13,6 +13,7 @@ const allDevices = (state = [], {type,payload}) => {
       if(payload.devices){
         return addIds(state, payload.devices)
       }
+      return state
     case types.FETCH_DEVICES_REQUEST__SUCCESS:
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(payload.devices){
@@ -36,6 +37,7 @@ const devicesById = (state = {}, {type,payload}) => {
           ...payload.devices
         }
       }
+      return state;
     case types.FETCH_DEVICES_REQUEST__SUCCESS:
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(payload.devices){

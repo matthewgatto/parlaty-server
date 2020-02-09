@@ -7,7 +7,7 @@ import withDND from '@components/withDND';
 import Placeholder from '@components/Placeholder';
 import Step from './Step';
 
-const StepList = withDND(({steps, ...props}) => steps.map((id, idx) => <Step key={id} id={id} idx={idx} {...props} />))
+const StepList = withDND(({steps, ...props}) => steps.map((step, idx) => <Step key={step.id} id={step.id} idx={idx} {...props} />))
 
 const makePositionOptions = (stepCount) => {
   const options = [{value: 1, label: "Number 1"}]

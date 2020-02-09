@@ -14,7 +14,6 @@ export default ({formKey,...props}) => {
         root = `steps[${props.id}].`,
         stepFormKey = `step,${props.id}`,
         initialValues = stepMeta.isDuplicate ? stepMeta.formValues : (stepMeta.storeValues || {})
-  console.log("stepMeta", stepMeta);
   var title;
   if(stepMeta.isDuplicate && (!stepMeta.formValues || !stepMeta.formValues.title)){
     title = "New Step"
