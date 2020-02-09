@@ -9,14 +9,14 @@ export default ({initialValues, isDuplicate, root, idx}) => {
   const dispatch = useDispatch();
   const handleCancelButtonClick = () => {
     if(!isDuplicate){
-      dispatch(setStepForm(null))
+      dispatch(closeStepForm(idx))
       for (var field in initialValues) {
         if (initialValues.hasOwnProperty(field)) {
           setValue(`${root}${field}`, initialValues[field])
         }
       }
     } else {
-      dispatch(setStepForm(null))
+      dispatch(closeStepForm(idx))
       dispatch(removeStepForm(idx))
     }
   }

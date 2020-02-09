@@ -10,7 +10,7 @@ export const getStepDataIfOpen = (state,id) => {
   const stepMeta = getStepMeta(state);
   return stepMeta && stepMeta.id === id ? stepMeta : false
 }
-export const getStepFormData = (id) => (state) => ({initialValue: getStepById(state,id), isOpen: getStepDataIfOpen(state,id)})
+export const getStepFormData = (id) => (state) => ({initialValue: getStepById(state,id), isOpen: getStepOpenValue})
 
 export const getStepSaveData = (state) => {
   const stepMeta = getStepMeta(state)

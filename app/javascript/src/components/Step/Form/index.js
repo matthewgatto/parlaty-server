@@ -6,7 +6,6 @@ import FormError from '@containers/FormError';
 import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
 import { Input, CheckBox, Select, ImageInput, AudioInput, ModeRadio } from '@components/Inputs';
-//import ParameterFields from '@components/Inputs/Parameter';
 import styles from './index.module.css';
 
 export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, positions, initialValues, devices, timeOptions, procedureFormKey, handleCloseForm}) => (
@@ -25,7 +24,6 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         </div>
         <Input as="input" defaultValue={initialValues.location} formKey={formKey} type="text" label="Subtitle" root={root} name="location"  />
         <DeviceSelect options={devices} label="Device" root={root} name="device_id" defaultValue={/*REMOVE*/(initialValues.device_id && !isNaN(initialValues.device_id)) ? initialValues.device_id : 1} />
-        {/*<ParameterFields initialName={initialValues.parameter_name ? initialValues.parameter_name : undefined} initialValue={initialValues.parameter_value_8_pack ? initialValues.parameter_value_8_pack : undefined} formKey={formKey} root={root} />*/}
         <div>
           <ImageInput formKey={formKey} defaultValue={initialValues.visual} label="Image*" root={root} name="visual" />
         </div>

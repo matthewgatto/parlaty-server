@@ -25,14 +25,14 @@ export default ({formKey,...props}) => {
   }
   const handleCloseForm = () => {
     if(!isDuplicate){
-      dispatch(setStepForm(null))
+      dispatch(closeStepForm(props.idx))
       for (var field in initialValues) {
         if (initialValues.hasOwnProperty(field)) {
           setValue(`${root}${field}`, initialValues[field])
         }
       }
     } else {
-      dispatch(setStepForm(null))
+      dispatch(closeStepForm(props.idx))
       dispatch(removeStepForm(props.idx))
     }
   }

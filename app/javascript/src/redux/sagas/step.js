@@ -1,53 +1,15 @@
 import { call, put, select, fork } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import {
-  reorderImage,
-  removeImage,
-  updateImage,
-  addImage,
-  reIndexImages,
   setStepForm,
-  reorderStep,
-  removeImageAndReIndex
-} from '@actions/step'
-import {getDeviceName} from '@selectors/device';
+  reorderStep
+} from '@actions/step';
 import {getProcedureById} from '@selectors/procedure';
 import {getStepSaveData} from '@selectors/step';
 import * as utils from '@utils';
 import { stepSchema } from '@utils/validation';
 import Schemas from '@utils/models';
 import API from '@utils/API';
-
-function* handleNewStep(stepMeta, formKey, step, idx, newIdx){
-  const initialImage = (!stepMeta.isDuplicate && stepMeta.initialValues && stepMeta.initialValues.visual) ? stepMeta.initialValues.visual : false;
-  var src = step.visual instanceof File ? (
-    yield call(utils.readFile, step.visual)
-  ) : (
-    step.visual
-  );
-  if(!stepMeta.isDuplicate){
-    if(idx != newIdx){
-      if(initialImage && !step.visual){
-        yield put(removeImageAndReIndex(idx, newIdx))
-      } else {
-        yield put(reorderStep(idx, newIdx, step.visual && {id: stepMeta.id, idx: newIdx, src}))
-      }
-    } else if(!initialImage && step.visual){
-      yield put(addImage({id: stepMeta.id, idx: newIdx, src}))
-    } else if(initialImage && step.visual && initialImage != step.visual){
-      yield put(updateImage(stepMeta.id, {src}))
-    } else if(initialImage && !step.visual){
-      yield put(removeImage(stepMeta.id))
-    }
-  } else {
-    if(idx != newIdx){
-      yield put(reorderStep(idx, newIdx, step.visual ? {id: stepMeta.id, idx: newIdx, src} : undefined))
-    } else if(step.visual){
-      yield put(addImage({id: stepMeta.id, idx: newIdx, src}, true))
-    }
-  }
-  yield put(setStepForm(null))
-}
 
 export const cleanStepParams = ({id,number,audio,visual,...step}) => {
   if(visual){
@@ -150,7 +112,10 @@ export function* stepSaveSaga({type,payload:{values,root,procedure_id,formKey,st
         yield call(updateStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
       }
     }
-    yield call(handleNewStep, stepMeta, formKey, step, idx, newIdx);
+    if(idx !== newIdx){
+      yield put(reorderStep(idx, newIdx))
+    }
+    yield put(closeStepForm(newIdx))
   } catch (e) {
     if(e.type === "VALIDATION_FAILURE"){
       yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
