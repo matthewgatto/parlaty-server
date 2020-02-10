@@ -12,7 +12,7 @@ const DeviceSelect = withField(withSelectContainer(SelectComponent));
 
 class DeviceSelectClass extends React.PureComponent {
   componentDidMount(){
-    if(this.props.value && this.props.actions && this.props.actions.length > 0){
+    if(this.props.value && this.props.actions.length > 0){
       this.selectFirstActionWithParameterValues()
     }
   }
