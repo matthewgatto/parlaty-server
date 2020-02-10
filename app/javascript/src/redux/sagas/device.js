@@ -1,4 +1,4 @@
-import { put, select, call, fork } from 'redux-saga/effects';
+import { put, select, call, fork, take } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import uuid from 'uuid/v4';
 import { normalize } from 'normalizr';
@@ -92,7 +92,8 @@ export function* deviceListSaga(action){
 
 export function* getFreshDeviceData(){
   const loggedInFromStorage = yield select(({auth}) => auth && auth.jwt)
-  if(loggedInFromStorage){
-    yield call(deviceListSaga, {type: "FETCH_DEVICES_REQUEST"})
+  if(!loggedInFromStorage){
+    yield take("CREATE_AUTH_REQUEST__SUCCESS")
   }
+  yield call(deviceListSaga, {type: "FETCH_DEVICES_REQUEST"})
 }
