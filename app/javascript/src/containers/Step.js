@@ -2,14 +2,14 @@ import React,{useCallback,useEffect} from 'react';
 import { useFormContext } from "react-hook-form";
 import { useSelector,useDispatch } from 'react-redux';
 import {mountForm,unmountForm} from '@actions/form';
-import {setStepForm,removeStepForm} from '@actions/step';
+import {closeStepForm,removeStepForm} from '@actions/step';
 import {getStepFormData} from '@selectors/step';
 import Step from '@components/Step/Form';
 
 const TIME_OPTIONS = [{value: 1, label: "1 second"}, {value: 2, label: "2 seconds"}, {value: 3, label: "3 seconds"}, {value: 4, label: "4 seconds"}, {value: 5, label: "5 seconds"}, {value: 6, label: "6 seconds"}, {value: 7, label: "7 seconds"}, {value: 8, label: "8 seconds"}]
 export default ({formKey,...props}) => {
   const { getValues, setValue } = useFormContext(),
-        stepMeta = useSelector(getStepFormData(props.id)),
+        stepMeta = useSelector(getStepFormData(props.id, props.idx)),
         dispatch = useDispatch(),
         root = `steps[${props.id}].`,
         stepFormKey = `step,${props.id}`,
@@ -31,15 +31,12 @@ export default ({formKey,...props}) => {
         }
       }
     } else {
-      dispatch(closeStepForm(props.idx))
       dispatch(removeStepForm(props.idx))
     }
   }
   useEffect(() => {
     dispatch(mountForm(stepFormKey));
-    return () => {
-      dispatch(unmountForm(stepFormKey));
-    }
+    return () => dispatch(unmountForm(stepFormKey));
   }, [])
   useEffect(() => {
     setValue(`${root}number`, props.idx+1)
