@@ -9,19 +9,21 @@ const handleUpdatePasswordSuccess = pushAndNotify('/',"Your password was success
 const handlePasswordResetEmailSuccess = pushAndNotify('/',"A password recovery link has been sent to your email.")
 const handleInviteConfirmationSuccess = pushAndNotify('/',"Your password has been set, you may now login.")
 
-function handleLoginResponse({oem_businesses,devices,...auth}){
+function handleLoginResponse({oem_businesses,/*devices,*/...auth}){
   const initialState = {auth};
   if(auth.roleable_type === "Oem"){
     const {entities:{oems,businesses}} = normalize({id: auth.user_id, name: auth.name, email: auth.email, businesses: oem_businesses}, Schemas.oem)
     initialState.oems = oems;
     initialState.businesses = businesses || {};
   }
+  /*
   if(devices){
     const normalizedDeviceData = normalize(devices, [Schemas.device])
     initialState.devices = normalizedDeviceData.entities.devices;
     initialState.actions = normalizedDeviceData.entities.actions;
   }
-  localStorage.setItem('login_data_1_30', JSON.stringify(initialState));
+  */
+  localStorage.setItem('login_data_2_09', JSON.stringify(initialState));
   API.setToken(auth.jwt);
   return initialState;
 }

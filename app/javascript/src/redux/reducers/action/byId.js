@@ -5,6 +5,11 @@ import * as procedureTypes from '@types/procedure';
 
 export default (state = {}, {type,payload}) => {
   switch (type) {
+    case deviceTypes.FETCH_DEVICES_REQUEST__SUCCESS:
+      if(payload.actions){
+        return payload.actions
+      }
+      return {}
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case deviceTypes.CREATE_DEVICE_REQUEST__SUCCESS:
     case deviceTypes.UPDATE_DEVICE_REQUEST__SUCCESS:
@@ -13,12 +18,6 @@ export default (state = {}, {type,payload}) => {
           ...state,
           ...payload.actions
         }
-      }
-      return state;
-    case deviceTypes.FETCH_DEVICES_REQUEST__SUCCESS:
-    case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
-      if(payload.actions){
-        return payload.actions
       }
     default:
       return state
