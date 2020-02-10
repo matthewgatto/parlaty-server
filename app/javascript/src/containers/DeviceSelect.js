@@ -12,21 +12,23 @@ const DeviceSelect = withField(withSelectContainer(SelectComponent));
 
 class DeviceSelectClass extends React.PureComponent {
   componentDidMount(){
-    if(this.props.value && this.props.actions && this.props.actions.length > 0){
+    if(this.props.value){
       this.selectFirstActionWithParameterValues()
     }
   }
   componentDidUpdate(prevProps){
-    if(this.props.value && prevProps.value !== this.props.value && this.props.actions && this.props.actions.length > 0){
+    if(prevProps.value !== this.props.value){
       this.selectFirstActionWithParameterValues()
     }
   }
   selectFirstActionWithParameterValues = () => {
     var action;
-    for (var i = 0; i < this.props.actions.length; i++) {
-      if(this.props.actions[i].parameter_name && this.props.actions[i].parameter_value_8_pack){
-        action = this.props.actions[i];
-        break;
+    if(this.props.actions && this.props.actions.length > 0){
+      for (var i = 0; i < this.props.actions.length; i++) {
+        if(this.props.actions[i].parameter_name && this.props.actions[i].parameter_value_8_pack){
+          action = this.props.actions[i];
+          break;
+        }
       }
     }
     this.props.setSelectedAction(action);
@@ -47,5 +49,5 @@ const DeviceSelectContainer = (props) => {
 }
 
 export default ({defaultValue, root,...props}) => (
-  <Controller defaultValue={defaultValue || 1} name={makeName(root, props.name)} as={<DeviceSelectContainer {...props} />} />
+  <Controller defaultValue={defaultValue} name={makeName(root, props.name)} as={<DeviceSelectContainer {...props} />} />
 )
