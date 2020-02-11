@@ -1,11 +1,11 @@
 import { call, put, select, fork } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import {
-  setStepForm,
-  reorderStep
+  reorderStep,
+  closeStepForm
 } from '@actions/step';
 import {getProcedureById} from '@selectors/procedure';
-import {getStepSaveData} from '@selectors/step';
+import {getStepFormData} from '@selectors/step';
 import * as utils from '@utils';
 import { stepSchema } from '@utils/validation';
 import Schemas from '@utils/models';
@@ -44,7 +44,7 @@ function* createStepSaga({procedure, step, from, to, initialValues}){
     } else {
       steps = [...procedure.steps, response]
     }
-    yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize({id:procedure.id, steps}, Schemas.procedure).entities});
+    return {...normalize({id:procedure.id, steps}, Schemas.procedure).entities,id: response.id}
   } catch (e) {
     throw e
   }
@@ -66,9 +66,9 @@ function* updateStepSaga({procedure, step, from, to, initialValues}){
       } else {
         steps = [...procedure.steps.slice(0, from), ...procedure.steps.slice(from+1, to+1), response, ...procedure.steps.slice(to + 1)]
       }
-      yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize({id:procedure.id, steps}, Schemas.procedure).entities})
+      return {...normalize({id:procedure.id, steps}, Schemas.procedure).entities, id: response.id}
     } else {
-      yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: normalize(response, Schemas.step).entities})
+      return {...normalize(response, Schemas.step).entities, id: response.id}
     }
   } catch (e) {
     throw e
@@ -98,26 +98,26 @@ const validateStep = async (step, root) => {
 }
 
 
-export function* stepSaveSaga({type,payload:{values,root,procedure_id,formKey,stepFormKey}}){
+export function* stepSaveSaga({type,payload:{values,root,procedure_id,id,idx,formKey}}){
   try {
-    const {stepMeta, idx} = yield select(getStepSaveData);
+    const stepMeta = yield select(getStepFormData(id, idx));
     const step = utils.makeStep(values, root);
     yield call(validateStep, step, root)
     const newIdx = step.number - 1;
+    var successPayload = {};
     if(procedure_id){
       const procedure = yield select(getProcedureById(procedure_id));
       if(stepMeta.isDuplicate){
-        yield call(createStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
+        successPayload = yield call(createStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
       } else {
-        yield call(updateStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
+        successPayload = yield call(updateStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
       }
     }
     if(idx !== newIdx){
-      yield put(reorderStep(idx, newIdx))
+      yield put(reorderStep(idx, newIdx, procedure_id))
     }
-    yield put(closeStepForm(newIdx))
+    yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: {idx: newIdx, formKey, ...successPayload}});
   } catch (e) {
-    console.log("stepSaveSaga ERROR", e);
     if(e.type === "VALIDATION_FAILURE"){
       yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
     } else {

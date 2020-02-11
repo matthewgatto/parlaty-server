@@ -1,12 +1,12 @@
 import React from "react";
-import { Draggable } from "react-beautiful-dnd";
+
 import { useFormContext } from "react-hook-form";
 import { useSelector,useDispatch } from 'react-redux';
 import {openStepForm,addStepForm,deleteStep,removeStepForm} from '@actions/step';
 import StepHeader from '@components/Step/Header';
 import {makeStep} from '@utils';
 
-export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root, handleCloseForm}) => {
+export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root, handleCloseForm, isDragging}) => {
   const { getValues } = useFormContext()
   const dispatch = useDispatch();
   const handleClick = () => {
@@ -27,9 +27,5 @@ export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root, handle
     }
     dispatch(removeStepForm(idx))
   }
-  return (
-    <Draggable draggableId={id} index={idx}>
-      {(provided, snapshot) => <StepHeader idx={idx} title={title} isOpen={isOpen} isDuplicate={isDuplicate} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} setRef={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} onClick={handleClick} isDragging={snapshot.isDragging} />}
-    </Draggable>
-  )
+  return (<StepHeader idx={idx} title={title} isOpen={isOpen} isDuplicate={isDuplicate} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} onClick={handleClick} isDragging={isDragging} />)
 }

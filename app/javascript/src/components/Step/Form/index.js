@@ -8,8 +8,8 @@ import StepCancelButton from '@components/Step/CancelButton';
 import { Input, CheckBox, Select, ImageInput, AudioInput, ModeRadio } from '@components/Inputs';
 import styles from './index.module.css';
 
-export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, positions, initialValues, devices, timeOptions, procedureFormKey, handleCloseForm}) => (
-  <>
+export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, positions, initialValues, devices, timeOptions, procedureFormKey, handleCloseForm, isDragging, provided}) => (
+  <div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
     <StepHeader isDuplicate={isDuplicate} isOpen={isOpen ? true : false} title={title} procedure_id={procedure_id} idx={idx} id={id} root={root} handleCloseForm={handleCloseForm} />
     <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
       <div className={styles.container}>
@@ -33,9 +33,9 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         <div className={styles.error}>
           <FormError formKey={formKey} large />
         </div>
-        <StepSaveButton root={root} formKey={formKey} id={id} procedure_id={procedure_id} procedureFormKey={procedureFormKey} />
+        <StepSaveButton root={root} formKey={formKey} id={id} procedure_id={procedure_id} procedureFormKey={procedureFormKey} idx={idx} />
         <StepCancelButton onClick={handleCloseForm} />
       </div>
     </AnimateHeight>
-  </>
+  </div>
 )

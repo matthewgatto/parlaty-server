@@ -30,7 +30,7 @@ export default function* appSagas(){
     yield takeEvery(procedureTypes.UPDATE_PROCEDURE_REQUEST, procedure.updateProcedureSaga),
     yield takeEvery(procedureTypes.FETCH_PROCEDURE_REQUEST, procedure.fetchProcedureSaga),
     yield takeEvery(stepTypes.STEP_SAVE_REQUEST, step.stepSaveSaga),
-    //yield takeEvery(stepTypes.REORDER_STEP_REQUEST, step.reorderStepSaga),
+    yield takeEvery(stepTypes.REORDER_STEP_REQUEST, step.reorderStepSaga),
     yield takeEvery(stepTypes.DELETE_STEP_REQUEST, step.deleteStepSaga),
     yield takeEvery(deviceTypes.FETCH_DEVICES_REQUEST, device.deviceListSaga),
     yield fork(device.getFreshDeviceData),

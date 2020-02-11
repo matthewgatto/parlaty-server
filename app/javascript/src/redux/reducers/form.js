@@ -6,14 +6,13 @@ import * as stepTypes from '@types/step'
 import * as formTypes from '@types/form';
 import * as deviceTypes from '@types/device';
 
-const setProcessing = i => ({
-  ...i,
-  isProcessing: true,
-  errors: {}
-})
 const startFormProcessing = (state,id) => ({
   ...state,
-  [id]: setProcessing(state[id])
+  [id]: {
+    ...state[id],
+    isProcessing: true,
+    errors: {}
+  }
 })
 const mountForm = (state,{id,initialValues}) => ({
   ...state,
@@ -78,8 +77,14 @@ export default (state = initialState, {type, payload}) => {
   if(isFormSubmitFailureAction(type)){
     return setFormErrors(state, payload)
   }
-  if(type === stepTypes.STEP_SAVE_REQUEST){
-    return startStepFormProcessing(state,payload)
+  if(type === stepTypes.STEP_SAVE_REQUEST__SUCCESS){
+    return {
+      ...state,
+      [payload.formKey]: {
+        ...state[payload.formKey],
+        isProcessing: false
+      }
+    }
   }
   if(type === formTypes.MOUNT_FORM){
     return mountForm(state, payload)

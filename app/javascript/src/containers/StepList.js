@@ -1,4 +1,5 @@
 import React,{useCallback} from 'react';
+import { Draggable } from "react-beautiful-dnd";
 import { useSelector,useDispatch } from 'react-redux';
 import {setStepForm,reorderStep} from '@actions/step';
 import {getStepForms} from '@selectors/step';
@@ -7,7 +8,11 @@ import withDND from '@components/withDND';
 import Placeholder from '@components/Placeholder';
 import Step from './Step';
 
-const StepList = withDND(({steps, ...props}) => steps.map((step, idx) => <Step key={step.id} id={step.id} idx={idx} {...props} />))
+const StepList = withDND(({steps, ...props}) => steps.map((step, idx) => (
+  <Draggable key={step.id} draggableId={step.id} index={idx}>
+    {(provided, snapshot) => <Step {...props} id={step.id} idx={idx} provided={provided} isDragging={snapshot.isDragging} />}
+  </Draggable>
+)))
 
 const makePositionOptions = (stepCount) => {
   const options = [{value: 1, label: "Number 1"}]
@@ -21,7 +26,7 @@ export default (props) => {
   const devices = useSelector(getAllDevices);
   const steps = useSelector(getStepForms);
   const dispatch = useDispatch();
-  const onDragEnd = (from, to) => dispatch(reorderStep(from, to))
+  const onDragEnd = (from, to) => dispatch(reorderStep(from, to, props.procedure_id))
   const onBeforeCapture = () => dispatch(closeStepForm(props.idx))
   if(steps.length > 0){
     const positions = makePositionOptions(steps.length)
