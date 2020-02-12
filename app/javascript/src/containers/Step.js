@@ -11,8 +11,8 @@ export default ({formKey,...props}) => {
   const { getValues, setValue } = useFormContext(),
         stepMeta = useSelector(getStepFormData(props.id, props.idx)),
         dispatch = useDispatch(),
-        root = `steps[${props.id}].`,
-        stepFormKey = `step,${props.id}`,
+        root = `steps[${props.formId}].`,
+        stepFormKey = `step,${props.formId}`,
         initialValues = stepMeta.isDuplicate ? stepMeta.formValues : (stepMeta.storeValues || {})
   var title;
   if(stepMeta.isDuplicate && (!stepMeta.formValues || !stepMeta.formValues.title)){

@@ -1,7 +1,7 @@
 import React,{useCallback} from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import { useSelector,useDispatch } from 'react-redux';
-import {setStepForm,reorderStep} from '@actions/step';
+import {reorderStep,closeStepForm} from '@actions/step';
 import {getStepForms} from '@selectors/step';
 import {getAllDevices} from '@selectors/device';
 import withDND from '@components/withDND';
@@ -9,8 +9,8 @@ import Placeholder from '@components/Placeholder';
 import Step from './Step';
 
 const StepList = withDND(({steps, ...props}) => steps.map((step, idx) => (
-  <Draggable key={step.id} draggableId={step.id} index={idx}>
-    {(provided, snapshot) => <Step {...props} id={step.id} idx={idx} provided={provided} isDragging={snapshot.isDragging} />}
+  <Draggable key={step.formId} draggableId={step.formId} index={idx}>
+    {(provided, snapshot) => <Step {...props} id={step.id} formId={step.formId} idx={idx} provided={provided} isDragging={snapshot.isDragging} />}
   </Draggable>
 )))
 
@@ -27,10 +27,10 @@ export default (props) => {
   const steps = useSelector(getStepForms);
   const dispatch = useDispatch();
   const onDragEnd = (from, to) => dispatch(reorderStep(from, to, props.procedure_id))
-  const onBeforeCapture = () => dispatch(closeStepForm(props.idx))
+  //CLOSE FORM BEFORE DRAG STARTS const onBeforeCapture = ({draggableId}) => dispatch(closeStepForm(draggableId))
   if(steps.length > 0){
     const positions = makePositionOptions(steps.length)
-    return <StepList steps={steps} positions={positions} onBeforeCapture={onBeforeCapture} onDragEnd={onDragEnd} {...props} devices={devices}  />
+    return <StepList steps={steps} positions={positions} /*onBeforeCapture={onBeforeCapture}*/ onDragEnd={onDragEnd} {...props} devices={devices}  />
   }
   return <Placeholder text="This procedure currently has no steps" />
 }

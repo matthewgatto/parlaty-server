@@ -9,7 +9,7 @@ export default (WrappedComponent) => ({onDragEnd, onBeforeCapture, className, ..
     onDragEnd(source.index, destination.index)
   }
   return(
-    <DragDropContext onDragEnd={handleDragEndIfValid} onBeforeCapture={onBeforeCapture} >
+    <DragDropContext onDragEnd={handleDragEndIfValid} onBeforeCapture={onBeforeCapture}>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
           <div {...provided.droppableProps} ref={provided.innerRef} className={className}>

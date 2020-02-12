@@ -9,7 +9,7 @@ import { Input, CheckBox, Select, ImageInput, AudioInput, ModeRadio } from '@com
 import styles from './index.module.css';
 
 export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, positions, initialValues, devices, timeOptions, procedureFormKey, handleCloseForm, isDragging, provided}) => (
-  <div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
+  <div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef} className={styles.wrapper}>
     <StepHeader isDuplicate={isDuplicate} isOpen={isOpen ? true : false} title={title} procedure_id={procedure_id} idx={idx} id={id} root={root} handleCloseForm={handleCloseForm} />
     <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
       <div className={styles.container}>

@@ -1,4 +1,6 @@
-
+.wrapper {
+  background: #f8f8f7;
+}
 .container {
   padding: 1em .8em 2.6em;
   border-bottom: 1px solid #e9e8e8;
