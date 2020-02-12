@@ -349,7 +349,9 @@ while z <= 6
 		@pro.steps_order.push(@step.id)
 		@pro.save
 		order = order+1
+=begin
 		mydevice = Device.find(@step.device_id)
+
 		mydevice.actions.each do |myaction|
 			ActionInstance.create!(
 				step_id: @step.id,
@@ -358,7 +360,8 @@ while z <= 6
 				parameter_value_8_pack: 'parmvalue' + action_instance_index.to_s)
 			action_instance_index = action_instance_index + 1
 		end
-                step_index = step_index + 1
+=end
+        step_index = step_index + 1
 	end
 	z = z+1
 end
