@@ -9,6 +9,7 @@ import steps from './step';
 import devices from './device';
 import actions from './action';
 import toast from './toast';
+import modal from './modal';
 import API from '@utils/API';
 
 export default function(history){
@@ -22,6 +23,7 @@ export default function(history){
     steps,
     form,
     toast,
+    modal,
     router: connectRouter(history)
   })
   return function(state,action){
