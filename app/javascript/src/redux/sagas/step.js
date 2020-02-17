@@ -22,6 +22,12 @@ export const cleanStepParams = ({id,number,audio,visual,...step}) => {
   } else {
     step.has_visual = false;
   }
+  if(!step.safety){
+    step.safety = false
+  }
+  if(!step.spoken){
+    step.spoken = false
+  }
   return step;
 }
 
