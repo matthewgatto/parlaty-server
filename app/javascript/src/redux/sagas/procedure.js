@@ -49,7 +49,7 @@ function* handleProcedureCreateSuccess(response, {payload}){
 }
 
 export function* createProcedureSaga(action){
-  const stepIds = yield select(getStepForms),
+  const stepForms = yield select(getStepForms),
         values = {
           procedure: {
             name: action.payload.values.name,
@@ -58,8 +58,8 @@ export function* createProcedureSaga(action){
             oem_business_id: action.payload.values.oem_business_id,
           }
         }
-  if(stepIds.length > 0){
-    values.steps = stepIds.map(stepId => cleanStepParams(utils.makeStep(action.payload.values, `steps[${stepId}].`)))
+  if(stepForms.length > 0){
+    values.steps = stepForms.map(stepForm => cleanStepParams(utils.makeStep(action.payload.values, `steps[${stepForm.formId}].`)))
   }
   yield call(multipostSaga,{...action,payload: {...action.payload,values}}, getNewEntitiesFromProcedure, handleProcedureCreateSuccess);
 }
