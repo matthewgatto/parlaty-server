@@ -148,7 +148,7 @@ export function* reorderStepSaga({payload:{procedure_id, from, to}}){
       }
       var steps_order = stepOrder[0]+"";
       for (var i = 1; i < stepOrder.length; i++) {
-        steps_order += `, ${stepOrder[i]}`
+        steps_order += `,${stepOrder[i]}`
       }
       const formData = utils.objectToFormData({procedure: {steps_order}});
       const response = yield call(API.multiput, `/procedures/${procedure_id}/reorder`, formData);
