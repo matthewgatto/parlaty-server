@@ -20,7 +20,6 @@ export const cleanStepParams = ({id,number,audio,visual,has_visual,...step}) => 
       step.has_visual = true;
     }
   } else {
-    step.visual = null;
     step.has_visual = false;
   }
   if(!step.safety){
