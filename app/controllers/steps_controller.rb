@@ -47,6 +47,48 @@ class StepsController < ApplicationController
 	def update
 		# oem associated, padmin
 		@step = Step.find(params[:id])
+		paramsHasVisual = params[:step][:has_visual]
+		config.logger.debug "*** paramsHasVisual: " + paramsHasVisual.to_s
+		config.logger.debug "*** @step.has_visual: " + @step.has_visual.to_s
+		config.logger.debug "*** @step.visuals.count: " + @step.visuals.count.to_s
+		config.logger.debug "*** params[:step][:has_visual]: " + params[:step][:has_visual].to_s
+		config.logger.debug "*** params[:step][:visual]: " + params[:step][:visual].to_s
+		incomingFilename = params[:step][:visual].to_s
+		currentFilename = ""
+		index1 = incomingFilename.index("blobs")
+		index2 = -1
+		len1 = incomingFilename.length()
+		incomingFilenamePart = ""
+		if len1 > 0 && index1 > 0
+			incomingFilenamePart = incomingFilename.slice(index1..len1)
+		end
+		len2 = -1
+		currentFilenamePart = ""
+		if (@step.has_visual)
+			config.logger.debug "*** url_for(@step.visuals.first): " + url_for(@step.visuals.first).to_s
+			config.logger.debug "*** @step.visuals.first.filename: " + @step.visuals.first.filename.to_s
+			currentFilename = url_for(@step.visuals.first)
+			index2 = currentFilename.index("blobs")
+			config.logger.debug "*** index1: " + index1.to_s + " index2: " + index2.to_s
+			len2 = currentFilename.length()
+			config.logger.debug "*** len1: " + len1.to_s + " len2: " + len2.to_s
+			len2 = currentFilename.length()
+			currentFilenamePart = ""
+			if len2 > 0 && index2 > 0
+				currentFilenamePart = currentFilename.slice(index2..len2)
+			end
+			config.logger.debug "*** incomingFilenamePart: " + incomingFilenamePart.to_s + " currentFilenamePart: " + currentFilenamePart.to_s
+		end
+
+		if @step.has_visual && @step.visuals.count > 0
+			if paramsHasVisual == "false" || currentFilenamePart.to_s != incomingFilenamePart.to_s
+				# remove visual
+				config.logger.debug "*** about to purge visuals"
+				@step.visuals.purge
+				config.logger.debug "*** about to save step after purge visuals"
+				@step.save
+			end
+		end
 		if(@step.update_attributes(step_params))
 			@step.has_visual = (@step.visuals.count > 0)
 			@step.save
