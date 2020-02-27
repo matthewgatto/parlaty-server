@@ -5,7 +5,8 @@ json = {
 	description: @procedure.description,
 	category: @procedure.category,
 	author: @procedure.author,
-	language: @procedure.language
+	language: @procedure.language,
+	steps_order: @procedure.steps_order
 }
 
 def visual_check(step)
@@ -57,7 +58,7 @@ def get_action_instance(action_id, step_id)
 	end
 end
 
-json[:steps] = @procedure.steps.map do |step|
+json[:steps] = @steps.map do |step|
 {
   id: step.id,
   title: step.title,
