@@ -1,0 +1,14 @@
+.container {
+  height: 18em;
+  position: relative;
+  margin: 1em 0;
+}
+
+.placeholder {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 1em;
+}

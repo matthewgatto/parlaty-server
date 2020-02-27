@@ -45,12 +45,30 @@ function* handleProcedureUpdateSuccess(response, {payload}){
 }
 
 function* handleProcedureCreateSuccess(response, {payload}){
-  yield call(handleProcedureRequestSuccess, payload, `Procedure '${payload.values.procedure.name}' was successfully added.`);
+  console.log("RESPONSE", response);
+  console.log("PAYLOAD", payload);
+  try {
+    //yield call(handleProcedureRequestSuccess, payload, `Procedure '${payload.values.procedure.name}' was successfully added.`);
+    const role = yield select(getUserRole);
+    var to;
+    if(role === "ParlatyAdmin"){
+      console.log("OEM BUSINESS ID", payload.values.procedure.oem_business_id);
+      const business = yield select(getBusinessById(payload.values.procedure.oem_business_id));
+      console.log("BUSINESS", business);
+      to = `/oems/${business.oem_id}/businesses/${payload.values.procedure.oem_business_id}/procedures/${response.id}/add-devices`
+    } else {
+      to = `/businesses/${payload.values.procedure.oem_business_id}/procedures/${response.id}/add-devices`
+    }
+    yield put(push(to))
+  } catch (e) {
+    console.log("ERROR", e);
+  }
+
 }
 
 export function* createProcedureSaga(action){
-  const stepForms = yield select(getStepForms),
-        values = {
+  //const stepForms = yield select(getStepForms),
+  const      values = {
           procedure: {
             name: action.payload.values.name,
             description: action.payload.values.description,
@@ -58,9 +76,11 @@ export function* createProcedureSaga(action){
             oem_business_id: action.payload.values.oem_business_id,
           }
         }
+  /*
   if(stepForms.length > 0){
     values.steps = stepForms.map(stepForm => cleanStepParams(utils.makeStep(action.payload.values, `steps[${stepForm.formId}].`)))
   }
+  */
   yield call(multipostSaga,{...action,payload: {...action.payload,values}}, getNewEntitiesFromProcedure, handleProcedureCreateSuccess);
 }
 

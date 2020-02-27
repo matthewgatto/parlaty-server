@@ -36,6 +36,7 @@ const proceduresById = (state = {}, {type,payload}) => {
     case FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case STEP_SAVE_REQUEST__SUCCESS:
     case REORDER_STEP_REQUEST__SUCCESS:
+    case "CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS":
       if(payload.procedures){
         return merge({}, state, payload.procedures)
       }

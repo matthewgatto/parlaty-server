@@ -1,9 +1,10 @@
 import { put, select, call, fork, take } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
-import uuid from 'uuid/v4';
+import uniq from 'lodash/uniq';
 import { normalize } from 'normalizr';
 import { addToast } from '@actions/toast';
 import { getActionForms } from '@selectors/action';
+import { getProcedureById } from '@selectors/procedure';
 import { deviceSchema } from '@utils/validation';
 import Schemas from '@utils/models';
 import API from '@utils/API';
@@ -96,4 +97,41 @@ export function* getFreshDeviceData(){
     yield take("CREATE_AUTH_REQUEST__SUCCESS")
   }
   yield call(deviceListSaga, {type: "FETCH_DEVICES_REQUEST"})
+}
+
+
+export function* createProcedureDeviceSaga({type, payload:{values,id,formKey}}){
+  try {
+    const actionIds = yield select(getActionForms),
+          device = {
+            id,
+            name: values.name
+          }
+    if(actionIds.length > 0){
+      device.actions = actionIds.map(makeActionMappingFunc(values, `actions[${id}].`, id))
+    }
+    yield call(validateDevice, device)
+    //const response = yield call(deviceRequest, method, device, id);
+    const procedure = yield select(getProcedureById(values.procedure_id)),
+          data = normalize(device, Schemas.device);
+    yield put({type: `${type}__SUCCESS`, payload: {
+      procedures: {
+        [values.procedure_id]: procedure ? (
+          {devices: procedure.devices ? uniq([...procedure.devices, data.result]) : [data.result]}
+        ) : (
+          {devices: [data.result]}
+        )
+      },
+      ...data.entities
+    }})
+    //yield put(push("/devices"))
+    //yield put(addToast("success", alert))
+  } catch (e) {
+    console.log("deviceFormSaga ERROR", e);
+    if(e.type === "VALIDATION_FAILURE"){
+      yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
+    } else {
+      yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{formError: "An unexpected error has occurred"}}})
+    }
+  }
 }

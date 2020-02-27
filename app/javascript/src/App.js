@@ -7,6 +7,8 @@ import LoginPage from '@components/LoginPage';
 import OEMBusinessPage from '@components/Business/Show';
 import CreateProcedurePage from '@components/Procedure/Create';
 import EditProcedurePage from '@components/Procedure/Edit';
+import CreateProcedureScreen from '@components/Procedure/CreateProcedureScreen';
+import AddDevicesScreen from '@components/Procedure/AddDevicesScreen';
 import AdminLandingPage from '@components/AdminLandingPage';
 import OEMPage from '@components/OEM/Show';
 import OEMLandingPage from '@components/OEM/Landing';
@@ -30,8 +32,10 @@ const Routes = ({role}) => {
         <Route path="/devices/:id/update" component={DeviceEditPage} />
         <Route path="/devices/create" component={DeviceCreatePage} />
         <Route path="/devices" component={DeviceListPage} />
-        <Route path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
-        <Route path="/businesses/:business_id/procedures/create" component={CreateProcedurePage} />
+        <Route exact path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
+        {/*<Route path="/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
+        <Route exact path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
+        <Route path="/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
         {/*<Route path="/businesses/create" component={BusinessForm} />*/}
         <Route path="/businesses/:id" component={OEMBusinessPage} />
         <Redirect to="/" />
@@ -44,8 +48,11 @@ const Routes = ({role}) => {
         <Route path="/devices/:id/update" component={DeviceEditPage} />
         <Route path="/devices/create" component={DeviceCreatePage} />
         <Route path="/devices" component={DeviceListPage} />
-        <Route path="/oems/:oem_id/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
-        <Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedurePage} />
+        <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
+        {/*<Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
+        <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
+        <Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
+
         {/*<Route path="/oems/:oem_id/businesses/create" component={BusinessForm} />*/}
         <Route path="/oems/:oem_id/businesses/:id" component={OEMBusinessPage} />
         <Route path="/oems/:id/update" component={OEMUpdatePage} />

@@ -30,7 +30,7 @@ export default (props) => {
   //CLOSE FORM BEFORE DRAG STARTS const onBeforeCapture = ({draggableId}) => dispatch(closeStepForm(draggableId))
   if(steps.length > 0){
     const positions = makePositionOptions(steps.length)
-    return <StepList steps={steps} positions={positions} /*onBeforeCapture={onBeforeCapture}*/ onDragEnd={onDragEnd} {...props} devices={devices}  />
+    return <StepList steps={steps} positions={positions} /*onBeforeCapture={onBeforeCapture}*/ onDragEnd={onDragEnd} {...props} devices={devices.map(({id, name}) => ({value: id, label: name}))}  />
   }
   return <Placeholder text="This procedure currently has no steps" />
 }

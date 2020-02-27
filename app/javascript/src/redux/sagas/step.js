@@ -42,8 +42,7 @@ function* createStepSaga({procedure, step, from, to, initialValues}){
     if(from !== to){
       body.previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
     }
-    const formData = utils.objectToFormData(body);
-    const response = yield call(API.multipost, "/steps", formData);
+    const response = yield call(API.multipost, "/steps", utils.objectToFormData(body));
     var steps;
     if(from !== to){
       steps = [...procedure.steps.slice(0, to), response, ...procedure.steps.slice(to)]
@@ -65,8 +64,7 @@ function* updateStepSaga({procedure, step, from, to, initialValues}){
       body.previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
     }
     */
-    const formData = utils.objectToFormData(body);
-    const response = yield call(API.multiput, `/steps/${step.id}`, formData);
+    const response = yield call(API.multiput, `/steps/${step.id}`, utils.objectToFormData(body));
     return {...normalize(response, Schemas.step).entities, id: response.id}
   } catch (e) {
     throw e
@@ -131,8 +129,8 @@ export function* stepSaveSaga({type,payload:{values,root,procedure_id,id,idx,for
 export function* reorderStepSaga({payload:{procedure_id, from, to, onlyReorderStepForm}}){
   try {
     if(procedure_id && !onlyReorderStepForm){
-      const {steps} = yield select(getProcedureById(procedure_id));
-      const stepOrder = utils.immutableMove(steps,from,to);
+      const procedure = yield select(getProcedureById(procedure_id));
+      const stepOrder = utils.immutableMove(procedure.steps,from,to);
       var steps_order = stepOrder[0]+"";
       for (var i = 1; i < stepOrder.length; i++) {
         steps_order += `,${stepOrder[i]}`

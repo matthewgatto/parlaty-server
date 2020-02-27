@@ -67,6 +67,11 @@
   font-size: 1.2em;
 }
 
+.modalContainer {
+  width: 64em;
+  font-size: 0.9em;
+}
+
 @media (max-width: 480px) {
   .content textarea {
     text-indent:-3px;

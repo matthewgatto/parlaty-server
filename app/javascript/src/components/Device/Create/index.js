@@ -1,6 +1,6 @@
 import React from 'react';
 import uuid from 'uuid/v4';
-import DeviceForm from '../Form';
+import DeviceForm from '../Forms/Page';
 import { CREATE_DEVICE_REQUEST } from '@types/device';
 
 export default () => (

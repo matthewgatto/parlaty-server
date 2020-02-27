@@ -36,5 +36,6 @@ export default function* appSagas(){
     yield fork(device.getFreshDeviceData),
     yield takeEvery(deviceTypes.CREATE_DEVICE_REQUEST, device.createDeviceSaga),
     yield takeEvery(deviceTypes.UPDATE_DEVICE_REQUEST, device.updateDeviceSaga),
+    yield takeEvery("CREATE_PROCEDURE_DEVICE_REQUEST", device.createProcedureDeviceSaga)
   ])
 }

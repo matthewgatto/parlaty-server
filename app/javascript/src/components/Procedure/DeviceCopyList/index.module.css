@@ -1,0 +1,69 @@
+.container {
+  width: 40em;
+  height: 70vh;
+}
+
+.wrapper,.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper,.list {
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.columnTitle {
+  color: #ac91bd;
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  margin-bottom: 1em;
+  flex-shrink: 0;
+}
+
+.copyButton {
+  flex-shrink: 0;
+  color: #fff;
+  background: #67318d;
+  border-radius: 0.5em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8em 0;
+  font-size: 1.1em;
+}
+
+.modalHeader {
+  margin-bottom: 1.4em;
+  font-size: 0.9em;
+}
+
+.disabled {
+  background: #eeefef;
+}
+
+.deviceList {
+  border-bottom: 1px solid #e9e8e8;
+  padding: 0 0.4em 0.4em 0.4em;
+}
+
+.procedureLabel {
+  font-size: 0.9em;
+}
+.deviceItem {
+  cursor: pointer;
+  padding: 0.3em;
+  border-radius: 0.3em;
+  margin-bottom: 0.2em;
+  color: #7b7979;
+}
+
+.selected,.deviceItem:hover {
+  background: #e9e4ee;
+}
+
+
+.procedureName {
+}

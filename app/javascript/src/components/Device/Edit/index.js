@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import DeviceForm from '../Form';
+import DeviceForm from '../Forms/Page';
 import { UPDATE_DEVICE_REQUEST } from '@types/device';
 import { loadActionForms } from '@actions/action';
 import {getDeviceById} from '@selectors/device';

@@ -13,6 +13,7 @@ export default (state = {}, {type,payload}) => {
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case deviceTypes.CREATE_DEVICE_REQUEST__SUCCESS:
     case deviceTypes.UPDATE_DEVICE_REQUEST__SUCCESS:
+    case "CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS":
       if(payload.actions){
         return {
           ...state,

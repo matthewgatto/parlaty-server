@@ -1,1 +1,1 @@
-export const isModalOpen = ({modal}) => modal
+export const getModal = ({modal}) => modal

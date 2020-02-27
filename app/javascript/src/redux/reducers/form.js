@@ -49,6 +49,7 @@ const isFormSubmitAction = (type) => (
   || type === stepTypes.STEP_SAVE_REQUEST
   || type === deviceTypes.CREATE_DEVICE_REQUEST
   || type === deviceTypes.UPDATE_DEVICE_REQUEST
+  || type === "CREATE_PROCEDURE_DEVICE_REQUEST"
 )
 
 const isFormSubmitFailureAction = (type) => (
@@ -67,6 +68,7 @@ const isFormSubmitFailureAction = (type) => (
   || type === stepTypes.STEP_SAVE_REQUEST__FAILURE
   || type === deviceTypes.CREATE_DEVICE_REQUEST__FAILURE
   || type === deviceTypes.UPDATE_DEVICE_REQUEST__FAILURE
+  || type === "CREATE_PROCEDURE_DEVICE_REQUEST__FAILURE"
 )
 
 export const initialState = {};

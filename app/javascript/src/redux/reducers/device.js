@@ -15,6 +15,7 @@ const allDevices = (state = [], {type,payload}) => {
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
+    case "CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS":
       if(payload.devices){
         return addIds(state, payload.devices)
       }
@@ -35,6 +36,7 @@ const devicesById = (state = {}, {type,payload}) => {
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
     case types.UPDATE_DEVICE_REQUEST__SUCCESS:
+    case "CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS":
       if(payload.devices){
         return {
           ...state,

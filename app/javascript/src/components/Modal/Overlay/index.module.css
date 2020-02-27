@@ -10,3 +10,24 @@
   justify-content: center;
   z-index: 9999;
 }
+
+.content {
+  background: #f8f8f7;
+  padding: 3em;
+  border-radius: 1em;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.4em;
+  cursor: pointer;
+}
+
+.closeIcon {
+  width: 2em;
+  height: 2em;
+  fill: #7b7979;
+}

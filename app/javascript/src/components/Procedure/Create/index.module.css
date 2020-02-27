@@ -1,26 +1,14 @@
-.container {
-
-}
 
 .content {
   display: flex;
   justify-content: space-between;
   position: relative;
-  align-items: baseline;
+  align-items: flex-start;
 }
 
-.content > * {
+.content > div {
+  width: 49%;
   position: relative;
-}
-.content > *:first-child {
-  width: 42%;
-}
-.content > *:nth-child(2) {
-  width: 55%;
-}
-.buttons {
-  justify-content: space-between;
-  margin-top: 3em;
 }
 
 .margin {
@@ -31,13 +19,15 @@
   color: #67318d !important;
 }
 
-.label {
-  font-size: 1.2em;
-  font-weight: 600;
-  line-height: 1em;
-  color: #7b7979;
+.error {
+  margin-top: 0.6em;
+  display: block;
 }
-
+.submit {
+  width: 84% !important;
+  margin-top: 2em !important;
+  height: 2.6154em !important;
+}
 
 .columnTitle {
   margin-left: 1em;
@@ -46,12 +36,6 @@
   font-weight: 600;
   line-height: 1em;
   margin-bottom: 1em;
-}
-
-.submit {
-  width: 84% !important;
-  margin-top: 2em !important;
-  height: 2.6154em !important;
 }
 
 .content input[type='text'],.content input[type='password'],.content input[type='number'], .content input[type='email'] {
@@ -70,11 +54,5 @@
 @media (max-width: 480px) {
   .content textarea {
     text-indent:-3px;
-  }
-}
-
-@media (min-width: 768px){
-  .container {
-    font-size: 1em;
   }
 }
