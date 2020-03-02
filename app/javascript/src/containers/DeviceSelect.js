@@ -6,7 +6,7 @@ import ActionList from '@components/Action/List';
 import {StatelessParameters} from '@components/Inputs/Parameter';
 import withField from '@components/Inputs/withField';
 import {makeName} from '@utils'
-import {getDeviceMap} from '@selectors/device';
+import {getProcedureById} from '@selectors/procedure';
 
 const DeviceSelect = withField(withSelectContainer(SelectComponent));
 
@@ -34,11 +34,11 @@ class DeviceSelectClass extends React.PureComponent {
     this.props.setSelectedAction(action);
   }
   render(){
-    const {value,actions,selectedAction,setSelectedAction,...props} = this.props;
+    const {value,actions,selectedAction,setSelectedAction,root, ...props} = this.props;
     return(<>
       <DeviceSelect value={value} {...props} placeholder="Choose A Device" />
-      <ActionList actions={actions} selectedAction={selectedAction} setSelectedAction={setSelectedAction} />
-      <StatelessParameters action={selectedAction} value={value} />
+      <ActionList actions={actions} root={root} selectedAction={selectedAction} setSelectedAction={setSelectedAction} />
+      {/*<StatelessParameters action={selectedAction} value={value} root={root} />*/}
     </>)
   }
 }
@@ -48,6 +48,10 @@ const DeviceSelectContainer = (props) => {
   return <DeviceSelectClass {...props} actions={actions} selectedAction={selectedAction} setSelectedAction={setSelectedAction} />
 }
 
-export default ({defaultValue, root,...props}) => (
-  <Controller defaultValue={defaultValue} name={makeName(root, props.name)} as={<DeviceSelectContainer {...props} />} />
-)
+export default ({name, procedure_id, ...props}) => {
+  const {devices} = useSelector(getProcedureById(procedure_id))
+  const deviceArray = useSelector((state) => (devices && devices.length > 0) ? devices.map(deviceId => state.devices.byId[deviceId]) : null)
+  return(
+    <Controller {...props} options={(deviceArray && deviceArray.length > 0) ? deviceArray.map(({id, name}) => ({value: id, label: name})) : undefined} name={makeName(props.root, name)} as={DeviceSelectContainer} />
+  )
+}

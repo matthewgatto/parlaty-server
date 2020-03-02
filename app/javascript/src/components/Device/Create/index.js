@@ -5,6 +5,7 @@ import { CREATE_DEVICE_REQUEST } from '@types/device';
 
 export default () => (
   <DeviceForm
+    entity="create_device_page"
     header="Create A New Device"
     url="/devices"
     type={CREATE_DEVICE_REQUEST}

@@ -1,14 +1,10 @@
 import { normalize, schema } from 'normalizr';
 
-const action = new schema.Entity("actions", {});
-action.define({
-  device_id: device
-})
+const action = new schema.Entity("actions");
 
-const device = new schema.Entity("devices", {});
-device.define({
+const device = new schema.Entity("devices", {
   actions: [action]
-})
+});
 const step = new schema.Entity("steps", {}, {
   processStrategy: (step, procedure) => {
     if(!step.procedure_id && procedure && procedure.id){
@@ -33,7 +29,8 @@ const procedure = new schema.Entity("procedures", {}, {
 });
 procedure.define({
   oem_business_id: business,
-  steps: [step]
+  steps: [step],
+  devices: [device]
 })
 
 const business = new schema.Entity("businesses", {}, {
@@ -49,7 +46,6 @@ oem.define({
 })
 
 export default {
-  action,
   device,
   step,
   procedure,

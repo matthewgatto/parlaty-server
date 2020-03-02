@@ -6,12 +6,13 @@ import {
 } from '@actions/step';
 import {getProcedureById} from '@selectors/procedure';
 import {getStepFormData} from '@selectors/step';
+import {getDeviceById} from '@selectors/device';
 import * as utils from '@utils';
 import { stepSchema } from '@utils/validation';
 import Schemas from '@utils/models';
 import API from '@utils/API';
 
-export const cleanStepParams = ({id,number,audio,visual,has_visual,...step}) => {
+export const cleanStepParams = ({id,audio,visual,has_visual,...step}) => {
   if(visual){
     if(typeof visual === "string"){
       step.visual = visual
@@ -31,7 +32,7 @@ export const cleanStepParams = ({id,number,audio,visual,has_visual,...step}) => 
   return step;
 }
 
-function* createStepSaga({procedure, step, from, to, initialValues}){
+function* createStepSaga({procedure, step, initialValues}){
   try {
     const body = {
       step: cleanStepParams({
@@ -39,31 +40,17 @@ function* createStepSaga({procedure, step, from, to, initialValues}){
         procedure_id: procedure.id
       })
     }
-    if(from !== to){
-      body.previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
-    }
     const response = yield call(API.multipost, "/steps", utils.objectToFormData(body));
-    var steps;
-    if(from !== to){
-      steps = [...procedure.steps.slice(0, to), response, ...procedure.steps.slice(to)]
-    } else {
-      steps = [...procedure.steps, response]
-    }
-    return {...normalize({id:procedure.id, steps}, Schemas.procedure).entities,id: response.id}
+    return {...normalize({id:procedure.id, steps: procedure.steps ? [...procedure.steps, response] : [response]}, Schemas.procedure).entities,id: response.id}
   } catch (e) {
     throw e
   }
 }
 
-function* updateStepSaga({procedure, step, from, to, initialValues}){
+function* updateStepSaga({procedure, step, idx, initialValues}){
   try {
-    step.id = procedure.steps[from];
+    step.id = procedure.steps[idx];
     const body = {step: cleanStepParams(step)};
-    /*
-    if(from !== to){
-      body.previous_step_id = to > 0 ? procedure.steps[to - 1] : 0;
-    }
-    */
     const response = yield call(API.multiput, `/steps/${step.id}`, utils.objectToFormData(body));
     return {...normalize(response, Schemas.step).entities, id: response.id}
   } catch (e) {
@@ -93,26 +80,31 @@ const validateStep = async (step, root) => {
   }
 }
 
+function* addStepActionValues(step, values, root){
+  const device = yield select(getDeviceById(step.device_id));
+  if(device.actions){
+    step.actions = device.actions.map(actionId => ({id: actionId, value: values[`${root}actions[${actionId}]`]}))
+  }
+}
 
 export function* stepSaveSaga({type,payload:{values,root,procedure_id,id,idx,formKey}}){
   try {
     const stepMeta = yield select(getStepFormData(id, idx));
-    const step = utils.makeStep(values, root);
+    var step = utils.makeStep(values, root);
+    if(step.device_id){
+      yield call(addStepActionValues, step, values, root)
+    }
     yield call(validateStep, step, root)
-    const newIdx = step.number - 1;
     var successPayload = {};
     if(procedure_id){
       const procedure = yield select(getProcedureById(procedure_id));
       if(stepMeta.isDuplicate){
-        successPayload = yield call(createStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
+        successPayload = yield call(createStepSaga, {step, initialValues: stepMeta.initialValues, procedure})
       } else {
-        successPayload = yield call(updateStepSaga, {step, from: idx, to: newIdx, initialValues: stepMeta.initialValues, procedure})
+        successPayload = yield call(updateStepSaga, {step, idx, initialValues: stepMeta.initialValues, procedure})
       }
     }
-    if(idx !== newIdx){
-      yield put(reorderStep(idx, newIdx, procedure_id, stepMeta.isDuplicate))
-    }
-    yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: {idx: newIdx, formKey, ...successPayload}});
+    yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: {formKey, idx, ...successPayload}});
   } catch (e) {
     console.log("stepSaveSaga ERROR", e);
     if(e.type === "VALIDATION_FAILURE"){
@@ -126,9 +118,9 @@ export function* stepSaveSaga({type,payload:{values,root,procedure_id,id,idx,for
   }
 }
 
-export function* reorderStepSaga({payload:{procedure_id, from, to, onlyReorderStepForm}}){
+export function* reorderStepSaga({payload:{procedure_id, from, to}}){
   try {
-    if(procedure_id && !onlyReorderStepForm){
+    if(procedure_id){
       const procedure = yield select(getProcedureById(procedure_id));
       const stepOrder = utils.immutableMove(procedure.steps,from,to);
       var steps_order = stepOrder[0]+"";

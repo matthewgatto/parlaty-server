@@ -13,7 +13,7 @@ export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root, handle
     if(isOpen){
       handleCloseForm()
     } else {
-      dispatch(openStepForm(idx, {...makeStep(getValues(), root), number: idx+1}))
+      dispatch(openStepForm(idx, {...makeStep(getValues(), root)}))
     }
   }
   const duplicateStep = (e) => {

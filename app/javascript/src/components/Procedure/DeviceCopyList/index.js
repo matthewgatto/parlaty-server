@@ -1,33 +1,49 @@
 import React,{useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch,connect} from 'react-redux';
 import AnimateHeight from 'react-animate-height';
 import LargeBar from '@components/Bar/Large';
 import SmallBar from '@components/Bar/Small'
-import {getBusinessProceduresWithDevices} from '@selectors/business';
+import {getBusinessById} from '@selectors/business';
+import {getProcedureById} from '@selectors/procedure';
+import {getDeviceById} from '@selectors/device';
+import { setModal } from '@actions/modal';
 import styles from './index.module.css';
+
+const ProcedureDevice = ({id, setSelection, selection}) => {
+  const device = useSelector(getDeviceById(id));
+  const handleClick = () => setSelection(device);
+  return <div className={selection === device ? `${styles.deviceItem} ${styles.selected}` : styles.deviceItem} onClick={handleClick}>{device.name}</div>
+}
+
 
 const ProcedureDeviceDropdown = ({procedure, setSelection, selection}) => {
   const [isOpen, setIsOpen] = useState();
   const toggle = () => setIsOpen(!isOpen);
-  console.log("procedure", procedure);
   return(<>
     <SmallBar text={procedure.name} className={styles.procedureLabel} onClick={toggle} />
     <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
       <div className={styles.deviceList}>
-        {procedure.devices.map(device => <div className={selection === device ? `${styles.deviceItem} ${styles.selected}` : styles.deviceItem} onClick={() => setSelection(device)} key={device.id}>{device.name}</div>)}
+        {procedure.devices.map(deviceId => <ProcedureDevice key={deviceId} id={deviceId} setSelection={setSelection} selection={selection} />)}
       </div>
     </AnimateHeight>
   </>)
 }
 
+const ProcedureDeviceDropdownContainer = ({id, ...props}) => {
+  const procedure = useSelector(getProcedureById(id))
+  if(procedure && procedure.devices && procedure.devices.length > 0){
+    return <ProcedureDeviceDropdown {...props} procedure={procedure} />
+  }
+  return null
+}
+
 const ProcedureList = ({procedures}) => {
   const [selection, setSelection] = useState();
-  const handleCopyClick = () => {
-    console.log("COPYING", selection);
-  }
+  const dispatch = useDispatch()
+  const handleCopyClick = () => dispatch(setModal("create_device", selection))
   return(<>
     <div className={styles.list}>
-      {procedures.map(procedure => <ProcedureDeviceDropdown key={procedure.id} procedure={procedure} setSelection={setSelection} selection={selection} />)}
+      {procedures.map(procedureId => <ProcedureDeviceDropdownContainer key={procedureId} id={procedureId} setSelection={setSelection} selection={selection} />)}
     </div>
     <div onClick={selection ? handleCopyClick : undefined} className={selection ? styles.copyButton : `${styles.copyButton} ${styles.disabled}`}>Copy</div>
   </>)
@@ -45,9 +61,8 @@ const ProcedureListWrapper = ({procedures}) => (
 )
 
 const ProcedureListContainer = ({business_id}) => {
-  const procedures = useSelector(getBusinessProceduresWithDevices(business_id));
-  console.log("procedures", procedures);
-  return <ProcedureListWrapper procedures={procedures} />
+  const business = useSelector(getBusinessById(business_id));
+  return <ProcedureListWrapper procedures={business.procedures} />
 }
 
 export default ({business_id}) => (

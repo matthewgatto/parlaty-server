@@ -15,7 +15,7 @@ const allDevices = (state = [], {type,payload}) => {
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
-    case "CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS":
+    case types.CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS:
       if(payload.devices){
         return addIds(state, payload.devices)
       }
@@ -31,17 +31,35 @@ const devicesById = (state = {}, {type,payload}) => {
       if(payload.devices){
         return payload.devices
       }
-      return {}
-    case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
-    case types.CREATE_DEVICE_REQUEST__SUCCESS:
-    case types.FETCH_DEVICE_REQUEST__SUCCESS:
-    case types.UPDATE_DEVICE_REQUEST__SUCCESS:
-    case "CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS":
+      return state;
+    case types.CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS:
+      /*
+      if(payload.devices){
+        const newDevices = {}
+        for (var deviceId in payload.devices) {
+          if (payload.devices.hasOwnProperty(deviceId)) {
+            newDevices[deviceId] = payload.devices[deviceId]
+          }
+        }
+        return {
+          ...state,
+          ...newDevices
+        }
+      }
+      */
       if(payload.devices){
         return {
           ...state,
           ...payload.devices
         }
+      }
+      return state;
+    case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
+    case types.CREATE_DEVICE_REQUEST__SUCCESS:
+    case types.FETCH_DEVICE_REQUEST__SUCCESS:
+    case types.UPDATE_DEVICE_REQUEST__SUCCESS:
+      if(payload.devices){
+        return merge({}, state, payload.devices)
       }
     default:
       return state;

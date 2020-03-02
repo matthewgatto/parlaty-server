@@ -1,4 +1,3 @@
-import { LOCATION_CHANGE } from 'connected-react-router';
 import * as types from '@types/action';
 import {immutableMove} from '@utils';
 
@@ -10,7 +9,7 @@ export default (state = [], {type, payload}) => {
       return [...state.slice(0,payload),...state.slice(payload+1)]
     case types.REORDER_ACTION_FORM:
       return immutableMove(state, payload.from, payload.to)
-    case LOCATION_CHANGE:
+    case types.CLEAR_ACTION_FORMS:
       return [];
     case types.LOAD_ACTION_FORMS:
       return payload

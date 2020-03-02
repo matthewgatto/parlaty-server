@@ -2,6 +2,11 @@
   height: 18em;
   position: relative;
   margin: 1em 0;
+  background: #fff;
+  border-radius: 1em;
+  padding: 1em;
+  text-align: left;
+  color: #888;
 }
 
 .placeholder {
@@ -9,6 +14,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
-  border-radius: 1em;
+  font-size: 1.2em;
+}
+
+.device {
+  font-weight: bold;
+  padding: 0.4em 1em;
+  font-size: 1.2em;
+}
+
+.device:hover {
+  background: #e9e4ee;
+  color: #67318d;
+  cursor: pointer;
 }

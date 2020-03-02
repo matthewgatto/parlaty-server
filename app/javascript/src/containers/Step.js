@@ -38,8 +38,5 @@ export default ({formKey,...props}) => {
     dispatch(mountForm(stepFormKey));
     return () => dispatch(unmountForm(stepFormKey));
   }, [])
-  useEffect(() => {
-    setValue(`${root}number`, props.idx+1)
-  },[props.idx])
   return <Step title={title} procedureFormKey={formKey} formKey={stepFormKey} root={root} isOpen={stepMeta.isOpen} initialValues={initialValues} isDuplicate={stepMeta.isDuplicate} timeOptions={TIME_OPTIONS} handleCloseForm={handleCloseForm} {...props} />
 }

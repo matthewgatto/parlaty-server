@@ -7,7 +7,6 @@ import ProcedureForm from '../Form';
 import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '@types/procedure';
 import { loadStepForms } from '@actions/step';
 import { getProcedureById } from '@selectors/procedure';
-import { getStepMap } from '@selectors/step';
 
 const withStepLoader = (WrappedComponent) =>  (
   class extends React.PureComponent {
@@ -40,13 +39,13 @@ const EditProcedureFormWithStepLoader = withStepLoader(EditProcedureForm);
 
 const EditProcedureFormContainer = (props) => {
   const initialValues = useSelector(getProcedureById(props.id));
-  const stepMap = useSelector(getStepMap)
   const dispatch = useDispatch();
   const addSteps = () => dispatch(loadStepForms(initialValues.steps))
   useEffect(() => {
     if(!initialValues || !initialValues.description){
       dispatch({type: FETCH_PROCEDURE_REQUEST, payload: {url: `/procedures/${props.id}`, id: props.id}})
-    } else if(initialValues && initialValues.steps && initialValues.steps.length > 0){
+    }
+    if(initialValues && initialValues.steps && initialValues.steps.length > 0){
       addSteps();
     }
   },[])

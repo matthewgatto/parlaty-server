@@ -95,7 +95,6 @@ export const makeStep = (values, root) => {
   const title = values[`${root}title`],
         spoken = values[`${root}spoken`],
         note = values[`${root}note`],
-        number = values[`${root}number`],
         time = values[`${root}time`],
         mode = values[`${root}mode`],
         safety = values[`${root}safety`],
@@ -107,7 +106,6 @@ export const makeStep = (values, root) => {
   if(title) step.title = title
   if(spoken) step.spoken = spoken
   if(note) step.note = note
-  if(number) step.number = number
   if(time) step.time = time
   if(mode) step.mode = mode
   if(safety) step.safety = safety

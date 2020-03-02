@@ -9,6 +9,7 @@ import CreateProcedurePage from '@components/Procedure/Create';
 import EditProcedurePage from '@components/Procedure/Edit';
 import CreateProcedureScreen from '@components/Procedure/CreateProcedureScreen';
 import AddDevicesScreen from '@components/Procedure/AddDevicesScreen';
+import AddStepsScreen from '@components/Procedure/AddStepsScreen';
 import AdminLandingPage from '@components/AdminLandingPage';
 import OEMPage from '@components/OEM/Show';
 import OEMLandingPage from '@components/OEM/Landing';
@@ -35,6 +36,7 @@ const Routes = ({role}) => {
         <Route exact path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
         {/*<Route path="/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
         <Route exact path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
+        <Route exact path="/businesses/:business_id/procedures/:id/add-steps" component={AddStepsScreen} />
         <Route path="/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
         {/*<Route path="/businesses/create" component={BusinessForm} />*/}
         <Route path="/businesses/:id" component={OEMBusinessPage} />
@@ -51,6 +53,7 @@ const Routes = ({role}) => {
         <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
         {/*<Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
         <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
+        <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/add-steps" component={AddStepsScreen} />
         <Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
 
         {/*<Route path="/oems/:oem_id/businesses/create" component={BusinessForm} />*/}

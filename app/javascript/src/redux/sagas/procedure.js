@@ -13,18 +13,8 @@ import { cleanStepParams } from '@sagas/step';
 import * as utils from '@utils';
 
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
-  const business = yield select(getBusinessById(values.procedure.oem_business_id)),
-        data = normalize({id: response.id, name: values.procedure.name}, Schemas.procedure);
-  return {
-    businesses: {
-      [values.procedure.oem_business_id]: business ? (
-        {procedures: business.procedures ? uniq([...business.procedures, data.result]) : [data.result]}
-      ) : (
-        {procedures: [data.result]}
-      )
-    },
-    procedures: data.entities.procedures
-  }
+  const business = yield select(getBusinessById(values.procedure.oem_business_id))
+  return normalize({...business, procedures: business.procedures ? [...business.procedures,{...response, name: values.procedure.name}] : [{...response, name: values.procedure.name}]}, Schemas.business).entities;
 }
 
 function* handleProcedureRequestSuccess({values:{procedure:{oem_business_id}}}, message){
@@ -45,16 +35,12 @@ function* handleProcedureUpdateSuccess(response, {payload}){
 }
 
 function* handleProcedureCreateSuccess(response, {payload}){
-  console.log("RESPONSE", response);
-  console.log("PAYLOAD", payload);
   try {
     //yield call(handleProcedureRequestSuccess, payload, `Procedure '${payload.values.procedure.name}' was successfully added.`);
     const role = yield select(getUserRole);
     var to;
     if(role === "ParlatyAdmin"){
-      console.log("OEM BUSINESS ID", payload.values.procedure.oem_business_id);
       const business = yield select(getBusinessById(payload.values.procedure.oem_business_id));
-      console.log("BUSINESS", business);
       to = `/oems/${business.oem_id}/businesses/${payload.values.procedure.oem_business_id}/procedures/${response.id}/add-devices`
     } else {
       to = `/businesses/${payload.values.procedure.oem_business_id}/procedures/${response.id}/add-devices`
@@ -67,8 +53,13 @@ function* handleProcedureCreateSuccess(response, {payload}){
 }
 
 export function* createProcedureSaga(action){
-  //const stepForms = yield select(getStepForms),
-  const      values = {
+  yield call(
+    multipostSaga,
+    {
+      ...action,
+      payload: {
+        ...action.payload,
+        values: {
           procedure: {
             name: action.payload.values.name,
             description: action.payload.values.description,
@@ -76,12 +67,11 @@ export function* createProcedureSaga(action){
             oem_business_id: action.payload.values.oem_business_id,
           }
         }
-  /*
-  if(stepForms.length > 0){
-    values.steps = stepForms.map(stepForm => cleanStepParams(utils.makeStep(action.payload.values, `steps[${stepForm.formId}].`)))
-  }
-  */
-  yield call(multipostSaga,{...action,payload: {...action.payload,values}}, getNewEntitiesFromProcedure, handleProcedureCreateSuccess);
+      }
+    },
+    getNewEntitiesFromProcedure,
+    handleProcedureCreateSuccess
+  );
 }
 
 const normalizeProcedure = ({steps_order, ...procedure}) => normalize(procedure, Schemas.procedure).entities

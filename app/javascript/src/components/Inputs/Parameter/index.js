@@ -47,29 +47,17 @@ const ParameterNameInput = ({root, ...props}) => (<>
   </>)
 
 
-export const StatelessParameters = ({action, value}) => (
+export const StatelessParameters = ({action, value, root}) => (
   <FieldWrapper className={styles.container}>
     <LabelWrapper>
       <div>Action Parameters</div>
     </LabelWrapper>
-    <div className={styles.column}>
+    <div className={styles.inputRow}>
     {action ? (<>
-        <div className={`${styles.nameFieldContainerTwo} align_center`}>
-        <div className={styles.label}>
-          Name:
-        </div>
-        <div className={`${styles.nameFieldInputWrapperTwo} align_center`}>
+        <div className={styles.parameterName}>
           {action.parameter_name}
         </div>
-        </div>
-        <div className={`${styles.valueFieldContainerTwo} align_center`}>
-        <div className={styles.label}>
-          Value:
-        </div>
-        <div className={`${styles.valueFieldInputWrapperTwo} align_center`}>
-          {action.parameter_value_8_pack}
-        </div>
-        </div>
+        <Controller as='input' className={styles.valueField} name={`${root}actions[${action.id}]`} defaultValue={action.parameter_value_8_pack} />
     </>) : <div className={styles.actionParameterPlaceholder}>{value ? "No action selected" : "No device selected"}</div>}
     </div>
   </FieldWrapper>

@@ -17,7 +17,7 @@ const inputs = [{
   required: true
 }]
 
-export default ({device_id, header,...props}) => (<>
+export default ({header,...props}) => (<>
   <PageLayout
     header={header}
     back={{
@@ -25,7 +25,7 @@ export default ({device_id, header,...props}) => (<>
       label: "Devices"
     }}
   >
-    <Form {...props} entity="device" className={styles.content}>
+    <Form {...props} className={styles.content}>
       {({handleSubmit, formKey}) => (<>
           <div>
           <FormError formKey={formKey} large top />
@@ -36,7 +36,7 @@ export default ({device_id, header,...props}) => (<>
           </div>
           <div>
             <div className={styles.columnTitle}>Device Actions</div>
-            <ActionFormList formKey={formKey} device_id={device_id} initialActions={props.initialValues && props.initialValues.actions} />
+            <ActionFormList formKey={formKey} initialActions={props.initialValues && props.initialValues.actions} />
             <AddActionFormButton formKey={formKey} />
             <SubmitButton formKey={formKey} onClick={handleSubmit} label="Save" className={styles.submit} />
           </div>

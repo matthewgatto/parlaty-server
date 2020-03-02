@@ -20,8 +20,8 @@
 
 .closeButton {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 0.3em;
+  right: 0.3em;
   padding: 0.4em;
   cursor: pointer;
 }

@@ -5,7 +5,6 @@
   width: 34em;
   margin: 0 auto 4em auto;
   position: relative;
-  text-align: center;
 }
 
 .header {
@@ -14,7 +13,7 @@
   line-height: 2em;
 }
 
-.subheader {
+.subheader,.link {
   color: #7b7979;
 }
 
@@ -35,7 +34,6 @@
   position: absolute;
   right: -8em;
   bottom: -8em;
-  font-size: 0.9em;
 }
 
 .bottomPolygonContainer > *,.topPolygonContainer > * {
@@ -89,41 +87,25 @@
   top: 0;
   left: 0.3em;
 }
-.link {
-  text-decoration: none;
-}
 
-.error {
-  height: 1em;
-  line-height: 1em;
-  font-size: 1.3em;
-  margin-top: 1em;
-}
-
-.buttonRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-.button {
-  color: #fff;
-  background-color: #67318d;
-  padding: 0.6em 0;
-  border-radius: 0.3em;
-  font-size: 1.1em;
-  cursor: pointer;
-  width: 11em;
-}
 .form {
 
 }
 
-.form label {
-  margin-bottom: 1.2em;
+
+.error {
+  margin-top: 0.6em;
+  display: block;
+}
+.submit {
+  width: 100% !important;
+  margin-top: 2em !important;
+  height: 2.6154em !important;
 }
 
-.form button {
-  width: 100%;
+.headerWrapper {
+  text-align: center;
+  margin-bottom: 2em;
 }
 
 .form input[type='text'],.form input[type='password'],.form input[type='number'], .form input[type='email'] {

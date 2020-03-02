@@ -10,6 +10,6 @@ export default () => {
   const { getValues } = useFormContext()
   const dispatch = useDispatch();
   const lastStepFormId = useSelector(getLastStepFormId)
-  const handleClick = () => dispatch(addStepForm(lastStepFormId ? utils.makeStep(getValues(), `steps[${lastStepFormId}].`) : {mode: "continuous", time: 8, safety: true, number: 1}, true));
+  const handleClick = () => dispatch(addStepForm(lastStepFormId ? utils.makeStep(getValues(), `steps[${lastStepFormId}].`) : {mode: "continuous", time: 8, safety: true}, true));
   return <AddFormButton text="Add Step" onClick={handleClick} />
 }
