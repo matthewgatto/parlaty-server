@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_12_001031) do
+ActiveRecord::Schema.define(version: 2020_03_03_044059) do
 
   create_table "actions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2020_02_12_001031) do
     t.string "parameter_name"
     t.string "parameter_value_8_pack"
     t.string "parameter_value_12_pack"
+    t.boolean "default"
     t.index ["device_id"], name: "index_actions_on_device_id"
   end
 
@@ -48,6 +49,11 @@ ActiveRecord::Schema.define(version: 2020_02_12_001031) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "default"
+    t.bigint "oem_business_id"
+    t.bigint "procedure_id"
+    t.index ["oem_business_id"], name: "index_devices_on_oem_business_id"
+    t.index ["procedure_id"], name: "index_devices_on_procedure_id"
   end
 
   create_table "oem_businesses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -118,15 +124,12 @@ ActiveRecord::Schema.define(version: 2020_02_12_001031) do
     t.string "mode"
     t.text "note"
     t.integer "time"
-    t.string "parameter_name"
     t.boolean "safety", default: false
     t.boolean "has_visual", default: false
     t.bigint "procedure_id"
     t.bigint "oem_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "parameter_value_8_pack"
-    t.string "parameter_value_12_pack"
     t.boolean "spoken"
     t.bigint "device_id"
     t.index ["device_id"], name: "index_steps_on_device_id"
@@ -154,6 +157,8 @@ ActiveRecord::Schema.define(version: 2020_02_12_001031) do
 
   add_foreign_key "actions", "devices"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "devices", "oem_businesses"
+  add_foreign_key "devices", "procedures"
   add_foreign_key "oem_businesses", "oems"
   add_foreign_key "operator_admins", "oem_businesses"
   add_foreign_key "operators", "oem_businesses"

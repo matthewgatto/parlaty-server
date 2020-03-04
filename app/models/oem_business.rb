@@ -3,4 +3,5 @@ class OemBusiness < ApplicationRecord
 	has_many :procedures
 	has_many :operator_admins
 	has_many :operators
+	has_many :devices
 end

@@ -1,12 +1,38 @@
+def get_actions(myactions)
+	myactions.map do |myaction|
+	{
+		id: myaction.id,
+		name: myaction.name,
+		parameter_name: myaction.parameter_name,
+		parameter_value_8_pack: myaction.parameter_value_8_pack
+	}
+	end
+end
+
+def show_devices(mydevices)
+	mydevices.map do |mydevice|
+	{
+		id: mydevice.id,
+		name: mydevice.name,
+		default: mydevice.default,
+		oem_business_id: mydevice.oem_business_id,
+		procedure_id: mydevice.procedure_id,
+		actions: get_actions(mydevice.actions)
+	}
+	end
+end
+
 json = {
 	procedure_id: @procedure.id,
 	name: @procedure.name,
+	oem_business_id: @procedure.oem_business_id,
 	version: @procedure.version,
 	description: @procedure.description,
 	category: @procedure.category,
 	author: @procedure.author,
 	language: @procedure.language,
-	steps_order: @procedure.steps_order
+	steps_order: @procedure.steps_order,
+	devices: show_devices(@procedure.devices)
 }
 
 def visual_check(step)
@@ -17,42 +43,17 @@ def visual_check(step)
 	end
 end
 
-def get_device(device_id, step_id)
+def get_device(device_id)
 	if (device_id)
 		mydevice = Device.find(device_id)
 		{
 			id: mydevice.id,
 			name: mydevice.name,
-			actions: get_actions(mydevice.actions, step_id)
+			default: mydevice.default,
+			oem_business_id: mydevice.oem_business_id,
+			procedure_id: mydevice.procedure_id,
+			actions: get_actions(mydevice.actions)
 		}
-	else
-		nil
-	end
-end
-
-def get_actions(myactions, step_id)
-	myactions.map do |myaction|
-	{
-		id: myaction.id,
-		name: myaction.name,
-		#action_instance: get_action_instance(myaction.id, step_id)
-		parameter_name: myaction.parameter_name,
-		parameter_value_8_pack: myaction.parameter_value_8_pack
-	}
-	end
-end
-
-def get_action_instance(action_id, step_id)
-	myaction_instance = ActionInstance.where("step_id = ? AND action_id = ?", step_id, action_id).take
-	if (myaction_instance)
-	{
-		id: myaction_instance.id,
-		step_id: myaction_instance.step_id,
-		action_id: myaction_instance.action_id,
-		parameter_name: myaction_instance.parameter_name,
-		parameter_value_8_pack: myaction_instance.parameter_value_8_pack,
-		parameter_value_12_pack: myaction_instance.parameter_value_12_pack
-	}
 	else
 		nil
 	end
@@ -69,8 +70,7 @@ json[:steps] = @steps.map do |step|
   visual: visual_check(step),
   mode: step.mode,
   time: step.time,
-  device_id: get_device(step.device_id, step.id),
-  device: get_device(step.device_id, step.id)
+  device: get_device(step.device_id)
 }
 end
 

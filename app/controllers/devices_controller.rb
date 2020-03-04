@@ -4,6 +4,14 @@ class DevicesController < ApplicationController
   # POST /devices
   def create
     @device = Device.new(device_params)
+    if @device.procedure_id
+      procedure = Procedure.find(@device.procedure_id)
+      @device.oem_business_id = procedure.oem_business_id
+    end
+    if !@device.oem_business_id
+      config.logger.error "action create failed in POST /devices: missing oem_business_id"
+      head :bad_request and return
+    end
     if(@device.save)
       count = 0
       while params[:device][:actions] && count < params[:device][:actions].count
@@ -71,8 +79,7 @@ class DevicesController < ApplicationController
 
   # DELETE /devices
   def destroy
-    config.logger.debug "*** destroy "
-	 	#@procedure = Procedure.find(params[:id])
+    #@procedure = Procedure.find(params[:id])
 	 	#if(@procedure.delete)
 	 	#	head :ok
 	 	#else
@@ -92,7 +99,7 @@ class DevicesController < ApplicationController
   private
 
     def device_params
-			params.require(:device).permit(:name)
+			params.require(:device).permit(:name, :procedure_id)
     end
     
     def action_params(index)

@@ -89,19 +89,8 @@ class ProceduresController < ApplicationController
 	 def update
 
 		 @procedure = Procedure.find(params[:id])
-		 config.logger.debug "@procedure.id: " + @procedure.id.to_s
-		if(@procedure.update_attributes(procedure_params))
-			config.logger.debug "params[:procedure]: " + params[:procedure].to_s
-			config.logger.debug "params[:procedure][:name]: " + params[:procedure][:name].to_s
-			params[:procedure].each do |k, v|
-				config.logger.debug "k: " + k.to_s + " v: " + v.to_s
-			end
+		 if(@procedure.update_attributes(procedure_params))
 			# do we need to update steps too?
-=begin
-params[:procedure]: {"name"=>"Proc2", "description"=>"Id ducimus omnis labore.", "steps[3].title"=>"Step3", "steps[3].spoken"=>false, "steps[3].note"=>"Et soluta accusantium qui.", "steps[3].number"=>1, "steps[3].time"=>8, "steps[3].mode"=>"continuous", "steps[3].safety"=>false, "steps[3].location"=>"Blue Grill & Tap", "steps[3].device_id"=>2, "steps[3].visual"=>nil, "steps[4].title"=>"Step4", "steps[4].spoken"=>false, "steps[4].note"=>"Neque quidem sint omnis.", "steps[4].number"=>2, "steps[4].time"=>8, "steps[4].mode"=>"continuous", "steps[4].safety"=>false, "steps[4].location"=>"Golden Pub", "steps[4].device_id"=>2, "steps[4].visual"=>nil, "oem_business_id"=>"1"}
-
-=end
-
 	 		render json: @procedure, status: :ok
 	 	else
 	 		head :bad_request
@@ -123,10 +112,7 @@ params[:procedure]: {"name"=>"Proc2", "description"=>"Id ducimus omnis labore.",
 		# oem associated and padmin
 
 		@procedure = Procedure.find(params[:id])
-		#config.logger.debug "*** params[:procedure][:steps_order]: " + params[:procedure][:steps_order].to_s
-		#config.logger.debug "*** params[:procedure][:steps_order].split(\",\"): " + params[:procedure][:steps_order].split(",").to_s
 		so_arr = params[:procedure][:steps_order].split(",").map(&:to_i)
-		#config.logger.debug "*** so_arr: " + so_arr.to_s
 		pso = @procedure.steps_order
 		# make sure the reordered array has the same elements
 		

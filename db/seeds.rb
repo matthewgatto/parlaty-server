@@ -168,6 +168,11 @@ user.confirm
 user.roleable = ParlatyAdmin.first
 user.save
 
+oemBusiness1 = OemBusiness.find(1)
+oemBusiness2 = OemBusiness.find(2)
+oemBusiness3 = OemBusiness.find(3)
+oemBusiness4 = OemBusiness.find(4)
+
 device = Device.new(name: "Crank Handle")
 action = Action.create!(name: "Crank Action One", device: device)
 device.actions << action
@@ -176,7 +181,10 @@ device.actions << action
 action = Action.create!(name: "Crank Action Three", device: device)
 device.actions << action
 device.save
-  
+
+oemBusiness1.devices << device
+oemBusiness1.save
+
 device = Device.new(name: "Part with Lock")
 action = Action.create!(name: "Part Action One", device: device)
 device.actions << action
@@ -186,6 +194,9 @@ action = Action.create!(name: "Part Action Three", device: device)
 device.actions << action
 device.save
   
+oemBusiness1.devices << device
+oemBusiness1.save
+
 device = Device.new(name: "Blowtorch")
 action = Action.create!(name: "Blowtorch Action One", device: device)
 device.actions << action
@@ -194,6 +205,9 @@ device.actions << action
 action = Action.create!(name: "Blowtorch Action Three", device: device)
 device.actions << action
 device.save
+
+oemBusiness2.devices << device
+oemBusiness2.save
 
 device = Device.new(name: "Pressure Washer")
 action = Action.create!(name: "Pressure Action One", device: device)
@@ -204,6 +218,9 @@ action = Action.create!(name: "Pressure Action Three", device: device)
 device.actions << action
 device.save
 
+oemBusiness2.devices << device
+oemBusiness2.save
+
 device = Device.new(name: "Wrench")
 action = Action.create!(name: "Wrench Action One", device: device)
 device.actions << action
@@ -212,6 +229,9 @@ device.actions << action
 action = Action.create!(name: "Wrench Action Three", device: device)
 device.actions << action
 device.save
+
+oemBusiness3.devices << device
+oemBusiness3.save
 
 device = Device.new(name: "Radiator (heating)")
 action = Action.create!(name: "Radiator Action One", device: device)
@@ -222,6 +242,9 @@ action = Action.create!(name: "Radiator Action Three", device: device)
 device.actions << action
 device.save
 
+oemBusiness3.devices << device
+oemBusiness3.save
+
 device = Device.new(name: "Gas Appliance")
 action = Action.create!(name: "Gas Action One", device: device)
 device.actions << action
@@ -231,6 +254,9 @@ action = Action.create!(name: "Gas Action Three", device: device)
 device.actions << action
 device.save
 
+oemBusiness4.devices << device
+oemBusiness4.save
+
 device = Device.new(name: "Futon Dryer")
 action = Action.create!(name: "Futon Action One", device: device)
 device.actions << action
@@ -239,6 +265,11 @@ device.actions << action
 action = Action.create!(name: "Futon Action Three", device: device)
 device.actions << action
 device.save
+
+oemBusiness4.devices << device
+oemBusiness4.save
+
+=begin
 
 device = Device.new(name: "Domestic Robot")
 action = Action.create!(name: "Domestic Action One", device: device)
@@ -312,12 +343,14 @@ action = Action.create!(name: "Mangle Action Three", device: device)
 device.actions << action
 device.save
 
+=end
+
 # Procedures for every oem_business
 proc_index = 1
 y = 1
 while y <= 4
 	2.times do
-		Procedure.create!(
+		proc = Procedure.create!(
 			name: 'Proc' + proc_index.to_s,
 			version: Faker::Number.decimal(1),
 			description: Faker::Lorem.sentence,
@@ -326,7 +359,9 @@ while y <= 4
 			language: Faker::Lorem.word,
 			oem_business_id: y
 		)
-                proc_index = proc_index + 1
+		device = Device.find(proc_index)
+		proc.devices << device
+        proc_index = proc_index + 1
 	end
 	y = y+1
 end

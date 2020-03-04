@@ -13,11 +13,26 @@ json[:oem_businesses] = @sorted_ob.map do |oem_business|
 	}
 end
 
-json[:devices] = @devices.map do |device|
+def get_actions(myactions)
+    myactions.map do |myaction|
+    {
+        id: myaction.id,
+        name: myaction.name,
+        parameter_name: myaction.parameter_name,
+        parameter_value_8_pack: myaction.parameter_value_8_pack
+    }
+    end
+end
+
+json[:devices] = @devices.map do |mydevice|
 {
-	id: device.id,
-	name: device.name,
-	actions: device.actions
+	id: mydevice.id,
+	name: mydevice.name,
+	default: mydevice.default,
+	oem_business_id: mydevice.oem_business_id,
+	procedure_id: mydevice.procedure_id,
+	actions: get_actions(mydevice.actions)
+
 }
 end
 

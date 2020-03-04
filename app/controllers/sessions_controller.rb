@@ -2,7 +2,6 @@ class SessionsController < ApplicationController
 
 	# POST /login
 	def create
-		config.logger.debug "SessionsController.create: email: " + params[:email]
 		@user = User.find_by(email: params[:email])
 
 		# checks if user exist, and valid password (devise's method)
