@@ -23,7 +23,7 @@ export default ({procedure_id, modalData}) => {
   const initialValues = useSelector(getDeviceById(modalData));
   return(
     <div className={styles.modalContainer}>
-      <Bar title="Procedure Device" />
+      <Bar title="Update Procedure Device" />
       <Form
         entity="update_device_modal"
         url={`/devices/${modalData}`}

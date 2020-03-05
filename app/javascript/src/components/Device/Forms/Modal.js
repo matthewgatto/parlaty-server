@@ -22,7 +22,7 @@ export default ({procedure_id, modalData, ...props}) => {
   const id = uuid();
   return(
     <div className={styles.modalContainer}>
-      <Bar title="Update Procedure Device" />
+      <Bar title={modalData ? "Copy Procedure Device" : "Create Procedure Device"} />
       <Form
         entity="copy_device"
         url={`/procedures/${procedure_id}`}
