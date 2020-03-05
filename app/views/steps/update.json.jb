@@ -1,3 +1,11 @@
+def visual_check(step)
+	if (step.has_visual)
+        url_for(step.visuals.first)
+	else
+		nil
+	end
+end
+
 json = {
   id: @step.id,
   title: @step.title,
@@ -14,14 +22,5 @@ json = {
   time: @step.time,
   has_visual: @step.has_visual
 }
-
-def visual_check(step)
-	if (step.has_visual)
-        url_for(step.visuals.first)
-	else
-		nil
-	end
-end
-
 
 json
