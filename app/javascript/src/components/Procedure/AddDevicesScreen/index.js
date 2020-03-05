@@ -5,8 +5,7 @@ import SubmitButton from '@components/SubmitButton';
 import DeviceForm from '@components/Device/Forms/Modal';
 import DeviceUpdateForm from '@components/Device/Forms/UpdateModal';
 import withModal from '@containers/withModal';
-import ModalTrigger from '@containers/ModalTrigger';
-import ProcedureDevices from '../Devices';
+import DeviceManager from '../DeviceManager';
 import DeviceCopyList from '../DeviceCopyList'
 import styles from './index.module.css';
 
@@ -25,12 +24,7 @@ export default ({match:{params:{oem_id,business_id,id}},location:{pathname}}) =>
     <div className={styles.header}>Add Procedure Devices</div>
     <div className={styles.subheader}>Add any devices that will be used throughout the procedure (you may always add devices later)</div>
     <div className={styles.form}>
-      <ProcedureDevices procedure_id={id} />
-      <div className={styles.buttonRow}>
-        <ModalTrigger modal="procedure_device_list" className={styles.button}>Copy A Device</ModalTrigger>
-        <div>- or -</div>
-        <ModalTrigger modal="create_device" className={styles.button}>Create A New Device</ModalTrigger>
-      </div>
+      <DeviceManager procedure_id={id} />
       <Link to={`${pathname.slice(0, -11)}add-steps`} className={styles.link}><SubmitButton label="Continue" secondary /></Link>
     </div>
     <div className={styles.bottomPolygonContainer}>

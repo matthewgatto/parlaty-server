@@ -1,0 +1,10 @@
+.container {
+  width: 40em;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  margin-bottom: 1.4em;
+}

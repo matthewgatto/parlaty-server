@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PageLayout from '@components/PageLayout';
 import FetchLoader from '@components/List/Loader';
 import Name from '@containers/Name';
-import ProcedureForm from '../Form';
+import ProcedureForm from '../EditForm';
 import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '@types/procedure';
 import { loadStepForms } from '@actions/step';
 import { getProcedureById } from '@selectors/procedure';
@@ -32,6 +32,7 @@ const EditProcedureForm = ({initialValues, id, oem_business_id}) => useMemo(() =
     extraValues={{oem_business_id}}
     id={initialValues.id}
     procedure_id={id}
+    business_id={oem_business_id}
   />
 ),[])
 

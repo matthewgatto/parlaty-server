@@ -1,5 +1,6 @@
 .container {
   height: 18em;
+  flex-grow: 1;
   position: relative;
   margin: 1em 0;
   background: #fff;

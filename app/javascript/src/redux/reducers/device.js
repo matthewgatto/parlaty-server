@@ -4,6 +4,7 @@ import { addIds } from '@utils';
 import * as types from "@types/device";
 import * as authTypes from '@types/auth';
 import * as procedureTypes from '@types/procedure';
+import * as businessTypes from '@types/business';
 
 const allDevices = (state = [], {type,payload}) => {
   switch (type) {
@@ -12,6 +13,7 @@ const allDevices = (state = [], {type,payload}) => {
         return Object.keys(payload.devices)
       }
       return []
+    case businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
@@ -54,6 +56,7 @@ const devicesById = (state = {}, {type,payload}) => {
         }
       }
       return state;
+    case businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:

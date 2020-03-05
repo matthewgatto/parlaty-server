@@ -1,0 +1,21 @@
+.buttonRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.button {
+  color: #fff;
+  background-color: #67318d;
+  padding: 0.6em 0;
+  border-radius: 0.3em;
+  font-size: 1.1em;
+  cursor: pointer;
+  width: 11em;
+  text-align: center;
+}
+
+.or {
+  color: #7b7979;
+  font-size: 1.2em;
+  font-weight: bold;
+}

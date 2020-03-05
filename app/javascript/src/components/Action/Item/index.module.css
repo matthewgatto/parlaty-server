@@ -1,13 +1,16 @@
 .container {
-  padding: 0.3em;
+  padding: 0 0.5em;
+  height: 2.4em;
 }
 
 .number {
-  flex: 0 0 1em;
+  flex: 0 0 1.5em;
+  font-weight: bold;
 }
 
 .text {
   flex-grow: 1;
+  font-weight: bold;
 }
 
 .highlight {
@@ -39,10 +42,11 @@
 }
 
 .paramName {
-  color: #67318d;
-  background: #e9e4ee;
+  color: #7b7979;
+  background: #eeefef;
   padding: 0 1em;
   height: 100%;
+  font-weight: bold;
   display: flex;
   align-items: center;
 }

@@ -16,6 +16,8 @@
   padding: 3em;
   border-radius: 1em;
   position: relative;
+  max-height: 95vh;
+  overflow-y: auto;
 }
 
 .closeButton {
