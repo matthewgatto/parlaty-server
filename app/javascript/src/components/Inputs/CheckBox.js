@@ -11,6 +11,6 @@ const useInitialValues = (name,initialValue) => {
   return register
 }
 
-export default ({defaultValue, onChange, name, checked}) => {
-  return <input onChange={onChange} type="checkbox" name={name} checked={checked || false} />
-}
+export default ({defaultValue, onChange, name, checked}) => (
+  <input onChange={onChange} type="checkbox" name={name} checked={checked || false} />
+)

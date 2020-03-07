@@ -34,13 +34,12 @@ export const cleanStepParams = ({id,audio,visual,has_visual,...step}) => {
 
 function* createStepSaga({procedure, step, initialValues}){
   try {
-    const body = {
+    const response = yield call(API.multipost, "/steps", utils.objectToFormData({
       step: cleanStepParams({
         ...step,
         procedure_id: procedure.id
       })
-    }
-    const response = yield call(API.multipost, "/steps", utils.objectToFormData(body));
+    }));
     return {...normalize({id:procedure.id, steps: procedure.steps ? [...procedure.steps, response] : [response]}, Schemas.procedure).entities,id: response.id}
   } catch (e) {
     throw e
