@@ -13,7 +13,7 @@ const Layout = ({children, role,logout}) => {
         <div className={styles.links}>
           <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>
           {isAdmin && <NavLink className={styles.link} activeClassName={styles.active} to="/invite">Invite</NavLink>}
-          {(isAdmin || isOEM) && <NavLink className={styles.link} activeClassName={styles.active} to="/devices">Devices</NavLink>}
+          {(isAdmin || isOEM) && <NavLink className={styles.link} activeClassName={styles.active} to="/devices">Device Labels</NavLink>}
           <NavLink className={styles.link} activeClassName={styles.active} to="/support">Support</NavLink>
           {role && <Link to="/" onClick={logout} className={styles.link}>Logout</Link>}
         </div>

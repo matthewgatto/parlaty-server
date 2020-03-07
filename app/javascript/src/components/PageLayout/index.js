@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Triangle from '../SVG/Triangle';
-import Bar from '../Bar/Large';
+import BackLink from '@components/BackLink';
+import Bar from '@components/Bar/Large';
 import Name from '@containers/Name';
 import styles from './index.module.css';
 
@@ -20,7 +20,7 @@ const renderLinks = (link) => (Array.isArray(link) ? (
 
 export default ({back, header, link, children}) => (
   <div className={styles.container}>
-    {back && <Link className={styles.back} to={back.to}><Triangle className={styles.triangle} /> {makeLabel(back.label)}</Link>}
+    {back && <BackLink className={styles.back} to={back.to}>{makeLabel(back.label)}</BackLink>}
     <Bar title={makeLabel(header)} right={link && renderLinks(link)} />
     {children}
   </div>

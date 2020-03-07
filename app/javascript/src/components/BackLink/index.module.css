@@ -1,0 +1,39 @@
+.container {
+  color: #7b7979;
+  text-decoration: none;
+  font-size: 1.8em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.triangle {
+  transform: rotate(90deg);
+  width: 0.7em;
+  margin-right: 0.2em;
+  position: relative;
+  margin-right: 0.2em;
+  top: 0em;
+}
+
+.triangle > polygon {
+  fill: #7b7979;
+}
+
+@media (min-width: 768px){
+  .container {
+    font-size: 1.6em;
+  }
+  .triangle {
+    width: 0.7em;
+    top: 0em;
+  }
+}
+@media (min-width: 1024px){
+  .container {
+    font-size: 1.3em;
+  }
+  .triangle {
+    width: 0.6em;
+    top: -0.06em;
+  }
+}
