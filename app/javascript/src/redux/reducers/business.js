@@ -34,6 +34,14 @@ const businessesById = (state = {}, {type,payload}) => {
         return merge({}, state, payload.businesses)
       }
       return state;
+    case procedureTypes.DELETE_PROCEDURE_REQUEST__SUCCESS:
+      return {
+        ...state,
+        [payload.business_id]: {
+          ...state[payload.business_id],
+          procedures: state[payload.business_id].procedures.filter(procedureId => procedureId !== payload.procedure_id)
+        }
+      }
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(payload.businesses && payload.auth.roleable_type === "Oem"){
         return merge({}, state, payload.businesses)

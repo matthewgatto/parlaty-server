@@ -1,0 +1,38 @@
+.deleteConfirmationModal {
+  width: 34em;
+}
+
+.text {
+  font-size: 2.6em;
+  color: #7b7979;
+  font-weight: 500;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 3em;
+}
+
+.yesButton,.noButton,.button {
+  color: #fff;
+  cursor: pointer;
+  height: 2.4em;
+  font-size: 1.3em;
+  min-width: 8em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3em;
+  text-decoration: none;
+  padding: 0 0.6em;
+}
+
+.yesButton,.button {
+  background: #67328d;
+}
+
+.noButton {
+  background: #7b7979;
+}

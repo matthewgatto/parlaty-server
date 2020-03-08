@@ -29,6 +29,7 @@ export default function* appSagas(){
     yield takeEvery(procedureTypes.CREATE_PROCEDURE_REQUEST, procedure.createProcedureSaga),
     yield takeEvery(procedureTypes.UPDATE_PROCEDURE_REQUEST, procedure.updateProcedureSaga),
     yield takeEvery(procedureTypes.FETCH_PROCEDURE_REQUEST, procedure.fetchProcedureSaga),
+    yield takeEvery(procedureTypes.DELETE_PROCEDURE_REQUEST, procedure.deleteProcedureSaga),
     yield takeEvery(stepTypes.STEP_SAVE_REQUEST, step.stepSaveSaga),
     yield takeEvery(stepTypes.REORDER_STEP_REQUEST, step.reorderStepSaga),
     yield takeEvery(stepTypes.DELETE_STEP_REQUEST, step.deleteStepSaga),

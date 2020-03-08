@@ -6,6 +6,7 @@ import {getSaga} from './fetch';
 import { push } from 'connected-react-router';
 import { addToast } from '@actions/toast';
 import { getBusinessById } from '@selectors/business';
+import { getProcedureById } from '@selectors/procedure';
 import { getUserRole } from '@selectors/auth';
 import { getStepForms } from '@selectors/step';
 import Schemas from '@utils/models';
@@ -88,4 +89,10 @@ const normalizeFullProcedure = ({procedure_id, steps, ...procedure}) => normaliz
 
 export function* fetchProcedureSaga(action){
   yield call(getSaga, action, normalizeFullProcedure);
+}
+
+export function* deleteProcedureSaga(action){
+  const procedure = yield select(getProcedureById(action.payload))
+  yield put({type: "DELETE_PROCEDURE_REQUEST__SUCCESS", payload: {procedure_id: action.payload, business_id: procedure.oem_business_id}})
+  yield call(handleProcedureRequestSuccess,{values:{procedure}}, "Procedure was successfully deleted.")
 }

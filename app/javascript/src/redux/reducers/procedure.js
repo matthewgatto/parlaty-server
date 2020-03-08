@@ -16,13 +16,14 @@ import {
 
 const allProcedures = (state = null, {type,payload}) => {
   switch (type) {
+    case types.DELETE_PROCEDURE_REQUEST__SUCCESS:
+      return state.filter(procedureId => procedureId !== payload.procedure_id)
     case types.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case types.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
       if(payload.procedures){
         return addIds(state, payload.procedures)
       }
-      return state;
     default:
       return state;
   }
@@ -31,7 +32,9 @@ const allProcedures = (state = null, {type,payload}) => {
 
 const proceduresById = (state = {}, {type,payload}) => {
   switch (type) {
-
+    case types.DELETE_PROCEDURE_REQUEST__SUCCESS:
+      const {[payload.procedure_id]:removedProcedure,...remainingProcedures} = state;
+      return remainingProcedures
     case types.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case types.UPDATE_PROCEDURE_REQUEST__SUCCESS:
     case types.FETCH_PROCEDURE_REQUEST__SUCCESS:

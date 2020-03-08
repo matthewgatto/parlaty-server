@@ -17,11 +17,15 @@ const renderLinks = (link) => (Array.isArray(link) ? (
 ) : (
   <Link className={styles.link} to={link.to}>{link.text}</Link>
 ))
+const renderButtons = (buttons, link) => (<>
+  {link && renderLinks(link)}
+  {buttons}
+</>)
 
-export default ({back, header, link, children}) => (
+export default ({back, header, buttons, link, children}) => (
   <div className={styles.container}>
     {back && <BackLink className={styles.back} to={back.to}>{makeLabel(back.label)}</BackLink>}
-    <Bar title={makeLabel(header)} right={link && renderLinks(link)} />
+    <Bar title={makeLabel(header)} right={renderButtons(buttons, link)} />
     {children}
   </div>
 )
