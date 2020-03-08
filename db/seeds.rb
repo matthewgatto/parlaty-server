@@ -174,11 +174,11 @@ oemBusiness3 = OemBusiness.find(3)
 oemBusiness4 = OemBusiness.find(4)
 
 device = Device.new(name: "Crank Handle")
-action = Action.create!(name: "Crank Action One", device: device)
+action = Action.create!(name: "Crank Action One", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Crank Action Two", device: device)
+action = Action.create!(name: "Crank Action Two", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Crank Action Three", device: device)
+action = Action.create!(name: "Crank Action Three", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
 device.save
 
@@ -186,11 +186,11 @@ oemBusiness1.devices << device
 oemBusiness1.save
 
 device = Device.new(name: "Part with Lock")
-action = Action.create!(name: "Part Action One", device: device)
+action = Action.create!(name: "Part Action One", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
 action = Action.create!(name: "Part Action Two", device: device)
 device.actions << action
-action = Action.create!(name: "Part Action Three", device: device)
+action = Action.create!(name: "Part Action Three", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
 device.save
   
@@ -210,23 +210,25 @@ oemBusiness2.devices << device
 oemBusiness2.save
 
 device = Device.new(name: "Pressure Washer")
-action = Action.create!(name: "Pressure Action One", device: device)
+=begin
+action = Action.create!(name: "Pressure Action One", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Pressure Action Two", device: device)
+action = Action.create!(name: "Pressure Action Two", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Pressure Action Three", device: device)
+action = Action.create!(name: "Pressure Action Three", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
+=end
 device.save
 
 oemBusiness2.devices << device
 oemBusiness2.save
 
 device = Device.new(name: "Wrench")
-action = Action.create!(name: "Wrench Action One", device: device)
+action = Action.create!(name: "Wrench Action One", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Wrench Action Two", device: device)
+action = Action.create!(name: "Wrench Action Two", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Wrench Action Three", device: device)
+action = Action.create!(name: "Wrench Action Three", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
 device.save
 
@@ -234,11 +236,11 @@ oemBusiness3.devices << device
 oemBusiness3.save
 
 device = Device.new(name: "Radiator (heating)")
-action = Action.create!(name: "Radiator Action One", device: device)
+action = Action.create!(name: "Radiator Action One", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Radiator Action Two", device: device)
+action = Action.create!(name: "Radiator Action Two", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Radiator Action Three", device: device)
+action = Action.create!(name: "Radiator Action Three", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
 device.save
 
@@ -246,11 +248,11 @@ oemBusiness3.devices << device
 oemBusiness3.save
 
 device = Device.new(name: "Gas Appliance")
-action = Action.create!(name: "Gas Action One", device: device)
+action = Action.create!(name: "Gas Action One", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Gas Action Two", device: device)
+action = Action.create!(name: "Gas Action Two", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Gas Action Three", device: device)
+action = Action.create!(name: "Gas Action Three", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
 device.save
 
@@ -258,11 +260,11 @@ oemBusiness4.devices << device
 oemBusiness4.save
 
 device = Device.new(name: "Futon Dryer")
-action = Action.create!(name: "Futon Action One", device: device)
+action = Action.create!(name: "Futon Action One", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Futon Action Two", device: device)
+action = Action.create!(name: "Futon Action Two", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
-action = Action.create!(name: "Futon Action Three", device: device)
+action = Action.create!(name: "Futon Action Three", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
 device.actions << action
 device.save
 

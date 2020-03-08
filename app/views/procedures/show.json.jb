@@ -9,6 +9,28 @@ def get_actions(myactions)
 	end
 end
 
+def get_actions2(myactions, step_id)
+	myactions.map do |myaction|
+	myvalue = myaction.parameter_value_8_pack
+	# if an actions parameter value is changed in the ui
+	# an action copy is created to store the value
+	# so that the original value is retained
+	actionCopy = ActionCopy.find_by(step_id: step_id, action_id: myaction.id)
+	if (actionCopy)
+		myvalue = actionCopy.parameter_value_8_pack
+		config.logger.debug "*** myvalue: " + myvalue.to_s
+	end
+	config.logger.debug "*** myvalue: " + myvalue.to_s
+	{
+		id: myaction.id,
+		name: myaction.name,
+		parameter_name: myaction.parameter_name,
+		parameter_value_8_pack: myvalue
+
+	}
+	end
+end
+
 def show_devices(mydevices)
 	mydevices.map do |mydevice|
 	{
@@ -43,7 +65,7 @@ def visual_check(step)
 	end
 end
 
-def get_device(device_id)
+def get_device(device_id, step_id)
 	if (device_id)
 		mydevice = Device.find(device_id)
 		{
@@ -52,7 +74,7 @@ def get_device(device_id)
 			default: mydevice.default,
 			oem_business_id: mydevice.oem_business_id,
 			procedure_id: mydevice.procedure_id,
-			actions: get_actions(mydevice.actions)
+			actions: get_actions2(mydevice.actions, step_id)
 		}
 	else
 		nil
@@ -70,7 +92,7 @@ json[:steps] = @steps.map do |step|
   visual: visual_check(step),
   mode: step.mode,
   time: step.time,
-  device: get_device(step.device_id)
+  device: get_device(step.device_id, step.id)
 }
 end
 

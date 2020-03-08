@@ -8,7 +8,9 @@ class StepsController < ApplicationController
 		# oem associated, padmin
 		@step = Step.new(step_params)
 		@procedure = Procedure.find(@step.procedure_id)
+		config.logger.debug "**** POST /steps @procedure.steps_order: " + @procedure.steps_order.to_s
 		prev_si = params[:previous_step_id].to_i
+		config.logger.debug "**** POST /steps prev_si: " + prev_si.to_s
 		pso = @procedure.steps_order
 
 		#zero means step is first order
@@ -18,10 +20,14 @@ class StepsController < ApplicationController
 
 		if(@step.save)
 			if(prev_si== 0)
-				pso.unshift(@step.id)
+				config.logger.debug "**** POST /steps pso 1: " + pso.to_s
+				pso.push(@step.id)
+				config.logger.debug "**** POST /steps pso 2: " + pso.to_s
 			else
+				config.logger.debug "**** POST /steps pso 3: " + pso.to_s
 				i = pso.index(prev_si)
 				pso.insert(i+1, @step.id)
+				config.logger.debug "**** POST /steps pso 4: " + pso.to_s
 			end
 			@step.has_visual = (@step.visuals.count > 0)
 			@step.save
@@ -80,7 +86,28 @@ class StepsController < ApplicationController
 		if(@step.update_attributes(step_params))
 			@step.has_visual = (@step.visuals.count > 0)
 			@step.save
-			#render json: @step, status: :ok
+			step_device_id = params[:step][:device_id]
+			step_device_actions = params[:step][:actions]
+			step_id = @step.id
+			count = 0
+			while step_device_actions && count < step_device_actions.count
+				actionParams = action_params(count)
+				actionId = actionParams[:id]
+				actionValue = actionParams[:value]
+				action = Action.find(actionId)
+				actionCopy = ActionCopy.find_by(step_id: step_id, action_id: actionId )
+				parmValueChanged = (actionCopy && actionCopy.parameter_value_8_pack != actionValue) || \
+					(action && action.parameter_value_8_pack != actionValue)
+				if parmValueChanged
+					if !actionCopy
+						actionCopy = ActionCopy.create(step_id: step_id, action_id: actionId, parameter_value_8_pack: actionValue)
+					else
+						actionCopy.parameter_value_8_pack = actionValue
+						actionCopy.save
+					end
+				end
+				count = count + 1
+	  		end
 			render status: :ok
 		else
 			head :bad_request
@@ -172,10 +199,14 @@ class StepsController < ApplicationController
 	private
 
 		def step_params
-			params.require(:step).permit(:title, :device_id, :location, :note, :safety, :procedure_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, :has_visual, visuals: [])
+			params.require(:step).permit(:id, :title, :device_id, :location, :note, :safety, :procedure_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, :has_visual, visuals: [])
 		end
 
 		def save_step_params
 			params.require(:step).permit(:title, :device_id, :location, :note, :safety, :oem_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, visuals: [])
 		end
+
+		def action_params(index)
+			params[:step].require(:actions)[index].permit(:id, :value)
+    	end
 end
