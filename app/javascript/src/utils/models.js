@@ -21,7 +21,7 @@ const step = new schema.Entity("steps", {}, {
 });
 step.define({
   procedure_id: procedure,
-  device_id: device
+  device
 })
 
 const procedure = new schema.Entity("procedures", {}, {
