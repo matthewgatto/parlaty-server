@@ -2,6 +2,7 @@ import React from 'react';
 import Polygon from '@components/SVG/PolygonH';
 import DeviceForm from '@components/Device/Forms/Modal';
 import DeviceUpdateForm from '@components/Device/Forms/UpdateModal';
+import DeleteDeviceConfirmationModal from '@components/Device/DeleteConfirmationModal';
 import withModal from '@containers/withModal';
 import DeviceCopyList from '../DeviceCopyList'
 import DeviceManager from '../DeviceManager';
@@ -36,4 +37,5 @@ export default ({header, subheader, formComponents, procedure_id, business_id, t
   <DeviceCreateModal procedure_id={procedure_id} />
   <ProcedureDeviceModal business_id={business_id} />
   <DeviceUpdateModal />
+  <DeleteDeviceConfirmationModal procedure_id={procedure_id} />
 </>)

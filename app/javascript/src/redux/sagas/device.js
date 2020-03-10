@@ -170,3 +170,9 @@ export function* createProcedureDeviceSaga({type, payload:{values,id,formKey}}){
     }
   }
 }
+
+export function* deleteDeviceSaga(action){
+  yield put({type: "DELETE_DEVICE_REQUEST__SUCCESS", payload: {device_id: action.payload.device_id, procedure_id: action.payload.procedure_id}})
+  yield put(setModal());
+  yield put(addToast("success", "Device was successfully deleted."))
+}

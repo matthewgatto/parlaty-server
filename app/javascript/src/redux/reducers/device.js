@@ -8,6 +8,8 @@ import * as businessTypes from '@types/business';
 
 const allDevices = (state = [], {type,payload}) => {
   switch (type) {
+    case types.DELETE_DEVICE_REQUEST__SUCCESS:
+      return state.filter(deviceId => deviceId !== payload.device_id)
     case types.FETCH_DEVICES_REQUEST__SUCCESS:
       if(payload.devices){
         return Object.keys(payload.devices)
@@ -29,26 +31,15 @@ const allDevices = (state = [], {type,payload}) => {
 
 const devicesById = (state = {}, {type,payload}) => {
   switch (type) {
+    case types.DELETE_DEVICE_REQUEST__SUCCESS:
+      const {[payload.device_id]:removedDevice,...remainingDevices} = state;
+      return remainingDevices
     case types.FETCH_DEVICES_REQUEST__SUCCESS:
       if(payload.devices){
         return payload.devices
       }
       return state;
     case types.CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS:
-      /*
-      if(payload.devices){
-        const newDevices = {}
-        for (var deviceId in payload.devices) {
-          if (payload.devices.hasOwnProperty(deviceId)) {
-            newDevices[deviceId] = payload.devices[deviceId]
-          }
-        }
-        return {
-          ...state,
-          ...newDevices
-        }
-      }
-      */
       if(payload.devices){
         return {
           ...state,

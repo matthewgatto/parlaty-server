@@ -72,6 +72,21 @@
   font-size: 0.9em;
 }
 
+.button {
+  background: #67328d;
+  color: #fff;
+  cursor: pointer;
+  height: 2.4em;
+  font-size: 1.3em;
+  min-width: 8em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3em;
+  text-decoration: none;
+  padding: 0 0.6em;
+}
+
 @media (max-width: 480px) {
   .content textarea {
     text-indent:-3px;

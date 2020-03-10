@@ -34,6 +34,7 @@ export default function* appSagas(){
     yield takeEvery(stepTypes.REORDER_STEP_REQUEST, step.reorderStepSaga),
     yield takeEvery(stepTypes.DELETE_STEP_REQUEST, step.deleteStepSaga),
     yield takeEvery(deviceTypes.FETCH_DEVICES_REQUEST, device.deviceListSaga),
+    yield takeEvery(deviceTypes.DELETE_DEVICE_REQUEST, device.deleteDeviceSaga),
     yield fork(device.getFreshDeviceData),
     yield takeEvery(deviceTypes.CREATE_DEVICE_REQUEST, device.createDeviceSaga),
     yield takeEvery(deviceTypes.UPDATE_DEVICE_REQUEST, device.updateDeviceSaga),

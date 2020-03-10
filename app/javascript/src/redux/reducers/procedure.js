@@ -11,7 +11,8 @@ import {
   DELETE_STEP_REQUEST__SUCCESS
 } from '@types/step';
 import {
-  CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS
+  CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS,
+  DELETE_DEVICE_REQUEST__SUCCESS
 } from '@types/device';
 
 const allProcedures = (state = null, {type,payload}) => {
@@ -35,6 +36,14 @@ const proceduresById = (state = {}, {type,payload}) => {
     case types.DELETE_PROCEDURE_REQUEST__SUCCESS:
       const {[payload.procedure_id]:removedProcedure,...remainingProcedures} = state;
       return remainingProcedures
+    case DELETE_DEVICE_REQUEST__SUCCESS:
+      return {
+        ...state,
+        [payload.procedure_id]: {
+          ...state[payload.procedure_id],
+          devices: state[payload.procedure_id].devices.filter(deviceId => deviceId !== payload.device_id)
+        }
+      }
     case types.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case types.UPDATE_PROCEDURE_REQUEST__SUCCESS:
     case types.FETCH_PROCEDURE_REQUEST__SUCCESS:

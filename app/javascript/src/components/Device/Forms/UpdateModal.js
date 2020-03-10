@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import ActionFormList from '@containers/ActionFormList';
 import AddActionFormButton from '@containers/AddActionFormButton';
 import SubmitButton from '@containers/SubmitButton';
@@ -10,6 +10,7 @@ import { Input } from '@components/Inputs';
 import Buttons from '@components/Form/Buttons';
 import { UPDATE_DEVICE_REQUEST } from '@types/device';
 import {getDeviceById} from '@selectors/device';
+import {setModal} from '@actions/modal';
 import styles from './index.module.css';
 
 const inputs = [{
@@ -19,11 +20,19 @@ const inputs = [{
   required: true
 }]
 
+const DeleteDeviceButton = ({device_id}) => {
+  const dispatch = useDispatch();
+  const handleClick = () => dispatch(setModal("delete_device_confirmation", device_id))
+  return(
+    <div onClick={handleClick} className={styles.button}>Delete Device</div>
+  )
+}
+
 export default ({procedure_id, modalData}) => {
   const initialValues = useSelector(getDeviceById(modalData));
   return(
     <div className={styles.modalContainer}>
-      <Bar title="Update Procedure Device" />
+      <Bar title="Update Procedure Device" right={<DeleteDeviceButton device_id={modalData} />} />
       <Form
         entity="update_device_modal"
         url={`/devices/${modalData}`}

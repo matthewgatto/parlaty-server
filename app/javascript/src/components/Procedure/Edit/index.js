@@ -7,6 +7,11 @@ import Loader from '@components/Loader';
 import ModalTrigger from '@containers/ModalTrigger';
 import withModal from '@containers/withModal';
 import ProcedureForm from '../EditForm';
+import DeviceForm from '@components/Device/Forms/Modal';
+import DeviceUpdateForm from '@components/Device/Forms/UpdateModal';
+import DeviceCopyList from '../DeviceCopyList'
+import DeviceManagerModal from '../DeviceManagerModal'
+import DeleteDeviceConfirmationModal from '@components/Device/DeleteConfirmationModal';
 import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '@types/procedure';
 import { loadStepForms } from '@actions/step';
 import { deleteProcedure } from '@actions/procedure';
@@ -44,7 +49,10 @@ const DeleteConfirmation = ({procedure_id}) => (
   </div>
 )
 
-const DeleteConfirmationModal = withModal(DeleteConfirmation, "delete_confirmation");
+const DeviceCreateModal = withModal(DeviceForm, "create_device");
+const ProcedureDeviceModal = withModal(DeviceCopyList, "procedure_device_list");
+const DeviceUpdateModal = withModal(DeviceUpdateForm, "update_device");
+const DeleteProcedureConfirmationModal = withModal(DeleteConfirmation, "delete_procedure_confirmation");
 
 const withStepLoader = (WrappedComponent) =>  (
   class extends React.PureComponent {
@@ -101,9 +109,14 @@ export default ({match:{params:{oem_id,business_id,id}}}) => (<>
       to: "/",
       label: "Home"
     })}
-    buttons={<ModalTrigger modal="delete_confirmation" className={styles.button}>Delete Procedure</ModalTrigger>}
+    buttons={<ModalTrigger modal="delete_procedure_confirmation" className={styles.button}>Delete Procedure</ModalTrigger>}
   >
     <EditProcedureFormContainer id={id} oem_business_id={business_id} />
   </PageLayout>
-  <DeleteConfirmationModal procedure_id={id} />
+  <DeleteProcedureConfirmationModal procedure_id={id} />
+  <DeleteDeviceConfirmationModal procedure_id={id} />
+  <DeviceManagerModal procedure_id={id} />
+  <DeviceCreateModal procedure_id={id} />
+  <ProcedureDeviceModal business_id={business_id} />
+  <DeviceUpdateModal />
 </>)
