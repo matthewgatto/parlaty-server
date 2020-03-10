@@ -1,5 +1,5 @@
 .container {
-  width: 40em;
+  width: 90vw;
   height: 70vh;
 }
 
@@ -66,4 +66,10 @@
 
 
 .procedureName {
+}
+
+@media (min-width: 768px){
+  .container {
+    width: 40em;
+  }
 }

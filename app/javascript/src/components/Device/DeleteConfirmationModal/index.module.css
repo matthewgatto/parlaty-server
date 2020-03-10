@@ -1,5 +1,5 @@
 .deleteConfirmationModal {
-  width: 34em;
+  width: 90vw;
 }
 
 .text {
@@ -35,4 +35,10 @@
 
 .noButton {
   background: #7b7979;
+}
+
+@media (min-width: 768px){
+  .deleteConfirmationModal {
+    width: 34em;
+  }
 }

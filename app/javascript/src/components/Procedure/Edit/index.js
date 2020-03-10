@@ -18,7 +18,6 @@ import { deleteProcedure } from '@actions/procedure';
 import { getProcedureById } from '@selectors/procedure';
 import styles from './index.module.css';
 
-
 const DeleteConfirmationLoadingButton = ({text, procedure_id}) => {
   const [isProcessing, setProcessing] = useState()
   const dispatch = useDispatch();

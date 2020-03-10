@@ -1,5 +1,5 @@
 .container {
-  width: 40em;
+  width: 90vw;
   height: 70vh;
   display: flex;
   flex-direction: column;
@@ -7,4 +7,10 @@
 
 .modalHeader {
   margin-bottom: 1.4em;
+}
+
+@media (min-width: 768px){
+  .container {
+    width: 40em;
+  }
 }

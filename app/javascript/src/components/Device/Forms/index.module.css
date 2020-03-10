@@ -68,7 +68,7 @@
 }
 
 .modalContainer {
-  width: 64em;
+  width: 90vw;
   font-size: 0.9em;
 }
 
@@ -96,5 +96,8 @@
 @media (min-width: 768px){
   .container {
     font-size: 1em;
+  }
+  .modalContainer {
+    width: 64em;
   }
 }
