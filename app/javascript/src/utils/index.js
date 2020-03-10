@@ -84,18 +84,18 @@ export const makeAction = (values, root) => {
   const name = values[`${root}name`],
         parameter_name = values[`${root}parameter_name`],
         parameter_value_8_pack = values[`${root}parameter_value_8_pack`],
+        time = values[`${root}time`],
         action = {};
   if(name) action.name = name
   if(parameter_name) action.parameter_name = parameter_name
   if(parameter_value_8_pack) action.parameter_value_8_pack = parameter_value_8_pack
+  if(time) action.time = time
   return action;
 }
 
 export const makeStep = (values, root) => {
   const title = values[`${root}title`],
         spoken = values[`${root}spoken`],
-        note = values[`${root}note`],
-        time = values[`${root}time`],
         mode = values[`${root}mode`],
         safety = values[`${root}safety`],
         visual = values[`${root}visual`],
@@ -105,8 +105,6 @@ export const makeStep = (values, root) => {
         step = {};
   if(title) step.title = title
   if(spoken) step.spoken = spoken
-  if(note) step.note = note
-  if(time) step.time = time
   if(mode) step.mode = mode
   if(safety) step.safety = safety
   if(location) step.location = location

@@ -10,11 +10,11 @@ import {getProcedureById} from '@selectors/procedure';
 
 const DeviceSelect = withField(withSelectContainer(SelectComponent));
 
-const DeviceSelectContainer = ({root, value, defaultDevice, ...props}) => {
+const DeviceSelectContainer = ({root, value, defaultDevice, formKey, ...props}) => {
   const actions = useSelector(({devices,actions}) => (value && devices.byId[value]) ? devices.byId[value].actions.map(actionId => actions.byId[actionId]) : undefined)
   return(<>
     <DeviceSelect value={value} {...props} placeholder="Choose A Device" />
-    <ActionList actions={actions} root={root} defaultActions={(defaultDevice && defaultDevice.id == value) ? defaultDevice.actions : undefined} />
+    <ActionList formKey={formKey} actions={actions} root={root} defaultActions={(defaultDevice && defaultDevice.id == value) ? defaultDevice.actions : undefined} />
   </>)
 }
 

@@ -82,7 +82,11 @@ const validateStep = async (step, root) => {
 function* addStepActionValues(step, values, root){
   const device = yield select(getDeviceById(step.device_id));
   if(device.actions){
-    step.actions = device.actions.map(actionId => ({id: actionId, value: values[`${root}actions[${actionId}]`]}))
+    const actionsRoot = `${root}actions`
+    step.actions = device.actions.map(actionId => {
+      const actionRoot = `${actionsRoot}[${actionId}].`;
+      return({id: actionId, parameter_value_8_pack: values[`${actionRoot}parameter_value_8_pack`], duration: values[`${actionRoot}duration`]})
+    })
   }
 }
 

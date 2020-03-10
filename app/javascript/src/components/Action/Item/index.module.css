@@ -37,10 +37,6 @@
   display: flex;
 }
 
-.hidden {
-  display: none;
-}
-
 .paramName {
   color: #7b7979;
   background: #eeefef;
