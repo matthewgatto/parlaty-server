@@ -5,11 +5,11 @@ import Gear from '../../SVG/Gear';
 import styles from './index.module.css';
 
 
-export default ({actions, root, selectedAction, setSelectedAction}) => {
+export default ({actions, root, defaultActions}) => {
   const renderActionList = () => {
     if(actions){
       if(actions.length > 0){
-        return actions.map((action, i) => <Action key={action.id} root={root} action={action} selectedAction={selectedAction} position={i+1} setSelectedAction={setSelectedAction} />)
+        return actions.map((action, i) => <Action key={action.id} root={root} defaultAction={(defaultActions && defaultActions[i] && defaultActions[i].id == action.id) ? defaultActions[i] : undefined} action={action} position={i+1} />)
       } else {
         return(<div>Selected device has no actions</div>)
       }

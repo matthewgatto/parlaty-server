@@ -10,16 +10,10 @@ const makeActionItemClassStr = (isSelected, hasParameterValues) => {
   return classStr;
 }
 
-export default ({position, action, root, selectedAction, setSelectedAction}) => {
+export default ({position, action, root, defaultAction}) => {
   const [isOpen, setIsOpen] = useState()
-  const isSelected = selectedAction && selectedAction.id === action.id
   const hasParameterValues = (action && action.parameter_name && action.parameter_value_8_pack) ? true : false
   const handleClick = () => {
-    /*
-    if(!isSelected && hasParameterValues){
-      setSelectedAction(action)
-    }
-    */
     if(hasParameterValues){
       setIsOpen(!isOpen);
     }
@@ -33,7 +27,7 @@ export default ({position, action, root, selectedAction, setSelectedAction}) => 
     {hasParameterValues &&
       <div className={isOpen ? styles.valueField : `${styles.valueField} ${styles.hidden}`}>
       <div className={styles.paramName}>{action.parameter_name}</div>
-      <Controller as='input' className={styles.valueInput} name={`${root}actions[${action.id}]`} defaultValue={action.parameter_value_8_pack} />
+      <Controller as='input' className={styles.valueInput} name={`${root}actions[${action.id}]`} defaultValue={(defaultAction && defaultAction.parameter_value_8_pack) ? defaultAction.parameter_value_8_pack : action.parameter_value_8_pack} />
 
       </div>
     }
