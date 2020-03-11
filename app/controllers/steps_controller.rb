@@ -2,37 +2,13 @@ require 'csv'
 
 class StepsController < ApplicationController
 	#before_action :require_login
-
 	# POST /steps
-
-=begin
-Started POST "/steps" for 127.0.0.1 at 2020-03-10 20:36:24 -0500
-Processing by StepsController#create as */*
-  Parameters: {"step"=>{
-	  "title"=>"myrpoc5step3", 
-	  "note"=>"myproc5step3", 
-	  "time"=>"8", 
-	  "mode"=>"continuous", 
-	  "safety"=>"true", 
-	  "device_id"=>"9", 
-	  "actions"=>[
-		  {"id"=>"22", "value"=>"parmvalaaa"}, 
-		  {"id"=>"23", "value"=>"parmvalbbb"}, 
-		  {"id"=>"24", "value"=>"parmvalccc"}], 
-	  "procedure_id"=>"11", 
-	  "has_visual"=>"false", 
-	  "spoken"=>"false"
-		  }
-		}
-=end
 
 	def create
 		# oem associated, padmin
 		@step = Step.new(step_params)
 		@procedure = Procedure.find(@step.procedure_id)
-		config.logger.debug "**** POST /steps @procedure.steps_order: " + @procedure.steps_order.to_s
 		prev_si = params[:previous_step_id].to_i
-		config.logger.debug "**** POST /steps prev_si: " + prev_si.to_s
 		pso = @procedure.steps_order
 
 		#zero means step is first order
@@ -44,10 +20,8 @@ Processing by StepsController#create as */*
 			if(prev_si== 0)
 				pso.push(@step.id)
 			else
-				config.logger.debug "**** POST /steps pso 3: " + pso.to_s
 				i = pso.index(prev_si)
 				pso.insert(i+1, @step.id)
-				config.logger.debug "**** POST /steps pso 4: " + pso.to_s
 			end
 			@step.has_visual = (@step.visuals.count > 0)
 			@step.save
@@ -60,7 +34,8 @@ Processing by StepsController#create as */*
 			while step_device_actions && count < step_device_actions.count
 				actionParams = action_params(count)
 				actionId = actionParams[:id]
-				actionValue = actionParams[:value]
+				actionValue = actionParams[:parameter_value_8_pack]
+				
 				action = Action.find(actionId)
 				actionCopy = ActionCopy.find_by(step_id: step_id, action_id: actionId )
 				parmValueChanged = (actionCopy && actionCopy.parameter_value_8_pack != actionValue) || \
@@ -138,7 +113,7 @@ Processing by StepsController#create as */*
 			while step_device_actions && count < step_device_actions.count
 				actionParams = action_params(count)
 				actionId = actionParams[:id]
-				actionValue = actionParams[:value]
+				actionValue = actionParams[:parameter_value_8_pack]
 				action = Action.find(actionId)
 				actionCopy = ActionCopy.find_by(step_id: step_id, action_id: actionId )
 				parmValueChanged = (actionCopy && actionCopy.parameter_value_8_pack != actionValue) || \
@@ -252,6 +227,6 @@ Processing by StepsController#create as */*
 		end
 
 		def action_params(index)
-			params[:step].require(:actions)[index].permit(:id, :value)
+			params[:step].require(:actions)[index].permit(:id, :parameter_value_8_pack)
     	end
 end
