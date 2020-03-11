@@ -4,6 +4,28 @@ class StepsController < ApplicationController
 	#before_action :require_login
 
 	# POST /steps
+
+=begin
+Started POST "/steps" for 127.0.0.1 at 2020-03-10 20:36:24 -0500
+Processing by StepsController#create as */*
+  Parameters: {"step"=>{
+	  "title"=>"myrpoc5step3", 
+	  "note"=>"myproc5step3", 
+	  "time"=>"8", 
+	  "mode"=>"continuous", 
+	  "safety"=>"true", 
+	  "device_id"=>"9", 
+	  "actions"=>[
+		  {"id"=>"22", "value"=>"parmvalaaa"}, 
+		  {"id"=>"23", "value"=>"parmvalbbb"}, 
+		  {"id"=>"24", "value"=>"parmvalccc"}], 
+	  "procedure_id"=>"11", 
+	  "has_visual"=>"false", 
+	  "spoken"=>"false"
+		  }
+		}
+=end
+
 	def create
 		# oem associated, padmin
 		@step = Step.new(step_params)
@@ -20,9 +42,7 @@ class StepsController < ApplicationController
 
 		if(@step.save)
 			if(prev_si== 0)
-				config.logger.debug "**** POST /steps pso 1: " + pso.to_s
 				pso.push(@step.id)
-				config.logger.debug "**** POST /steps pso 2: " + pso.to_s
 			else
 				config.logger.debug "**** POST /steps pso 3: " + pso.to_s
 				i = pso.index(prev_si)
@@ -31,6 +51,31 @@ class StepsController < ApplicationController
 			end
 			@step.has_visual = (@step.visuals.count > 0)
 			@step.save
+
+			# new 20200310
+			step_device_id = params[:step][:device_id]
+			step_device_actions = params[:step][:actions]
+			step_id = @step.id
+			count = 0
+			while step_device_actions && count < step_device_actions.count
+				actionParams = action_params(count)
+				actionId = actionParams[:id]
+				actionValue = actionParams[:value]
+				action = Action.find(actionId)
+				actionCopy = ActionCopy.find_by(step_id: step_id, action_id: actionId )
+				parmValueChanged = (actionCopy && actionCopy.parameter_value_8_pack != actionValue) || \
+					(action && action.parameter_value_8_pack != actionValue)
+				if parmValueChanged
+					if !actionCopy
+						actionCopy = ActionCopy.create(step_id: step_id, action_id: actionId, parameter_value_8_pack: actionValue)
+					else
+						actionCopy.parameter_value_8_pack = actionValue
+						actionCopy.save
+					end
+				end
+				count = count + 1
+	  		end
+			# end new 20200310
 			@procedure.save
 
 			#render json: @step, status: :created
