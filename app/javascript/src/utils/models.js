@@ -24,24 +24,22 @@ step.define({
   //device
 })
 
-const procedure = new schema.Entity("procedures", {}, {
-  processStrategy: (procedure, {oem_business_id,id}) => ({oem_business_id: id || oem_business_id, ...procedure})
-});
-procedure.define({
+const procedure = new schema.Entity("procedures", {
   oem_business_id: business,
   steps: [step],
   devices: [device]
-})
+}, {
+  processStrategy: (procedure, {oem_business_id,id}) => ({oem_business_id: id || oem_business_id, ...procedure})
+});
 
-const business = new schema.Entity("businesses", {}, {
+const business = new schema.Entity("businesses", {
+  procedures: [procedure]
+}, {
   idAttribute: 'oem_business_id',
   processStrategy: (business, {id}) => ({oem_id: id, ...business})
 });
-business.define({
-  procedures: [procedure]
-})
-const oem = new schema.Entity("oems", {})
-oem.define({
+
+const oem = new schema.Entity("oems", {
   businesses: [business]
 })
 

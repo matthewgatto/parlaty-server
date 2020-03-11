@@ -12,10 +12,10 @@ const makeLabel = (label) => ((typeof label === "object" && label.entityKey) ? (
 ))
 const renderLinks = (link) => (Array.isArray(link) ? (
   <div className={styles.links}>
-    {link.map(l => <Link key={l.to} className={styles.link} to={l.to}>{l.text}</Link>)}
+    {link.map(l => <Link key={l.to} className="primary button align_center" to={l.to}>{l.text}</Link>)}
   </div>
 ) : (
-  <Link className={styles.link} to={link.to}>{link.text}</Link>
+  <Link className="primary button align_center" to={link.to}>{link.text}</Link>
 ))
 const renderButtons = (buttons, link) => (<>
   {link && renderLinks(link)}

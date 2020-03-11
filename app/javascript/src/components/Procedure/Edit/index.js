@@ -3,55 +3,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import PageLayout from '@components/PageLayout';
 import FetchLoader from '@components/List/Loader';
 import Name from '@containers/Name';
-import Loader from '@components/Loader';
+import SubmitButton from '@components/SubmitButton';
 import ModalTrigger from '@containers/ModalTrigger';
 import withModal from '@containers/withModal';
 import ProcedureForm from '../EditForm';
-import DeviceForm from '@components/Device/Forms/Modal';
-import DeviceUpdateForm from '@components/Device/Forms/UpdateModal';
+import DeviceForm from '@components/Device/Create';
+import DeviceUpdateForm from '@components/Device/Edit';
 import DeviceCopyList from '../DeviceCopyList'
 import DeviceManagerModal from '../DeviceManagerModal'
+import DeleteProcedureConfirmationModal from '../DeleteConfirmationModal'
 import DeleteDeviceConfirmationModal from '@components/Device/DeleteConfirmationModal';
 import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '@types/procedure';
 import { loadStepForms } from '@actions/step';
-import { deleteProcedure } from '@actions/procedure';
 import { getProcedureById } from '@selectors/procedure';
-import styles from './index.module.css';
-
-const DeleteConfirmationLoadingButton = ({text, procedure_id}) => {
-  const [isProcessing, setProcessing] = useState()
-  const dispatch = useDispatch();
-  const handleClick = () => {
-    if(!isProcessing){
-      setProcessing(true);
-      dispatch(deleteProcedure(procedure_id))
-    }
-  };
-  return(
-    <div onClick={handleClick} className={styles.yesButton}>
-      {isProcessing ? (
-        <Loader fill="#fff" />
-      ) : (
-        text
-      )}
-    </div>
-  )
-}
-
-const DeleteConfirmation = ({procedure_id}) => (
-  <div className={styles.deleteConfirmationModal}>
-    <div className={styles.text}>Are you sure you want to delete this procedure?</div>
-    <div className={styles.buttons}>
-      <DeleteConfirmationLoadingButton text="Yes" procedure_id={procedure_id} />
-      <ModalTrigger className={styles.noButton}>No</ModalTrigger>
-    </div>
-  </div>
-)
 
 const DeviceCreateModal = withModal(DeviceForm, "create_device");
 const ProcedureDeviceModal = withModal(DeviceCopyList, "procedure_device_list");
 const DeviceUpdateModal = withModal(DeviceUpdateForm, "update_device");
-const DeleteProcedureConfirmationModal = withModal(DeleteConfirmation, "delete_procedure_confirmation");
 
 const withStepLoader = (WrappedComponent) =>  (
   class extends React.PureComponent {
@@ -108,7 +76,7 @@ export default ({match:{params:{oem_id,business_id,id}}}) => (<>
       to: "/",
       label: "Home"
     })}
-    buttons={<ModalTrigger modal="delete_procedure_confirmation" className={styles.button}>Delete Procedure</ModalTrigger>}
+    buttons={<ModalTrigger modal="delete_procedure_confirmation"><SubmitButton primary label="Delete Procedure" /></ModalTrigger>}
   >
     <EditProcedureFormContainer id={id} oem_business_id={business_id} />
   </PageLayout>

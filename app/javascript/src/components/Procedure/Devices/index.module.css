@@ -5,7 +5,7 @@
   margin: 1em 0;
   background: #fff;
   border-radius: 1em;
-  padding: 1em;
+  padding: 0.8em;
   text-align: left;
   color: #888;
 }
@@ -19,9 +19,8 @@
 }
 
 .device {
-  font-weight: bold;
-  padding: 0.4em 1em;
-  font-size: 1.2em;
+  padding: 0.4em;
+  font-size: 1.4em;
 }
 
 .device:hover {

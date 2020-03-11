@@ -1,19 +1,27 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import DeviceForm from '../Forms/Page';
+import { useSelector,useDispatch } from 'react-redux';
+import DeviceForm from '../Form';
 import { UPDATE_DEVICE_REQUEST } from '@types/device';
 import {getDeviceById} from '@selectors/device';
+import {setModal} from '@actions/modal';
 
-export default ({match:{params:{id}}}) => {
-  const initialValues = useSelector(getDeviceById(id));
+export default ({procedure_id, modalData}) => {
+  const initialValues = useSelector(getDeviceById(modalData));
+  const dispatch = useDispatch();
+  const deleteDeviceClick = () => dispatch(setModal("delete_device_confirmation", modalData))
   return(
     <DeviceForm
-      entity="edit_device_page"
-      header="Update Device"
-      url={`/devices/${id}`}
-      type={UPDATE_DEVICE_REQUEST}
-      initialValues={initialValues}
-      id={id}
+      bar={{
+        title: "Update Procedure Device",
+        right: <SubmitButton onClick={deleteDeviceClick} label="Delete Device" />
+      }}
+      form={{
+        entity: "update_device_modal",
+        url: `/devices/${modalData}`,
+        type: UPDATE_DEVICE_REQUEST,
+        initialValues: initialValues,
+        id: modalData
+      }}
     />
   )
 }

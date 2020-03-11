@@ -1,5 +1,5 @@
 .container {
-  width: 90vw;
+  width: 85vw;
   height: 70vh;
 }
 
@@ -26,17 +26,17 @@
   flex-shrink: 0;
   color: #fff;
   background: #67318d;
-  border-radius: 0.5em;
+  border-radius: 0.4em;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.8em 0;
-  font-size: 1.1em;
+  padding: 0.7em 0;
+  font-size: 1.4em;
 }
 
 .modalHeader {
-  margin-bottom: 1.4em;
+  margin-bottom: 1em;
 }
 
 .disabled {
@@ -70,6 +70,6 @@
 
 @media (min-width: 768px){
   .container {
-    width: 40em;
+    width: 46em;
   }
 }

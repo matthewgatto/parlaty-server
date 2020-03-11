@@ -1,15 +1,22 @@
 import React from 'react';
 import uuid from 'uuid/v4';
-import DeviceForm from '../Forms/Page';
-import { CREATE_DEVICE_REQUEST } from '@types/device';
+import DeviceForm from '../Form';
+import { CREATE_PROCEDURE_DEVICE_REQUEST } from '@types/device';
 
-export default () => (
-  <DeviceForm
-    entity="create_device_page"
-    header="Create A New Device"
-    url="/devices"
-    type={CREATE_DEVICE_REQUEST}
-    initialValues={{name: ''}}
-    id={uuid()}
-  />
-)
+export default ({procedure_id, modalData, ...props}) => {
+  const id = uuid();
+  return(
+    <DeviceForm
+      bar={{
+        title: modalData ? "Copy Procedure Device" : "Create Procedure Device",
+      }}
+      form={{
+        entity: "copy_device",
+        url: `/procedures/${procedure_id}`,
+        type: CREATE_PROCEDURE_DEVICE_REQUEST,
+        initialValues: modalData || {name: ''},
+        id
+      }}
+    />
+  )
+}

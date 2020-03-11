@@ -14,11 +14,6 @@ import AdminLandingPage from '@components/AdminLandingPage';
 import OEMPage from '@components/OEM/Show';
 import OEMLandingPage from '@components/OEM/Landing';
 import OEMUpdatePage from '@components/OEM/Edit';
-/*
-import DeviceListPage from '@components/Device/List';
-import DeviceEditPage from '@components/Device/Edit';
-import DeviceCreatePage from '@components/Device/Create';
-*/
 import DeviceAdminPage from '@components/Device/Tab/Admin';
 import DeviceOEMAdminPage from '@components/Device/Tab/OEM/Admin';
 import DeviceOEMLandingPage from '@components/Device/Tab/OEM/Landing';
@@ -36,10 +31,6 @@ const Routes = ({role}) => {
   switch (role) {
     case "Oem":
       return(<Switch>
-        <Route exact path="/" component={OEMLandingPage} />
-        {/*<Route path="/devices/:id/update" component={DeviceEditPage} />
-        <Route path="/devices/create" component={DeviceCreatePage} />
-        <Route path="/devices" component={DeviceListPage} />*/}
         <Route exact path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
         {/*<Route path="/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
         <Route exact path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
@@ -58,9 +49,6 @@ const Routes = ({role}) => {
         <Route exact path="/" component={AdminLandingPage} />
         <Route path="/invite" component={UserInvitationForm} />
         <Route path="/invite/:roleable" component={OEMInvitationForm} />
-        {/*<Route path="/devices/:id/update" component={DeviceEditPage} />
-        <Route path="/devices/create" component={DeviceCreatePage} />
-        <Route path="/devices" component={DeviceListPage} />*/}
         <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
         {/*<Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
         <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />

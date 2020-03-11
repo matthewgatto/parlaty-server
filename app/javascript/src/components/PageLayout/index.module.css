@@ -12,21 +12,6 @@
 }
 
 
-.link {
-  background: #67328d;
-  color: #fff;
-  cursor: pointer;
-  height: 2.5em;
-  font-size: 1.4em;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.3em;
-  text-decoration: none;
-  padding: 0 0.6em;
-}
-
-
 .back {
   position: absolute;
   top: -1.8em;
@@ -41,9 +26,5 @@
 @media (min-width: 768px){
   .back {
     top: -2.5em;
-  }
-  .link {
-    height: 2.5em;
-    font-size: 1.2em;
   }
 }

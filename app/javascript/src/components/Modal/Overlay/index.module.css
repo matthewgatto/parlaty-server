@@ -13,12 +13,11 @@
 
 .content {
   background: #f8f8f7;
-  padding: 3em;
+  padding: 4em;
   border-radius: 1em;
   position: relative;
   max-height: 95vh;
   overflow-y: auto;
-  box-sizing: border-box;
 }
 
 .closeButton {
@@ -30,7 +29,7 @@
 }
 
 .closeIcon {
-  width: 2em;
-  height: 2em;
+  width: 2.6em;
+  height: 2.6em;
   fill: #7b7979;
 }

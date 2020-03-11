@@ -36,11 +36,11 @@ export default ({position, action, root, formKey, defaultAction}) => {
         <div className={styles.fieldContainer}>
           <div className={styles.valueField}>
             <div className={styles.paramName}>{action.parameter_name}</div>
-            <Controller as='input' formKey={formKey} className={styles.valueInput} name={`${actionRoot}parameter_value_8_pack`} defaultValue={(defaultAction && defaultAction.parameter_value_8_pack) ? defaultAction.parameter_value_8_pack : action.parameter_value_8_pack} />
+            <Controller as='input' formKey={formKey} className={styles.valueInput} name={`${actionRoot}parameter_value_8_pack`} defaultValue={(defaultAction && defaultAction.action_copy && defaultAction.action_copy.parameter_value_8_pack) ? defaultAction.action_copy.parameter_value_8_pack : action.parameter_value_8_pack} />
           </div>
           <div className={styles.valueField}>
             <div className={styles.paramName}>Duration</div>
-            <Controller defaultValue={(defaultAction && defaultAction.time) ? defaultAction.time : action.time} as={Select} options={TIME_OPTIONS} placeholder="Manual" name={`${actionRoot}time`} />
+            <Controller defaultValue={(defaultAction && defaultAction.action_copy && defaultAction.action_copy.time) ? defaultAction.action_copy.time : action.time} as={Select} options={TIME_OPTIONS} placeholder="Manual" name={`${actionRoot}time`} />
           </div>
         </div>
       </AnimateHeight>

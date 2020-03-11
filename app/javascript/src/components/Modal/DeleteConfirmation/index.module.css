@@ -1,0 +1,26 @@
+.deleteConfirmationModal {
+  width: 85vw;
+}
+
+.text {
+  font-size: 2.6em;
+  color: #7b7979;
+  font-weight: 500;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 3em;
+}
+
+.noButton {
+  background: #7b7979 !important;
+}
+
+@media (min-width: 768px){
+  .deleteConfirmationModal {
+    width: 34em;
+  }
+}
