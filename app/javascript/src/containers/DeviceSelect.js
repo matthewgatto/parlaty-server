@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Controller } from "react-hook-form";
 import SelectComponent, {withSelectContainer} from '@components/Inputs/Select';
 import ActionList from '@components/Action/List';
-import {StatelessParameters} from '@components/Inputs/Parameter';
 import withField from '@components/Inputs/withField';
 import {makeName} from '@utils'
 import {getProcedureById} from '@selectors/procedure';

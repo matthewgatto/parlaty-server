@@ -54,6 +54,10 @@ textarea,input,select {
   margin: 0;
 }
 
+textarea:disabled,input:disabled,select:disabled {
+  cursor: not-allowed;
+}
+
 html,body,body>div {
   height: 100%;
   position: relative;

@@ -2,12 +2,19 @@ import React from 'react';
 import Triangle from '@components/SVG/Triangle';
 import styles from './index.module.css';
 
-export const withSelectContainer = WrappedComponent => ({className, ...props}) => (
-  <div className={className ? `${styles.container} align_center ${className}` : `${styles.container} align_center`}>
-    <WrappedComponent {...props} />
-    <Triangle className={styles.icon} />
-  </div>
-)
+
+
+export const withSelectContainer = WrappedComponent => ({className, ...props}) => {
+  var classStr = `${styles.container} align_center`;
+  if(className) classStr += " "+className;
+  if(props.disabled) classStr += " "+styles.disabled;
+  return(
+    <div className={classStr}>
+      <WrappedComponent {...props} />
+      <Triangle className={styles.icon} />
+    </div>
+  )
+}
 
 export default ({options, placeholder, ...props}) => (
   <select {...props}>

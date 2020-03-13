@@ -53,3 +53,55 @@
   border: none;
   padding-left: 0.5em;
 }
+
+
+
+.inputs {
+  padding: 0.6em;
+  font-size: 0.8em;
+}
+
+.durationRow {
+  margin-bottom: 1em;
+}
+
+.boxes {
+  justify-content: space-between;
+  font-size: 1em;
+}
+.boxes > * {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.boxes label {
+  margin: 0;
+}
+
+@media (min-width: 768px){
+  .boxes {
+    font-size: 0.7em;
+  }
+  .durationRow label:last-child {
+    margin-left: 1em;
+  }
+}
+@media (min-width: 1024px){
+  .boxes {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 460px){
+  .boxes input {
+    height: 0.8em;
+  }
+  .boxes {
+    flex-wrap: wrap;
+  }
+
+  .boxes > * {
+    justify-content: flex-end;
+  }
+}

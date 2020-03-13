@@ -1,12 +1,20 @@
 import React,{useState} from 'react';
 import AnimateHeight from 'react-animate-height';
-import { Controller } from "react-hook-form";
-import SelectComponent, {withSelectContainer} from '@components/Inputs/Select';
+import { Controller, useFormContext } from "react-hook-form";
 import Gear from '../../SVG/Gear';
-import { StepActionModeRadio } from '@components/Inputs';
+import SelectComponent,{withSelectContainer} from '@components/Inputs/Select';
+import { StepActionModeRadio, Input, ModeRadio } from '@components/Inputs';
 import styles from './index.module.css';
 
 const Select = withSelectContainer(SelectComponent)
+
+const TimeSelect = ({root, ...props}) => {
+  const {watch} = useFormContext();
+  const mode = watch(`${root}mode`);
+  return <Controller {...props} disabled={mode == "continuous"} as={Select} />
+}
+
+
 
 const makeActionItemClassStr = (isSelected, hasParameterValues) => {
   var classStr = `${styles.container} align_center`;
@@ -25,6 +33,7 @@ export default ({position, action, root, formKey, defaultAction}) => {
     }
   }
   const actionRoot = `${root}actions[${action.id}].`
+  const hasActionCopy = (defaultAction && defaultAction.action_copy) ? true : false
   return(<>
     <div onClick={handleClick} className={makeActionItemClassStr(/*isSelected*/isOpen, hasParameterValues)}>
       <div className={styles.number}>{position}</div>
@@ -33,16 +42,25 @@ export default ({position, action, root, formKey, defaultAction}) => {
     </div>
     {hasParameterValues &&
       <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
-        <div className={styles.fieldContainer}>
+        <div className={styles.inputs}>
+          <Input type="text" as="input" root={actionRoot} name="parameter_value_8_pack" label="Parameter Value" defaultValue={(hasActionCopy && defaultAction.action_copy.parameter_value_8_pack) ? defaultAction.action_copy.parameter_value_8_pack : action.parameter_value_8_pack} />
+          <div className={`${styles.durationRow} align_center`}>
+            <div className={`${styles.boxes} align_center`}>
+              <ModeRadio root={actionRoot} name="mode" defaultValue={(hasActionCopy && defaultAction.action_copy.mode) ? defaultAction.action_copy.mode : (action.mode || "continuous")} />
+            </div>
+            <TimeSelect defaultValue={(hasActionCopy && defaultAction.action_copy.time) ? defaultAction.action_copy.time : (action.time || 8)} root={actionRoot} options={TIME_OPTIONS} name={`${actionRoot}time`} />
+          </div>
+        </div>
+        {/*<div className={styles.fieldContainer}>
           <div className={styles.valueField}>
             <div className={styles.paramName}>{action.parameter_name}</div>
-            <Controller as='input' formKey={formKey} className={styles.valueInput} name={`${actionRoot}parameter_value_8_pack`} defaultValue={(defaultAction && defaultAction.action_copy && defaultAction.action_copy.parameter_value_8_pack) ? defaultAction.action_copy.parameter_value_8_pack : action.parameter_value_8_pack} />
+            <Controller as='input' formKey={formKey} className={styles.valueInput} name={`${actionRoot}parameter_value_8_pack`} defaultValue={(hasActionCopy && defaultAction.action_copy.parameter_value_8_pack) ? defaultAction.action_copy.parameter_value_8_pack : action.parameter_value_8_pack} />
           </div>
           <div className={styles.valueField}>
             <div className={styles.paramName}>Duration</div>
-            <Controller defaultValue={(defaultAction && defaultAction.action_copy && defaultAction.action_copy.time) ? defaultAction.action_copy.time : action.time} as={Select} options={TIME_OPTIONS} placeholder="Manual" name={`${actionRoot}time`} />
+            <Controller defaultValue={(hasActionCopy && defaultAction.action_copy.time) ? defaultAction.action_copy.time : action.time} as={Select} options={TIME_OPTIONS} placeholder="Manual" name={`${actionRoot}time`} />
           </div>
-        </div>
+        </div>*/}
       </AnimateHeight>
     }
   </>)

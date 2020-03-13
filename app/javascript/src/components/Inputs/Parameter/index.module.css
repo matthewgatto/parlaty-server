@@ -3,14 +3,6 @@
   display: block;
 }
 
-.inputRow {
-  background: #fff;
-  border-radius: 0.2em;
-  height: 2.5em;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-}
 .row {
   background: #fff;
   border-radius: 0.2em;
@@ -19,22 +11,6 @@
   overflow: hidden;
 }
 
-.parameterName {
-  color: #67318d;
-  font-weight: bold;
-  background: #e9e4ee;
-  padding: 0 1em;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.valueField {
-  color: #888;
-  flex-grow: 1;
-  border: none;
-  padding-left: 0.5em;
-}
 
 .label {
   display: inline-block;
@@ -67,25 +43,4 @@
 .nameFieldInputWrapper,.valueFieldInputWrapper {
   flex-grow: 1;
   color: #888;
-}
-
-
-.nameFieldContainerTwo {
-  height: 50%;
-  border-bottom: 1px solid #f1f1f1;
-}
-
-.valueFieldContainerTwo {
-  height: 50%;
-}
-
-.nameFieldInputWrapperTwo,.valueFieldInputWrapperTwo {
-  height: 100%;
-  flex-grow: 1;
-  color: #888;
-}
-.actionParameterPlaceholder {
-  color: #888;
-  text-align: center;
-  font-size: 1.2em;
 }

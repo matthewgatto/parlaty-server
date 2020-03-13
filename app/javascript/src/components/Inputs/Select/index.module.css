@@ -12,3 +12,7 @@
   position: absolute;
   right: .8em;
 }
+
+.disabled {
+  background-color: #ccc;
+}
