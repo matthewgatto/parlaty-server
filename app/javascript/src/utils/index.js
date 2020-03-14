@@ -85,11 +85,13 @@ export const makeAction = (values, root) => {
         parameter_name = values[`${root}parameter_name`],
         parameter_value_8_pack = values[`${root}parameter_value_8_pack`],
         time = values[`${root}time`],
+        mode = values[`${root}mode`],
         action = {};
   if(name) action.name = name
   if(parameter_name) action.parameter_name = parameter_name
   if(parameter_value_8_pack) action.parameter_value_8_pack = parameter_value_8_pack
   if(time) action.time = time
+  if(mode) action.mode = mode
   return action;
 }
 

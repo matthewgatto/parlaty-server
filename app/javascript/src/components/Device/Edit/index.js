@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import DeviceForm from '../Form';
+import SubmitButton from '@components/SubmitButton';
 import { UPDATE_DEVICE_REQUEST } from '@types/device';
 import {getDeviceById} from '@selectors/device';
 import {setModal} from '@actions/modal';

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Header from '@components/Form/Nested/Header';
 import {Input,Select} from '@components/Inputs';
 import ParameterFields from '@components/Inputs/Parameter';
+import ModeAndTimeFields from '@components/Inputs/ModeAndTimeFields';
 import {getActionById} from '@selectors/action';
 import styles from './index.module.css';
 
@@ -17,7 +18,7 @@ export default ({id, idx, isDragging, handleDeleteClick, handleDuplicateClick, t
       <div className={styles.container}>
         <Input as="input" defaultValue={initialAction && initialAction.name} formKey={formKey} type="text" required label="Name*" root={root} name="name" />
         <ParameterFields initialName={/*REMOVE check for null values*/(initialAction && initialAction.parameter_name) ? initialAction.parameter_name : undefined} initialValue={/*REMOVE check for null values*/(initialAction && initialAction.parameter_value_8_pack) ? initialAction.parameter_value_8_pack : undefined} formKey={formKey} root={root} />
-        <Select defaultValue={initialAction && initialAction.time} formKey={formKey} options={TIME_OPTIONS} label="Duration" root={root} name="time" placeholder="Manual" />
+        <ModeAndTimeFields defaultTime={(initialAction && initialAction.time) ? initialAction.time : 8} defaultMode={(initialAction && initialAction.mode) ? initialAction.mode : "continuous"} root={root} />
       </div>
     </div>
   )
