@@ -11,9 +11,9 @@ import ActionForm from './ActionForm';
 const DNDActionFields = withDND(({initialActions, formKey}) => {
   const actionForms = useSelector(getActionForms);
   if(actionForms.length > 0){
-    return actionForms.map((id,idx) => (
-      <Draggable key={id} draggableId={id+""} index={idx}>
-        {(provided, snapshot) => <ActionForm idx={idx} id={id} provided={provided} color={snapshot.isDragging} formKey={formKey} />}
+    return actionForms.map((action,idx) => (
+      <Draggable key={action.formId} draggableId={action.formId} index={idx}>
+        {(provided, snapshot) => <ActionForm idx={idx} id={action.id} formId={action.formId} provided={provided} color={snapshot.isDragging} formKey={formKey} />}
       </Draggable>
     ))
   }

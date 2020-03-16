@@ -11,6 +11,7 @@ import { getUserRole } from '@selectors/auth';
 import { getStepForms } from '@selectors/step';
 import Schemas from '@utils/models';
 import { cleanStepParams } from '@sagas/step';
+import API from '@utils/API';
 import * as utils from '@utils';
 
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
@@ -92,7 +93,12 @@ export function* fetchProcedureSaga(action){
 }
 
 export function* deleteProcedureSaga(action){
-  const procedure = yield select(getProcedureById(action.payload))
-  yield put({type: "DELETE_PROCEDURE_REQUEST__SUCCESS", payload: {procedure_id: action.payload, business_id: procedure.oem_business_id}})
-  yield call(handleProcedureRequestSuccess,{values:{procedure}}, "Procedure was successfully deleted.")
+  try {
+    const procedure = yield select(getProcedureById(action.payload))
+    yield call(API.delete, `/procedures/${action.payload}`);
+    yield put({type: "DELETE_PROCEDURE_REQUEST__SUCCESS", payload: {procedure_id: action.payload, business_id: procedure.oem_business_id}})
+    yield call(handleProcedureRequestSuccess,{values:{procedure}}, "Procedure was successfully deleted.")
+  } catch (e) {
+      console.log("deleteProcedureSaga ERROR", e);
+  }
 }

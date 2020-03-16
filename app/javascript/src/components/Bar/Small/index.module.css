@@ -5,6 +5,7 @@
   justify-content: center;
   background: #eeefef;
   border-radius: 0.4em;
+  position: relative;
 }
 
 .container:hover,.container.color {

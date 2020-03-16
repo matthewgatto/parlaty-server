@@ -1,6 +1,7 @@
 .container {
   position: absolute;
-  right: -7.6em;
+  right: -4.2em;
+  top: 80%;
   box-shadow: 0 10px 20px rgba(0,0,0,0.09), 0 6px 6px rgba(0,0,0,0.12);
   z-index: 9999;
 }

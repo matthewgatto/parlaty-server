@@ -37,7 +37,7 @@ function* makeDeviceFromValues(values, id){
           name: values.name
         }
   if(actionIds.length > 0){
-    device.actions = actionIds.map(actionId => utils.makeAction(values, `actions[${actionId}].`))
+    device.actions = actionIds.map(action => utils.makeAction(values, `actions[${action.formId}].`))
   }
   return device;
 }
@@ -72,7 +72,7 @@ export function* createDeviceSaga({type,payload:{values,formKey}}){
             name: values.name
           }
     if(actionIds.length > 0){
-      device.actions = actionIds.map(actionId => utils.makeAction(values, `actions[${actionId}].`))
+      device.actions = actionIds.map(action => utils.makeAction(values, `actions[${action.formId}].`))
     }
     yield call(validateDevice, device)
     const response = yield call(
@@ -101,7 +101,7 @@ export function* updateDeviceSaga({type,payload:{formKey,id,values}}){
             name: values.name
           }
     if(actionIds.length > 0){
-      device.actions = actionIds.map(actionId => ({...utils.makeAction(values, `actions[${actionId}].`), id: actionId}))
+      device.actions = actionIds.map(action => ({...utils.makeAction(values, `actions[${action.formId}].`), id: action.id}))
     }
     yield call(validateDevice, device)
     const response = yield call(API.put, `/devices/${id}`, {device})
@@ -150,7 +150,7 @@ export function* createProcedureDeviceSaga({type, payload:{values,id,formKey}}){
           device = { name: values.name, procedure_id: values.procedure_id }
 
     if(actionIds.length > 0){
-      device.actions = actionIds.map(actionId => utils.makeAction(values, `actions[${actionId}].`))
+      device.actions = actionIds.map(action => utils.makeAction(values, `actions[${action.formId}].`))
     }
     yield call(validateDevice, device)
     const procedure = yield select(getProcedureById(values.procedure_id));
@@ -172,7 +172,12 @@ export function* createProcedureDeviceSaga({type, payload:{values,id,formKey}}){
 }
 
 export function* deleteDeviceSaga(action){
-  yield put({type: "DELETE_DEVICE_REQUEST__SUCCESS", payload: {device_id: action.payload.device_id, procedure_id: action.payload.procedure_id}})
-  yield put(setModal());
-  yield put(addToast("success", "Device was successfully deleted."))
+  try {
+    yield call(API.delete, `/devices/${action.payload.device_id}`);
+    yield put({type: "DELETE_DEVICE_REQUEST__SUCCESS", payload: {device_id: action.payload.device_id, procedure_id: action.payload.procedure_id}})
+    yield put(setModal());
+    yield put(addToast("success", "Device was successfully deleted."))
+  } catch (e) {
+      console.log("deleteDeviceSaga ERROR", e);
+  }
 }

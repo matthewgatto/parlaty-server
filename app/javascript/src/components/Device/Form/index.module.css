@@ -65,6 +65,8 @@
 
 .modalContainer {
   width: 85vw;
+  padding: 0 2em;
+  box-sizing: border-box;
 }
 
 @media (max-width: 480px) {
