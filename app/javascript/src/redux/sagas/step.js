@@ -83,9 +83,9 @@ function* addStepActionValues(step, values, root){
   const device = yield select(getDeviceById(step.device_id));
   if(device.actions){
     const actionsRoot = `${root}actions`
-    step.actions = device.actions.map(actionId => {
-      const actionRoot = `${actionsRoot}[${actionId}].`;
-      return({id: actionId, parameter_value_8_pack: values[`${actionRoot}parameter_value_8_pack`], duration: values[`${actionRoot}duration`]})
+    step.actions = device.actions.map(id => {
+      const actionRoot = `${actionsRoot}[${id}].`;
+      return({id, parameter_value_8_pack: values[`${actionRoot}parameter_value_8_pack`], time: values[`${actionRoot}time`], mode: values[`${actionRoot}mode`]})
     })
   }
 }
