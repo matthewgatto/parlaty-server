@@ -31,6 +31,7 @@ const Routes = ({role}) => {
   switch (role) {
     case "Oem":
       return(<Switch>
+        <Route exact path="/" component={OEMLandingPage} />
         <Route exact path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
         {/*<Route path="/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
         <Route exact path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
@@ -38,7 +39,6 @@ const Routes = ({role}) => {
         <Route path="/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
         {/*<Route path="/businesses/create" component={BusinessForm} />*/}
         <Route path="/businesses/:id" component={OEMBusinessPage} />
-        <Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
         <Route path="/devices/:business_id/:procedure_id" component={DeviceManagerPage} />
         <Route path="/devices/:business_id" component={DeviceBusinessPage} />
         <Route path="/devices" component={DeviceOEMLandingPage} />
