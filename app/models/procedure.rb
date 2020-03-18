@@ -6,5 +6,5 @@ class Procedure < ApplicationRecord
 	belongs_to :oem_business, optional: true
 	has_many :operations, dependent: :destroy
 	has_many :operators, through: :operations
-	has_many :devices
+	has_many :devices, dependent: :destroy
 end

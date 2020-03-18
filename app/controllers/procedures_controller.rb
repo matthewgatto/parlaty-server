@@ -98,14 +98,20 @@ class ProceduresController < ApplicationController
 	 end
 	# end uncomment
 
-	# def destroy
-	# 	@procedure = Procedure.find(params[:id])
-	# 	if(@procedure.delete)
-	# 		head :ok
-	# 	else
-	# 		head :bad_request
-	# 	end
-	# end
+	# DELETE /procedures/:id
+	def destroy
+		 @procedure = Procedure.find(params[:id])
+		 #begin
+	 		if (@procedure.destroy)
+				render json: { "id": params[:id]}, status: :ok
+	 		else
+	 			head :bad_request
+			end
+		#rescue
+	#		config.logger.error "delete of procedure id: " + params[:id].to_s + " failed."
+	#		head :bad_request
+	#	end
+	 end
 
 	# PUT /procedures/:id/reorder
 	def reorder

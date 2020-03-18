@@ -42,6 +42,8 @@ Rails.application.routes.draw do
   #JDT
   put '/procedures/:id', to: 'procedures#update'
 
+  delete '/procedures/:id', to: 'procedures#destroy'
+
   post '/login', to: 'sessions#create'
 
   post '/steps/:id/visuals', to: 'steps#add_visuals'

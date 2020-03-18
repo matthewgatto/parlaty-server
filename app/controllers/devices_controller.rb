@@ -79,17 +79,19 @@ class DevicesController < ApplicationController
 
   # DELETE /devices
   def destroy
-    #@procedure = Procedure.find(params[:id])
-	 	#if(@procedure.delete)
-	 	#	head :ok
-	 	#else
-	 	#	head :bad_request
-     #end
-     
-     #head :ok
-     render json: { "id": 1}, status: :ok
+    @device = Device.find(params[:id])
+    #begin
+	 	  if (@device.destroy)
+        render json: { "id": params[:id]}, status: :ok
+      else
+	 	    head :bad_request
+      end
+    #rescue
+    #  config.logger.error "destroy of device id: " + params[:id].to_s + " failed."
+    #  head :bad_request
+    #end
   end
-
+  
   # GET /devices
   def devices_index
     @devices = Device.all()

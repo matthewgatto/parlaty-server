@@ -26,7 +26,6 @@ class StepsController < ApplicationController
 			@step.has_visual = (@step.visuals.count > 0)
 			@step.save
 
-			# new 20200310
 			step_device_id = params[:step][:device_id]
 			step_device_actions = params[:step][:actions]
 			step_id = @step.id
@@ -35,16 +34,22 @@ class StepsController < ApplicationController
 				actionParams = action_params(count)
 				actionId = actionParams[:id]
 				actionValue = actionParams[:parameter_value_8_pack]
+				actionMode = actionParams[:mode]
+				actionTime = actionPararms[:time]
 				
 				action = Action.find(actionId)
 				actionCopy = ActionCopy.find_by(step_id: step_id, action_id: actionId )
 				parmValueChanged = (actionCopy && actionCopy.parameter_value_8_pack != actionValue) || \
-					(action && action.parameter_value_8_pack != actionValue)
+					(action && action.parameter_value_8_pack != actionValue) || \
+					(action && action.mode != actionMode) || \
+					(action && action.time != actionTime)
 				if parmValueChanged
 					if !actionCopy
-						actionCopy = ActionCopy.create(step_id: step_id, action_id: actionId, parameter_value_8_pack: actionValue)
+						actionCopy = ActionCopy.create(step_id: step_id, action_id: actionId, parameter_value_8_pack: actionValue, time: actionTime, mode: actionMode)
 					else
 						actionCopy.parameter_value_8_pack = actionValue
+						actionCopy.mode = actionMode
+						actionCopy.time = actionTime
 						actionCopy.save
 					end
 				end
@@ -114,15 +119,21 @@ class StepsController < ApplicationController
 				actionParams = action_params(count)
 				actionId = actionParams[:id]
 				actionValue = actionParams[:parameter_value_8_pack]
+				actionMode = actionParams[:mode]
+				actionTime = actionParams[:time]
 				action = Action.find(actionId)
 				actionCopy = ActionCopy.find_by(step_id: step_id, action_id: actionId )
 				parmValueChanged = (actionCopy && actionCopy.parameter_value_8_pack != actionValue) || \
-					(action && action.parameter_value_8_pack != actionValue)
+					(action && action.parameter_value_8_pack != actionValue) || \
+					(action && action.mode != actionMode) || \
+					(action && action.time != actionTime)
 				if parmValueChanged
 					if !actionCopy
-						actionCopy = ActionCopy.create(step_id: step_id, action_id: actionId, parameter_value_8_pack: actionValue)
+						actionCopy = ActionCopy.create(step_id: step_id, action_id: actionId, parameter_value_8_pack: actionValue, mode: actionMode, time: actionTime)
 					else
 						actionCopy.parameter_value_8_pack = actionValue
+						actionCopy.mode = actionMode
+						actionCopy.time = actionTime
 						actionCopy.save
 					end
 				end
@@ -227,6 +238,6 @@ class StepsController < ApplicationController
 		end
 
 		def action_params(index)
-			params[:step].require(:actions)[index].permit(:id, :parameter_value_8_pack)
+			params[:step].require(:actions)[index].permit(:id, :parameter_value_8_pack, :mode, :time)
     	end
 end
