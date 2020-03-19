@@ -102,3 +102,16 @@ export function* deleteProcedureSaga(action){
       console.log("deleteProcedureSaga ERROR", e);
   }
 }
+
+export function* copyProcedureSaga(action){
+  try {
+    console.log("action", action);
+    const response = yield call(API.post, `/procedures/${action.payload.procedure_id}/copy`,{procedure: action.payload.values})
+    console.log("response", response);
+    const business = yield select(getBusinessById(action.payload.values.procedure.oem_business_id))
+    yield put({type: "CREATE_PROCEDURE_REQUEST__SUCCESS", payload: normalize({...business, procedures: business.procedures ? [...business.procedures,{...response, name: action.payload.values.name}] : [{...response, name: action.payload.values.procedure.name}]}, Schemas.business).entities});
+    yield call(handleProcedureRequestSuccess,{values:{procedure:action.payload.procedureData}}, "Procedure was successfully copied")
+  } catch (e) {
+    console.log("copyProcedureSaga ERROR", e);
+  }
+}

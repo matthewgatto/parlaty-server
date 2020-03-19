@@ -1,0 +1,55 @@
+.container {
+  width: 85vw;
+  height: 70vh;
+}
+
+.wrapper,.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper,.list {
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.columnTitle {
+  color: #ac91bd;
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1em;
+  margin-bottom: 1em;
+  flex-shrink: 0;
+}
+
+.copyButton {
+  flex-shrink: 0;
+  color: #fff;
+  background: #67318d;
+  border-radius: 0.4em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7em 0;
+  font-size: 1.4em;
+}
+
+.modalHeader {
+  margin-bottom: 1em;
+}
+
+.disabled {
+  background: #eeefef;
+}
+
+
+.procedureLabel {
+
+}
+
+@media (min-width: 768px){
+  .container {
+    width: 46em;
+  }
+}

@@ -5,7 +5,7 @@ import { logout } from '@actions/auth';
 import Layout from '@components/Layout';
 import LoginPage from '@components/LoginPage';
 import OEMBusinessPage from '@components/Business/Show';
-import CreateProcedurePage from '@components/Procedure/Create';
+//import CreateProcedurePage from '@components/Procedure/Create';
 import EditProcedurePage from '@components/Procedure/Edit';
 import CreateProcedureScreen from '@components/Procedure/CreateProcedureScreen';
 import AddDevicesScreen from '@components/Procedure/AddDevicesScreen';

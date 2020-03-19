@@ -11,10 +11,10 @@ export default ({actions, root, formKey, defaultActions}) => {
       if(actions.length > 0){
         return actions.map((action, i) => <Action key={action.id} formKey={formKey} root={root} defaultAction={(defaultActions && defaultActions[i] && defaultActions[i].id == action.id) ? defaultActions[i] : undefined} action={action} position={i+1} />)
       } else {
-        return(<div>Selected device has no actions</div>)
+        return(<div className={styles.placeholder}>Selected device has no actions</div>)
       }
     }
-    return(<div>No device selected</div>)
+    return(<div className={styles.placeholder}>No device selected</div>)
   }
   return(<>
     <div>

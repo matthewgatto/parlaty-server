@@ -1,16 +1,19 @@
 import React from 'react';
 import uuid from 'uuid/v4';
-import {Link} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import { useFormContext } from "react-hook-form";
+import {useSelector,useDispatch} from 'react-redux';
 import FormError from '@containers/FormError';
 import FormContext from '@components/Form/Context';
 import {Input} from '@components/Inputs';
 import Polygon from '@components/SVG/PolygonH';
 import SubmitButton from '@containers/SubmitButton'
+import CopyList from '../CopyList';
+import withModal from '@containers/withModal';
 import { procedureSchema } from '@utils/validation';
 import { CREATE_PROCEDURE_REQUEST } from '@types/procedure';
 import { getUserId } from '@selectors/auth';
 import {getBusinessProceduresWithDevices} from '@selectors/business';
+import {setModal} from '@actions/modal';
 import styles from './index.module.css';
 
 const inputs = [{
@@ -25,9 +28,29 @@ const inputs = [{
   required: true
 }]
 
+const CopyModal = withModal(CopyList, "procedure_copy_list");
+
+const CopyProcedureButton = ({formKey}) => {
+  const dispatch = useDispatch();
+  const {getValues} = useFormContext();
+  const handleClick = () => {
+    const values = getValues();
+    const errors = {};
+    if(!values.name) errors.name = "This field is required";
+    if(!values.description) errors.description = "This field is required"
+    if(Object.keys(errors).length > 0){
+      dispatch({type: `CREATE_PROCEDURE_REQUEST__FAILURE`, payload: {formKey, errors:{fieldErrors: errors}}})
+    } else {
+      dispatch(setModal("procedure_copy_list", values))
+    }
+  }
+  return(
+    <button type="button" className="primary button align_center" onClick={handleClick}>Copy A Procedure</button>
+  )
+}
 export default ({match:{url,params:{oem_id,business_id}}}) => {
   const author = useSelector(getUserId)
-  return(
+  return(<>
     <div className={styles.container}>
       <div className={styles.topPolygonContainer}>
         <Polygon className={styles.topPolygonOne} fill="#c6c6c6" stroke="#c6c6c6" size="2.7em" />
@@ -57,7 +80,11 @@ export default ({match:{url,params:{oem_id,business_id}}}) => {
           </div>
           <Input type="text" name="name" label="Name" formKey={formKey} as="input" />
           <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
-          <SubmitButton formKey={formKey} onClick={handleSubmit} label="Continue" secondary />
+          <div className={styles.buttonRow}>
+            <CopyProcedureButton formKey={formKey} />
+            <div className={styles.or}>- or -</div>
+            <SubmitButton formKey={formKey} onClick={handleSubmit} label="Continue" />
+          </div>
         </>)}
       </FormContext>
       <div className={styles.bottomPolygonContainer}>
@@ -67,5 +94,6 @@ export default ({match:{url,params:{oem_id,business_id}}}) => {
         <Polygon className={styles.bottomPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
       </div>
     </div>
-  )
+    <CopyModal business_id={business_id} />
+  </>)
 }

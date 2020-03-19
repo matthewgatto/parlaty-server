@@ -11,8 +11,8 @@ export default ({match:{url}}) => {
     <PageLayout
       header="Home"
     >
-      <Label>Businesses</Label>
-      <List items={businesses} to="/businesses" placeholder="You have no businesses" text="Businesses" entityKey="businesses"  />
+      <Label>Categories</Label>
+      <List items={businesses} to="/businesses" placeholder="You have no categories" text="Categories" entityKey="businesses"  />
     </PageLayout>
   )
 }
