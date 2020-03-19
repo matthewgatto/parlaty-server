@@ -15,6 +15,7 @@ export default ({procedure_id, modalData, ...props}) => {
         url: `/procedures/${procedure_id}`,
         type: CREATE_PROCEDURE_DEVICE_REQUEST,
         initialValues: modalData || {name: ''},
+        extraValues: {procedure_id},
         id
       }}
     />
