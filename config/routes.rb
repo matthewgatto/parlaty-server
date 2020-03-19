@@ -44,6 +44,8 @@ Rails.application.routes.draw do
 
   delete '/procedures/:id', to: 'procedures#destroy'
 
+  post '/procedures/:id/copy', to: 'procedures#copy'
+
   post '/login', to: 'sessions#create'
 
   post '/steps/:id/visuals', to: 'steps#add_visuals'
