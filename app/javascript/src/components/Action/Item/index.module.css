@@ -5,23 +5,21 @@
 .header {
   padding: 0 0.5em;
   height: 2.4em;
+  background: #eeefef;
 }
 
 
 .number {
   flex: 0 0 1.5em;
-  font-weight: bold;
 }
 
 .text {
   flex-grow: 1;
-  font-weight: bold;
 }
 
 .highlight,.selectable:hover {
   background: #e9e4ee;
   color: #67318d;
-  font-weight: bold;
 }
 
 .selectable {
