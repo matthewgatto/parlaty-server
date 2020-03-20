@@ -99,6 +99,7 @@ export const makeStep = (values, root) => {
   const title = values[`${root}title`],
         spoken = values[`${root}spoken`],
         mode = values[`${root}mode`],
+        time = values[`${root}time`],
         safety = values[`${root}safety`],
         visual = values[`${root}visual`],
         audio = values[`${root}audio`],
@@ -108,6 +109,7 @@ export const makeStep = (values, root) => {
   if(title) step.title = title
   if(spoken) step.spoken = spoken
   if(mode) step.mode = mode
+  if(time) step.time = time
   if(safety) step.safety = safety
   if(location) step.location = location
   if(device_id) step.device_id = device_id
