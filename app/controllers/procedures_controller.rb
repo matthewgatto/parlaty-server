@@ -1,4 +1,6 @@
 class ProceduresController < ApplicationController
+	include ActiveStorage::Downloading
+
 	before_action :require_login
 
 	# GET /operators/:id/procedures
@@ -190,12 +192,26 @@ class ProceduresController < ApplicationController
 				if step_original.action_copies
 					step_original.action_copies.map do |action_copy_original|
 						action_copy_copy = action_copy_original.dup
-						action_copy_copy.name = action_copy_copy.name + " copy"
+						#action_copy_copy.name = action_copy_copy.name + " copy"
 						step_copy.action_copies << action_copy_copy
 					end
 				end
 				procedure_copy.steps << step_copy
-				#procedure_copy.devices << device_copy
+				if step_original.visuals
+					step_copy.visuals.clear
+					step_original.visuals.map do |visual_original|
+						content_type = visual_original.blob.content_type
+						binary = visual_original.download
+						file = Tempfile.new('parlaty-attachment-copy-tmp')
+						path = file.path
+						file.close
+						file = File.open(path, 'wb') # binary mode
+						file.write(binary)
+						file.close
+						file = File.open(path, 'r') # 
+						step_copy.visuals.attach( io: file, filename: path, content_type: content_type)
+					end
+				end
 			end
 		end
 		if procedure_original.steps_order
