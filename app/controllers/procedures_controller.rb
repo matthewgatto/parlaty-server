@@ -160,7 +160,7 @@ class ProceduresController < ApplicationController
 		if procedure_original.operations
 			procedure_original.operations.map do |operation_original|
 				operation_copy = operation_original.dup
-				operation_copy.name = operation_copy.name + " copy"
+				#operation_copy.name = operation_copy.name + " copy"
 				procedure_copy.operations << operation_copy
 			end
 		end
