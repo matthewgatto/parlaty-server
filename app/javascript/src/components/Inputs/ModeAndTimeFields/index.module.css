@@ -4,8 +4,8 @@
 }
 
 .boxes {
-  justify-content: space-between;
   font-size: 1em;
+  margin-bottom: 0.6em;
 }
 .boxes > * {
   display: flex;
@@ -15,6 +15,10 @@
 
 .boxes label {
   margin: 0;
+}
+
+.boxes > *:last-child {
+  margin-left: 1em;
 }
 
 @media (min-width: 768px){

@@ -16,7 +16,7 @@ const TIME_OPTIONS = [{value: 1, label: "1 second"}, {value: 2, label: "2 second
 const TimeSelect = (props) => {
   const {watch} = useFormContext();
   const mode = watch(`${props.root}mode`);
-  return <Select {...props} disabled={mode == "continuous"} options={TIME_OPTIONS} label="Time*" name="time" />
+  return <Select {...props} disabled={mode == "manual"} options={TIME_OPTIONS} label="Time" name="time" />
 }
 
 export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, initialValues, procedureFormKey, handleCloseForm, isDragging, provided}) => (
