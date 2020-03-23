@@ -52,38 +52,41 @@ const EditProcedureForm = ({initialValues, id, oem_business_id}) => useMemo(() =
 const EditProcedureFormWithStepLoader = withStepLoader(EditProcedureForm);
 
 const EditProcedureFormContainer = (props) => {
-  const initialValues = useSelector(getProcedureById(props.id));
   const dispatch = useDispatch();
-  const addSteps = () => dispatch(loadStepForms(initialValues.steps))
+  const addSteps = () => dispatch(loadStepForms(props.initialValues.steps))
   useEffect(() => {
-    if(!initialValues || !initialValues.description){
+    if(!props.initialValues || !props.initialValues.description){
       dispatch({type: FETCH_PROCEDURE_REQUEST, payload: {url: `/procedures/${props.id}`, id: props.id}})
     }
-    if(initialValues && initialValues.steps && initialValues.steps.length > 0){
+    if(props.initialValues && props.initialValues.steps && props.initialValues.steps.length > 0){
       addSteps();
     }
   },[])
-  return <EditProcedureFormWithStepLoader addSteps={addSteps} initialValues={initialValues} {...props} />
+  return <EditProcedureFormWithStepLoader addSteps={addSteps} {...props} />
 }
 
-export default ({match:{params:{oem_id,business_id,id}}}) => (<>
-  <PageLayout
-    header="Edit Procedure"
-    back={business_id ? ({
-      to: oem_id ? `/oems/${oem_id}/businesses/${business_id}` : `/businesses/${business_id}`,
-      label: <Name entityKey="businesses" id={business_id} />
-    }) : ({
-      to: "/",
-      label: "Home"
-    })}
-    buttons={<ModalTrigger modal="delete_procedure_confirmation"><SubmitButton primary label="Delete Procedure" /></ModalTrigger>}
-  >
-    <EditProcedureFormContainer id={id} oem_business_id={business_id} />
-  </PageLayout>
-  <DeleteProcedureConfirmationModal procedure_id={id} />
-  <DeleteDeviceConfirmationModal procedure_id={id} />
-  <DeviceManagerModal procedure_id={id} />
-  <DeviceCreateModal procedure_id={id} />
-  <ProcedureDeviceModal business_id={business_id} />
-  <DeviceUpdateModal />
-</>)
+export default ({match:{params:{oem_id,business_id,id}}}) => {
+  const initialValues = useSelector(getProcedureById(id));
+  var name = initialValues && initialValues.name;
+  return(<>
+    <PageLayout
+      header={`Edit ${name ? name : "Procedure"}`}
+      back={business_id ? ({
+        to: oem_id ? `/oems/${oem_id}/businesses/${business_id}` : `/businesses/${business_id}`,
+        label: <Name entityKey="businesses" id={business_id} />
+      }) : ({
+        to: "/",
+        label: "Home"
+      })}
+      buttons={<ModalTrigger modal="delete_procedure_confirmation"><SubmitButton primary label="Delete Procedure" /></ModalTrigger>}
+    >
+      <EditProcedureFormContainer id={id} oem_business_id={business_id} initialValues={initialValues} />
+    </PageLayout>
+    <DeleteProcedureConfirmationModal procedure_id={id} />
+    <DeleteDeviceConfirmationModal procedure_id={id} />
+    <DeviceManagerModal name={name} procedure_id={id} />
+    <DeviceCreateModal name={name} procedure_id={id} />
+    <ProcedureDeviceModal business_id={business_id} />
+    <DeviceUpdateModal name={name} />
+  </>)
+}

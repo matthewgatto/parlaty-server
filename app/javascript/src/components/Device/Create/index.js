@@ -3,13 +3,11 @@ import uuid from 'uuid/v4';
 import DeviceForm from '../Form';
 import { CREATE_PROCEDURE_DEVICE_REQUEST } from '@types/device';
 
-export default ({procedure_id, modalData, ...props}) => {
+export default ({procedure_id, modalData, name, ...props}) => {
   const id = uuid();
   return(
     <DeviceForm
-      bar={{
-        title: modalData ? "Copy Procedure Device" : "Create Procedure Device",
-      }}
+      bar={{title: `Create ${name ? name : "Procedure"} Device`}}
       form={{
         entity: "copy_device",
         url: `/procedures/${procedure_id}`,

@@ -8,7 +8,7 @@ export default ({match:{params:{oem_id,business_id,procedure_id}}}) => (
     back={{to: oem_id ? `/devices/${oem_id}/${business_id}` : `/devices/${business_id}`, text: "Choose Another Procedure"}}
     procedure_id={procedure_id}
     business_id={business_id}
-    header="Modify Procedure Devices"
+    header="Manage"
     subheader="Add, copy, or update devices for this procedure"
     top={<BackLink to={oem_id ? `/devices/${oem_id}/${business_id}` : `/devices/${business_id}`}>Choose Another Procedure</BackLink>}
   />
