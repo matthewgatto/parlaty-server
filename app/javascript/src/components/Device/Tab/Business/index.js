@@ -8,7 +8,7 @@ export default ({match:{params:{business_id,oem_id},url}}) => (
     label="Procedures"
     header={{
       header: "Devices: Choose A Procedure",
-      back: {to: oem_id ? `/devices/${oem_id}` : "/devices", label: "Choose A Different Business"}
+      back: {to: oem_id ? `/devices/${oem_id}` : "/devices", label: "Choose A Different Category"}
     }}
     list={{
       id: business_id,
@@ -16,7 +16,7 @@ export default ({match:{params:{business_id,oem_id},url}}) => (
       type: FETCH_BUSINESS_PROCEDURES_REQUEST,
       text: "Procedures",
       entityKey: "procedures",
-      placeholder: "This business has no procedures",
+      placeholder: "This category has no procedures",
       selector: getBusinessProcedures(business_id),
       to: url
     }}

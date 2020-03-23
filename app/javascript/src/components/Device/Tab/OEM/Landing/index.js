@@ -9,10 +9,10 @@ export default ({match:{url}}) => {
   const businesses = useSelector(getAllIds);
   return(
     <PageLayout
-      header="Devices: Choose A Business"
+      header="Devices: Choose A Category"
     >
       <Label>Businesses</Label>
-      <List items={businesses} to={url} placeholder="You have no businesses" text="Businesses" entityKey="businesses"  />
+      <List items={businesses} to={url} placeholder="You have no categories" text="Categories" entityKey="businesses"  />
     </PageLayout>
   )
 }

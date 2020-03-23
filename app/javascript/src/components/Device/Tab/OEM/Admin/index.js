@@ -5,8 +5,8 @@ import { getOEMBusinesses } from '@selectors/oem';
 
 export default ({match:{url,params:{oem_id}}}) => (
   <ListPage
-    label="Businesses"
-    header={{header: "Devices: Choose A Business", back: {to: "/devices", label: "Choose A Different OEM"}}}
+    label="Categories"
+    header={{header: "Devices: Choose A Category", back: {to: "/devices", label: "Choose A Different Client"}}}
     list={{
       url: `/oems/${oem_id}/oem_businesses`,
       id: oem_id,
@@ -14,7 +14,7 @@ export default ({match:{url,params:{oem_id}}}) => (
       text: "Businesses",
       entityKey: "businesses",
       to: url,
-      placeholder: "This OEM has no businesses",
+      placeholder: "This client has no categories",
       selector: getOEMBusinesses(oem_id)
     }}
   />
