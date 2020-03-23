@@ -36,7 +36,7 @@ const CopyProcedureButton = ({formKey}) => {
   const handleClick = () => {
     const values = getValues();
     const errors = {};
-    //if(!values.name) errors.name = "This field is required";
+    if(!values.name) errors.name = "This field is required";
     //if(!values.description) errors.description = "This field is required"
     if(Object.keys(errors).length > 0){
       dispatch({type: `CREATE_PROCEDURE_REQUEST__FAILURE`, payload: {formKey, errors:{fieldErrors: errors}}})
