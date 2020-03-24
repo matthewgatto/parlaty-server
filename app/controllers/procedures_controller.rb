@@ -152,28 +152,29 @@ class ProceduresController < ApplicationController
 		procedure_original = Procedure.find(id)
 		device_map = Hash.new
 		step_id_map = Hash.new
+		procedure_params = params[:procedure]
+		procedure_name = procedure_params[:name]
+		procedure_description = procedure_params[:description]
 		procedure_copy = procedure_original.dup
-		procedure_copy.name = procedure_copy.name + " copy"
+		procedure_copy.name = procedure_name
+		procedure_copy.description = procedure_description
 		procedure_copy.steps_order.clear
 		procedure_copy.devices.clear
 		procedure_copy.steps.clear 
 		if procedure_original.operations
 			procedure_original.operations.map do |operation_original|
 				operation_copy = operation_original.dup
-				#operation_copy.name = operation_copy.name + " copy"
 				procedure_copy.operations << operation_copy
 			end
 		end
 		if procedure_original.devices
 			procedure_original.devices.map do |device_original|
 				device_copy = device_original.dup
-				device_copy.name = device_copy.name + " copy"
 				device_copy.save # need the id
 				device_map[device_original] = device_copy
 				if device_original.actions
 					device_original.actions.map do |action_original|
 						action_copy = action_original.dup
-						action_copy.name = action_copy.name + " copy"
 						device_copy.actions << action_copy
 					end
 				end
@@ -184,7 +185,6 @@ class ProceduresController < ApplicationController
 		if procedure_original.steps
 			procedure_original.steps.map do |step_original|
 				step_copy = step_original.dup
-				step_copy.title = step_copy.title + " copy"
 				step_copy.save # need the id
 				step_id_map[step_original.id] = step_copy.id  
 				# replace old device with new saved above
@@ -192,7 +192,6 @@ class ProceduresController < ApplicationController
 				if step_original.action_copies
 					step_original.action_copies.map do |action_copy_original|
 						action_copy_copy = action_copy_original.dup
-						#action_copy_copy.name = action_copy_copy.name + " copy"
 						step_copy.action_copies << action_copy_copy
 					end
 				end
