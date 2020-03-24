@@ -30,7 +30,7 @@ const inputs = [{
 
 const CopyModal = withModal(CopyList, "procedure_copy_list");
 
-const CopyProcedureButton = ({formKey}) => {
+const CopyProcedureButton = ({formKey,oem_business_id}) => {
   const dispatch = useDispatch();
   const {getValues} = useFormContext();
   const handleClick = () => {
@@ -41,7 +41,7 @@ const CopyProcedureButton = ({formKey}) => {
     if(Object.keys(errors).length > 0){
       dispatch({type: `CREATE_PROCEDURE_REQUEST__FAILURE`, payload: {formKey, errors:{fieldErrors: errors}}})
     } else {
-      dispatch(setModal("procedure_copy_list", values))
+      dispatch(setModal("procedure_copy_list", {formKey, values: {...values,oem_business_id}}))
     }
   }
   return(
@@ -81,7 +81,7 @@ export default ({match:{url,params:{oem_id,business_id}}}) => {
           <Input type="text" name="name" label="Name" formKey={formKey} as="input" />
           <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
           <div className={styles.buttonRow}>
-            <CopyProcedureButton formKey={formKey} />
+            <CopyProcedureButton formKey={formKey} oem_business_id={business_id} />
             <div className={styles.or}>- or -</div>
             <SubmitButton formKey={formKey} onClick={handleSubmit} label="Continue" />
           </div>

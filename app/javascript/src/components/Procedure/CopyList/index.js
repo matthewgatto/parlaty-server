@@ -14,13 +14,13 @@ const ProcedureItem = ({id, setSelection, selection}) => {
   return <SmallBar text={procedure.name} className={styles.procedureLabel} onClick={handleClick} color={selection === procedure} />
 }
 
-const ProcedureList = ({procedures, procedureData, oem_business_id}) => {
+const ProcedureList = ({procedures, procedureData}) => {
   const [selection, setSelection] = useState();
   const [isLoading, setIsLoading] = useState();
   const dispatch = useDispatch()
   const handleCopyClick = () => {
     setIsLoading(true)
-    dispatch(copyProcedure(selection.id, {oem_business_id, ...procedureData}))
+    dispatch(copyProcedure(selection.id, procedureData.formKey, procedureData.values))
   }
   const notDisabled = selection && !isLoading
   return(<>
@@ -31,25 +31,25 @@ const ProcedureList = ({procedures, procedureData, oem_business_id}) => {
   </>)
 }
 
-const ProcedureListWrapper = ({procedures, procedureData, oem_business_id}) => (
+const ProcedureListWrapper = ({procedures, procedureData}) => (
   <div className={styles.wrapper}>
     {(procedures && procedures.length > 0) ? (<>
       {/*<div className={styles.columnTitle}>Select a procedure to view devices</div>*/}
-      <ProcedureList procedures={procedures} oem_business_id={oem_business_id} procedureData={procedureData} />
+      <ProcedureList procedures={procedures} procedureData={procedureData} />
     </>) : (
       <div>No Procedure Data To Copy</div>
     )}
   </div>
 )
 
-const ProcedureListContainer = ({business_id, procedureData}) => {
-  const business = useSelector(getBusinessById(business_id));
-  return <ProcedureListWrapper procedures={business.procedures} oem_business_id={business_id} procedureData={procedureData} />
+const ProcedureListContainer = ({procedureData}) => {
+  const business = useSelector(getBusinessById(procedureData.values.oem_business_id));
+  return <ProcedureListWrapper procedures={business.procedures} procedureData={procedureData} />
 }
 
-export default ({business_id, modalData}) => (
+export default ({modalData}) => (
   <div className={styles.container}>
     <LargeBar title="Copy A Procedure" className={styles.modalHeader} />
-    <ProcedureListContainer business_id={business_id} procedureData={modalData} />
+    <ProcedureListContainer procedureData={modalData} />
   </div>
 )

@@ -5,6 +5,7 @@ import {formSaga,multipostSaga} from './form';
 import {getSaga} from './fetch';
 import { push } from 'connected-react-router';
 import { addToast } from '@actions/toast';
+import { setModal } from '@actions/modal';
 import { getBusinessById } from '@selectors/business';
 import { getProcedureById } from '@selectors/procedure';
 import { getUserRole } from '@selectors/auth';
@@ -103,14 +104,20 @@ export function* deleteProcedureSaga(action){
   }
 }
 
-export function* copyProcedureSaga({payload:{values:{oem_business_id,...procedure},procedure_id}}){
+export function* copyProcedureSaga({payload:{formKey,values:{oem_business_id,...procedure},procedure_id}}){
   try {
-    const response = yield call(API.post, `/procedures/${procedure_id}/copy`,{procedure})
+    var body = {name: procedure.name};
+    if(procedure.description){
+      body.description = procedure.description
+    }
+    const response = yield call(API.post, `/procedures/${procedure_id}/copy`,body)
     const business = yield select(getBusinessById(oem_business_id))
     const normalizedData = normalize({...business, procedures: business.procedures ? [...business.procedures,{name: procedure.name, ...response}] : [{name: procedure.name,...response}]}, Schemas.business).entities
     yield put({type: "CREATE_PROCEDURE_REQUEST__SUCCESS", payload: normalizedData});
     yield call(handleProcedureRequestSuccess,{values:{procedure: normalizedData.procedures[response.id]}}, "Procedure was successfully copied")
   } catch (e) {
     console.log("copyProcedureSaga ERROR", e);
+    yield put({type: "CREATE_PROCEDURE_REQUEST__FAILURE", payload: {formKey,errors:{formError: "Unable to copy procedure."}}})
+    yield put(setModal())
   }
 }
