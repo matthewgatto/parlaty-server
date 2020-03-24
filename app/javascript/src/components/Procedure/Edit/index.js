@@ -29,7 +29,7 @@ const withStepLoader = (WrappedComponent) =>  (
       }
     }
     render(){
-      if(!this.props.initialValues || !this.props.initialValues.description){
+      if(!this.props.initialValues || typeof this.props.initialValues.description === 'undefined'){
         return <FetchLoader text="Procedure" />
       }
       return <WrappedComponent {...this.props} />
@@ -51,23 +51,20 @@ const EditProcedureForm = ({initialValues, id, oem_business_id}) => useMemo(() =
 
 const EditProcedureFormWithStepLoader = withStepLoader(EditProcedureForm);
 
-const EditProcedureFormContainer = (props) => {
-  const dispatch = useDispatch();
-  const addSteps = () => dispatch(loadStepForms(props.initialValues.steps))
-  useEffect(() => {
-    if(!props.initialValues || !props.initialValues.description){
-      dispatch({type: FETCH_PROCEDURE_REQUEST, payload: {url: `/procedures/${props.id}`, id: props.id}})
-    }
-    if(props.initialValues && props.initialValues.steps && props.initialValues.steps.length > 0){
-      addSteps();
-    }
-  },[])
-  return <EditProcedureFormWithStepLoader addSteps={addSteps} {...props} />
-}
 
 export default ({match:{params:{oem_id,business_id,id}}}) => {
   const initialValues = useSelector(getProcedureById(id));
   var name = initialValues && initialValues.name;
+  const dispatch = useDispatch();
+  const addSteps = () => dispatch(loadStepForms(initialValues.steps))
+  useEffect(() => {
+    if(!initialValues || typeof initialValues.description === 'undefined'){
+      dispatch({type: FETCH_PROCEDURE_REQUEST, payload: {url: `/procedures/${id}`, id}})
+    }
+    if(initialValues && initialValues.steps && initialValues.steps.length > 0){
+      addSteps();
+    }
+  },[])
   return(<>
     <PageLayout
       header={`Edit ${name ? name : "Procedure"}`}
@@ -80,7 +77,7 @@ export default ({match:{params:{oem_id,business_id,id}}}) => {
       })}
       buttons={<ModalTrigger modal="delete_procedure_confirmation"><SubmitButton primary label="Delete Procedure" /></ModalTrigger>}
     >
-      <EditProcedureFormContainer id={id} oem_business_id={business_id} initialValues={initialValues} />
+      <EditProcedureFormWithStepLoader id={id} oem_business_id={business_id} addSteps={addSteps} initialValues={initialValues} />
     </PageLayout>
     <DeleteProcedureConfirmationModal procedure_id={id} />
     <DeleteDeviceConfirmationModal procedure_id={id} />
