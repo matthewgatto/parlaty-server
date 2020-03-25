@@ -18,7 +18,8 @@ class DevicesController < ApplicationController
         actionParams = action_params(count)
         @action = Action.create!(name: actionParams[:name], device: @device,
           parameter_name: actionParams[:parameter_name],
-          parameter_value_8_pack: actionParams[:parameter_value_8_pack])
+          parameter_value_8_pack: actionParams[:parameter_value_8_pack],
+          time: actionParams[:time], mode: actionParams[:mode])
         if (@action)
         else
           config.logger.error "action create failed in POST /devices"
@@ -60,7 +61,8 @@ class DevicesController < ApplicationController
         rescue ActiveRecord::RecordNotFound
           @action = Action.create!(name: actionParams[:name], device: @device,
             parameter_name: actionParams[:parameter_name],
-            parameter_value_8_pack: actionParams[:parameter_value_8_pack])
+            parameter_value_8_pack: actionParams[:parameter_value_8_pack],
+            time: actionParams[:time], mode: actionParams[:mode])
           if (@action)
           else
             config.logger.error "action create failed in PUT /devices/:id"
@@ -105,7 +107,7 @@ class DevicesController < ApplicationController
     end
     
     def action_params(index)
-			params[:device].require(:actions)[index].permit(:id, :device_id, :name, :parameter_name, :parameter_value_8_pack)
+			params[:device].require(:actions)[index].permit(:id, :device_id, :name, :parameter_name, :parameter_value_8_pack, :time, :mode)
     end
     
 end

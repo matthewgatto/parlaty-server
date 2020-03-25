@@ -4,7 +4,9 @@ def get_actions(myactions)
 		id: myaction.id,
 		name: myaction.name,
 		parameter_name: myaction.parameter_name,
-		parameter_value_8_pack: myaction.parameter_value_8_pack
+		parameter_value_8_pack: myaction.parameter_value_8_pack,
+		time: myaction.time,
+		mode: myaction.mode
 	}
 	end
 end
