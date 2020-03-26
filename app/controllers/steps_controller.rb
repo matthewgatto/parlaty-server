@@ -35,7 +35,7 @@ class StepsController < ApplicationController
 				actionId = actionParams[:id]
 				actionValue = actionParams[:parameter_value_8_pack]
 				actionMode = actionParams[:mode]
-				actionTime = actionPararms[:time]
+				actionTime = actionParams[:time]
 				
 				action = Action.find(actionId)
 				actionCopy = ActionCopy.find_by(step_id: step_id, action_id: actionId )
