@@ -85,8 +85,9 @@ function* addStepActionValues(step, values, root){
     const actionsRoot = `${root}actions`
     step.actions = device.actions.map(id => {
       const actionRoot = `${actionsRoot}[${id}].`;
-      return({id, parameter_value_8_pack: values[`${actionRoot}parameter_value_8_pack`], time: values[`${actionRoot}time`], mode: values[`${actionRoot}mode`]})
-    })
+      const {name,parameter_name,...actionCopyValues} = utils.makeAction(values, actionRoot);
+      return({id, ...actionCopyValues})
+    }).filter(action => Object.keys(action).length > 1)
   }
 }
 

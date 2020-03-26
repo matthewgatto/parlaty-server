@@ -95,7 +95,7 @@ export const makeAction = (values, root) => {
   return action;
 }
 
-export const makeStep = (values, root) => {
+export const makeStep = (values, root, isFormData) => {
   const title = values[`${root}title`],
         spoken = values[`${root}spoken`],
         mode = values[`${root}mode`],
@@ -112,7 +112,13 @@ export const makeStep = (values, root) => {
   if(time) step.time = time
   if(safety) step.safety = safety
   if(location) step.location = location
-  if(device_id) step.device_id = device_id
+  if(device_id){
+    if(isFormData){
+      step.device = {id: device_id}
+    } else {
+      step.device_id = device_id
+    }
+  }
   if(audio) step.audio = audio
   if(visual) step.visual = visual
   return step;

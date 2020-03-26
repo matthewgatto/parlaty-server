@@ -18,7 +18,7 @@ export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root, handle
   }
   const duplicateStep = (e) => {
     e.stopPropagation();
-    dispatch(addStepForm(makeStep(getValues(), root), true));
+    dispatch(addStepForm(makeStep(getValues(), root, true), true));
   }
   const handleDeleteStep = (e) => {
     e.stopPropagation();
