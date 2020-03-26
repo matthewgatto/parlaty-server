@@ -32,8 +32,8 @@ def get_actions2(myactions, step_id)
 		name: myaction.name,
 		parameter_name: myaction.parameter_name,
 		parameter_value_8_pack: myaction.parameter_value_8_pack,
-		mode: myAction.mode,
-		time: myAction.time,
+		mode: myaction.mode,
+		time: myaction.time,
 		action_copy: show_action_copy(actionCopy)
 	}
 	end
