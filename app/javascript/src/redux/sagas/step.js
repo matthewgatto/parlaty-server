@@ -40,7 +40,7 @@ function* createStepSaga({procedure, step, initialValues}){
         procedure_id: procedure.id
       })
     }));
-    return {...normalize({id:procedure.id, steps: procedure.steps ? [...procedure.steps, response] : [response]}, Schemas.procedure).entities,id: response.id}
+    return {...normalize({...procedure,steps: procedure.steps ? [...procedure.steps, response] : [response]}, Schemas.procedure).entities,id: response.id}
   } catch (e) {
     throw e
   }
