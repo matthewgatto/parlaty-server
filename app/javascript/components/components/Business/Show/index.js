@@ -9,11 +9,11 @@ export default ({match:{params:{id,oem_id},url}}) => (
     header={{
       header: {text: "Category: ", entityKey: "businesses", id},
       link: {text: "Add Procedure", to: `${url}/procedures/create`},
-      back: oem_id ? {to: `/oems/${oem_id}`, label: {entityKey: "oems", id: oem_id}} : {to: "/", label: "Home"}
+      back: oem_id ? {to: `/oems/${oem_id}`, label: "Choose A Different Category"} : {to: "/", label: "Home"}
     }}
     list={{
       id,
-      url: `/oem_businesses/${id}/procedures`,
+      url: `/oem_businesses/${id}`,
       type: FETCH_BUSINESS_PROCEDURES_REQUEST,
       text: "Procedures",
       entityKey: "procedures",

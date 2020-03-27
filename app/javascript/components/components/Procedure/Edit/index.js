@@ -2,7 +2,6 @@ import React, {useEffect,useMemo,useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PageLayout from '@components/PageLayout';
 import FetchLoader from '@components/List/Loader';
-import Name from '@containers/Name';
 import SubmitButton from '@components/SubmitButton';
 import ModalTrigger from '@containers/ModalTrigger';
 import withModal from '@containers/withModal';
@@ -70,7 +69,7 @@ export default ({match:{params:{oem_id,business_id,id}}}) => {
       header={`Edit ${name ? name : "Procedure"}`}
       back={business_id ? ({
         to: oem_id ? `/oems/${oem_id}/businesses/${business_id}` : `/businesses/${business_id}`,
-        label: <Name entityKey="businesses" id={business_id} />
+        label: "Choose A Different Procedure"
       }) : ({
         to: "/",
         label: "Home"

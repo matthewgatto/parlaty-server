@@ -1,6 +1,39 @@
+def get_actions(myactions)
+	myactions.map do |myaction|
+	{
+		id: myaction.id,
+		name: myaction.name,
+		parameter_name: myaction.parameter_name,
+		parameter_value_8_pack: myaction.parameter_value_8_pack,
+		time: myaction.time,
+		mode: myaction.mode
+	}
+	end
+end
+
+def show_devices(mydevices)
+	mydevices.map do |mydevice|
+	{
+		id: mydevice.id,
+		name: mydevice.name,
+		default: mydevice.default,
+		oem_business_id: mydevice.oem_business_id,
+		procedure_id: mydevice.procedure_id,
+		actions: get_actions(mydevice.actions)
+	}
+	end
+end
+
 json = {
 	oem_business_id: @oemb.id,
 	name: @oemb.name
 }
+json[:procedures] = @oemb.procedures.map do |prod|
+	{
+		name: prod.name,
+		id: prod.id,
+		devices: show_devices(prod.devices)
+	}
+end
 
 json

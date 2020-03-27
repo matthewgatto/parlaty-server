@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory } from 'history';
+import { createHashHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from '@reducers';
 import rootSaga from '@sagas';
 import API from '@utils/API';
 
-export const history = createBrowserHistory();
+export const history = createHashHistory();
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = createReducer(history);
 
@@ -41,7 +41,7 @@ const getInitialState = () => {
   return {}
 }
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = (window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
 const store = createStore(
   rootReducer,
   getInitialState(),

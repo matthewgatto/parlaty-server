@@ -59,7 +59,7 @@ const Routes = ({role}) => {
         <Route path="/devices/:oem_id" component={DeviceOEMAdminPage} />
         <Route path="/devices" component={DeviceAdminPage} />
         {/*<Route path="/oems/:oem_id/businesses/create" component={BusinessForm} />*/}
-        <Route path="/oems/:oem_id/businesses/:id" component={OEMBusinessPage} />
+        <Route path="/oems/:oem_id/businesses/:id" render={OEMBusinessPage} />
         <Route path="/oems/:id/update" component={OEMUpdatePage} />
         <Route path="/oems/:id" component={OEMPage} />
         <Redirect to="/" />
