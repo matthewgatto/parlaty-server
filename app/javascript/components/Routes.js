@@ -64,6 +64,12 @@ const Routes = ({role}) => {
         <Route path="/oems/:id" component={OEMPage} />
         <Redirect to="/" />
       </Switch>)
+    case "Operator":
+      return(<div>Operator</div>)
+    case "OperatorAdmin":
+      return(<div>Operator Admin</div>)
+    case "Author":
+      return(<div>Author</div>)
     default:
       return(<Switch>
         <Route exact path="/" component={LoginPage} />
