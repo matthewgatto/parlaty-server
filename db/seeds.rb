@@ -25,15 +25,51 @@ while x <= 2
 	x = x+1
 end
 
+=begin
 # Operator Admin
 3.times do
-	OperatorAdmin.create!(oem_business_id: 1, name: Faker::Name.first_name)
+	operatorAdmin = OperatorAdmin.create!(oem_business_id: 1, name: Faker::Name.first_name)
+end
+=end
+
+# Operator Admin
+x = 1
+while x <= 3
+	operatorAdmin = OperatorAdmin.create!(oem_business_id: 1, name: Faker::Name.first_name)
+	myemail = "oadmin" + x.to_s + "@jmg.rocks"
+	if x == 1
+		myemail = "oadmin@gmail.com"
+	end
+	user = User.new(email: myemail, password: "password")
+	user.confirm
+	user.roleable = operatorAdmin
+	user.save	
+	x += 1
 end
 
 # Operator
 x = 1
 while x <= 3
-	Operator.create!(oem_business_id: 1, name: Faker::Name.first_name)
+	operator = Operator.create!(oem_business_id: 1, name: Faker::Name.first_name)
+	myemail = "operator" + x.to_s + "@jmg.rocks"
+	if x == 1
+		myemail = "operator@gmail.com"
+	end
+	user = User.new(email: myemail, password: "password")
+	user.confirm
+	user.roleable = operator
+	user.save	
+	x += 1
+end
+
+# Operator
+x = 1
+while x <= 3
+	author = Author.create!(oem_business_id: 1, name: Faker::Name.first_name)
+	user = User.new(email: "author" + x.to_s + "@jmg.rocks", password: "password")
+	user.confirm
+	user.roleable = author
+	user.save	
 	x += 1
 end
 
@@ -123,16 +159,21 @@ user.confirm
 user.roleable = Oem.second
 user.save
 
+=begin
+operator = Operator.create!(oem_business_id: 1, name: Faker::Name.first_name)
 user = User.new(email: "operator@gmail.com", password: "password")
 user.confirm
-user.roleable = Operator.first
+user.roleable = operator
 user.save
+=end
 
+=begin
 user = User.new(email: "oadmin@gmail.com", password: "password")
 user.confirm
 user.roleable = OperatorAdmin.first
 user.save
- 
+=end
+
 padmin = ParlatyAdmin.create!(name: "Chet")
 
 user = User.new(email: "chet@parlaty.com", password: "password")
@@ -167,6 +208,15 @@ user = User.new(email: "rob@jmg.rocks", password: "password")
 user.confirm
 user.roleable = ParlatyAdmin.first
 user.save
+
+=begin
+author = Author.create!(oem_business_id: 1, name: "Author1")
+
+user = User.new(email: "author1@jmg.rocks", password: "password")
+user.confirm
+user.roleable = author
+user.save
+=end
 
 oemBusiness1 = OemBusiness.find(1)
 oemBusiness2 = OemBusiness.find(2)
