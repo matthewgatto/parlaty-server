@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Input} from '../Login';
+import {Input} from '@components/Inputs';
 
 export default (props) => {
   const [indexes, setIndexes] = useState([...Array(props.initialLength).keys()]);
