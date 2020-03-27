@@ -14,15 +14,17 @@ class SessionsController < ApplicationController
 				
 				begin
 					#oem = Oem.find(@user.id)
+					puts "*** @user.roleable_id: " + @user.roleable_id.to_s
 					oem = Oem.find(@user.roleable_id)
+					puts "*** oem: " + oem.inspect
 					if oem
 						oem_bus = oem.oem_businesses
 						@sorted_ob = oem_bus.sort_by &:name
 					end
-					@devices = Device.all().sort_by &:name
 				rescue ActiveRecord::RecordNotFound
 					@sorted_ob = {}
 				end
+				@devices = Device.all().sort_by &:name
 			end
 		else
 			head :unauthorized
