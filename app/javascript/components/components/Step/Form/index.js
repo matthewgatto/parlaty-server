@@ -11,7 +11,7 @@ import { Input, CheckBox, Select, ImageInput, AudioInput, ModeRadio } from '@com
 import styles from './index.module.css';
 
 
-const TIME_OPTIONS = [{value: 1, label: "1 second"}, {value: 2, label: "2 seconds"}, {value: 3, label: "3 seconds"}, {value: 4, label: "4 seconds"}, {value: 5, label: "5 seconds"}, {value: 6, label: "6 seconds"}, {value: 7, label: "7 seconds"}, {value: 8, label: "8 seconds"}]
+const TIME_OPTIONS = [{value: 0, label: "0 seconds"}, {value: 1, label: "1 second"}, {value: 2, label: "2 seconds"}, {value: 3, label: "3 seconds"}, {value: 4, label: "4 seconds"}, {value: 5, label: "5 seconds"}, {value: 6, label: "6 seconds"}, {value: 7, label: "7 seconds"}, {value: 8, label: "8 seconds"}]
 
 const TimeSelect = (props) => {
   const {watch} = useFormContext();
@@ -32,7 +32,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
           <ModeRadio formKey={formKey} root={root} name="mode" defaultValue={initialValues.mode || "continuous"} />
           <CheckBox formKey={formKey} label="Option to Skip" root={root} name="safety" defaultValue={initialValues.safety || false} />
         </div>
-        <TimeSelect formKey={formKey} root={root} defaultValue={initialValues.time || 8} />
+        <TimeSelect formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
         <Input as="textarea" defaultValue={initialValues.location} formKey={formKey} type="text" label="Instruction" root={root} name="location" rows="4"  />
         <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultDevice={initialValues.device} />
         <div>

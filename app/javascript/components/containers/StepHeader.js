@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useFormContext } from "react-hook-form";
 import { useSelector,useDispatch } from 'react-redux';
 import {openStepForm,addStepForm,deleteStep,removeStepForm} from '@actions/step';
@@ -27,5 +26,5 @@ export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root, handle
     }
     dispatch(removeStepForm(idx))
   }
-  return (<StepHeader idx={idx} title={title} isOpen={isOpen} isDuplicate={isDuplicate} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} onClick={handleClick} isDragging={isDragging} />)
+  return (<StepHeader root={root} idx={idx} title={title} isOpen={isOpen} isDuplicate={isDuplicate} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} onClick={handleClick} isDragging={isDragging} />)
 }
