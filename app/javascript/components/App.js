@@ -6,7 +6,7 @@ import ErrorBoundary from '@components/ErrorBoundary';
 import Toaster from '@containers/Toaster';
 import './index.css';
 import store, {history} from './redux';
-//import './poppins.css';
+import './poppins.css';
 
 export default () => (
   <Provider store={store}>
