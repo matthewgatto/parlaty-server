@@ -43,9 +43,10 @@ class DevicesController < ApplicationController
       @device.name = device_params[:name]
       @device.save
       count = 0
+      action_map = Hash.new
       while params[:device][:actions] && count < params[:device][:actions].count
         actionParams = action_params(count)
-
+        action_map[actionParams[:id]] = actionParams[:id]
         begin
           @action = Action.find(actionParams[:id])
           if (@action)
@@ -64,6 +65,7 @@ class DevicesController < ApplicationController
             parameter_value_8_pack: actionParams[:parameter_value_8_pack],
             time: actionParams[:time], mode: actionParams[:mode])
           if (@action)
+            action_map[@action.id] = @action.id
           else
             config.logger.error "action create failed in PUT /devices/:id"
             head :bad_request and return
@@ -71,7 +73,14 @@ class DevicesController < ApplicationController
         end
         count = count + 1
       end
-      #render json: { "id": deviceId}, status: :ok and return
+      #render json: { "id": deviceId}, status: :ok and 
+      # delete those actions that are no longer in params
+      @device.actions.map do |action|
+        tmp_id = action_map[action.id]
+        if tmp_id.nil?
+          action.destroy
+        end
+      end
       render status: :ok
     else
       config.logger.error "device find failed in PUT /devices/:id"
