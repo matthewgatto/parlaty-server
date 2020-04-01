@@ -20,6 +20,7 @@
     "react_ujs": "^2.5.0",
     "redux": "^4.0.4",
     "redux-saga": "^1.0.5",
+    "typeface-poppins": "0.0.72",
     "uuid": "^3.3.3",
     "yup": "^0.27.0"
   },
