@@ -20,11 +20,13 @@ import DeviceOEMLandingPage from '@components/Device/Tab/OEM/Landing';
 import DeviceBusinessPage from '@components/Device/Tab/Business';
 import DeviceManagerPage from '@components/Device/Tab/Manager';
 //import BusinessForm from '@components/Business/Create';
-import {UserInvitationForm,OEMInvitationForm} from '@components/EmailForms/Invitation';
 import ForgotPasswordForm from '@components/EmailForms/ForgotPassword';
 import ResetPasswordForm from '@components/EmailForms/ResetPassword';
 import InvitationConfirmationForm from '@components/EmailForms/InvitationConfirmation'
 //import SignUpPage from '@components/SignUpPage';
+import UserInvite from '@components/User/Invite';
+import UserUpdatePage from '@components/User/Update';
+import UsersPage from '@components/UsersPage';
 import {getUserRole} from '@selectors/auth';
 
 const Routes = ({role}) => {
@@ -47,8 +49,9 @@ const Routes = ({role}) => {
     case "ParlatyAdmin":
       return(<Switch>
         <Route exact path="/" component={AdminLandingPage} />
-        <Route path="/invite" component={UserInvitationForm} />
-        <Route path="/invite/:roleable" component={OEMInvitationForm} />
+        <Route path="/users/invite" component={UserInvite} />
+        <Route path="/users/:id" component={UserUpdatePage} />
+        <Route path="/users" component={UsersPage} />
         <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
         {/*<Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
         <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />

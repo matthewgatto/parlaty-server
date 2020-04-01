@@ -12,7 +12,7 @@ const Layout = ({children, role,logout}) => {
         <Link to="/"><img className={styles.logo} src={logo} /></Link>
         <div className={styles.links}>
           <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>
-          {isAdmin && <NavLink className={styles.link} activeClassName={styles.active} to="/invite">Invite</NavLink>}
+          {isAdmin && <NavLink className={styles.link} activeClassName={styles.active} to="/users">Users</NavLink>}
           {(isAdmin || isOEM) && <NavLink className={styles.link} activeClassName={styles.active} to="/devices">Device Labels</NavLink>}
           <NavLink className={styles.link} activeClassName={styles.active} to="/support">Support</NavLink>
           {role && <Link to="/" onClick={logout} className={styles.link}>Logout</Link>}

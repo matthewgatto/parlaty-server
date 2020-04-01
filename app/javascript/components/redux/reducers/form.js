@@ -5,6 +5,7 @@ import * as procedureTypes from '@types/procedure'
 import * as stepTypes from '@types/step'
 import * as formTypes from '@types/form';
 import * as deviceTypes from '@types/device';
+import * as userTypes from '@types/user';
 
 const startFormProcessing = (state,id) => ({
   ...state,
@@ -38,7 +39,8 @@ const isFormSubmitAction = (type) => (
   || type === authTypes.CREATE_INVITE_CONFIRMATION_REQUEST
   || type === authTypes.CREATE_PASSWORD_RESET_EMAIL_REQUEST
   || type === authTypes.UPDATE_PASSWORD_REQUEST
-  || type === authTypes.CREATE_USER_REQUEST
+  || type === userTypes.CREATE_USER_REQUEST
+  || type === userTypes.UPDATE_USER_REQUEST
   || type === oemTypes.CREATE_OEM_REQUEST
   || type === oemTypes.UPDATE_OEM_REQUEST
   || type === businessTypes.CREATE_BUSINESS_REQUEST
@@ -57,7 +59,8 @@ const isFormSubmitFailureAction = (type) => (
   || type === authTypes.CREATE_INVITE_CONFIRMATION_REQUEST__FAILURE
   || type === authTypes.CREATE_PASSWORD_RESET_EMAIL_REQUEST__FAILURE
   || type === authTypes.UPDATE_PASSWORD_REQUEST__FAILURE
-  || type === authTypes.CREATE_USER_REQUEST__FAILURE
+  || type === userTypes.CREATE_USER_REQUEST__FAILURE
+  || type === userTypes.UPDATE_USER_REQUEST__FAILURE
   || type === oemTypes.CREATE_OEM_REQUEST__FAILURE
   || type === oemTypes.UPDATE_OEM_REQUEST__FAILURE
   || type === businessTypes.CREATE_BUSINESS_REQUEST__FAILURE

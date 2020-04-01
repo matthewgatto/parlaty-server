@@ -43,8 +43,30 @@ const makePasswordFormSaga = (method, cb) => (function*(action){
 
 const handleUserInvite = pushAndNotify('/', "An invitation link has been sent to the email provided.")
 export function* inviteUserSaga(action){
-  action.payload.values = {user: {email: action.payload.values.email, name: action.payload.values.name}, roleable: action.payload.values.roleable}
-  yield call(formSaga, "post", action, action.payload.values.roleable === "oem" && normalizeOEMInvite, handleUserInvite);
+  const {name,email,roleable,client,...categories} = action.payload.values;
+  const body = {
+    user: {
+      name,
+      email
+    },
+    roleable
+  }
+  if(roleable === "clientadmin"){
+    body.client = client
+  } else if(
+    roleable === "author" ||
+    roleable === "operator"
+  ){
+    body.categories = []
+    for (var categoryId in categories) {
+      if (categories.hasOwnProperty(categoryId) && categories[categoryId] === true && isNumber(categoryId)) {
+        body.categories.push(categoryId)
+      }
+    }
+  }
+  console.log("body", body);
+  //action.payload.values = body
+  //yield call(formSaga, "post", action, action.payload.values.roleable === "oem" && normalizeOEMInvite, handleUserInvite);
 }
 
 export const inviteConfirmationSaga = makePasswordFormSaga("post", handleInviteConfirmationSuccess)

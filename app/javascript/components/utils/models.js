@@ -5,7 +5,10 @@ const action = new schema.Entity("actions");
 const device = new schema.Entity("devices", {
   actions: [action]
 });
-const step = new schema.Entity("steps", {}, {
+const step = new schema.Entity("steps", {
+  procedure_id: procedure,
+  //device
+}, {
   processStrategy: (step, procedure) => {
     if(!step.procedure_id && procedure && procedure.id){
       step.procedure_id = procedure.id
@@ -19,10 +22,6 @@ const step = new schema.Entity("steps", {}, {
     return step
   }
 });
-step.define({
-  procedure_id: procedure,
-  //device
-})
 
 const procedure = new schema.Entity("procedures", {
   oem_business_id: business,
@@ -43,10 +42,18 @@ const oem = new schema.Entity("oems", {
   businesses: [business]
 })
 
+const user = new schema.Entity("users", {
+  client: oem,
+  categories: [business]
+}, {
+  processStrategy: ({roleable_type, roleable,...user}) => ({roleable: roleable_type || roleable,...user})
+})
+
 export default {
   device,
   step,
   procedure,
   business,
-  oem
+  oem,
+  user
 }

@@ -1,4 +1,4 @@
-import {string, object, array, number, ref} from 'yup';
+import {string, object, array, number,mixed, ref} from 'yup';
 
 export const forgotPasswordSchema = object().shape({
   email: string().email('Invalid email').required('Email is required')
@@ -17,7 +17,13 @@ export const loginSchema = object().shape({
 
 export const inviteSchema = object().shape({
   email: string().email('Invalid email').required('This field is required'),
-  name: string().required('This field is required')
+  name: string().required('This field is required'),
+  roleable: string(),
+  client: string().when('roleable',{
+    is: "parlatyadmin",
+    then: string(),
+    otherwise: string().required('This field is required').min(1)
+  })
 })
 
 export const inviteConfirmationSchema = object().shape({

@@ -12,7 +12,7 @@ export default ({formKey,...props}) => {
         dispatch = useDispatch(),
         root = `steps[${props.formId}].`,
         stepFormKey = `step,${props.formId}`,
-        initialValues = stepMeta.isDuplicate ? stepMeta.formValues : (stepMeta.storeValues || {})
+        initialValues = stepMeta.formValues || stepMeta.storeValues || {}/*stepMeta.isDuplicate ? stepMeta.formValues : (stepMeta.storeValues || {})*/
   var title;
   if(stepMeta.isDuplicate && (!stepMeta.formValues || !stepMeta.formValues.title)){
     title = "New Step"

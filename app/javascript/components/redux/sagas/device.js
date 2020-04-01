@@ -105,8 +105,29 @@ export function* updateDeviceSaga({type,payload:{formKey,id,values}}){
     }
     yield call(validateDevice, device)
     const response = yield call(API.put, `/devices/${id}`, {device})
-    yield put({type: `${type}__SUCCESS`, payload: normalize(response, Schemas.device).entities})
+    const {entities} = normalize(response, Schemas.device);
     const pathname = yield select(({router}) => router.location.pathname);
+    const splitPath = pathname.split('/');
+    if(splitPath[1] !== "devices"){
+      const {steps, procedures} = yield select(state => state)
+      const procedure = procedures.byId[pathname.split('/procedures/')[1].split('/')[0]];
+      const stepsWithDevices = {};
+      for (var i = 0; i < procedure.steps.length; i++) {
+        const step = steps.byId[procedure.steps[i]]
+        if(step.device && step.device.id == id){
+          const newActions = response.actions.map(action => {
+              const actionIndex = step.device.actions.findIndex(oldAction => oldAction.id === action.id)
+              const oldAction = step.device.actions[actionIndex]
+              return ({...action, action_copy: oldAction ? oldAction.action_copy : null})
+          })
+          const device = {...response,actions: newActions}
+          stepsWithDevices[procedure.steps[i]] = {...step,device}
+        }
+      }
+      entities.steps = stepsWithDevices
+    }
+    yield put({type: `${type}__SUCCESS`, payload: entities})
+
     if(pathname.split('/')[1] === "devices"){
       yield put(push("/devices"))
     } else {
@@ -148,17 +169,16 @@ export function* createProcedureDeviceSaga({type, payload:{values,id,formKey}}){
   try {
     const actionIds = yield select(getActionForms),
           device = { name: values.name, procedure_id: values.procedure_id }
-
     if(actionIds.length > 0){
       device.actions = actionIds.map(action => utils.makeAction(values, `actions[${action.formId}].`))
     }
     yield call(validateDevice, device)
-    const procedure = yield select(getProcedureById(values.procedure_id));
     const response = yield call(
       API.post,
       "/devices",
       {device}
     );
+    const procedure = yield select(getProcedureById(values.procedure_id));
     const newState = yield call(normalize,{...procedure, devices: procedure.devices ? [...procedure.devices, response] : [response]}, Schemas.procedure)
     yield put({type: `${type}__SUCCESS`, payload: newState.entities})
   } catch (e) {
@@ -174,7 +194,22 @@ export function* createProcedureDeviceSaga({type, payload:{values,id,formKey}}){
 export function* deleteDeviceSaga(action){
   try {
     yield call(API.delete, `/devices/${action.payload.device_id}`);
-    yield put({type: "DELETE_DEVICE_REQUEST__SUCCESS", payload: {device_id: action.payload.device_id, procedure_id: action.payload.procedure_id}})
+    const payload = {device_id: action.payload.device_id, procedure_id: action.payload.procedure_id}
+    const pathname = yield select(({router}) => router.location.pathname);
+    const splitPath = pathname.split('/');
+    if(splitPath[1] !== "devices"){
+      const procedure = yield select(getProcedureById(action.payload.procedure_id));
+      const steps = yield select(state => state.steps)
+      const stepsWithDevices = {};
+      for (var i = 0; i < procedure.steps.length; i++) {
+        const step = steps.byId[procedure.steps[i]]
+        if(step.device && step.device.id == action.payload.device_id){
+          stepsWithDevices[procedure.steps[i]] = {...step,device_id: null,device:null}
+        }
+      }
+      payload.steps = stepsWithDevices
+    }
+    yield put({type: "DELETE_DEVICE_REQUEST__SUCCESS", payload})
     yield put(setModal());
     yield put(addToast("success", "Device was successfully deleted."))
   } catch (e) {

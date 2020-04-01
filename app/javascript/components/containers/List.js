@@ -7,11 +7,9 @@ export default function(props){
   const dispatch = useDispatch();
   const fetchData = () => dispatch({type: props.type, payload: {url: props.url, id: props.id}});
   useEffect(() => {
-    console.log("useEffect items", items);
     if(!items){
       fetchData()
     }
-  },[])
-  console.log("items", items);
+  },[]);
   return <List /*error={false}*/ fetchData={fetchData} items={items} action={props.action} entityKey={props.entityKey} to={props.to} text={props.text} placeholder={props.placeholder} />
 }

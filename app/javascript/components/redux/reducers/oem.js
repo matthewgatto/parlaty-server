@@ -7,12 +7,6 @@ import * as authTypes from '@types/auth'
 
 const allOems = (state = null, {type, payload}) => {
   switch (type) {
-      /*
-    case authTypes.CREATE_USER_REQUEST__SUCCESS:
-      if(!payload.oems){
-        break;
-      }
-      */
     case types.FETCH_OEMS_REQUEST__SUCCESS:
     case types.CREATE_OEM_REQUEST__SUCCESS:
       return addIds(state, payload.oems)
@@ -23,7 +17,6 @@ const allOems = (state = null, {type, payload}) => {
 
  const oemsById = (state = {}, {type,payload}) => {
   switch (type) {
-    //case authTypes.CREATE_USER_REQUEST__SUCCESS:
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(!payload.oems || payload.auth.roleable_type !== "Oem"){
         return state

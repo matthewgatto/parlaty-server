@@ -5,12 +5,14 @@ import * as business from './business';
 import * as procedure from './procedure';
 import * as step from './step';
 import * as device from './device';
+import * as user from './user';
 import * as authTypes from '@types/auth';
 import * as oemTypes from '@types/oem';
 import * as businessTypes from '@types/business';
 import * as procedureTypes from '@types/procedure';
 import * as stepTypes from '@types/step';
 import * as deviceTypes from '@types/device';
+import * as userTypes from '@types/user';
 
 export default function* appSagas(){
   yield all([
@@ -19,7 +21,11 @@ export default function* appSagas(){
     yield takeEvery(authTypes.CREATE_INVITE_CONFIRMATION_REQUEST, auth.inviteConfirmationSaga),
     yield takeEvery(authTypes.CREATE_PASSWORD_RESET_EMAIL_REQUEST, auth.passwordResetEmailSaga),
     yield takeEvery(authTypes.UPDATE_PASSWORD_REQUEST, auth.updatePasswordSaga),
-    yield takeEvery(authTypes.CREATE_USER_REQUEST, auth.inviteUserSaga),
+    yield takeEvery(userTypes.CREATE_USER_REQUEST, user.inviteUserSaga),
+    yield takeEvery(userTypes.UPDATE_USER_REQUEST, user.updateUserSaga),
+    yield takeEvery(userTypes.DELETE_USER_REQUEST, user.deleteUserSaga),
+    yield takeEvery(userTypes.FETCH_USERS_REQUEST, user.userListSaga),
+    yield takeEvery(userTypes.FETCH_USER_REQUEST, user.fetchUserSaga),
     yield takeEvery(oemTypes.CREATE_OEM_REQUEST, oem.inviteOEMSaga),
     yield takeEvery(oemTypes.UPDATE_OEM_REQUEST, oem.updateOEMSaga),
     yield takeEvery(oemTypes.FETCH_OEMS_REQUEST, oem.oemListSaga),
