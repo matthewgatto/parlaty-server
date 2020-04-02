@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_27_022514) do
+ActiveRecord::Schema.define(version: 2020_04_01_010933) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_022514) do
     t.boolean "default"
     t.bigint "oem_business_id"
     t.bigint "procedure_id"
+    t.text "actions_order"
     t.index ["oem_business_id"], name: "index_devices_on_oem_business_id"
     t.index ["procedure_id"], name: "index_devices_on_procedure_id"
   end

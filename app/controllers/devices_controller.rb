@@ -25,7 +25,11 @@ class DevicesController < ApplicationController
           config.logger.error "action create failed in POST /devices"
           head :bad_request and return
         end
+        @device.actions_order.push(@action.id)
         count = count + 1
+      end
+      if count > 1
+        @device.save
       end
 			#render json: { "id": @device.id}, status: :ok and return
       render status: :created
@@ -43,6 +47,7 @@ class DevicesController < ApplicationController
       @device.name = device_params[:name]
       @device.save
       count = 0
+      @device.actions_order.clear
       action_map = Hash.new
       while params[:device][:actions] && count < params[:device][:actions].count
         actionParams = action_params(count)
@@ -71,6 +76,7 @@ class DevicesController < ApplicationController
             head :bad_request and return
           end
         end
+        @device.actions_order.push(@action.id)
         count = count + 1
       end
       #render json: { "id": deviceId}, status: :ok and 
@@ -78,6 +84,7 @@ class DevicesController < ApplicationController
       @device.actions.map do |action|
         tmp_id = action_map[action.id]
         if tmp_id.nil?
+          @device.actions_order.pop(@action.id)
           action.destroy
         end
       end

@@ -18,6 +18,7 @@ json[:devices] = @devices.map do |device|
 {
 	id: device.id,
 	name: device.name,
+    actions_order: device.actions_order,
 	actions: get_actions(device.actions)
 }
 end

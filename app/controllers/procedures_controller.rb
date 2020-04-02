@@ -152,7 +152,7 @@ class ProceduresController < ApplicationController
 		procedure_original = Procedure.find(id)
 		device_map = Hash.new
 		step_id_map = Hash.new
-		action_map = Hash.new
+		action_id_map = Hash.new
 		procedure_params = params[:procedure]
 		procedure_name = procedure_params[:name]
 		procedure_description = procedure_params[:description]
@@ -171,14 +171,21 @@ class ProceduresController < ApplicationController
 		if procedure_original.devices
 			procedure_original.devices.map do |device_original|
 				device_copy = device_original.dup
+				device_copy.actions_order.clear
 				device_copy.save # need the id
 				device_map[device_original] = device_copy
 				if device_original.actions
 					device_original.actions.map do |action_original|
 						action_copy = action_original.dup
 						action_copy.save # need the id
-						action_map[action_original.id] = action_copy.id
+						action_id_map[action_original.id] = action_copy.id
 						device_copy.actions << action_copy
+					end
+					if device_original.actions_order
+						device_original.actions_order.map do |action_original_id|
+							action_copy_id = action_id_map[action_original_id]
+							device_copy.actions_order << action_copy_id
+						end
 					end
 				end
 				# device has_many steps too - might have to code for that
@@ -196,7 +203,7 @@ class ProceduresController < ApplicationController
 					step_original.action_copies.map do |action_copy_original|
 						action_copy_copy = action_copy_original.dup
 						# replace old action_id with new saved above
-						action_copy_copy.action_id = action_map[action_copy_copy.action_id]
+						action_copy_copy.action_id = action_id_map[action_copy_copy.action_id]
 						step_copy.action_copies << action_copy_copy
 					end
 				end
