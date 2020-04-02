@@ -81,6 +81,8 @@ class DevicesController < ApplicationController
           action.destroy
         end
       end
+      @device.save
+      @device = Device.find(deviceId)
       render status: :ok
     else
       config.logger.error "device find failed in PUT /devices/:id"
