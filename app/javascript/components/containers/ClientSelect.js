@@ -12,6 +12,6 @@ export default ({formKey, defaultValue}) => {
     }
   },[]);
   return(
-    <Select defaultValue={defaultValue} options={clients || []} label="Client*" name="client" formKey={formKey} placeholder="Choose a client..."  />
+    <Select defaultValue={defaultValue} options={clients || []} label="Client*" name="client" formKey={formKey} placeholder="Choose a client..." disabled  />
   )
 }

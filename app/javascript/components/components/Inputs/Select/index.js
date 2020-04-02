@@ -16,9 +16,9 @@ export const withSelectContainer = WrappedComponent => ({className, ...props}) =
   )
 }
 
-export default ({options, placeholder, ...props}) => (
+export default ({options, placeholder, disabled, ...props}) => (
   <select {...props}>
-    {placeholder && <option value="" disabled selected>{placeholder}</option>}
+    {placeholder && <option value="" disabled={disabled} selected>{placeholder}</option>}
     {(options && options.length > 0) ? (
       options.map(option =>
         <option key={option.value} value={option.value}>{option.label}</option>
