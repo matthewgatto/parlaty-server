@@ -40,6 +40,7 @@ const devicesById = (state = {}, {type,payload}) => {
       }
       return state;
     case types.CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS:
+    case types.UPDATE_DEVICE_REQUEST__SUCCESS:
       if(payload.devices){
         return {
           ...state,
@@ -51,7 +52,6 @@ const devicesById = (state = {}, {type,payload}) => {
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
-    case types.UPDATE_DEVICE_REQUEST__SUCCESS:
       if(payload.devices){
         return merge({}, state, payload.devices)
       }
