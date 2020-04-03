@@ -61,24 +61,24 @@ export function* inviteUserSaga(action){
 }
 
 export function* updateUserSaga(action){
-  const body = {
-    user: action.payload.values
-  }
-  if(action.payload.categories){
-    const categories = []
-    for (var categoryId in action.payload.categories) {
-      if (action.payload.categories.hasOwnProperty(categoryId) && action.payload.categories[categoryId] === true && !isNaN(categoryId)) {
-        categories.push(categoryId)
-      }
-    }
-    body.user.categories = categories
-  }
-
-  yield put({type: `${action.type}__SUCCESS`, payload: normalize({id: action.payload.id, ...body.user}, Schemas.user).entities})
-  yield call(handleUpdateSuccess)
   try {
+    const body = {
+      user: action.payload.values
+    }
+    if(action.payload.categories){
+      const categories = []
+      for (var categoryId in action.payload.categories) {
+        if (action.payload.categories.hasOwnProperty(categoryId) && action.payload.categories[categoryId] === true && !isNaN(categoryId)) {
+          categories.push(categoryId)
+        }
+      }
+      body.user.categories = categories
+    }
     const response = yield call(API.put, `/users/${action.payload.id}`, body)
     console.log(`PUT /users/${action.payload.id}`,response);
+    yield put({type: `${action.type}__SUCCESS`, payload: normalize({...response, ...body.user}, Schemas.user).entities})
+    yield call(handleUpdateSuccess)
+
   } catch (e) {
     console.log(`PUT /users/${action.payload.id}  ERROR`, e);
   }
@@ -87,7 +87,7 @@ export function* updateUserSaga(action){
 export function* fetchUserSaga(action){
   try {
     const response = yield call(API.get, `/users/${action.payload}`)
-    console.log(`GET /users/${action.payload}`,response);
+    yield put({type: `${action.type}__SUCCESS`, payload: normalize(response, Schemas.user).entities})
   } catch (e) {
     console.log(`GET /users/${action.payload} ERROR`, e);
   }
@@ -95,11 +95,11 @@ export function* fetchUserSaga(action){
 }
 
 export function* deleteUserSaga(action){
-  yield put({type: `${action.type}__SUCCESS`, payload: action.payload})
-  yield call(handleDeleteSuccess)
   try {
     const response = yield call(API.delete, `/users/${action.payload}`)
     console.log(`DELETE /users/${action.payload}`,response);
+    yield put({type: `${action.type}__SUCCESS`, payload: action.payload})
+    yield call(handleDeleteSuccess)
   } catch (e) {
     console.log(`DELETE /users/${action.payload} ERROR`, e);
   }
@@ -108,10 +108,10 @@ export function* deleteUserSaga(action){
 
 
 export function* userListSaga(action){
-  yield put({type: `${action.type}__SUCCESS`, payload: {users: {}}})
   try {
-    const response = yield call(API.get, "/users");
-    console.log("GET /users" ,response);
+    const {users} = yield call(API.get, "/users");
+    console.log("users", users);
+    yield put({type: `${action.type}__SUCCESS`, payload: normalize(users, [Schemas.user]).entities})
   } catch (e) {
     console.log("GET /users ERROR", e);
   }
