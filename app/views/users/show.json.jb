@@ -1,0 +1,6 @@
+json = {
+	id: @user.id,
+	email: @user.email
+}
+
+json

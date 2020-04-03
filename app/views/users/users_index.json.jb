@@ -1,0 +1,9 @@
+json = {}
+json[:users] = @users.map do |user|
+{
+	id: user.id,
+	email: user.email
+}
+end
+
+json

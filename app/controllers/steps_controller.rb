@@ -1,7 +1,7 @@
 require 'csv'
 
 class StepsController < ApplicationController
-	#before_action :require_login
+	before_action :require_login
 	# POST /steps
 
 	def create

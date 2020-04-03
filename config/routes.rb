@@ -68,4 +68,14 @@ Rails.application.routes.draw do
 
   get '/devices', to: 'devices#devices_index'
 
+  get '/users', to: 'users#users_index'
+
+  get '/users/:id', to: 'users#show'
+
+  post '/users/:id', to: 'users#create'
+
+  put '/users/:id', to: 'users#update'
+
+  delete '/users/:id', to: 'users#destroy'
+
 end
