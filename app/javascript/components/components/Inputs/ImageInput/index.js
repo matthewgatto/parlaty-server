@@ -1,8 +1,10 @@
 import React, {useRef,useEffect} from 'react';
+import { useDispatch } from 'react-redux';
 import { useFormContext } from "react-hook-form";
 import Close from '@components/SVG/Close';
 import Upload from '@components/SVG/Upload';
 import {readFile} from '@utils';
+import {setModal} from '@actions/modal';
 import styles from './index.module.css';
 
 const getInputText = (value) => {
@@ -29,6 +31,7 @@ class ImageDisplay extends React.Component {
       this.setState({isLoading: true}, this.setImageSrc)
     }
   }
+  openModal = () => this.props.setModal("image_preview", this.state.src)
   setImageSrc = async () => {
     var src = this.props.src;
     if(src instanceof File){
@@ -36,26 +39,38 @@ class ImageDisplay extends React.Component {
     }
     this.setState({src})
   }
+  setProps = () => {
+    const props = {}
+    if(this.state.isLoading){
+      props.className = `${styles.imageContainer} ${styles.hide}`
+    } else {
+      props.onClick = this.openModal;
+      props.className = styles.imageContainer;
+      props.style = {backgroundImage: `url(${this.state.src})`}
+    }
+    return props
+  }
   render(){
-    return <div className={this.state.isLoading ? `${styles.imageContainer} ${styles.hide}` : styles.imageContainer} style={this.state.isLoading ? undefined : {backgroundImage: `url(${this.state.src})`}}  />
+    return <div {...this.setProps()} />
   }
 }
 
-const ImageDisplayContainer = ({src, handleCloseIconClick}) => (
+const ImageDisplayContainer = ({src, handleCloseIconClick,setModal,setFile}) => (
   <div className={styles.imageWrapper}>
     {src ? (<>
-      <ImageDisplay src={src} />
+      <ImageDisplay src={src} setModal={setModal} />
       <div onClick={handleCloseIconClick} className={styles.iconWrapper}>
         <svg className={styles.closeIcon} fill="#fff" width="1em" height="1em" viewBox="0 0 24 24">
           <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
           <path d="M0 0h24v24H0z" fill="none" />
         </svg>
       </div>
-    </>) : (<div className={styles.imagePlaceholder}>No Image Uploaded</div>)}
+    </>) : (<div onClick={setFile} className={styles.imagePlaceholder}>No Image Uploaded</div>)}
   </div>
 )
 
 export default ({label, name, initialValue, value, onChange}) => {
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
   const { setValue } = useFormContext()
   const inputText = getInputText(value)
@@ -67,6 +82,7 @@ export default ({label, name, initialValue, value, onChange}) => {
       inputRef.current.click();
     }
   }
+  const handleSetModal = (modal, data) => dispatch(setModal(modal,data))
   const handleImageIconClick = () => {
     setValue(name, null);
     inputRef.current.value = null;
@@ -79,7 +95,7 @@ export default ({label, name, initialValue, value, onChange}) => {
   return(<>
     <label className={`${styles.label} align_center`}>{label}</label>
     <div className={styles.fileInputContainer}>
-    <ImageDisplayContainer src={value} handleCloseIconClick={handleImageIconClick} />
+    <ImageDisplayContainer src={value} handleCloseIconClick={handleImageIconClick} setModal={handleSetModal} setFile={handleInputClick} />
     <div className={`${styles.container} align_center`} onClick={handleInputClick}>
 
       <span className={`button align_center ${styles.button}`}>

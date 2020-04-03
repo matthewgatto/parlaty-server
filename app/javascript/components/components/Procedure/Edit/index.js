@@ -9,6 +9,7 @@ import ProcedureForm from '../EditForm';
 import DeviceForm from '@components/Device/Create';
 import DeviceUpdateForm from '@components/Device/Edit';
 import DeviceCopyList from '../DeviceCopyList'
+import ImagePreview from '@components/ImagePreview';
 import DeviceManagerModal from '../DeviceManagerModal'
 import DeleteProcedureConfirmationModal from '../DeleteConfirmationModal'
 import DeleteDeviceConfirmationModal from '@components/Device/DeleteConfirmationModal';
@@ -19,6 +20,7 @@ import { getProcedureById } from '@selectors/procedure';
 const DeviceCreateModal = withModal(DeviceForm, "create_device");
 const ProcedureDeviceModal = withModal(DeviceCopyList, "procedure_device_list");
 const DeviceUpdateModal = withModal(DeviceUpdateForm, "update_device");
+const ImagePreviewModal = withModal(ImagePreview, "image_preview");
 
 const withStepLoader = (WrappedComponent) =>  (
   class extends React.PureComponent {
@@ -84,5 +86,6 @@ export default ({match:{params:{oem_id,business_id,id}}}) => {
     <DeviceCreateModal name={name} procedure_id={id} />
     <ProcedureDeviceModal business_id={business_id} />
     <DeviceUpdateModal name={name} />
+    <ImagePreviewModal />
   </>)
 }
