@@ -39,6 +39,7 @@
 .spoken {
   margin: 0.2em 0;
   font-size: 1em;
+  display: flex;
   flex-direction: row-reverse;
   position: absolute;
   top: -0.8em;

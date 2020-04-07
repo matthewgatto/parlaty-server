@@ -106,6 +106,7 @@ export function* updateDeviceSaga({type,payload:{formKey,id,values}}){
     yield call(validateDevice, device)
     const response = yield call(API.put, `/devices/${id}`, {device})
     const {entities} = normalize(response, Schemas.device);
+    /*
     const pathname = yield select(({router}) => router.location.pathname);
     const splitPath = pathname.split('/');
     if(splitPath[1] !== "devices"){
@@ -126,6 +127,7 @@ export function* updateDeviceSaga({type,payload:{formKey,id,values}}){
       }
       entities.steps = stepsWithDevices
     }
+    */
     yield put({type: `${type}__SUCCESS`, payload: entities})
 
     if(pathname.split('/')[1] === "devices"){

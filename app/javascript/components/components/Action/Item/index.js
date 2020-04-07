@@ -21,7 +21,6 @@ export default ({position, action, root, formKey, defaultAction}) => {
     }
   }
   const actionRoot = `${root}actions[${action.id}].`
-  const hasActionCopy = (defaultAction && defaultAction.action_copy) ? true : false
   return(
     <div className={styles.container}>
       <div onClick={handleClick} className={makeActionItemClassStr(/*isSelected*/isOpen, hasParameterValues)}>
@@ -32,8 +31,8 @@ export default ({position, action, root, formKey, defaultAction}) => {
       {hasParameterValues &&
         <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
           <div className={styles.inputs}>
-            <Input type="text" as="input" root={actionRoot} name="parameter_value_8_pack" label="Parameter Value" defaultValue={(hasActionCopy && defaultAction.action_copy.parameter_value_8_pack) ? defaultAction.action_copy.parameter_value_8_pack : action.parameter_value_8_pack} />
-            <ModeAndTimeFields defaultTime={(hasActionCopy && defaultAction.action_copy.time) ? defaultAction.action_copy.time : (action.time || 8)} defaultMode={(hasActionCopy && defaultAction.action_copy.mode) ? defaultAction.action_copy.mode : (action.mode || "continuous")} root={actionRoot} />
+            <Input type="text" as="input" root={actionRoot} name="parameter_value_8_pack" label="Parameter Value" defaultValue={action.parameter_value_8_pack} />
+            <ModeAndTimeFields defaultTime={action.time || 8} defaultMode={action.mode || "continuous"} root={actionRoot} />
           </div>
         </AnimateHeight>
       }
