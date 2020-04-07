@@ -36,8 +36,17 @@ class StepsController < ApplicationController
 				actionValue = actionParams[:parameter_value_8_pack]
 				actionMode = actionParams[:mode]
 				actionTime = actionParams[:time]
-				
 				action = Action.find(actionId)
+				if (action)
+				  	if(action.update_attributes(actionParams))
+					else
+					  config.logger.error "action update attributes failed in PUT /steps/:id"
+					  head :bad_request and return
+					end
+				else
+					config.logger.error "action find failed in PUT /steps/:id"
+					head :bad_request and return
+				end
 				count = count + 1
 	  		end
 			# end new 20200310
@@ -107,6 +116,16 @@ class StepsController < ApplicationController
 				actionMode = actionParams[:mode]
 				actionTime = actionParams[:time]
 				action = Action.find(actionId)
+				if (action)
+					if(action.update_attributes(actionParams))
+					else
+					  config.logger.error "action update attributes failed in PUT /steps/:id"
+					  head :bad_request and return
+					end
+				else
+					config.logger.error "action find failed in PUT /steps/:id"
+					head :bad_request and return
+				end
 				count = count + 1
 	  		end
 			render status: :ok
@@ -207,6 +226,6 @@ class StepsController < ApplicationController
 		end
 
 		def action_params(index)
-			params[:step].require(:actions)[index].permit(:id, :parameter_value_8_pack, :mode, :time)
+			params[:step].require(:actions)[index].permit(:id, :device_id, :name, :parameter_name, :parameter_value_8_pack, :time, :mode)
     	end
 end
