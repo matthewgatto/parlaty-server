@@ -38,21 +38,6 @@ class StepsController < ApplicationController
 				actionTime = actionParams[:time]
 				
 				action = Action.find(actionId)
-				actionCopy = ActionCopy.find_by(step_id: step_id, action_id: actionId )
-				parmValueChanged = (actionCopy && actionCopy.parameter_value_8_pack != actionValue) || \
-					(action && action.parameter_value_8_pack != actionValue) || \
-					(action && action.mode != actionMode) || \
-					(action && action.time != actionTime)
-				if parmValueChanged
-					if !actionCopy
-						actionCopy = ActionCopy.create(step_id: step_id, action_id: actionId, parameter_value_8_pack: actionValue, time: actionTime, mode: actionMode)
-					else
-						actionCopy.parameter_value_8_pack = actionValue
-						actionCopy.mode = actionMode
-						actionCopy.time = actionTime
-						actionCopy.save
-					end
-				end
 				count = count + 1
 	  		end
 			# end new 20200310
@@ -122,21 +107,6 @@ class StepsController < ApplicationController
 				actionMode = actionParams[:mode]
 				actionTime = actionParams[:time]
 				action = Action.find(actionId)
-				actionCopy = ActionCopy.find_by(step_id: step_id, action_id: actionId )
-				parmValueChanged = (actionCopy && actionCopy.parameter_value_8_pack != actionValue) || \
-					(action && action.parameter_value_8_pack != actionValue) || \
-					(action && action.mode != actionMode) || \
-					(action && action.time != actionTime)
-				if parmValueChanged
-					if !actionCopy
-						actionCopy = ActionCopy.create(step_id: step_id, action_id: actionId, parameter_value_8_pack: actionValue, mode: actionMode, time: actionTime)
-					else
-						actionCopy.parameter_value_8_pack = actionValue
-						actionCopy.mode = actionMode
-						actionCopy.time = actionTime
-						actionCopy.save
-					end
-				end
 				count = count + 1
 	  		end
 			render status: :ok

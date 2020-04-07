@@ -199,14 +199,6 @@ class ProceduresController < ApplicationController
 				step_id_map[step_original.id] = step_copy.id  
 				# replace old device with new saved above
 				step_copy.device = device_map[step_copy.device]
-				if step_original.action_copies
-					step_original.action_copies.map do |action_copy_original|
-						action_copy_copy = action_copy_original.dup
-						# replace old action_id with new saved above
-						action_copy_copy.action_id = action_id_map[action_copy_copy.action_id]
-						step_copy.action_copies << action_copy_copy
-					end
-				end
 				procedure_copy.steps << step_copy
 				if step_original.visuals
 					step_copy.visuals.clear
