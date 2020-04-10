@@ -7,7 +7,7 @@ const device = new schema.Entity("devices", {
 });
 const step = new schema.Entity("steps", {
   procedure_id: procedure,
-  //device
+  device
 }, {
   processStrategy: (step, procedure) => {
     if(!step.procedure_id && procedure && procedure.id){

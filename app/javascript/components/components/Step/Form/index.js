@@ -34,7 +34,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         </div>
         <TimeSelect formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
         <Input as="textarea" defaultValue={initialValues.location} formKey={formKey} type="text" label="Instruction" root={root} name="location" rows="4"  />
-        <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultDevice={initialValues.device} />
+        <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultValue={initialValues.device} />
         <div>
           <ImageInput formKey={formKey} defaultValue={initialValues.visual} label="Image*" root={root} name="visual" />
         </div>

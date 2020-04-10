@@ -5,6 +5,7 @@ import * as types from "@types/device";
 import * as authTypes from '@types/auth';
 import * as procedureTypes from '@types/procedure';
 import * as businessTypes from '@types/business';
+import * as stepTypes from '@types/step';
 
 const allDevices = (state = [], {type,payload}) => {
   switch (type) {
@@ -41,6 +42,7 @@ const devicesById = (state = {}, {type,payload}) => {
       return state;
     case types.CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS:
     case types.UPDATE_DEVICE_REQUEST__SUCCESS:
+    case stepTypes.STEP_SAVE_REQUEST__SUCCESS:
       if(payload.devices){
         return {
           ...state,

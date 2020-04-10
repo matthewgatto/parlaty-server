@@ -1,4 +1,5 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
+import {useFormContext} from 'react-hook-form';
 import AnimateHeight from 'react-animate-height';
 import Gear from '../../SVG/Gear';
 import ModeAndTimeFields from '@components/Inputs/ModeAndTimeFields';
@@ -12,8 +13,9 @@ const makeActionItemClassStr = (isSelected, hasParameterValues) => {
   return classStr;
 }
 
-export default ({position, action, root, formKey, defaultAction}) => {
-  const [isOpen, setIsOpen] = useState()
+export default ({position, action, root, formKey}) => {
+  const [isOpen, setIsOpen] = useState();
+  const {setValue} = useFormContext();
   const hasParameterValues = (action && action.parameter_name && action.parameter_value_8_pack) ? true : false
   const handleClick = () => {
     if(hasParameterValues){
@@ -21,6 +23,12 @@ export default ({position, action, root, formKey, defaultAction}) => {
     }
   }
   const actionRoot = `${root}actions[${action.id}].`
+  useEffect(() => {
+    setValue(`${actionRoot}parameter_value_8_pack`, action.parameter_value_8_pack);
+    setValue(`${actionRoot}time`, action.time);
+    setValue(`${actionRoot}mode`, action.mode);
+  }, [action,actionRoot,setValue])
+
   return(
     <div className={styles.container}>
       <div onClick={handleClick} className={makeActionItemClassStr(/*isSelected*/isOpen, hasParameterValues)}>
@@ -31,8 +39,8 @@ export default ({position, action, root, formKey, defaultAction}) => {
       {hasParameterValues &&
         <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
           <div className={styles.inputs}>
-            <Input type="text" as="input" root={actionRoot} name="parameter_value_8_pack" label="Parameter Value" defaultValue={(defaultAction && defaultAction.parameter_value_8_pack) || action.parameter_value_8_pack} />
-            <ModeAndTimeFields defaultTime={((defaultAction && defaultAction.time) || action.time) || 8} defaultMode={((defaultAction && defaultAction.mode) || action.mode) || "continuous"} root={actionRoot} />
+            <Input type="text" as="input" root={actionRoot} name="parameter_value_8_pack" label="Parameter Value" defaultValue={action.parameter_value_8_pack} />
+            <ModeAndTimeFields defaultTime={action.time || 8} defaultMode={action.mode || "continuous"} root={actionRoot} />
           </div>
         </AnimateHeight>
       }
