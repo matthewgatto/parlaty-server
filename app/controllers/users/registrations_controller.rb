@@ -22,14 +22,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
     case params[:roleable]
     when "oem"
       @roleable = Oem.create(name: params[:user][:name])
-    when 'parlatyadmin'
+    when "parlatyadmin"
       @roleable = ParlatyAdmin.create(name: params[:user][:name])
-    when 'operator'
+    when "operator"
+      # has many oem_businesses which is categories on the ui
       @roleable = Operator.create(name: params[:user][:name])
-      # to_implement? check if procedures belongs to oem_business, through current_user(operator admin) association
-      # create operations to associate procedures to operators
-      params[:procedures].each do |p_id| 
-        Operation.create(operator_id: @roleable.id, procedure_id: p_id)
+      params[:categories].each do |c_id|
+        oem_business = OemBusiness.find(c_id)
+        oem_business.operators << @roleable
+      end
+    when "author"
+      # has many oem_businesses which is categories on the ui
+      @roleable = Author.create(name: params[:user][:name])
+      params[:categories].each do |c_id|
+        oem_business = OemBusiness.find(c_id)
+        oem_business.authors << @roleable
       end
     else
       render json: { "error": "roleable type doesn't exist" }, status: :bad_request and return
@@ -37,12 +44,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #devise's code, mailer is called within build_resource
     build_resource(sign_up_params)
     resource.save
+    #@roleable.save
 
     if(!resource.update_attribute(:roleable, @roleable))
       render json: { "error": "roleable type not updated to user, but user email has been sent out" }, status: :bad_request and return
     end
-
-
+    resource.save
     #devise's code
     yield resource if block_given?
     if resource.persisted?
