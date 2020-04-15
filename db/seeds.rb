@@ -50,7 +50,8 @@ end
 # Operator
 x = 1
 while x <= 3
-	operator = Operator.create!(oem_business_id: 1, name: Faker::Name.first_name)
+	oem_business = OemBusiness.find(1)
+	operator = Operator.create!(name: Faker::Name.first_name)
 	myemail = "operator" + x.to_s + "@jmg.rocks"
 	if x == 1
 		myemail = "operator@gmail.com"
@@ -59,17 +60,22 @@ while x <= 3
 	user.confirm
 	user.roleable = operator
 	user.save	
+	oem_business.operators << operator
+	oem_business.save
 	x += 1
 end
 
 # Operator
 x = 1
 while x <= 3
-	author = Author.create!(oem_business_id: 1, name: Faker::Name.first_name)
+	oem_business = OemBusiness.find(1)
+	author = Author.create!(name: Faker::Name.first_name)
 	user = User.new(email: "author" + x.to_s + "@jmg.rocks", password: "password")
 	user.confirm
 	user.roleable = author
 	user.save	
+	oem_business.authors << author
+	oem_business.save
 	x += 1
 end
 
