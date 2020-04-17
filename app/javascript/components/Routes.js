@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '@actions/auth';
-import Layout from '@components/NewLayout';
+import Layout from '@components/Layout';
 import LoginPage from '@components/LoginPage';
 import OEMBusinessPage from '@components/Business/Show';
 //import CreateProcedurePage from '@components/Procedure/Create';
