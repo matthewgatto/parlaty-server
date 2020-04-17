@@ -31,7 +31,7 @@ function handleLoginResponse(auth){
     initialState.actions = normalizedDeviceData.entities.actions;
   }
   */
-  localStorage.setItem('login_data_2_09', JSON.stringify(initialState));
+  localStorage.setItem('login_data_4_16', JSON.stringify({jwt: initialState.auth.jwt, id: initialState.auth.id, roleable: initialState.auth.roleable}));
   API.setToken(auth.jwt);
   return initialState;
 }
@@ -85,7 +85,6 @@ export function* inviteUserSaga(action){
       }
     }
   }
-  console.log("body", body);
   //action.payload.values = body
   //yield call(formSaga, "post", action, action.payload.values.roleable === "oem" && normalizeOEMInvite, handleUserInvite);
 }

@@ -15,14 +15,15 @@ const makeSlice = (entityMap) => ({
   allIds: Object.keys(entityMap)
 })
 
-const makeInitialState = ({auth,/*devices,actions,*/oems,businesses}) => {
+const makeInitialState = (auth/*{auth,devices,actions,oems,businesses}*/) => {
   API.setToken(auth.jwt)
   const initialState = {auth}
+  /*
   if(auth.roleable_type === "Oem"){
     initialState.oems = makeSlice(oems)
     initialState.businesses = makeSlice(businesses)
   }
-  /*
+
   if(devices){
     initialState.devices = makeSlice(devices)
   }
@@ -34,7 +35,7 @@ const makeInitialState = ({auth,/*devices,actions,*/oems,businesses}) => {
 }
 
 const getInitialState = () => {
-  const localData = localStorage.getItem('login_data_2_09');
+  const localData = localStorage.getItem('login_data_4_16');
   if(localData){
     return makeInitialState(JSON.parse(localData))
   }

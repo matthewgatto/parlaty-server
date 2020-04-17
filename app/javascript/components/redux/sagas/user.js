@@ -42,17 +42,10 @@ export function* inviteUserSaga(action){
         }
       }
     }
-
+    const response = yield call(API.post, '/users', body)
+    console.log('POST /users',response);
     yield put({type: `${action.type}__SUCCESS`, payload: normalize({id: uuid(), ...body.user, roleable_type: body.roleable, client: body.client, categories: body.categories}, Schemas.user).entities})
     yield call(pushAndNotify('/users', `A user invite has been sent to ${body.user.email}`))
-    //action.payload.values = body
-    //yield call(formSaga, "post", action, action.payload.values.roleable === "oem" && normalizeOEMInvite, handleUserInvite);
-    try {
-      const response = yield call(API.post, '/users', body)
-      console.log('POST /users',response);
-    } catch (e) {
-      console.log("POST /users  ERROR", e);
-    }
   } catch (e) {
     console.log("inviteUser ERROR", e);
   }
@@ -62,20 +55,18 @@ export function* inviteUserSaga(action){
 
 export function* updateUserSaga(action){
   try {
-    const body = {
-      user: action.payload.values
-    }
-    if(action.payload.categories){
-      const categories = []
-      for (var categoryId in action.payload.categories) {
-        if (action.payload.categories.hasOwnProperty(categoryId) && action.payload.categories[categoryId] === true && !isNaN(categoryId)) {
-          categories.push(categoryId)
+    const {name,email,client,...categories} = action.payload.values
+    const body = {user:{name,email,client}}
+    if(categories){
+      const categoryArray = []
+      for (var categoryId in categories) {
+        if (categories.hasOwnProperty(categoryId) && categories[categoryId] === true && !isNaN(categoryId)) {
+          categoryArray.push(categoryId)
         }
       }
-      body.user.categories = categories
+      body.user.categories = categoryArray
     }
     const response = yield call(API.put, `/users/${action.payload.id}`, body)
-    console.log(`PUT /users/${action.payload.id}`,response);
     yield put({type: `${action.type}__SUCCESS`, payload: normalize({...response, ...body.user}, Schemas.user).entities})
     yield call(handleUpdateSuccess)
 

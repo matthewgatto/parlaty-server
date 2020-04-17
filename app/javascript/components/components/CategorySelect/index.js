@@ -4,9 +4,16 @@ import {LabelWrapper} from '@components/Inputs/Label';
 import Loader from '@components/List/Loader';
 import styles from './index.module.css';
 
+function contains(a, obj) {
+    for (var i = 0; i < a.length; i++) {
+        if (a[i] == obj) {
+            return true;
+        }
+    }
+    return false;
+}
 const Category = ({category,defaultValue}) => {
-  const value = category.value+"";
-  return <CheckBox  defaultValue={defaultValue && defaultValue.includes(value)} label={category.label} name={value} />
+  return <CheckBox defaultValue={defaultValue && contains(defaultValue, category.value)} label={category.label} name={category.value+""} />
 }
 export default ({categories,defaultValue}) => (<>
   <LabelWrapper>Categories</LabelWrapper>
