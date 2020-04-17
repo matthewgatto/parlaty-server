@@ -95,7 +95,7 @@ const Routes = ({role}) => {
 }
 
 export default () => {
-  const role = useSelector(getUserRole(state));
+  const role = useSelector(getUserRole);
   const dispatch = useDispatch()
   const handleLogout = () => dispatch(logout())
   return(
