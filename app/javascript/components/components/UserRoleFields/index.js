@@ -8,12 +8,12 @@ export default ({formKey,initialValues}) => {
   const roleable = watch("roleable");
   switch (roleable) {
     case "clientadmin":
-      return <ClientSelect formKey={formKey} defaultValue={initialValues && initialValues.client} />
+      return <ClientSelect formKey={formKey} defaultValue={initialValues && initialValues.oem} />
     case "author":
     case "operator":
       return <>
-        <ClientSelect formKey={formKey} defaultValue={initialValues && initialValues.client} />
-        <CategorySelect formKey={formKey} defaultValue={initialValues && initialValues.categories} defaultClient={initialValues && initialValues.client} />
+        <ClientSelect formKey={formKey} defaultValue={initialValues && initialValues.oem} />
+        <CategorySelect formKey={formKey} defaultValue={initialValues && initialValues.businesses} defaultClient={initialValues && initialValues.oem} />
       </>
     default:
       return null

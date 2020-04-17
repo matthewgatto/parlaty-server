@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '@actions/auth';
-import Layout from '@components/Layout';
+import Layout from '@components/NewLayout';
 import LoginPage from '@components/LoginPage';
 import OEMBusinessPage from '@components/Business/Show';
 //import CreateProcedurePage from '@components/Procedure/Create';
@@ -11,6 +11,7 @@ import CreateProcedureScreen from '@components/Procedure/CreateProcedureScreen';
 import AddDevicesScreen from '@components/Procedure/AddDevicesScreen';
 import AddStepsScreen from '@components/Procedure/AddStepsScreen';
 import AdminLandingPage from '@components/AdminLandingPage';
+import AuthorLandingPage from '@components/Author/Landing';
 import OEMPage from '@components/OEM/Show';
 import OEMLandingPage from '@components/OEM/Landing';
 import OEMUpdatePage from '@components/OEM/Edit';
@@ -67,12 +68,20 @@ const Routes = ({role}) => {
         <Route path="/oems/:id" component={OEMPage} />
         <Redirect to="/" />
       </Switch>)
-    case "Operator":
-      return(<div>Operator</div>)
+    case "ClientAdmin":
     case "OperatorAdmin":
-      return(<div>Operator Admin</div>)
+      return(<div>Client Admin</div>)
+    case "Operator":
     case "Author":
-      return(<div>Author</div>)
+      return(<Switch>
+        <Route exact path="/" component={AuthorLandingPage} />
+
+        <Route path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
+        <Route path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
+        <Route path="/businesses/:business_id/procedures/:id/add-steps" component={AddStepsScreen} />
+        <Route path="/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
+        <Route path="/businesses/:id" component={OEMBusinessPage} />
+      </Switch>)
     default:
       return(<Switch>
         <Route exact path="/" component={LoginPage} />
@@ -86,7 +95,7 @@ const Routes = ({role}) => {
 }
 
 export default () => {
-  const role = useSelector(getUserRole);
+  const role = useSelector((state) =>  {console.log("auth",state.auth);return state.auth && state.auth.roleable /*getUserRole(state)*/});
   const dispatch = useDispatch()
   const handleLogout = () => dispatch(logout())
   return(

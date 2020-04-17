@@ -43,10 +43,10 @@ const oem = new schema.Entity("oems", {
 })
 
 const user = new schema.Entity("users", {
-  client: oem,
-  categories: [business]
+  oem,
+  businesses: [business]
 }, {
-  processStrategy: ({roleable_type, roleable, name,...user}) => ({roleable: roleable_type || roleable, name: name || user.email,...user})
+  processStrategy: ({roleable_type, categories, client, oem, oem_businesses, roleable, name, id, user_id,...user}) => ({roleable: roleable_type || roleable, name: name || user.email, businesses: categories || oem_businesses, oem: client || oem, id: user_id || id, ...user})
 })
 
 export default {
