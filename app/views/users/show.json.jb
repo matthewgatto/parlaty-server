@@ -1,6 +1,27 @@
 json = {
 	id: @user.id,
-	email: @user.email
+	email: @user.email,
+	roleable_type: @user.roleable_type
 }
+
+if @oem
+json[:oem] = {
+	id: @oem.id,
+	name: @oem.name
+}
+else
+json[:oem] = {}
+end
+
+if @sorted_ob
+json[:oem_businesses] = @sorted_ob.map do |oem_business|
+	{
+		name: oem_business.name,
+		oem_business_id: oem_business.id,
+		oem_id: oem_business.oem_id
+	}
+end
+
+end
 
 json

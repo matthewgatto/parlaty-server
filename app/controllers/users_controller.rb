@@ -11,6 +11,26 @@ class UsersController < ApplicationController
   def show
     id = params[:id]
     @user = User.find(id)
+    @role = @user.roleable
+    begin
+      if (@user.roleable_type == "Author" or @user.roleable_type == "Operator")
+        @sorted_ob = @user.roleable.oem_businesses.sort_by &:name	
+        @sorted_ob.map do |oem_business|
+          @oem = Oem.find(oem_business.oem_id)
+        end
+      elsif 
+        @oem = Oem.find(@user.roleable_id)
+        if @oem
+          oem_bus = @oem.oem_businesses
+          @sorted_ob = oem_bus.sort_by &:name
+        end
+      end
+    rescue ActiveRecord::RecordNotFound
+      @sorted_ob = {}
+    end
+    #@oem
+    #@sorted_ob
+
   end
 
   # POST /users
