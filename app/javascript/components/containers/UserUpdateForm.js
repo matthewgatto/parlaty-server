@@ -10,11 +10,11 @@ export default ({id}) => {
   const dispatch = useDispatch();
   const user = useSelector(getById(id));
   useEffect(() => {
-    if(!user){
+    if(!user || !user.roleable){
       dispatch({type: FETCH_USER_REQUEST, payload: id})
     }
   },[]);
-  if(!user){
+  if(!user || !user.roleable){
     return <Loader text="user" />
   }
   return(

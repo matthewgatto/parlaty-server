@@ -9,13 +9,21 @@ const handleUpdatePasswordSuccess = pushAndNotify('/',"Your password was success
 const handlePasswordResetEmailSuccess = pushAndNotify('/',"A password recovery link has been sent to your email.")
 const handleInviteConfirmationSuccess = pushAndNotify('/',"Your password has been set, you may now login.")
 
-function handleLoginResponse({oem_businesses,/*devices,*/...auth}){
-  const initialState = {auth};
-  if(auth.roleable_type === "Oem"){
-    const {entities:{oems,businesses}} = normalize({id: auth.user_id, name: auth.name, email: auth.email, businesses: oem_businesses}, Schemas.oem)
+const makeAuthState = (user) => {
+  const normalizedData = normalize(user, Schemas.user);
+  const initialState = {auth: normalizedData.entities.users[normalizedData.result]}
+  if(user.roleable_type === "Oem"){
+    const {entities:{oems,businesses}} = normalize({...user, businesses: oem_businesses}, Schemas.oem)
     initialState.oems = oems;
     initialState.businesses = businesses || {};
+  } else if(user.roleable_type === "Operator" || user.roleable_type === "Author"){
+    initialState.businesses = normalizedData.entities.businesses
   }
+  return initialState
+}
+
+function handleLoginResponse(auth){
+  const initialState = makeAuthState(auth);
   /*
   if(devices){
     const normalizedDeviceData = normalize(devices, [Schemas.device])
@@ -41,6 +49,19 @@ const makePasswordFormSaga = (method, cb) => (function*(action){
 })
 
 
+
+export function* selfDataSaga(action){
+  try {
+    const response = yield call(API.get, action.payload.url);
+    const payload = makeAuthState(response)
+    yield put({
+      type: `CREATE_AUTH_REQUEST__SUCCESS`,
+      payload
+    })
+  } catch (e) {
+
+  }
+}
 const handleUserInvite = pushAndNotify('/', "An invitation link has been sent to the email provided.")
 export function* inviteUserSaga(action){
   const {name,email,roleable,client,...categories} = action.payload.values;
