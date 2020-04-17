@@ -95,7 +95,7 @@ const Routes = ({role}) => {
 }
 
 export default () => {
-  const role = useSelector((state) =>  {console.log("auth",state.auth);return state.auth && state.auth.roleable /*getUserRole(state)*/});
+  const role = useSelector(getUserRole(state));
   const dispatch = useDispatch()
   const handleLogout = () => dispatch(logout())
   return(
