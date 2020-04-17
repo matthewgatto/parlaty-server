@@ -3,10 +3,24 @@ class OemBusinessesController < ApplicationController
 
 	# GET /oem_businesses/:id
 	def show
-		# padmin and its oem have access
 		@oemb = OemBusiness.find(params[:id])
-
-		if !( is_p_admin? || cuser_is?("Oem", @oemb.oem_id) )
+		curr_user = current_user
+		is_author = curr_user.roleable_type == "Author" 
+		is_operator = curr_user.roleable_type == "Operator" 
+		roleable = curr_user.roleable
+		hasOemBusiness = false
+		if is_author || is_operator
+			roleable.oem_businesses.map do |ob|
+				if !hasOemBusiness
+					hasOemBusiness = ob.id == params[:id].to_i
+				end
+			end
+		end
+		is_valid = is_p_admin? || cuser_is?("Oem", @oemb.oem_id) ||
+			(is_author && hasOemBusiness) ||
+			(is_operator && hasOemBusiness)
+		puts "**** is_valid: " + is_valid.to_s
+		if !is_valid
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
 
