@@ -6,12 +6,12 @@ class DevicesController < ApplicationController
     @device = Device.new(device_params)
     if @device.procedure_id
       procedure = Procedure.find(@device.procedure_id)
-      @device.oem_business_id = procedure.oem_business_id
+      #@device.oem_business_id = procedure.oem_business_id
     end
-    if !@device.oem_business_id
-      config.logger.error "action create failed in POST /devices: missing oem_business_id"
-      head :bad_request and return
-    end
+    #if !@device.oem_business_id
+    #  config.logger.error "action create failed in POST /devices: missing oem_business_id"
+    #  head :bad_request and return
+    #end
     if(@device.save)
       count = 0
       while params[:device][:actions] && count < params[:device][:actions].count

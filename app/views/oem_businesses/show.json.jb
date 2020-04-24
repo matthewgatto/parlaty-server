@@ -17,7 +17,7 @@ def show_devices(mydevices)
 		id: mydevice.id,
 		name: mydevice.name,
 		default: mydevice.default,
-		oem_business_id: mydevice.oem_business_id,
+		#oem_business_id: mydevice.oem_business_id,
 		procedure_id: mydevice.procedure_id,
 		actions_order: mydevice.actions_order,
 		actions: get_actions(mydevice.actions)

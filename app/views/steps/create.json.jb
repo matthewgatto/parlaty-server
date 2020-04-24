@@ -26,7 +26,7 @@ def get_device(device_id, step_id)
 			id: mydevice.id,
 			name: mydevice.name,
 			default: mydevice.default,
-			oem_business_id: mydevice.oem_business_id,
+			#oem_business_id: mydevice.oem_business_id,
 			procedure_id: mydevice.procedure_id,
 			actions: get_actions2(mydevice.actions, step_id)
 		}

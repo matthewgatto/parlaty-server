@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_013256) do
+ActiveRecord::Schema.define(version: 2020_04_24_020337) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -71,10 +71,8 @@ ActiveRecord::Schema.define(version: 2020_04_15_013256) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "default"
-    t.bigint "oem_business_id"
     t.bigint "procedure_id"
     t.text "actions_order"
-    t.index ["oem_business_id"], name: "index_devices_on_oem_business_id"
     t.index ["procedure_id"], name: "index_devices_on_procedure_id"
   end
 
@@ -98,6 +96,13 @@ ActiveRecord::Schema.define(version: 2020_04_15_013256) do
     t.bigint "operator_id"
     t.index ["oem_business_id"], name: "index_oem_businesses_operators_on_oem_business_id"
     t.index ["operator_id"], name: "index_oem_businesses_operators_on_operator_id"
+  end
+
+  create_table "oem_businesses_procedures", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "oem_business_id"
+    t.bigint "procedure_id"
+    t.index ["oem_business_id"], name: "index_oem_businesses_procedures_on_oem_business_id"
+    t.index ["procedure_id"], name: "index_oem_businesses_procedures_on_procedure_id"
   end
 
   create_table "oems", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -146,10 +151,8 @@ ActiveRecord::Schema.define(version: 2020_04_15_013256) do
     t.string "author"
     t.string "language"
     t.text "steps_order"
-    t.bigint "oem_business_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["oem_business_id"], name: "index_procedures_on_oem_business_id"
   end
 
   create_table "steps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -193,11 +196,9 @@ ActiveRecord::Schema.define(version: 2020_04_15_013256) do
   add_foreign_key "action_copies", "steps"
   add_foreign_key "actions", "devices"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "devices", "oem_businesses"
   add_foreign_key "devices", "procedures"
   add_foreign_key "oem_businesses", "oems"
   add_foreign_key "operator_admins", "oem_businesses"
-  add_foreign_key "procedures", "oem_businesses"
   add_foreign_key "steps", "devices"
   add_foreign_key "steps", "oems"
   add_foreign_key "steps", "procedures"

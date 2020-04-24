@@ -38,13 +38,31 @@ class ProceduresController < ApplicationController
 	# also returns associated steps
 	def show
 		@procedure = Procedure.find(params[:id])
-		oemb = OemBusiness.find(@procedure.oem_business_id)
-		arr_of_oa = oemb.operator_admins.pluck(:id)
+		arr_of_oa = Array.new
+		@procedure.oem_businesses.map do |oem_business|
+			tmp_arr_of_oa = oem_business.operator_admins.pluck(:id)
+			arr_of_oa = arr_of_oa + tmp_arr_of_oa
+		end
+		arr_of_oem = Array.new
+		@procedure.oem_businesses.map do |oem_business|
+			arr_of_oem << oem_business.oem_id
+		end
+		# have to check if procedure belongs to operator
 
-		# have to check if prcoedure belongs to operator
-
+		puts "*** is_p_admin? " + is_p_admin?.to_s
+		puts "*** cuser_is oem: " + cuser_is?("Oem", arr_of_oem).to_s
+		puts "*** cuser_is operator admin: " + cuser_is?("OperatorAdmin", arr_of_oa).to_s
+		puts "*** current_user.roleable_id: " + current_user.roleable_id.to_s
+		puts "*** cuser_is author: " + cuser_is?("Author", current_user.roleable_id).to_s
+		puts "*** cuser_is operator: " + cuser_is?("Operator", current_user.roleable_id).to_s
 		# operator can access its associated procedures, OA and and Oem associated to procedures
-		if !( is_p_admin? || cuser_is?("Oem", oemb.oem_id) || cuser_is?("OperatorAdmin", arr_of_oa) )
+		if !( is_p_admin? \
+			|| cuser_is?("Oem", arr_of_oem) \
+			|| cuser_is?("Author", current_user.roleable_id) \
+			|| cuser_is?("Operator", current_user.roleable_id) \
+			|| cuser_is?("Oem", arr_of_oem) \
+			|| cuser_is?("OperatorAdmin", arr_of_oa) \
+		)
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
 		begin
@@ -230,7 +248,8 @@ class ProceduresController < ApplicationController
 	private
 
 		def procedure_params
-			params.require(:procedure).permit(:name, :version, :description, :category, :author, :language, :oem_business_id)
+			#params.require(:procedure).permit(:name, :version, :description, :category, :author, :language, :oem_business_id)
+			params.require(:procedure).permit(:name, :version, :description, :category, :author, :language)
 		end
 
 		def step_params(index)
