@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 
   post '/procedures/:id/copy', to: 'procedures#copy'
 
+  put '/procedures/:id/update_categories', to: 'procedures#update_categories'
+
   post '/login', to: 'sessions#create'
 
   post '/steps/:id/visuals', to: 'steps#add_visuals'

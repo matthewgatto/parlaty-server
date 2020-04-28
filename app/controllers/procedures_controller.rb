@@ -118,6 +118,22 @@ class ProceduresController < ApplicationController
 	 end
 	# end uncomment
 
+	# PUT /procedures/:id/update_categories
+	def update_categories
+		@procedure = Procedure.find(params[:id])
+		if (@procedure)
+			@procedure.oem_businesses.clear
+			params[:categories].each do |c_id|
+				oem_business = OemBusiness.find(c_id)
+				@procedure.oem_businesses << oem_business
+			end
+			@procedure.save
+			render json: @procedure, status: :ok
+		else
+			head :bad_request
+		end
+	end
+
 	# DELETE /procedures/:id
 	def destroy
 		 @procedure = Procedure.find(params[:id])
@@ -256,4 +272,5 @@ class ProceduresController < ApplicationController
 			#JDT params.require(:steps)[index].permit(:title, :device, :location, :note, :safety, visuals: [], :mode, :time, :parameter)
 			params.require(:steps)[index].permit(:title, :device_id, :location, :note, :safety, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, visuals: [])
 		end
+		
 end
