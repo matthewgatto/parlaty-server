@@ -127,9 +127,13 @@ export function* updateCategoriesSaga(action){
     const {procedures,businesses} = yield select(({procedures,businesses}) => ({procedures,businesses}));
     const procedure = procedures.byId[action.payload.id];
     const oem_businesses = [];
+    const categories = []
     for (var category in action.payload.values) {
-      if (action.payload.values.hasOwnProperty(category) && businesses.byId[category] && businesses.byId[category].procedures) {
-        oem_businesses.push(category)
+      if (action.payload.values.hasOwnProperty(category) && action.payload.values[category] === true){
+        categories.push(category)
+        if(businesses.byId[category] && businesses.byId[category].procedures){
+          oem_businesses.push(category)
+        }
       }
     }
     const addedCategories = oem_businesses.filter(x => !procedure.oem_businesses.includes(x));
@@ -143,12 +147,14 @@ export function* updateCategoriesSaga(action){
       const businessToRemoveFrom = businesses.byId[removedCategories[i]]
       updatedBusinesses[removedCategories[i]] = {...businessToRemoveFrom, procedures: businessToRemoveFrom.procedures.filter(x => x != action.payload.id)}
     }
+    const response = yield call(API.put, `/procedures/${action.payload.id}/update_categories`,{categories})
+    console.log("response", response);
     yield put(setModal())
     yield put(addToast("success", "Procedure categories successfully updated."))
     yield put({type: action.type+"__SUCCESS", payload: {
       businesses: updatedBusinesses,
       procedures: {
-        [action.payload.id]: {...procedure,oem_businesses}
+        [action.payload.id]: {...procedure, oem_businesses: categories}
       }
     }})
   } catch (e) {

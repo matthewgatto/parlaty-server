@@ -53,7 +53,10 @@ const proceduresById = (state = {}, {type,payload}) => {
     case CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS:
     case "UPDATE_PROCEDURE_CATEGORIES_REQUEST__SUCCESS":
       if(payload.procedures){
-        return merge({}, state, payload.procedures)
+        return {
+          ...state,
+          ...payload.procedures
+        }
       }
       return state;
     case DELETE_STEP_REQUEST__SUCCESS:

@@ -6,7 +6,6 @@ import UserCategories from '@containers/UserCategories';
 export const StatelessUserRoleFields = ({initialValues = {},formKey,roleable = initialValues.roleable, placeholder}) => {
   switch (roleable.toLowerCase()) {
     case "clientadmin":
-    case "operatoradmin":
       return <ClientSelect formKey={formKey} defaultValue={initialValues.oem} />
     case "author":
     case "operator":

@@ -16,7 +16,7 @@ const makeAuthState = (user) => {
     const {entities:{oems,businesses}} = normalize({...user, businesses: oem_businesses}, Schemas.oem)
     initialState.oems = oems;
     initialState.businesses = businesses || {};
-  } else if(user.roleable_type === "Operator" || user.roleable_type === "Author"){
+  } else if(user.roleable_type === "Operator" || user.roleable_type === "Author" || user.roleable_type === "ClientAdmin"){
     initialState.businesses = normalizedData.entities.businesses
   }
   return initialState
