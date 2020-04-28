@@ -121,3 +121,38 @@ export function* copyProcedureSaga({payload:{formKey,values:{oem_business_id,...
     yield put(setModal())
   }
 }
+
+export function* updateCategoriesSaga(action){
+  try {
+    const {procedures,businesses} = yield select(({procedures,businesses}) => ({procedures,businesses}));
+    const procedure = procedures.byId[action.payload.id];
+    const oem_businesses = [];
+    for (var category in action.payload.values) {
+      if (action.payload.values.hasOwnProperty(category) && businesses.byId[category] && businesses.byId[category].procedures) {
+        oem_businesses.push(category)
+      }
+    }
+    const addedCategories = oem_businesses.filter(x => !procedure.oem_businesses.includes(x));
+    const removedCategories = procedure.oem_businesses.filter(x => businesses.byId[x] && businesses.byId[x].procedures && !oem_businesses.includes(x));
+    const updatedBusinesses = {};
+    for (var i = 0; i < addedCategories.length; i++) {
+      const businessToAddTo = businesses.byId[addedCategories[i]]
+      updatedBusinesses[addedCategories[i]] = {...businessToAddTo, procedures: [...businessToAddTo.procedures, action.payload.id]}
+    }
+    for (var i = 0; i < removedCategories.length; i++) {
+      const businessToRemoveFrom = businesses.byId[removedCategories[i]]
+      updatedBusinesses[removedCategories[i]] = {...businessToRemoveFrom, procedures: businessToRemoveFrom.procedures.filter(x => x != action.payload.id)}
+    }
+    yield put(setModal())
+    yield put(addToast("success", "Procedure categories successfully updated."))
+    yield put({type: action.type+"__SUCCESS", payload: {
+      businesses: updatedBusinesses,
+      procedures: {
+        [action.payload.id]: {...procedure,oem_businesses}
+      }
+    }})
+  } catch (e) {
+    console.log("error", e);
+  }
+
+}

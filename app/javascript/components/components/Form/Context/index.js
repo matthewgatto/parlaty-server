@@ -25,7 +25,7 @@ export const useForm = withFormKey((options, formKey) => {
   return {handleSubmit, formKey, form}
 })
 
-const useMountForm = (dispatch, formKey, initialValues, submitOnEnterPress) => {
+const useMountForm = (dispatch, formKey, initialValues = {}, submitOnEnterPress) => {
   useEffect(() => {
     if(submitOnEnterPress){
       const handleKeyPress = (e) => {

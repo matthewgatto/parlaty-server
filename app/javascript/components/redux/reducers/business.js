@@ -34,6 +34,7 @@ const businessesById = (state = {}, {type,payload}) => {
     case businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case businessTypes.CREATE_BUSINESS_REQUEST__SUCCESS:
     case procedureTypes.CREATE_PROCEDURE_REQUEST__SUCCESS:
+    case "UPDATE_PROCEDURE_CATEGORIES_REQUEST__SUCCESS":
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(payload.businesses){
         return merge({}, state, payload.businesses)

@@ -52,6 +52,7 @@ const isFormSubmitAction = (type) => (
   || type === deviceTypes.CREATE_DEVICE_REQUEST
   || type === deviceTypes.UPDATE_DEVICE_REQUEST
   || type === deviceTypes.CREATE_PROCEDURE_DEVICE_REQUEST
+  || type === "UPDATE_PROCEDURE_CATEGORIES_REQUEST"
 )
 
 const isFormSubmitFailureAction = (type) => (
@@ -72,6 +73,7 @@ const isFormSubmitFailureAction = (type) => (
   || type === deviceTypes.CREATE_DEVICE_REQUEST__FAILURE
   || type === deviceTypes.UPDATE_DEVICE_REQUEST__FAILURE
   || type === deviceTypes.CREATE_PROCEDURE_DEVICE_REQUEST__FAILURE
+  || type === "UPDATE_PROCEDURE_CATEGORIES_REQUEST__FAILURE"
 )
 
 export const initialState = {};

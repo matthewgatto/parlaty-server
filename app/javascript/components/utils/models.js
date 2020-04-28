@@ -23,20 +23,20 @@ const step = new schema.Entity("steps", {
   }
 });
 
-const procedure = new schema.Entity("procedures", {
-  oem_business_id: business,
-  steps: [step],
-  devices: [device]
-}, {
-  processStrategy: (procedure, {oem_business_id,id}) => ({oem_business_id: id || oem_business_id, ...procedure})
-});
+const procedure = new schema.Entity("procedures");
 
 const business = new schema.Entity("businesses", {
   procedures: [procedure]
 }, {
-  idAttribute: 'oem_business_id',
-  processStrategy: (business, {id}) => ({oem_id: id, ...business})
+  idAttribute: 'oem_business_id'
 });
+
+procedure.define({
+  oem_businesses: [business],
+  steps: [step],
+  devices: [device]
+})
+
 
 const oem = new schema.Entity("oems", {
   businesses: [business]

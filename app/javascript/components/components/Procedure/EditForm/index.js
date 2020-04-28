@@ -26,7 +26,11 @@ export default (props) => (
           <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
         </div>
         <AddStepFormButton formKey={formKey} />
+        <div>
         <ModalTrigger modal="manage_devices" className={styles.manageDeviceButton}><SubmitButton label="Manage Device Labels" /></ModalTrigger>
+        <ModalTrigger modal="add_category" className={styles.manageDeviceButton}><SubmitButton label="Add Category" /></ModalTrigger>
+
+        </div>
         <FormPolygons />
       </div>
       <div>

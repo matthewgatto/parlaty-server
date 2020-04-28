@@ -58,3 +58,7 @@ export const deviceSchema = object().shape({
   name: string().required('This field is required'),
   actions: array().of(actionSchema)//.required('Device actions required')
 })
+
+export const procedureCategoriesSchema = object().shape({
+  
+})

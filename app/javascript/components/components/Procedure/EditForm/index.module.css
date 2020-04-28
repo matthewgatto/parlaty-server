@@ -54,6 +54,11 @@
 
 .manageDeviceButton {
   margin-top: 1.4em;
+  display: inline-block;
+}
+
+.manageDeviceButton:not(:first-child) {
+  margin-left: 1em;
 }
 @media (max-width: 480px) {
   .content textarea {
