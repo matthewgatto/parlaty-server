@@ -4,7 +4,7 @@ import styles from './index.module.css';
 import logo from '@assets/images/logo.png';
 
 const Layout = ({children, role,logout}) => {
-  const isAdmin = role === "ParlatyAdmin",
+  const isAdmin = role === "ParlatyAdmin" || role === "ClientAdmin" || role === "OperatorAdmin",
         isOEM = role === "Oem";
   return(
     <>

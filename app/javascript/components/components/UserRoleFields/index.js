@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext } from "react-hook-form";
 import ClientSelect from '@containers/ClientSelect';
-import CategorySelect from '@containers/CategorySelect';
+import UserCategories from '@containers/UserCategories';
 
 export const StatelessUserRoleFields = ({initialValues = {},formKey,roleable = initialValues.roleable, placeholder}) => {
   switch (roleable.toLowerCase()) {
@@ -12,7 +12,7 @@ export const StatelessUserRoleFields = ({initialValues = {},formKey,roleable = i
     case "operator":
       return <>
         <ClientSelect formKey={formKey} defaultValue={initialValues.oem} />
-        <CategorySelect formKey={formKey} defaultValue={initialValues.businesses} defaultClient={initialValues.oem} />
+        <UserCategories formKey={formKey} defaultValue={initialValues.businesses} defaultClient={initialValues.oem} />
       </>
     case "parlatyadmin":
       if(placeholder){
