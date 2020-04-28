@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_24_020337) do
+ActiveRecord::Schema.define(version: 2020_04_28_191842) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -64,6 +64,14 @@ ActiveRecord::Schema.define(version: 2020_04_24_020337) do
     t.boolean "deactivated", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "client_admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.bigint "oem_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["oem_id"], name: "index_client_admins_on_oem_id"
   end
 
   create_table "devices", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -196,6 +204,7 @@ ActiveRecord::Schema.define(version: 2020_04_24_020337) do
   add_foreign_key "action_copies", "steps"
   add_foreign_key "actions", "devices"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "client_admins", "oems"
   add_foreign_key "devices", "procedures"
   add_foreign_key "oem_businesses", "oems"
   add_foreign_key "operator_admins", "oem_businesses"

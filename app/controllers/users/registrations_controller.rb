@@ -24,6 +24,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @roleable = Oem.create(name: params[:user][:name])
     when "parlatyadmin"
       @roleable = ParlatyAdmin.create(name: params[:user][:name])
+    when "clientadmin"
+      @roleable = ClientAdmin.create(name: params[:user][:name])
+      client_id = params[:client].to_i
+      oem = Oem.find(client_id)
+      oem.client_admins << @roleable
     when "operator"
       # has many oem_businesses which is categories on the ui
       @roleable = Operator.create(name: params[:user][:name])
