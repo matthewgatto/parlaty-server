@@ -17,7 +17,11 @@ import * as utils from '@utils';
 
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
   const business = yield select(getBusinessById(values.procedure.oem_business_id))
-  return normalize({...business, procedures: business.procedures ? [...business.procedures,{...response, name: values.procedure.name}] : [{...response, name: values.procedure.name}]}, Schemas.business).entities;
+  return business ? (
+    normalize({...business, procedures: business.procedures ? [...business.procedures,{...response, name: values.procedure.name}] : [{...response, name: values.procedure.name}]}, Schemas.business).entities
+  ) : (
+    normalize({...response,name: values.procedure.name}, Schemas.procedure).entities
+  )
 }
 
 function* handleProcedureRequestSuccess({values:{procedure:{oem_business_id}}}, message){
@@ -43,8 +47,7 @@ function* handleProcedureCreateSuccess(response, {payload}){
     const role = yield select(getUserRole);
     var to;
     if(role === "ParlatyAdmin"){
-      const business = yield select(getBusinessById(payload.values.procedure.oem_business_id));
-      to = `/oems/${business.oem_id}/businesses/${payload.values.procedure.oem_business_id}/procedures/${response.id}/add-devices`
+      to = `/oems/${payload.values.oem_id}/businesses/${payload.values.procedure.oem_business_id}/procedures/${response.id}/add-devices`
     } else {
       to = `/businesses/${payload.values.procedure.oem_business_id}/procedures/${response.id}/add-devices`
     }
@@ -56,25 +59,31 @@ function* handleProcedureCreateSuccess(response, {payload}){
 }
 
 export function* createProcedureSaga(action){
-  yield call(
-    multipostSaga,
-    {
-      ...action,
-      payload: {
-        ...action.payload,
-        values: {
-          procedure: {
-            name: action.payload.values.name,
-            description: action.payload.values.description,
-            author: action.payload.values.author,
-            oem_business_id: action.payload.values.oem_business_id,
+  try {
+    yield call(
+      multipostSaga,
+      {
+        ...action,
+        payload: {
+          ...action.payload,
+          values: {
+            oem_id: action.payload.values.oem_id,
+            procedure: {
+              name: action.payload.values.name,
+              description: action.payload.values.description,
+              author: action.payload.values.author,
+              oem_business_id: action.payload.values.oem_business_id,
+            }
           }
         }
-      }
-    },
-    getNewEntitiesFromProcedure,
-    handleProcedureCreateSuccess
-  );
+      },
+      getNewEntitiesFromProcedure,
+      handleProcedureCreateSuccess
+    );
+  } catch (e) {
+    console.log("e",e);
+  }
+
 }
 
 const normalizeProcedure = ({steps_order, ...procedure}) => normalize(procedure, Schemas.procedure).entities
@@ -112,7 +121,11 @@ export function* copyProcedureSaga({payload:{formKey,values:{oem_business_id,...
     }
     const response = yield call(API.post, `/procedures/${procedure_id}/copy`,body)
     const business = yield select(getBusinessById(oem_business_id))
-    const normalizedData = normalize({...business, procedures: business.procedures ? [...business.procedures,{name: procedure.name, ...response}] : [{name: procedure.name,...response}]}, Schemas.business).entities
+    const normalizedData = business ? (
+      normalize({...business, procedures: business.procedures ? [...business.procedures,{name: procedure.name, ...response}] : [{name: procedure.name,...response}]}, Schemas.business).entities
+    ) : (
+      normalize({name: procedure.name, ...response}, Schemas.procedure).entities
+    )
     yield put({type: "CREATE_PROCEDURE_REQUEST__SUCCESS", payload: normalizedData});
     yield call(handleProcedureRequestSuccess,{values:{procedure: normalizedData.procedures[response.id]}}, "Procedure was successfully copied")
   } catch (e) {
@@ -148,7 +161,6 @@ export function* updateCategoriesSaga(action){
       updatedBusinesses[removedCategories[i]] = {...businessToRemoveFrom, procedures: businessToRemoveFrom.procedures.filter(x => x != action.payload.id)}
     }
     const response = yield call(API.put, `/procedures/${action.payload.id}/update_categories`,{categories})
-    console.log("response", response);
     yield put(setModal())
     yield put(addToast("success", "Procedure categories successfully updated."))
     yield put({type: action.type+"__SUCCESS", payload: {

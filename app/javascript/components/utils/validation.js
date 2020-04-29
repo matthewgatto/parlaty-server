@@ -5,7 +5,6 @@ export const forgotPasswordSchema = object().shape({
 })
 
 export const resetPasswordSchema = object().shape({
-  reset_password_token: string().required('SHOULD NOT BE SEEING THIS User should be directed away from page and error displayed'),
   password: string().required('Password is required'),
   password_confirmation: string().required('Passwords must match').oneOf([ref('password'), null], 'Passwords must match')
 })
@@ -60,5 +59,5 @@ export const deviceSchema = object().shape({
 })
 
 export const procedureCategoriesSchema = object().shape({
-  
+
 })

@@ -68,7 +68,7 @@ export default ({match:{url,params:{oem_id,business_id}}}) => {
           name: '',
           description: ''
         }}
-        extraValues={{author, oem_business_id: business_id}}
+        extraValues={{author, oem_business_id: business_id,oem_id}}
         validationSchema={procedureSchema}
         className={styles.form}
         id={uuid()}
