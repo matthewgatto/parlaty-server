@@ -3,7 +3,27 @@ class UsersController < ApplicationController
 
   # GET /users
   def users_index
-    @users = User.all()
+    if is_client_admin?
+      oem = Oem.find(current_user.roleable.oem_id)
+      tmp_users = Array.new
+      oem.client_admins.map do |ca|
+        tmp_users << ca.user
+      end
+      oem.oem_businesses.map do |ob|
+        ob.operator_admins.map do |oa|
+          tmp_users << oa.user
+        end
+        ob.operators.map do |o|
+          tmp_users << o.user
+        end
+        ob.authors.map do |a|
+          tmp_users << a.user
+        end
+      end
+      @users = tmp_users.sort_by &:email
+    else
+      @users = User.all()
+    end
     render status: :ok
   end
 

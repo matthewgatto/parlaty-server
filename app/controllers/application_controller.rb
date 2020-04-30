@@ -27,6 +27,9 @@ class ApplicationController < ActionController::API
 		return current_user.roleable_type == "ParlatyAdmin"
 	end
 
+	def is_client_admin?
+		return current_user.roleable_type == "ClientAdmin"
+	end
 	# check if the current_user is of that roleable id
 	# return false if current_user is not of type "type"
 	def cuser_is?(type, id)
