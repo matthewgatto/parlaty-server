@@ -86,7 +86,8 @@ class ProceduresController < ApplicationController
 		end
 
 		@procedure = Procedure.new(procedure_params)
-
+		@oemb = OemBusiness.find(params[:procedure][:oem_business_id])
+		@oemb.procedures << @procedure
 		count = 0
 		while params[:steps] && count < params[:steps].count
 			step = @procedure.steps.build(step_params(count))
