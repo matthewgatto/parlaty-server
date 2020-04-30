@@ -55,11 +55,13 @@ class ProceduresController < ApplicationController
 		puts "*** current_user.roleable_id: " + current_user.roleable_id.to_s
 		puts "*** cuser_is author: " + cuser_is?("Author", current_user.roleable_id).to_s
 		puts "*** cuser_is operator: " + cuser_is?("Operator", current_user.roleable_id).to_s
+		puts "*** cuser_is client admin: " + cuser_is?("ClientAdmin", current_user.roleable_id).to_s
 		# operator can access its associated procedures, OA and and Oem associated to procedures
 		if !( is_p_admin? \
 			|| cuser_is?("Oem", arr_of_oem) \
 			|| cuser_is?("Author", current_user.roleable_id) \
 			|| cuser_is?("Operator", current_user.roleable_id) \
+			|| cuser_is?("ClientAdmin", current_user.roleable_id) \
 			|| cuser_is?("Oem", arr_of_oem) \
 			|| cuser_is?("OperatorAdmin", arr_of_oa) \
 		)
