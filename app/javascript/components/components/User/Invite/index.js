@@ -5,7 +5,7 @@ import UserInviteRolePanels from '@containers/UserInviteRolePanels';
 import UserForm from '@components/User/Form';
 import { CREATE_USER_REQUEST } from '@types/user';
 
-export default () => {
+export default ({role}) => {
   const id = uuid();
   return(
     <PageLayout
@@ -23,6 +23,7 @@ export default () => {
           initialValues: {},
           id
         }}
+        userRole={role}
         rolePanel={UserInviteRolePanels}
       />
     </PageLayout>

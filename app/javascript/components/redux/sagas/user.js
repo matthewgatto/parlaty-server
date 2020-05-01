@@ -43,7 +43,6 @@ export function* inviteUserSaga(action){
       }
     }
     const response = yield call(API.post, '/users', body)
-    console.log('POST /users',response);
     yield put({type: `${action.type}__SUCCESS`, payload: normalize({id: uuid(), ...body.user, roleable_type: body.roleable, client: body.client, categories: body.categories}, Schemas.user).entities})
     yield call(pushAndNotify('/users', `A user invite has been sent to ${body.user.email}`))
   } catch (e) {
@@ -88,7 +87,6 @@ export function* fetchUserSaga(action){
 export function* deleteUserSaga(action){
   try {
     const response = yield call(API.delete, `/users/${action.payload}`)
-    console.log(`DELETE /users/${action.payload}`,response);
     yield put({type: `${action.type}__SUCCESS`, payload: action.payload})
     yield call(handleDeleteSuccess)
   } catch (e) {
@@ -101,7 +99,6 @@ export function* deleteUserSaga(action){
 export function* userListSaga(action){
   try {
     const {users} = yield call(API.get, "/users");
-    console.log("users", users);
     yield put({type: `${action.type}__SUCCESS`, payload: normalize(users, [Schemas.user]).entities})
   } catch (e) {
     console.log("GET /users ERROR", e);

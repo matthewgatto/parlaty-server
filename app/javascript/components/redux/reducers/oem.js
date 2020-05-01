@@ -9,7 +9,9 @@ const allOems = (state = null, {type, payload}) => {
   switch (type) {
     case types.FETCH_OEMS_REQUEST__SUCCESS:
     case types.CREATE_OEM_REQUEST__SUCCESS:
-      return addIds(state, payload.oems)
+      if(payload.oems){
+        return addIds(state, payload.oems)
+      }
     default:
       return state
   }
@@ -18,15 +20,13 @@ const allOems = (state = null, {type, payload}) => {
  const oemsById = (state = {}, {type,payload}) => {
   switch (type) {
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
-      if(!payload.oems || payload.auth.roleable_type !== "Oem"){
-        return state
-      }
-      return state;
     case types.FETCH_OEMS_REQUEST__SUCCESS:
     case types.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case types.CREATE_OEM_REQUEST__SUCCESS:
     case types.UPDATE_OEM_REQUEST__SUCCESS:
-      return merge({}, state, payload.oems)
+      if(payload.oems){
+        return merge({}, state, payload.oems)
+      }
     default:
       return state
   }

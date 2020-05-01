@@ -5,7 +5,7 @@ import SubmitButton from '@components/SubmitButton';
 import ModalTrigger from '@containers/ModalTrigger';
 import DeleteUserConfirmationModal from '../DeleteConfirmationModal'
 
-export default ({match}) => (<>
+export default ({match, role}) => (<>
   <PageLayout
     header="Update User"
     back={{
@@ -14,7 +14,7 @@ export default ({match}) => (<>
     }}
     buttons={<ModalTrigger modal="delete_user_confirmation"><SubmitButton primary label="Delete User" /></ModalTrigger>}
   >
-    <UserUpdateForm id={match.params.id} />
+    <UserUpdateForm id={match.params.id} role={role} />
   </PageLayout>
   <DeleteUserConfirmationModal id={match.params.id} />
 </>)

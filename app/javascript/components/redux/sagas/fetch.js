@@ -3,8 +3,7 @@ import API from '@utils/API';
 
 export function* getSaga(action, normalize){
   try {
-    const response = yield call(API.get, action.payload.url)
-    console.log("response", response);
+    const response = yield call(API.get, action.payload.url);
     yield put({
       type: `${action.type}__SUCCESS`,
       payload: yield call(normalize, response, action)

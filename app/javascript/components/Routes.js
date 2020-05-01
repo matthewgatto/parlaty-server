@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logout } from '@actions/auth';
 import Layout from '@components/Layout';
 import LoginPage from '@components/LoginPage';
@@ -28,7 +28,7 @@ import InvitationConfirmationForm from '@components/EmailForms/InvitationConfirm
 import UserInvite from '@components/User/Invite';
 import UserUpdatePage from '@components/User/Update';
 import UsersPage from '@components/UsersPage';
-import {getUserRole} from '@selectors/auth';
+import useUserInfo from '@containers/useUserInfo';
 
 const Routes = ({role}) => {
   switch (role) {
@@ -53,7 +53,7 @@ const Routes = ({role}) => {
       return(<Switch>
         <Route exact path="/" component={AdminLandingPage} />
         <Route path="/users/invite" component={UserInvite} />
-        <Route path="/users/:id" component={UserUpdatePage} />
+        <Route path="/users/:id" render={({match}) => <UserUpdatePage role={role} match={match} />} />
         <Route path="/users" component={UsersPage} />
         <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
         {/*<Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
@@ -75,11 +75,9 @@ const Routes = ({role}) => {
     case "ClientAdmin":
       return(<Switch>
         <Route exact path="/" component={ClientUserLandingPage} />
-        {/*
-          <Route path="/users/invite" component={UserInvite} />
-          <Route path="/users/:id" component={UserUpdatePage} />
-          <Route path="/users" component={UsersPage} />
-          */}
+        <Route path="/users/invite" component={UserInvite} />
+        <Route path="/users/:id" render={({match}) => <UserUpdatePage role={role} match={match} />} />
+        <Route path="/users" component={UsersPage} />
         <Route exact path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
         <Route exact path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
         <Route exact path="/businesses/:business_id/procedures/:id/add-steps" component={AddStepsScreen} />
@@ -88,10 +86,13 @@ const Routes = ({role}) => {
         <Redirect to="/" />
       </Switch>)
     case "Operator":
+      return (<Switch>
+        <Route exact path="/" component={ClientUserLandingPage} />
+        <Route render={() => <div>Operator Page Does Not Exist</div>} />
+      </Switch>)
     case "Author":
       return(<Switch>
         <Route exact path="/" component={ClientUserLandingPage} />
-
         <Route path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
         <Route path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
         <Route path="/businesses/:business_id/procedures/:id/add-steps" component={AddStepsScreen} />
@@ -111,12 +112,12 @@ const Routes = ({role}) => {
 }
 
 export default () => {
-  const role = useSelector(getUserRole);
+  const user = useUserInfo();
   const dispatch = useDispatch()
   const handleLogout = () => dispatch(logout())
   return(
-    <Layout role={role} logout={handleLogout}>
-      <Routes role={role} />
+    <Layout role={user && user.roleable} logout={handleLogout}>
+      <Routes role={user && user.roleable} />
     </Layout>
   )
 }

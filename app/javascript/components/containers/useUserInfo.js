@@ -5,11 +5,11 @@ import {FETCH_SELF_REQUEST} from '@types/auth';
 
 export default () => {
   const dispatch = useDispatch();
-  const {id,businesses} = useSelector(getUser);
+  const user = useSelector(getUser);
   useEffect(() => {
-    if(!businesses){
-      dispatch({type: FETCH_SELF_REQUEST, payload: {url: `/users/${id}`, id}})
+    if(user && user.roleable === "ClientAdmin" && !user.email){
+      dispatch({type: FETCH_SELF_REQUEST, payload: {url: `/users/${user.id}`, id: user.id}})
     }
-  },[id,businesses,dispatch])
-  return businesses
+  },[user,dispatch])
+  return user
 }

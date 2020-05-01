@@ -2,16 +2,17 @@ import React from 'react';
 import { useFormContext } from "react-hook-form";
 import ClientSelect from '@containers/ClientSelect';
 import UserCategories from '@containers/UserCategories';
+import useUserInfo from '@containers/useUserInfo';
 
-export const StatelessUserRoleFields = ({initialValues = {},formKey,roleable = initialValues.roleable, placeholder}) => {
+const UserRoleFieldsComponent = ({initialValues = {},formKey,roleable = initialValues.roleable, placeholder, user}) => {
   switch (roleable.toLowerCase()) {
     case "clientadmin":
-      return <ClientSelect formKey={formKey} defaultValue={initialValues.oem} />
+      <ClientSelect formKey={formKey} defaultValue={initialValues.oem} hidden={user.roleable !== "ParlatyAdmin"} />
     case "author":
     case "operator":
       return <>
-        <ClientSelect formKey={formKey} defaultValue={initialValues.oem} />
-        <UserCategories formKey={formKey} defaultValue={initialValues.businesses} defaultClient={initialValues.oem} />
+        <ClientSelect formKey={formKey} defaultValue={initialValues.oem} hidden={user.roleable !== "ParlatyAdmin"} />
+        <UserCategories formKey={formKey} defaultValue={initialValues.businesses} defaultClient={initialValues.oem || user.oem} categories={user.roleable === "ClientAdmin" && user.businesses} />
       </>
     case "parlatyadmin":
       if(placeholder){
@@ -24,8 +25,13 @@ export const StatelessUserRoleFields = ({initialValues = {},formKey,roleable = i
   }
 }
 
+export const UserRoleFields = (props) => {
+  const user = useUserInfo();
+  return <UserRoleFieldsComponent {...props} user={user} />
+}
+
 export default (props) => {
   const {watch} = useFormContext();
   const roleable = watch("roleable");
-  return <StatelessUserRoleFields {...props} roleable={roleable} placeholder />
+  return <UserRoleFields {...props} roleable={roleable} placeholder />
 }

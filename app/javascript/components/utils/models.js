@@ -46,7 +46,15 @@ const user = new schema.Entity("users", {
   oem,
   businesses: [business]
 }, {
-  processStrategy: ({roleable_type, categories, client, oem, oem_businesses, roleable, name, id, user_id,...user}) => ({roleable: roleable_type || roleable, name: name || user.email, businesses: categories || oem_businesses, oem: client || oem, id: user_id || id, ...user})
+  processStrategy: ({roleable_type, categories, client, oem, oem_businesses, roleable, name, id, user_id,...user}) => {
+    var oemProp = client || oem;
+    const roleableProp = roleable_type || roleable;
+    const businesses = categories || oem_businesses
+    if(roleableProp === "ClientAdmin" && oemProp !== null && typeof oemProp === "object"){
+      oemProp.businesses = businesses
+    }
+    return({roleable: roleableProp, name: name || user.email, businesses, oem: oemProp, id: user_id || id, ...user})
+  }
 })
 
 export default {

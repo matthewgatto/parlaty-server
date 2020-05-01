@@ -2,12 +2,13 @@ import React from 'react';
 import PageLayout from '@components/PageLayout';
 import Label from '@components/List/Label';
 import List from '@components/List';
-import useUserCategories from '@containers/useUserCategories'
+import useUserInfo from '@containers/useUserInfo'
 
 const UserCategories = (props) => {
-  const businesses = useUserCategories();
-  return <List items={businesses} entityKey="businesses" to="/businesses" placeholder="You have no categories" text="categories" />
+  const user = useUserInfo();
+  return <List items={user && user.businesses} entityKey="businesses" to="/businesses" placeholder="You have no categories" text="categories" />
 }
+
 export default () => (
   <PageLayout
     header="Choose A Category"

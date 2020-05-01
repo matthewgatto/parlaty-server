@@ -1,12 +1,12 @@
 import React,{useEffect} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import UserForm from '@components/User/Form';
-import {StatelessUserRoleFields} from '@components/UserRoleFields';
+import {UserRoleFields} from '@components/UserRoleFields';
 import Loader from '@components/List/Loader';
 import {getById} from '@selectors/user';
 import {FETCH_USER_REQUEST,UPDATE_USER_REQUEST} from '@types/user';
 
-export default ({id}) => {
+export default ({id, role}) => {
   const dispatch = useDispatch();
   const user = useSelector(getById(id));
   useEffect(() => {
@@ -26,7 +26,8 @@ export default ({id}) => {
         initialValues: user,
         id
       }}
-      rolePanel={StatelessUserRoleFields}
+      userRole={role}
+      rolePanel={UserRoleFields}
     />
   )
 }

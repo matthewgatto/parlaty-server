@@ -3,7 +3,7 @@ import {useSelector,useDispatch} from 'react-redux';
 import {Select} from '@components/Inputs';
 import { FETCH_OEMS_REQUEST } from '@types/oem';
 
-export default ({formKey, defaultValue}) => {
+export default ({formKey, defaultValue, hidden}) => {
   const dispatch = useDispatch();
   const clients = useSelector(({oems}) => oems.allIds && oems.allIds.map(id => ({value: id, label: oems.byId[id].name})))
   useEffect(() => {
@@ -12,6 +12,6 @@ export default ({formKey, defaultValue}) => {
     }
   },[]);
   return(
-    <Select defaultValue={defaultValue} options={clients || []} label="Client*" name="client" formKey={formKey} placeholder="Choose a client..." unclearable  />
+    <Select defaultValue={defaultValue} options={clients || []} label="Client*" name="client" formKey={formKey} placeholder="Choose a client..." unclearable hidden={hidden}  />
   )
 }

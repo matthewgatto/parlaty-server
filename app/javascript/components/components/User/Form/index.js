@@ -7,7 +7,7 @@ import FormPolygons from '@components/SVG/FormPolygons';
 import { inviteSchema } from '@utils/validation';
 import styles from './index.module.css';
 
-export default ({rolePanel: Component,form}) => (
+export default ({rolePanel: Component, userRole, form}) => (
   <FormContext
     {...form}
     validationSchema={inviteSchema}
@@ -26,7 +26,7 @@ export default ({rolePanel: Component,form}) => (
       <div>
         <div className={styles.columnTitle}>Role Information</div>
         <div className={styles.rolePanel}>
-          <Component formKey={formKey} initialValues={form.initialValues} />
+          <Component formKey={formKey} initialValues={form.initialValues} userRole={userRole} />
         </div>
       </div>
     </>)}

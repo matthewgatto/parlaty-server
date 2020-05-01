@@ -5,7 +5,7 @@ import CategorySelect from '@components/CategorySelect';
 
 export default ({client,defaultValue}) => {
   const dispatch = useDispatch();
-  const categories = useSelector(({oems,businesses}) => oems.byId[client] && oems.byId[client].businesses &&  oems.byId[client].businesses.map(id => ({value: id, label: businesses.byId[id].name})))
+  const categories = useSelector(({oems}) => oems.byId[client] && oems.byId[client].businesses)
   useEffect(() => {
     if(!categories){
       dispatch({type: FETCH_OEM_BUSINESSES_REQUEST, payload: {url: `/oems/${client}/oem_businesses`, id: client}})

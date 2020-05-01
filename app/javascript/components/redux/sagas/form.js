@@ -21,6 +21,7 @@ export function* formSaga(method, action, normalize, cb){
     }
     if(cb) yield call(cb, response, action)
   } catch (e) {
+    console.log("e", e);
     var formError = "An unexpected error has occurred"
     if(e.formError) formError = e.formError;
     else if(e === 401) formError = "Invalid login credentials";

@@ -1,12 +1,17 @@
 import React from 'react';
 import { useFormContext } from "react-hook-form";
-import CategorySelect from '@containers/CategorySelect';
+import CategorySelectContainer from '@containers/CategorySelect';
+import CategorySelectComponent from '@components/CategorySelect';
 
-export default ({defaultValue,defaultClient}) => {
+export default ({defaultValue,defaultClient, categories}) => {
   const {watch} = useFormContext();
   const client = watch("client");
   if(!client && !defaultClient){
     return null
   }
-  return <CategorySelect defaultValue={defaultValue} client={client || defaultClient} />
+  return categories ? (
+    <CategorySelectComponent defaultValue={defaultValue} categories={categories} />
+  ) : (
+    <CategorySelectContainer defaultValue={defaultValue} client={client || defaultClient} />
+  )
 }
