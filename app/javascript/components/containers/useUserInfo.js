@@ -7,7 +7,7 @@ export default () => {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   useEffect(() => {
-    if(!user || !user.email){
+    if(user && user.id && !user.email){
       dispatch({type: FETCH_SELF_REQUEST, payload: {url: `/users/${user.id}`, id: user.id}})
     }
   },[user,dispatch])

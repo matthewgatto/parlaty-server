@@ -28,8 +28,8 @@ function* handleProcedureRequestSuccess({values:{procedure:{oem_business_id}}}, 
   const role = yield select(getUserRole);
   var to;
   if(role === "ParlatyAdmin"){
-    const business = yield select(getBusinessById(oem_business_id));
-    to = `/oems/${business.oem_id}/businesses/${oem_business_id}`
+    const url = yield select(({router}) => router.location.pathname);
+    to = url.split("/").slice(-2).join('/');
   } else {
     to = `/businesses/${oem_business_id}`
   }
