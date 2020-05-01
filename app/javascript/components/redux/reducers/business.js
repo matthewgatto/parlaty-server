@@ -23,12 +23,17 @@ const allBusinesses = (state = null, {type,payload}) => {
 const businessesById = (state = {}, {type,payload}) => {
   switch (type) {
     case procedureTypes.DELETE_PROCEDURE_REQUEST__SUCCESS:
+      const updatedBusinesses = {};
+      for (var i = 0; i < payload.oem_businesses.length; i++) {
+        const business_id = payload.oem_businesses[i];
+        const business = state[business_id]
+        if(business && business.procedures && business.procedures.length > 0){
+          updatedBusinesses[business_id] = {...business, procedures: business.procedures.filter(procedure => procedure !== payload.procedure_id)}
+        }
+      }
       return {
         ...state,
-        [payload.business_id]: {
-          ...state[payload.business_id],
-          procedures: state[payload.business_id].procedures.filter(procedureId => procedureId !== payload.procedure_id)
-        }
+        ...updatedBusinesses
       }
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:

@@ -106,7 +106,7 @@ export function* deleteProcedureSaga(action){
   try {
     const procedure = yield select(getProcedureById(action.payload))
     yield call(API.delete, `/procedures/${action.payload}`);
-    yield put({type: "DELETE_PROCEDURE_REQUEST__SUCCESS", payload: {procedure_id: action.payload, business_id: procedure.oem_business_id}})
+    yield put({type: "DELETE_PROCEDURE_REQUEST__SUCCESS", payload: {procedure_id: action.payload, oem_businesses: procedure.oem_businesses}})
     yield call(handleProcedureRequestSuccess,{values:{procedure}}, "Procedure was successfully deleted.")
   } catch (e) {
       console.log("deleteProcedureSaga ERROR", e);
