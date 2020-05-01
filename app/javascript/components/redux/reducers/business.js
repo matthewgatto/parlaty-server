@@ -42,7 +42,10 @@ const businessesById = (state = {}, {type,payload}) => {
     case "UPDATE_PROCEDURE_CATEGORIES_REQUEST__SUCCESS":
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(payload.businesses){
-        return merge({}, state, payload.businesses)
+        return {
+          ...state,
+          ...payload.businesses
+        }
       }
     default:
       return state
