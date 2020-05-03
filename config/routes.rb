@@ -1,12 +1,19 @@
 Rails.application.routes.draw do
   root 'shell#index'
-  devise_for :users, controllers: { confirmations: 'users/confirmations',
-    registrations: 'users/registrations'}, defaults: { format: :json }
+  devise_for :users, controllers: { 
+    confirmations: 'users/confirmations',
+    passwords: 'users/passwords',
+    registrations: 'users/registrations'
+  }, 
+  defaults: { 
+    format: :json 
+  }
 
   devise_scope :user do
     post "/users/confirmation/password", to: "users/confirmations#confirmation_password"
+    get "/users/reset_password", to: "users/passwords#edit"
+    get "/reset-password", to: "users/passwords#edit"
   end
-
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
