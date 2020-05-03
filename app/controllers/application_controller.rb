@@ -30,10 +30,15 @@ class ApplicationController < ActionController::API
 	def is_client_admin?
 		return current_user.roleable_type == "ClientAdmin"
 	end
+	def is_author?
+		return current_user.roleable_type == "Author"
+	end
+	def is_operator?
+		return current_user.roleable_type == "Operator"
+	end
 	# check if the current_user is of that roleable id
 	# return false if current_user is not of type "type"
 	def cuser_is?(type, id)
-		puts "*** cuser_is_in: type: " + type.to_s + " id: " + id.to_s + " current_user.roleable_type: " + current_user.roleable_type.to_s
 		if !id.nil? && !id.kind_of?(Array)
 			id = id.to_i
 			if(current_user.roleable_type == type)
@@ -44,7 +49,6 @@ class ApplicationController < ActionController::API
 	end
 
 	def cuser_is_in?(type, arr_ids)
-		puts "*** cuser_is_in: type: " + type.to_s + " arr_ids: " + arr_ids.to_s + " current_user.roleable_type: " + current_user.roleable_type.to_s
 		if(current_user.roleable_type == type)
 			if !arr_ids.kind_of?(Array) || arr_ids.empty? || arr_ids.nil?
 				return false

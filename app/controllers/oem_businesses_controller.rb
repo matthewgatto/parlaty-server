@@ -5,12 +5,9 @@ class OemBusinessesController < ApplicationController
 	def show
 		@oemb = OemBusiness.find(params[:id])
 		curr_user = current_user
-		is_author = curr_user.roleable_type == "Author" 
-		is_operator = curr_user.roleable_type == "Operator" 
-		is_client_admin = curr_user.roleable_type == "ClientAdmin" 
 		roleable = curr_user.roleable
 		hasOemBusiness = false
-		if is_author || is_operator
+		if is_author? || is_operator?
 			roleable.oem_businesses.map do |ob|
 				if !hasOemBusiness
 					hasOemBusiness = ob.id == params[:id].to_i
@@ -18,9 +15,9 @@ class OemBusinessesController < ApplicationController
 			end
 		end
 		is_valid = is_p_admin? || cuser_is?("Oem", @oemb.oem_id) ||
-			(is_author && hasOemBusiness) ||
-			(is_operator && hasOemBusiness) ||
-			is_client_admin
+			(is_author? && hasOemBusiness) ||
+			(is_operator? && hasOemBusiness) ||
+			is_client_admin?
 		if !is_valid
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
@@ -30,7 +27,9 @@ class OemBusinessesController < ApplicationController
 	# GET /oems/:id/oem_businesses
 	def oem_oembus_index
 		# padmin and itself
-		if !( is_p_admin? || cuser_is?("Oem", params[:id]) )
+		# and users whch belong to oem and oem businesses (categories)
+		can_access = is_p_admin? || cuser_is?("Oem", params[:id]) || is_author? || is_operator?
+		if !can_access
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
 

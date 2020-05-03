@@ -48,20 +48,12 @@ class ProceduresController < ApplicationController
 			arr_of_oem << oem_business.oem_id
 		end
 		# have to check if procedure belongs to operator
-
-		puts "*** is_p_admin? " + is_p_admin?.to_s
-		puts "*** cuser_is oem: " + cuser_is?("Oem", arr_of_oem).to_s
-		puts "*** cuser_is operator admin: " + cuser_is?("OperatorAdmin", arr_of_oa).to_s
-		puts "*** current_user.roleable_id: " + current_user.roleable_id.to_s
-		puts "*** cuser_is author: " + cuser_is?("Author", current_user.roleable_id).to_s
-		puts "*** cuser_is operator: " + cuser_is?("Operator", current_user.roleable_id).to_s
-		puts "*** cuser_is client admin: " + cuser_is?("ClientAdmin", current_user.roleable_id).to_s
 		# operator can access its associated procedures, OA and and Oem associated to procedures
 		if !( is_p_admin? \
 			|| cuser_is?("Oem", arr_of_oem) \
-			|| cuser_is?("Author", current_user.roleable_id) \
-			|| cuser_is?("Operator", current_user.roleable_id) \
-			|| cuser_is?("ClientAdmin", current_user.roleable_id) \
+			|| is_author? \
+			|| is_operator? \
+			|| is_client_admin? \
 			|| cuser_is?("Oem", arr_of_oem) \
 			|| cuser_is?("OperatorAdmin", arr_of_oa) \
 		)
@@ -114,7 +106,9 @@ class ProceduresController < ApplicationController
 		 @procedure = Procedure.find(params[:id])
 		 if(@procedure.update_attributes(procedure_params))
 			# do we need to update steps too?
-	 		render json: @procedure, status: :ok
+			 #render json: @procedure, status: :ok
+			 @steps = @procedure.steps
+			 render "show", status: :ok
 	 	else
 	 		head :bad_request
 	 	end
@@ -131,7 +125,9 @@ class ProceduresController < ApplicationController
 				@procedure.oem_businesses << oem_business
 			end
 			@procedure.save
-			render json: @procedure, status: :ok
+			#render json: @procedure, status: :ok
+			@steps = @procedure.steps
+			render "show", status: :ok
 		else
 			head :bad_request
 		end
