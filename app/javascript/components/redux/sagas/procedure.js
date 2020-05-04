@@ -25,14 +25,9 @@ function* getNewEntitiesFromProcedure(response,{payload:{values}}){
 }
 
 function* handleProcedureRequestSuccess({values:{procedure:{oem_business_id}}}, message){
-  const role = yield select(getUserRole);
-  var to;
-  if(role === "ParlatyAdmin"){
-    const url = yield select(({router}) => router.location.pathname);
-    to = url.split("/").slice(-2).join('/');
-  } else {
-    to = `/businesses/${oem_business_id}`
-  }
+  const role = yield select(getUserRole),
+        url = yield select(({router}) => router.location.pathname),
+        to = url.split("/").slice(0,-3).join('/');
   yield put(push(to))
   yield put(addToast("success", message))
 }
