@@ -105,7 +105,7 @@ const Routes = ({role}) => {
         {/*<Route path="/register" component={SignUpPage} />*/}
         <Route path="/users/confirmation" component={InvitationConfirmationForm} />
         <Route path="/forgot-password" component={ForgotPasswordForm} />
-        <Route path="/reset-password/:reset_password_token" component={ResetPasswordForm} />
+        <Route path="/reset-password" component={ResetPasswordForm} />
         <Redirect to="/" />
       </Switch>)
   }
