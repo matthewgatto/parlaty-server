@@ -27,7 +27,7 @@ class ProceduresController < ApplicationController
 	def oembusiness_prod_index
 		# oem associated to oem_business
 		oemb = OemBusiness.find(params[:id])
-		if !( is_p_admin? || cuser_is?("Oem", oemb.oem_id))
+		if !( is_p_admin? || cuser_is?("Oem", oemb.oem_id) || is_author? || is_operator? || is_client_admin?)
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
 
