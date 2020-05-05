@@ -133,7 +133,7 @@ export function* reorderStepSaga({payload:{procedure_id, from, to}}){
       }
       const formData = utils.objectToFormData({procedure: {steps_order}});
       const response = yield call(API.multiput, `/procedures/${procedure_id}/reorder`, formData);
-      yield put({type: "REORDER_STEP_REQUEST__SUCCESS", payload: {procedures: {[procedure_id]: {steps: stepOrder}}}});
+      yield put({type: "REORDER_STEP_REQUEST__SUCCESS", payload: {procedures: {[procedure_id]: {...procedure,steps: stepOrder, steps_order: stepOrder}}}});
     }
   } catch (e) {
 
