@@ -106,35 +106,8 @@ export function* updateDeviceSaga({type,payload:{formKey,id,values}}){
     yield call(validateDevice, device)
     const response = yield call(API.put, `/devices/${id}`, {device})
     const {entities} = normalize(response, Schemas.device);
-    /*
-    const pathname = yield select(({router}) => router.location.pathname);
-    const splitPath = pathname.split('/');
-    if(splitPath[1] !== "devices"){
-      const {steps, procedures} = yield select(state => state)
-      const procedure = procedures.byId[pathname.split('/procedures/')[1].split('/')[0]];
-      const stepsWithDevices = {};
-      for (var i = 0; i < procedure.steps.length; i++) {
-        const step = steps.byId[procedure.steps[i]]
-        if(step.device && step.device.id == id){
-          const newActions = response.actions.map(action => {
-              const actionIndex = step.device.actions.findIndex(oldAction => oldAction.id === action.id)
-              const oldAction = step.device.actions[actionIndex]
-              return ({...action, action_copy: oldAction ? oldAction.action_copy : null})
-          })
-          const device = {...response,actions: newActions}
-          stepsWithDevices[procedure.steps[i]] = {...step,device}
-        }
-      }
-      entities.steps = stepsWithDevices
-    }
-    */
     yield put({type: `${type}__SUCCESS`, payload: entities})
-
-    if(pathname.split('/')[1] === "devices"){
-      yield put(push("/devices"))
-    } else {
-      yield put(setModal())
-    }
+    yield put(setModal())
     yield put(addToast("success", "Device successfully updated."))
   } catch (e) {
     console.log("deviceFormSaga ERROR", e);
