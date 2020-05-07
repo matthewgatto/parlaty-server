@@ -69,6 +69,16 @@ class UsersController < ApplicationController
     id = params[:id]
     @user = User.find(id)
     if @user
+      if @user.roleable_type == "Author" || @user.roleable_type == "Operator"
+        @roleable = @user.roleable
+        @roleable.oem_businesses.clear
+        new_oem_businesses = params[:user][:categories]
+        new_oem_businesses.map do |new_oemb_id|
+          new_oemb = OemBusiness.find(new_oemb_id)
+          @roleable.oem_businesses << new_oemb
+        end
+        @roleable.save
+      end
       render status: :ok
     else
       config.logger.error "user find failed in PUT /users/:id " + id.to_s
