@@ -9,12 +9,13 @@ import {FETCH_USER_REQUEST,UPDATE_USER_REQUEST} from '@types/user';
 export default ({id, role}) => {
   const dispatch = useDispatch();
   const user = useSelector(getById(id));
+  console.log("user", user);
   useEffect(() => {
-    if(!user || !user.roleable){
+    if(!user || (user.roleable === "ClientAdmin" && !user.oem) || ((user.roleable === "Author" || user.roleable === "Operator") && !user.businesses)){
       dispatch({type: FETCH_USER_REQUEST, payload: id})
     }
   },[]);
-  if(!user || !user.roleable){
+  if(!user || (user.roleable === "ClientAdmin" && !user.oem) || ((user.roleable === "Author" || user.roleable === "Operator") && !user.businesses)){
     return <Loader text="user" />
   }
   return(

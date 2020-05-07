@@ -13,38 +13,38 @@ html,textarea,input[type='text'],input[type='password'],input[type='number'],inp
 }
 
 @media (min-width: 768px) {
-  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select,button {
     font-size: 7px;
   }
 }
 
 @media (min-width: 768px) and (orientation: landscape){
-  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select,button {
     font-size: 8px;
   }
 }
 
 @media (min-width: 1024px){
-  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select,button {
     font-size: 10px;
   }
 }
 
 @media (min-width: 1340px){
-  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select,button {
     font-size: 11px;
   }
 }
 
 @media (min-width: 1640px){
-  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select,button {
     font-size: 12px;
   }
 }
 
 
 @media (min-width: 2560px){
-  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
+  html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select,button {
     font-size: 13.708px;
   }
 }

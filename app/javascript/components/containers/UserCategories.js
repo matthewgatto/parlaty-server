@@ -9,9 +9,6 @@ export default ({defaultValue,defaultClient, categories}) => {
   if(!client && !defaultClient){
     return null
   }
-  console.log("client",client);
-  console.log("defaultClient",defaultClient);
-  console.log("categories",categories);
   return categories ? (
     <CategorySelectComponent defaultValue={defaultValue} categories={categories} />
   ) : (

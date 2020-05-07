@@ -1,10 +1,11 @@
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import uuid from 'uuid/v4';
 import { normalize } from 'normalizr';
 import { push } from 'connected-react-router'
 import API from '@utils/API';
 import Schemas from '@utils/models';
 import {formSaga,pushAndNotify} from './form';
+import {getById} from '@selectors/user';
 
 const handleUpdateSuccess = pushAndNotify('/users', "User was successfully updated")
 const handleDeleteSuccess = pushAndNotify('/users', "User was successfully deleted")
@@ -65,8 +66,9 @@ export function* updateUserSaga(action){
       }
       body.user.categories = categoryArray
     }
-    const response = yield call(API.put, `/users/${action.payload.id}`, body)
-    yield put({type: `${action.type}__SUCCESS`, payload: normalize({...response, ...body.user}, Schemas.user).entities})
+    const response = yield call(API.put, `/users/${action.payload.id}`, body);
+    const user = yield select(getById(action.payload.id))
+    yield put({type: `${action.type}__SUCCESS`, payload: normalize({...user, ...body.user, ...response}, Schemas.user).entities})
     yield call(handleUpdateSuccess)
 
   } catch (e) {

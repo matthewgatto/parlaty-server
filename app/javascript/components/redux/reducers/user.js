@@ -1,4 +1,3 @@
-import merge from 'lodash/merge';
 import { combineReducers } from 'redux';
 import { addIds } from '@utils';
 import * as types from '@types/user';
@@ -24,7 +23,12 @@ const allUsers = (state = null, {type, payload}) => {
     case types.FETCH_USER_REQUEST__SUCCESS:
     case types.CREATE_USER_REQUEST__SUCCESS:
     case types.UPDATE_USER_REQUEST__SUCCESS:
-      return merge({}, state, payload.users)
+      if(payload.users){
+        return {
+          ...state,
+          ...payload.users
+        }
+      }
     default:
       return state
   }
