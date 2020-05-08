@@ -3,7 +3,7 @@ import uuid from 'uuid/v4';
 import FormPage from '@components/Form/Page';
 import { clientOrCategorySchema } from '@utils/validation';
 import { CREATE_BUSINESS_REQUEST } from '@types/business';
-import useUserInfo from '@containers/useUserInfo';
+import withUserInfo from '@containers/withUserInfo';
 
 const inputs = [{
   type: "text",
@@ -12,8 +12,7 @@ const inputs = [{
   required: true
 }]
 
-export default ({match:{params}}) => {
-  const user = useUserInfo();
+export default withUserInfo(({user,match:{params}}) => {
   var oem_id, cancel;
   if(params && params.oem_id){
     oem_id = params.oem_id
@@ -37,4 +36,4 @@ export default ({match:{params}}) => {
       inputs={inputs}
     />
   )
-}
+})

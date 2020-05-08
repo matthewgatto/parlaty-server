@@ -1,8 +1,9 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import CategorySelect from '@containers/CategorySelect';
-import useUserInfo from '@containers/useUserInfo';
+import {getUser} from '@selectors/auth';
 
 export default (props) => {
-  const user = useUserInfo();
-  return <CategorySelect client={user && user.oem} {...props} />
+  const user = useSelector(getUser);
+  return <CategorySelect client={user.oem} {...props} />
 }

@@ -107,7 +107,7 @@ export const makeStep = (values, root, isFormData) => {
   if(location) step.location = location
   if(device_id){
     if(isFormData){
-      step.device = {id: device_id}
+      step.device = device_id
     } else {
       step.device_id = device_id
     }

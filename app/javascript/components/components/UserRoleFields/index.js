@@ -1,8 +1,9 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import { useFormContext } from "react-hook-form";
 import ClientSelect from '@containers/ClientSelect';
 import UserCategories from '@containers/UserCategories';
-import useUserInfo from '@containers/useUserInfo';
+import {getUser} from '@selectors/auth';
 
 const UserRoleFieldsComponent = ({initialValues = {},formKey,roleable = initialValues.roleable, placeholder, user}) => {
   switch (roleable.toLowerCase()) {
@@ -26,7 +27,7 @@ const UserRoleFieldsComponent = ({initialValues = {},formKey,roleable = initialV
 }
 
 export const UserRoleFields = (props) => {
-  const user = useUserInfo();
+  const user = useSelector(getUser);
   return <UserRoleFieldsComponent {...props} user={user} />
 }
 
