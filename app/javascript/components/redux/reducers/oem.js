@@ -1,9 +1,8 @@
-import merge from 'lodash/merge';
 import { combineReducers } from 'redux';
 import { addIds } from '@utils';
 import * as types from '@types/oem'
 import * as authTypes from '@types/auth'
-
+import * as businessTypes from '@types/business'
 
 const allOems = (state = null, {type, payload}) => {
   switch (type) {
@@ -24,8 +23,12 @@ const allOems = (state = null, {type, payload}) => {
     case types.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case types.CREATE_OEM_REQUEST__SUCCESS:
     case types.UPDATE_OEM_REQUEST__SUCCESS:
+    case businessTypes.CREATE_BUSINESS_REQUEST__SUCCESS:
       if(payload.oems){
-        return merge({}, state, payload.oems)
+        return {
+          ...state,
+          ...payload.oems
+        }
       }
     default:
       return state

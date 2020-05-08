@@ -16,7 +16,7 @@ const inputs = [{
 
 export default ({cancel,form}) => (
   <FormPage
-    header="Set Your Password"
+    layout={{header:"Set Your Password"}}
     form={{
       ...form,
       id: uuid()

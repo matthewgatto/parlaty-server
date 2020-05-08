@@ -25,8 +25,7 @@ function* getNewEntitiesFromProcedure(response,{payload:{values}}){
 }
 
 function* handleProcedureRequestSuccess({values:{procedure:{oem_business_id}}}, message){
-  const role = yield select(getUserRole),
-        url = yield select(({router}) => router.location.pathname),
+  const url = yield select(({router}) => router.location.pathname),
         to = url.split("/").slice(0,-3).join('/');
   yield put(push(to))
   yield put(addToast("success", message))

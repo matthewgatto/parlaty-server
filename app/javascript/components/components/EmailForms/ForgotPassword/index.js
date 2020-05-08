@@ -12,7 +12,7 @@ const inputs = [{
 
 export default () => (
   <FormPage
-    header="Get A Password Reset Email"
+    layout={{header:"Get A Password Reset Email"}}
     form={{
       entity: "password_reset_email",
       url: '/users/password',

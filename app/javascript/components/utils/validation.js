@@ -50,6 +50,10 @@ export const businessSchema = object().shape({
   name: string().required('This field is required')
 })
 
+export const clientOrCategorySchema = object().shape({
+  name: string().required('This field is required')
+})
+
 export const actionSchema = object().shape({
   name: string().required('This field is required')
 })

@@ -26,7 +26,7 @@ export default ({match:{params:{id}}}) => {
         url = `/oems/${id}`;
   return(
     <FormPage
-      header="Update OEM"
+      layout={{header:"Update OEM"}}
       form={{
         entity: "update_oem",
         type: UPDATE_OEM_REQUEST,

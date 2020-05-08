@@ -7,8 +7,8 @@ import Buttons from '../Buttons';
 import {Input} from '@components/Inputs';
 import styles from './index.module.css';
 
-export default ({header, form, cancel, children, inputs}) => (
-  <PageLayout header={header}>
+export default ({layout, form, cancel, children, inputs}) => (
+  <PageLayout {...layout}>
     <Context className={styles.container} submitOnEnter {...form} >
       {({handleSubmit, formKey}) => (<>
         <FormError formKey={formKey} large top />

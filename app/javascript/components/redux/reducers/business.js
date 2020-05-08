@@ -1,4 +1,3 @@
-import merge from 'lodash/merge'
 import { combineReducers } from 'redux';
 import * as businessTypes from '@types/business'
 import * as oemTypes from '@types/oem'

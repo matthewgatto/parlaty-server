@@ -23,7 +23,9 @@ const step = new schema.Entity("steps", {
   }
 });
 
-const procedure = new schema.Entity("procedures");
+const procedure = new schema.Entity("procedures",{},{
+  processStrategy: ({procedure_id, id, ...procedure}) => ({id: id || procedure_id,...procedure})
+});
 
 const business = new schema.Entity("businesses", {
   procedures: [procedure]

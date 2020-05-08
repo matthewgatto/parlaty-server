@@ -13,6 +13,7 @@ import AddStepsScreen from '@components/Procedure/AddStepsScreen';
 import ClientUserLandingPage from '@components/ClientUserLandingPage';
 import AdminLandingPage from '@components/AdminLandingPage';
 import OEMPage from '@components/OEM/Show';
+import CreateClientForm from '@components/OEM/Create';
 import OEMLandingPage from '@components/OEM/Landing';
 import OEMUpdatePage from '@components/OEM/Edit';
 import DeviceAdminPage from '@components/Device/Tab/Admin';
@@ -20,7 +21,7 @@ import DeviceOEMAdminPage from '@components/Device/Tab/OEM/Admin';
 import DeviceOEMLandingPage from '@components/Device/Tab/OEM/Landing';
 import DeviceBusinessPage from '@components/Device/Tab/Business';
 import DeviceManagerPage from '@components/Device/Tab/Manager';
-//import BusinessForm from '@components/Business/Create';
+import BusinessForm from '@components/Business/Create';
 import ForgotPasswordForm from '@components/EmailForms/ForgotPassword';
 import ResetPasswordForm from '@components/EmailForms/ResetPassword';
 import InvitationConfirmationForm from '@components/EmailForms/InvitationConfirmation'
@@ -32,23 +33,6 @@ import useUserInfo from '@containers/useUserInfo';
 
 const Routes = ({role}) => {
   switch (role) {
-    case "Oem":
-      return(<Switch>
-        <Route exact path="/" component={OEMLandingPage} />
-        <Route exact path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
-        {/*<Route path="/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
-        <Route exact path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
-        <Route exact path="/businesses/:business_id/procedures/:id/add-steps" component={AddStepsScreen} />
-        <Route path="/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
-        <Route path="/businesses/:id" component={OEMBusinessPage} />
-        {/*
-          <Route path="/businesses/create" component={BusinessForm} />
-          <Route path="/devices/:business_id/:procedure_id" component={DeviceManagerPage} />
-          <Route path="/devices/:business_id" component={DeviceBusinessPage} />
-          <Route path="/devices" component={DeviceOEMLandingPage} />
-          */}
-        <Redirect to="/" />
-      </Switch>)
     case "ParlatyAdmin":
       return(<Switch>
         <Route exact path="/" component={AdminLandingPage} />
@@ -65,11 +49,12 @@ const Routes = ({role}) => {
         <Route path="/devices/:oem_id/:business_id" component={DeviceBusinessPage} />
         <Route path="/devices/:oem_id" component={DeviceOEMAdminPage} />
         <Route path="/devices" component={DeviceAdminPage} />
-        <Route path="/oems/:oem_id/businesses/create" component={BusinessForm} />
         */}
+        <Route path="/oems/:oem_id/businesses/create" component={BusinessForm} />
         <Route path="/oems/:oem_id/businesses/:id" render={OEMBusinessPage} />
         <Route path="/oems/:id/update" component={OEMUpdatePage} />
         <Route path="/oems/:id" component={OEMPage} />
+        <Route path="/clients/create" component={CreateClientForm} />
         <Redirect to="/" />
       </Switch>)
     case "ClientAdmin":
@@ -82,6 +67,7 @@ const Routes = ({role}) => {
         <Route exact path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
         <Route exact path="/businesses/:business_id/procedures/:id/add-steps" component={AddStepsScreen} />
         <Route path="/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
+        <Route path="/businesses/create" component={BusinessForm} />
         <Route path="/businesses/:id" component={OEMBusinessPage} />
         <Redirect to="/" />
       </Switch>)

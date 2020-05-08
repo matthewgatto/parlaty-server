@@ -1,9 +1,9 @@
 import React from 'react';
 import uuid from 'uuid/v4';
-import {useSelector} from 'react-redux'
 import FormPage from '@components/Form/Page';
-import { businessSchema } from '@utils/validation';
+import { clientOrCategorySchema } from '@utils/validation';
 import { CREATE_BUSINESS_REQUEST } from '@types/business';
+import useUserInfo from '@containers/useUserInfo';
 
 const inputs = [{
   type: "text",
@@ -13,23 +13,24 @@ const inputs = [{
 }]
 
 export default ({match:{params}}) => {
+  const user = useUserInfo();
   var oem_id, cancel;
   if(params && params.oem_id){
     oem_id = params.oem_id
     cancel = `/oems/${params.oem_id}`
   } else {
-    oem_id = useSelector(({auth}) => (auth && auth.roleable_type === "Oem") ? auth.roleable_id : undefined)
+    oem_id = user.oem
   }
   return(
     <FormPage
-      header="New Business"
-      options={{
+      layout={{header:"New Category"}}
+      form={{
         entity: "business",
         url: "/oem_businesses",
         type: CREATE_BUSINESS_REQUEST,
-        initialValues: {email: ''},
+        initialValues: {},
         extraValues: {oem_id},
-        validationSchema: businessSchema,
+        validationSchema: clientOrCategorySchema,
         id: uuid()
       }}
       cancel={cancel}
