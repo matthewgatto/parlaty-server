@@ -2,7 +2,8 @@ json = {}
 json[:users] = @users.map do |user|
 {
 	id: user.id,
-	email: user.email
+	email: user.email,
+	roleable_type: user.roleable_type
 }
 end
 
