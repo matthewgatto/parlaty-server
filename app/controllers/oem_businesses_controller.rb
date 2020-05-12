@@ -45,12 +45,16 @@ class OemBusinessesController < ApplicationController
 
 	# POST /oem_businesses
 	def create
-		if !is_p_admin?
+		if !is_p_admin? && !is_client_admin?
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
 		name = params[:name]
 		oem_id = params[:oem_id]
-		@oem = Oem.find(params[:id])
+		if (is_client_admin?)
+			@client_admin = current_user.roleable
+			oem_id = @client_admin.oem_id
+		end
+		@oem = Oem.find(oem_id)
 		@oemb = OemBusiness.create!(name: name)
 		@oem.oem_businesses << @oemb
 		render json: {"oem_business": { "id": @oemb.id, "name": @oem.name, "oem_id": @oem.id}}, status: :ok

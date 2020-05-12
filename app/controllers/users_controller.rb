@@ -96,10 +96,51 @@ end
     end
   end
 
+  # GET /users/:id
+	def refresh
+		@user = User.find(params[:id])
+
+		if (@user)
+			@role = @user.roleable
+			if deactivated?()
+				render json: {"error": "User has been deactivated"}, status: :bad_request and return
+			else
+				@jwt = Auth.encode({ uid: @user.id})
+				begin
+					if (@user.roleable_type == "Author" or @user.roleable_type == "Operator")
+						@sorted_ob = @user.roleable.oem_businesses.sort_by &:name	
+					elsif 
+						oem = Oem.find(@user.roleable_id)
+						if oem
+							oem_bus = oem.oem_businesses
+							@sorted_ob = oem_bus.sort_by &:name
+						end
+					end
+				rescue ActiveRecord::RecordNotFound
+					@sorted_ob = {}
+				end
+				@devices = Device.all().sort_by &:name
+			end
+		else
+			render json: {"error": "User not found"}, status: :bad_request and return
+		end
+	end
+
   private
 
   def user_params
     params.require(:user).permit(:mail)
   end
+
+  	# false if not Operator or OperatorAdmin
+	def deactivated?()
+		urt = @user.roleable_type
+
+		if(urt == "Operator" or urt == "OperatorAdmin")
+			return @role.deactivated
+		end
+
+		return false
+	end
 
 end

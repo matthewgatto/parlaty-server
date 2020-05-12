@@ -85,6 +85,8 @@ Rails.application.routes.draw do
 
   get '/users/:id', to: 'users#show'
 
+  get '/users/:id/refresh', to: 'users#refresh'
+
   post '/users/:id', to: 'users#create'
 
   put '/users/:id', to: 'users#update'
