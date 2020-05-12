@@ -43,6 +43,20 @@ class OemBusinessesController < ApplicationController
 		# output in oems/oem_oembus_index.json.jb
 	end
 
+	# POST /oem_businesses
+	def create
+		if !is_p_admin?
+			render json: {"error": "Current user access denied"}, status: :forbidden and return
+		end
+		name = params[:name]
+		oem_id = params[:oem_id]
+		@oem = Oem.find(params[:id])
+		@oemb = OemBusiness.create!(name: name)
+		@oem.oem_businesses << @oemb
+		render json: {"oem_business": { "id": @oemb.id, "name": @oem.name, "oem_id": @oem.id}}, status: :ok
+	end
+	
+	
 	private
 
 end

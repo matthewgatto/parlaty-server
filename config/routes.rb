@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 
   get '/oem_businesses/:id/procedures', to: 'procedures#oembusiness_prod_index'
 
+  post '/oem_businesses', to: 'oem_businesses#create'
+
   #JDT
   put '/procedures/:id', to: 'procedures#update'
 
@@ -68,6 +70,8 @@ Rails.application.routes.draw do
   post '/csv_steps', to: 'steps#csv_steps'
 
   get '/oems', to: 'oems#index'
+
+  post '/oem', to: 'oems#create'
 
   post '/devices/:id', to: 'devices#create'
 

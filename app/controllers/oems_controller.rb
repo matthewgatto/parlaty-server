@@ -34,6 +34,15 @@ class OemsController < ApplicationController
 		end
 	end
 
+	# POST /oems
+	def create
+		if !is_p_admin?
+			render json: {"error": "Current user access denied"}, status: :forbidden and return
+		end
+		name = params[:name]
+		@oem = Oem.create!(name: name)
+		render json: {"oem": { "id": @oem.id, "name": @oem.name }}, status: :ok
+	end
 
 	private
 	def update_oem_params
