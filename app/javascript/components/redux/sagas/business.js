@@ -12,9 +12,9 @@ const normalizeBusiness = (response,{payload:{id}}) => normalize({oem_business_i
 function* normalizeOem(response,action){
   const oem = yield select(getOEMById(action.payload.values.oem_id));
   return (oem && oem.businesses) ? (
-    normalize({...oem, businesses: [...oem.businesses, response]}, Schemas.oem).entities
+    normalize({...oem, businesses: [...oem.businesses, {oem_business_id: response.id,...action.payload.values,...response}]}, Schemas.oem).entities
   ) : (
-    normalizeBusiness(response, action)
+    normalize({oem_business_id: response.id, ...action.payload.values, response}, Schemas.business).entities
   )
 }
 
@@ -31,20 +31,15 @@ function* handleBusinessCreateSuccess(response, action){
 
 export function* createBusinessSaga(action){
   //yield call(formSaga, "post", action, normalizeOem, handleBusinessCreateSuccess);
-  try {
-    yield fork(API.post, action.payload.url, action.payload.values)
-  } catch (e) {
-    console.log("createBusinessSaga error", e);
-  }
-  const fakeResponse = {id: uuid(),procedures:[]}
+  const response = yield call(API.post, action.payload.url, action.payload.values)
   const oem = yield select(getOEMById(action.payload.values.oem_id));
   yield put({
     type: `${action.type}__SUCCESS`,
     payload: (oem && oem.businesses) ? (
-      normalize({...oem, businesses: [...oem.businesses, {oem_business_id: fakeResponse.id,...fakeResponse,...action.payload.values}]}, Schemas.oem).entities
+      normalize({...oem, businesses: [...oem.businesses, {oem_business_id: response.oem_business.id,...action.payload.values,...response.oem_business}]}, Schemas.oem).entities
     ) : (
-      normalize({oem_business_id: fakeResponse.id, ...fakeResponse, ...action.payload.values}, Schemas.business).entities
+      normalize({oem_business_id: response.oem_business.id, ...action.payload.values, ...response.oem_business}, Schemas.business).entities
     )
   })
-  yield call(handleBusinessCreateSuccess, fakeResponse, action)
+  yield call(handleBusinessCreateSuccess, response.oem_business, action)
 }

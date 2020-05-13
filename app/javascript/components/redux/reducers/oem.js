@@ -16,7 +16,7 @@ const allOems = (state = null, {type, payload}) => {
   }
 }
 
- const oemsById = (state = {}, {type,payload}) => {
+const oemsById = (state = {}, {type,payload}) => {
   switch (type) {
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
     case types.FETCH_OEMS_REQUEST__SUCCESS:

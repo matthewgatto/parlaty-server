@@ -11,6 +11,6 @@ export default withUserInfo(({user}) => (
     link={user.roleable === "ClientAdmin" ? {to: "/businesses/create", text: "Add Category"} : undefined}
   >
     <Label>Categories</Label>
-    <ClientCategories client={user.oem} />
+    <ClientCategories />
   </PageLayout>
 ))

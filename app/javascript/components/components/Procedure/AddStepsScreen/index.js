@@ -12,9 +12,8 @@ import styles from './index.module.css';
 
 export default ({match:{url,params:{oem_id,business_id,id}},history:{push},location:{pathname}}) => {
   const dispatch = useDispatch()
-  const submitPath = pathname.split("/").slice(0,-2).reduce((a,b) => `${a}/${b}`);
   const handleSubmitClick = () => {
-    push(submitPath)
+    push(pathname.split("/").slice(0,-3).join('/'))
     dispatch(addToast("success", "Procedure was successfully added."))
   }
   return(

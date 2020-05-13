@@ -1,4 +1,4 @@
-import { call, put,fork } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import uuid from 'uuid/v4'
 import { normalize } from 'normalizr';
 import { push } from 'connected-react-router';
@@ -29,18 +29,13 @@ function* handleOEMCreate(response,action){
 
 export function* createOEMSaga(action){
   //yield call(formSaga, "post", action, normalizeOEMCreate, handleOEMCreate);
-  try {
-    yield fork(API.post, action.payload.url, action.payload.values)
-  } catch (e) {
-    console.log("createOEMSaga error", e);
-  }
-  const fakeResponse = {id: uuid(),businesses:[]}
-  const payload = yield call(normalizeOEMCreate, fakeResponse, action);
+  const response = yield call(API.post, action.payload.url, action.payload.values)
+  const payload = yield call(normalizeOEMCreate, response.oem, action);
   yield put({
     type: `${action.type}__SUCCESS`,
     payload
   })
-  yield call(handleOEMCreate, fakeResponse, action)
+  yield call(handleOEMCreate, response.oem, action)
 }
 function* handleOEMUpdate(response, {payload:{id}}){
   yield put(push(`/oems/${id}`))

@@ -21,6 +21,6 @@ export default ({name, procedure_id, ...props}) => {
   const {devices} = useSelector(getProcedureById(procedure_id))
   const deviceArray = useSelector((state) => (devices && devices.length > 0) ? devices.map(deviceId => state.devices.byId[deviceId]) : null)
   return(
-    <Controller {...props} defaultValue={props.defaultValue} options={(deviceArray && deviceArray.length > 0) ? deviceArray.map(({id, name}) => ({value: id, label: name})) : undefined} name={makeName(props.root, name)} as={DeviceSelectContainer} />
+    <Controller {...props} options={(deviceArray && deviceArray.length > 0) ? deviceArray.map(({id, name}) => ({value: id, label: name})) : undefined} name={makeName(props.root, name)} as={DeviceSelectContainer} />
   )
 }
