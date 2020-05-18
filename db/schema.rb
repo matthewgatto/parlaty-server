@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_191842) do
+ActiveRecord::Schema.define(version: 2020_05_18_012529) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -195,6 +195,8 @@ ActiveRecord::Schema.define(version: 2020_04_28_191842) do
     t.datetime "updated_at", null: false
     t.string "roleable_type"
     t.bigint "roleable_id"
+    t.string "language"
+    t.string "voice"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["roleable_type", "roleable_id"], name: "index_users_on_roleable_type_and_roleable_id"

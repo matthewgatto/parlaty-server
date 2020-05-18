@@ -33,6 +33,8 @@ json[:procedures] = @oemb.procedures.map do |prod|
 	{
 		name: prod.name,
 		id: prod.id,
+		author: prod.author,
+		language: prod.language,
 		devices: show_devices(prod.devices)
 	}
 end

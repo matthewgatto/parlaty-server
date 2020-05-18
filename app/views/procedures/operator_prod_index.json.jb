@@ -3,6 +3,8 @@ json = {
 		{
 			id: procedure.id,
 			name: procedure.name,
+			author: procedure.author,
+			language: procedure.language
 		}
 	end
 }
