@@ -25,6 +25,24 @@ def show_devices(mydevices)
 	end
 end
 
+def number_or_nil(string)
+  Integer(string || '')
+rescue ArgumentError
+  nil
+end
+
+def get_author_name(author_id)
+    tmp_author_id = number_or_nil(author_id)
+	result = ''
+	if tmp_author_id == nil
+		result = author_id
+	else
+		tmp_user = User.find(tmp_author_id)
+		result = tmp_user.roleable.name
+	end
+	result
+end
+
 json = {
 	oem_business_id: @oemb.id,
 	name: @oemb.name
@@ -33,7 +51,7 @@ json[:procedures] = @oemb.procedures.map do |prod|
 	{
 		name: prod.name,
 		id: prod.id,
-		author: prod.author,
+		author: get_author_name(prod.author),
 		language: prod.language,
 		devices: show_devices(prod.devices)
 	}

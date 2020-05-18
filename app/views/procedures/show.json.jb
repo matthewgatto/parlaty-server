@@ -46,6 +46,24 @@ def get_oem_businesses(oem_businesses)
 	end
 end
 
+def number_or_nil(string)
+  Integer(string || '')
+rescue ArgumentError
+  nil
+end
+
+def get_author_name(author_id)
+    tmp_author_id = number_or_nil(author_id)
+	result = ''
+	if tmp_author_id == nil
+		result = author_id
+	else
+		tmp_user = User.find(tmp_author_id)
+		result = tmp_user.roleable.name
+	end
+	result
+end
+
 json = {
 	procedure_id: @procedure.id,
 	name: @procedure.name,
@@ -54,7 +72,7 @@ json = {
 	version: @procedure.version,
 	description: @procedure.description,
 	category: @procedure.category,
-	author: @procedure.author,
+	author: get_author_name(@procedure.author),
 	language: @procedure.language,
 	steps_order: @procedure.steps_order,
 	devices: show_devices(@procedure.devices)
