@@ -7,7 +7,7 @@ import FormError from '@containers/FormError';
 import SpokenBox from '@components/Inputs/SpokenBox';
 import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
-import { Input, CheckBox, Select, ImageInput, AudioInput, ModeRadio } from '@components/Inputs';
+import { Input, CheckBox, Select, ImageInput, VideoInput, ModeRadio } from '@components/Inputs';
 import styles from './index.module.css';
 
 
@@ -39,7 +39,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
           <ImageInput formKey={formKey} defaultValue={initialValues.visual} label="Image*" root={root} name="visual" />
         </div>
         <div>
-          <AudioInput formKey={formKey} defaultValue={initialValues.audio} label="Audio*" root={root} name="audio" />
+          <VideoInput formKey={formKey} defaultValue={initialValues.video} label="Video*" root={root} name="video" />
         </div>
         <div className={styles.error}>
           <FormError formKey={formKey} large />

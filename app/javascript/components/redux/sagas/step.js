@@ -12,7 +12,7 @@ import { stepSchema } from '@utils/validation';
 import Schemas from '@utils/models';
 import API from '@utils/API';
 
-export const cleanStepParams = ({id,audio,visual,has_visual,...step}) => {
+export const cleanStepParams = ({id,visual,has_visual,...step}) => {
   if(visual){
     if(typeof visual === "string"){
       step.visual = visual

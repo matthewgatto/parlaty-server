@@ -95,7 +95,7 @@ export const makeStep = (values, root, isFormData) => {
         time = values[`${root}time`],
         safety = values[`${root}safety`],
         visual = values[`${root}visual`],
-        audio = values[`${root}audio`],
+        video = values[`${root}video`],
         location = values[`${root}location`],
         device_id = values[`${root}device_id`],
         step = {};
@@ -112,7 +112,7 @@ export const makeStep = (values, root, isFormData) => {
       step.device_id = device_id
     }
   }
-  if(audio) step.audio = audio
+  if(video) step.video = video
   if(visual) step.visual = visual
   return step;
 }

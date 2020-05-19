@@ -9,7 +9,7 @@ const getInputText = (value) => {
     if(typeof value === 'string') return "File"
     if(typeof value.name === 'string') return value.name
   }
-  return "Upload Audio File"
+  return "Upload Video File"
 }
 
 
@@ -35,7 +35,7 @@ export default ({label, name, initialValue, value, onChange}) => {
       <label className={`${styles.label} align_center`}>{label}</label>
       <span className={`button align_center ${styles.button}`}>
       <div className={styles.name}>{inputText}</div>
-      {inputText === "Upload Audio File" ? (
+      {inputText === "Upload Video File" ? (
         <Upload className={styles.icon} />
       ) : (
         <Close className={styles.icon} />

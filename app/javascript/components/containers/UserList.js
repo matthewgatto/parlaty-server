@@ -2,8 +2,8 @@ import React, {useState,useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FetchLoader from '@components/List/Loader';
+import UserItem from '@components/User/Item';
 import ListPlaceholder from '@components/List/Placeholder';
-import ListItem from '@components/List/Item';
 import UserFilters from '@components/UserFilters';
 import {allIds} from '@selectors/user';
 import {fetchUsers} from '@actions/user';
@@ -25,7 +25,7 @@ const FilteredList = ({users}) => {
     <UserFilters textFilter={textFilter} setTextFilter={setTextFilter} roleFilter={roleFilter} setRoleFilter={setRoleFilter} />
     {filteredUsers.length > 0 ? (
       filteredUsers.map(user =>
-        <ListItem key={user.id} entityKey="users" to={`/users/${user.id}`} name={user.name} />
+        <UserItem key={user.id} user={user} />
       )
     ) : (
       <ListPlaceholder text="No matching users found" />
