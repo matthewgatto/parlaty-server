@@ -68,6 +68,7 @@ class UsersController < ApplicationController
   def update
     id = params[:id]
     @user = User.find(id)
+    @user.update_attributes(user_params)
     if @user
       if @user.roleable_type == "Author" || @user.roleable_type == "Operator"
         @roleable = @user.roleable
@@ -79,7 +80,23 @@ class UsersController < ApplicationController
         end
         @roleable.save
       end
-      render status: :ok
+
+      begin
+        if (@user.roleable_type == "Author" or @user.roleable_type == "Operator")
+          @sorted_ob = @user.roleable.oem_businesses.sort_by &:name	
+        elsif 
+          oem = Oem.find(@user.roleable_id)
+          if oem
+            oem_bus = oem.oem_businesses
+            @sorted_ob = oem_bus.sort_by &:name
+          end
+        end
+      rescue ActiveRecord::RecordNotFound
+        @sorted_ob = {}
+      end
+      @devices = Device.all().sort_by &:name
+
+      render "refresh", status: :ok
     else
       config.logger.error "user find failed in PUT /users/:id " + id.to_s
       head :bad_request and return
@@ -101,7 +118,7 @@ end
 		@user = User.find(params[:id])
 
 		if (@user)
-			@role = @user.roleable
+			@roleable = @user.roleable
 			if deactivated?()
 				render json: {"error": "User has been deactivated"}, status: :bad_request and return
 			else
@@ -129,7 +146,7 @@ end
   private
 
   def user_params
-    params.require(:user).permit(:mail)
+    params.require(:user).permit(:mail, :voice, :language)
   end
 
   	# false if not Operator or OperatorAdmin

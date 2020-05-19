@@ -1,7 +1,7 @@
 json = {
 	jwt: @jwt,
 	user_id: @user.id,
-	name: @role.name,
+	name: @roleable.name,
 	roleable_type: @user.roleable_type,
 	roleable_id: @user.roleable_id,
 	voice: @user.voice,

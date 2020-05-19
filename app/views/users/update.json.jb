@@ -1,6 +1,8 @@
 json = {
   id: @user.id,
-  email: @user.email
+  email: @user.email,
+  language: @user.language,
+  voice: @user.voice
 }
 
 json
