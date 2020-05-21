@@ -12,13 +12,25 @@ import { stepSchema } from '@utils/validation';
 import Schemas from '@utils/models';
 import API from '@utils/API';
 
-export const cleanStepParams = ({id,visual,has_visual,...step}) => {
-  if(visual){
-    if(typeof visual === "string"){
+export const cleanStepParams = ({id,visual,has_visual,video,...step}) => {
+  if(visual || video){
+    const isImageUrl = typeof visual === "string";
+    const isVideoUrl = typeof video === "string";
+    if(isImageUrl){
       step.visual = visual
-    } else {
-      step.visuals = [visual]
+    }
+    if(isVideoUrl){
+      step.video = video
+    }
+    if(!isImageUrl || !isVideoUrl){
       step.has_visual = true;
+      step.visuals = [];
+      if(!isImageUrl){
+        step.visuals.push(visual)
+      }
+      if(!isVideoUrl){
+        step.visuals.push(video)
+      }
     }
   } else {
     step.has_visual = false;
