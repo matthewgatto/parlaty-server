@@ -7,7 +7,9 @@ import FormError from '@containers/FormError';
 import SpokenBox from '@components/Inputs/SpokenBox';
 import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
-import { Input, CheckBox, Select, ImageInput, VideoInput, ModeRadio } from '@components/Inputs';
+import ImageFileDisplay from '@components/ImageFileDisplay';
+import VideoFileDisplay from '@components/VideoFileDisplay';
+import { Input, CheckBox, Select, FileInput, VideoInput, ModeRadio } from '@components/Inputs';
 import styles from './index.module.css';
 
 
@@ -36,10 +38,10 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         <Input as="textarea" defaultValue={initialValues.location} formKey={formKey} type="text" label="Instruction" root={root} name="location" rows="4"  />
         <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultValue={initialValues.device} />
         <div>
-          <ImageInput formKey={formKey} defaultValue={initialValues.visual} label="Image*" root={root} name="visual" />
+          <FileInput name="visual" label="Image*" formKey={formKey} defaultValue={initialValues.visual} root={root} displayComponent={ImageFileDisplay} />
         </div>
         <div>
-          <VideoInput formKey={formKey} defaultValue={initialValues.video} label="Video*" root={root} name="video" />
+          <FileInput formKey={formKey} defaultValue={initialValues.video} label="Video*" root={root} name="video" displayComponent={VideoFileDisplay} />
         </div>
         <div className={styles.error}>
           <FormError formKey={formKey} large />

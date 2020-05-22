@@ -6,6 +6,8 @@ import Polygon from '@components/SVG/PolygonH';
 import StepList from '@containers/StepList'
 import AddStepFormButton from '@containers/AddStepFormButton'
 import SubmitButton from '@components/SubmitButton'
+import ImagePreviewModal from '@components/ImagePreviewModal';
+import VideoPreviewModal from '@components/VideoPreviewModal';
 import {addToast} from '@actions/toast';
 import { procedureSchema } from '@utils/validation';
 import styles from './index.module.css';
@@ -49,6 +51,8 @@ export default ({match:{url,params:{oem_id,business_id,id}},history:{push},locat
         <Polygon className={styles.bottomPolygonThree} fill="none" stroke="#67318d" size="1.5em" />
         <Polygon className={styles.bottomPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
       </div>
+      <ImagePreviewModal />
+      <VideoPreviewModal />
     </div>
   )
 }

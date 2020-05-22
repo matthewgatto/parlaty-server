@@ -9,7 +9,8 @@ import ProcedureForm from '../EditForm';
 import DeviceForm from '@components/Device/Create';
 import DeviceUpdateForm from '@components/Device/Edit';
 import DeviceCopyList from '../DeviceCopyList'
-import ImagePreview from '@components/ImagePreview';
+import ImagePreviewModal from '@components/ImagePreviewModal';
+import VideoPreviewModal from '@components/VideoPreviewModal';
 import ProcedureCategories from '@components/Procedure/Categories';
 import DeviceManagerModal from '../DeviceManagerModal'
 import DeleteProcedureConfirmationModal from '../DeleteConfirmationModal'
@@ -21,7 +22,6 @@ import { getProcedureById } from '@selectors/procedure';
 const DeviceCreateModal = withModal(DeviceForm, "create_device");
 const ProcedureDeviceModal = withModal(DeviceCopyList, "procedure_device_list");
 const DeviceUpdateModal = withModal(DeviceUpdateForm, "update_device");
-const ImagePreviewModal = withModal(ImagePreview, "image_preview");
 const ProcedureCategoriesModal = withModal(ProcedureCategories, "add_category");
 
 const withStepLoader = (WrappedComponent) =>  (
@@ -90,5 +90,6 @@ export default ({match:{params:{oem_id,business_id,id}}}) => {
     <DeviceUpdateModal name={name} />
     <ProcedureCategoriesModal procedure_id={id} oem_id={oem_id} />
     <ImagePreviewModal />
+    <VideoPreviewModal />
   </>)
 }
