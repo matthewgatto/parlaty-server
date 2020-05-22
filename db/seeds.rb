@@ -124,6 +124,13 @@ user.confirm
 user.roleable = ParlatyAdmin.first
 user.save
 
+padmin = ParlatyAdmin.create!(name: "Sam")
+
+user = User.new(email: "sam@jmg.rocks", password: "password")
+user.confirm
+user.roleable = padmin
+user.save
+
 oemBusiness1 = OemBusiness.find(1)
 oemBusiness2 = OemBusiness.find(2)
 oemBusiness3 = OemBusiness.find(3)
