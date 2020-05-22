@@ -70,8 +70,8 @@ class UsersController < ApplicationController
     @user = User.find(id)
     @user.update_attributes(user_params)
     if @user
+      @roleable = @user.roleable
       if @user.roleable_type == "Author" || @user.roleable_type == "Operator"
-        @roleable = @user.roleable
         @roleable.oem_businesses.clear
         new_oem_businesses = params[:user][:categories]
         new_oem_businesses.map do |new_oemb_id|
