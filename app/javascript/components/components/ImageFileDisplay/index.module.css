@@ -1,0 +1,38 @@
+.container {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image,.placeholder {
+  position: absolute;
+  top:0;
+  height:100%;
+  width:100%;
+}
+.placeholder {
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+}
+
+
+.image {
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: opacity 50ms ease-in;
+  cursor: pointer;
+}
+
+.hide {
+  opacity: 0;
+}

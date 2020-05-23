@@ -5,14 +5,17 @@ import ImageInputComponent from './ImageInput';
 import VideoInputComponent from './VideoInput';
 import CheckBoxComponent from './CheckBox';
 import RadioComponent from './Radio';
+import FileInputContainer from '@containers/FileInput';
 import Field from './Field';
 import withField from './withField';
 import withName from './withName';
 
+const setFileValue = ([el]) => el.currentTarget.files[0]
 const withNamedField = (WrappedComponent) => withName(withField(WrappedComponent))
 export const Select = withNamedField(withSelectContainer(props => <Controller {...props} as={SelectComponent} />))
-export const ImageInput = withName(props => <Controller onChange={([el]) => el.currentTarget.files[0]} {...props} as={ImageInputComponent} />)
-export const VideoInput = withName(props => <Controller onChange={([el]) => el.currentTarget.files[0]} {...props} as={VideoInputComponent} />)
+export const ImageInput = withName(props => <Controller onChange={setFileValue} {...props} as={ImageInputComponent} />)
+export const VideoInput = withName(props => <Controller onChange={setFileValue} {...props} as={VideoInputComponent} />)
+export const FileInput = withName(props => <Controller onChange={setFileValue} {...props} as={FileInputContainer} />)
 
 export const Input = withNamedField(Controller)
 export const CheckBox = props => <Input {...props} onChange={([e]) => (e.currentTarget.checked)} as={CheckBoxComponent} />
