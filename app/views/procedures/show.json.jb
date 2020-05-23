@@ -80,11 +80,43 @@ json = {
 
 def visual_check(step)
 	if (step.has_visual)
-    	url_for(step.visuals.first)
+		step.visuals.map do |visual|
+		{
+    		visual: url_for(visual),
+			content_type: visual.content_type
+		}
+		end
 	else
     	nil
 	end
 end
+
+def image_check(step)
+	if (step.has_visual)
+		step.visuals.select{ |visual| visual.content_type.starts_with?('image/') }.map do |visual|
+		{
+			image: url_for(visual),
+			content_type: visual.content_type
+		}
+		end
+	else
+    	nil
+	end
+end
+
+def video_check(step)
+	if (step.has_visual)
+		step.visuals.select{ |visual| visual.content_type.starts_with?('video/') }.map do |visual|
+		{
+			video: url_for(visual),
+			content_type: visual.content_type
+		}
+		end
+	else
+    	nil
+	end
+end
+
 
 def get_device(device_id, step_id)
 	if (device_id)
@@ -111,7 +143,9 @@ json[:steps] = @steps.map do |step|
   safety: step.safety,
   spoken: step.spoken,
   note: step.note,
-  visual: visual_check(step),
+  visuals: visual_check(step),
+  images: image_check(step),
+  videos: video_check(step),
   mode: step.mode,
   time: step.time,
   device: get_device(step.device_id, step.id)
