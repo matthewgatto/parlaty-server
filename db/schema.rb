@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_18_012529) do
+ActiveRecord::Schema.define(version: 2020_05_26_224728) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -165,7 +165,7 @@ ActiveRecord::Schema.define(version: 2020_05_18_012529) do
 
   create_table "steps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
-    t.string "location"
+    t.text "location"
     t.string "mode"
     t.text "note"
     t.integer "time"
