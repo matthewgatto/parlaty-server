@@ -30,7 +30,7 @@ export default () => (
       <Polygon className={styles.topPolygonThree} fill="none" stroke="#67318d" size="2.6em" />
       <Polygon className={styles.topPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
     </div>
-    <div className={styles.header}>Parlaty Login<sup className={styles.tm}>&#8482;</sup></div>
+    <div className={styles.header}>Parlaty<sup className={styles.tm}>&#8482;</sup> Login</div>
     <div className={styles.subheader}>Or <Link to="/#" className={styles.underline}>Create Account</Link></div>
     <FormContext
       entity="auth"
