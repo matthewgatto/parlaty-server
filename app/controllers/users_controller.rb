@@ -116,8 +116,7 @@ end
   # GET /users/:id
 	def refresh
 		@user = User.find(params[:id])
-
-		if (@user)
+    if (@user)
 			@roleable = @user.roleable
 			if deactivated?()
 				render json: {"error": "User has been deactivated"}, status: :bad_request and return
@@ -152,8 +151,8 @@ end
   	# false if not Operator or OperatorAdmin
 	def deactivated?()
 		urt = @user.roleable_type
-
-		if(urt == "Operator" or urt == "OperatorAdmin")
+    if(urt == "Operator" or urt == "OperatorAdmin")
+      @role = @user.roleable
 			return @role.deactivated
 		end
 
