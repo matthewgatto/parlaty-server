@@ -75,7 +75,6 @@ json = {
   spoken: @step.spoken,
   location: @step.location,
   note: @step.note,
-  visuals: visual_check(@step),
   images: image_check(@step),
   videos: video_check(@step),
   mode: @step.mode,

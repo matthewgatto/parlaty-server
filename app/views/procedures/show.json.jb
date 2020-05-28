@@ -143,7 +143,6 @@ json[:steps] = @steps.map do |step|
   safety: step.safety,
   spoken: step.spoken,
   note: step.note,
-  visuals: visual_check(step),
   images: image_check(step),
   videos: video_check(step),
   mode: step.mode,
