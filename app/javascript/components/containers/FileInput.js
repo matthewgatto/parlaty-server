@@ -8,7 +8,8 @@ const getInputText = (value) => {
       const splitValue = value.split("/");
       return splitValue[splitValue.length - 1]
     }
-    if(typeof value.name === 'string') return value.name
+    if(typeof value === 'object' && value.name && value.name === "string") return value.name
+    return "File"
   }
   return "Upload File"
 }

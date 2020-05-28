@@ -63,29 +63,33 @@ export const StatelessParameters = ({action, value, root}) => (
   </FieldWrapper>
 )
 
-export default ({root, formKey, initialName, initialValue}) => (
-  <FieldWrapper className={styles.container}>
-    <LabelWrapper>
-      <div>Default Parameter</div>
-      <ParameterErrors formKey={formKey} />
-    </LabelWrapper>
-    <div className={`${styles.row} align_center`}>
-      <div className={`${styles.nameFieldContainer} align_center`}>
-      <div className={styles.label}>
-        Name:
-      </div>
-      <div className={`${styles.nameFieldInputWrapper} align_center`}>
-      <Controller name={`${root}parameter_name`} root={root} defaultValue={initialName} as={ParameterNameInput} />
-      </div>
-      </div>
-      <div className={`${styles.valueFieldContainer} align_center`}>
-      <div className={styles.label}>
-        Value:
-      </div>
-      <div className={`${styles.valueFieldInputWrapper} align_center`}>
-      <Controller name={`${root}parameter_value_8_pack`} defaultValue={initialValue} as="input" />
-      </div>
+export default ({root, formKey, initialName, initialValue}) => {
+  const nameStr = `${root}parameter_name`;
+  const valueStr = `${root}parameter_value_8_pack`;
+  return(
+    <div className={styles.container}>
+      <LabelWrapper>
+        <div>Default Parameter</div>
+        <ParameterErrors formKey={formKey} />
+      </LabelWrapper>
+      <div className={`${styles.row} align_center`}>
+        <div className={`${styles.nameFieldContainer} align_center`}>
+        <label className={styles.label} for={nameStr}>
+          Name:
+        </label>
+        <div className={`${styles.nameFieldInputWrapper} align_center`}>
+        <Controller name={nameStr} root={root} defaultValue={initialName} as={ParameterNameInput} />
+        </div>
+        </div>
+        <div className={`${styles.valueFieldContainer} align_center`}>
+        <label className={styles.label} for={valueStr}>
+          Value:
+        </label>
+        <div className={`${styles.valueFieldInputWrapper} align_center`}>
+        <Controller name={valueStr} defaultValue={initialValue} as="input" />
+        </div>
+        </div>
       </div>
     </div>
-  </FieldWrapper>
-)
+  )
+}

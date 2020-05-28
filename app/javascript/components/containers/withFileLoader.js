@@ -10,10 +10,12 @@ export default (WrappedComponent, modal) => (props) => {
   const openModal = useCallback(() => {
     dispatch(setModal(modal, src))
   }, [src, dispatch]);
+  const setImageSrc = useCallback(async () => {
+    setSrc(props.src instanceof File ? await readFile(props.src) : props.src)
+  }, [props.src, setSrc])
   useEffect(() => {
-    const setImageSrc = async () => setSrc(props.src instanceof File ? await readFile(props.src) : props.src)
     setIsLoading(true);
     setImageSrc();
-  }, [props.src, setSrc, setIsLoading])
+  }, [setImageSrc, setIsLoading])
   return <WrappedComponent src={src} onLoad={() => setIsLoading(false)} isLoading={isLoading} onClick={isLoading ? undefined : openModal} />
 }
