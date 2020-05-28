@@ -4,7 +4,10 @@ import FileInput from '@components/Inputs/FileInput';
 
 const getInputText = (value) => {
   if(value){
-    if(typeof value === 'string') return "File"
+    if(typeof value === 'string'){
+      const splitValue = value.split("/");
+      return splitValue[splitValue.length - 1]
+    }
     if(typeof value.name === 'string') return value.name
   }
   return "Upload File"
