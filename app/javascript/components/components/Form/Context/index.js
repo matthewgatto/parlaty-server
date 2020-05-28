@@ -14,6 +14,7 @@ export const useForm = withFormKey((options, formKey) => {
             await options.validationSchema.validate(values, {abortEarly: false, stripUnknown: true});
             dispatch({type: options.type, payload: {id: options.id, entityKey: options.entity, url: options.url, formKey, values: options.extraValues ? {...values, ...options.extraValues} : values}})
           } catch (e) {
+            console.log("e",e);
             const errors = {};
             for (var i = 0; i < e.inner.length; i++) {
               errors[e.inner[i].path] = e.inner[i].message

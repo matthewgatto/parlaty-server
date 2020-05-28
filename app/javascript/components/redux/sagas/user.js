@@ -44,7 +44,7 @@ export function* inviteUserSaga(action){
       }
     }
     const response = yield call(API.post, '/users', body)
-    yield put({type: `${action.type}__SUCCESS`, payload: normalize({id: uuid(), ...body.user, roleable_type: body.roleable, client: body.client, categories: body.categories}, Schemas.user).entities})
+    yield put({type: `${action.type}__SUCCESS`, payload: normalize({...response, ...body.user, roleable_type: body.roleable, client: body.client, categories: body.categories}, Schemas.user).entities})
     yield call(pushAndNotify('/users', `A user invite has been sent to ${body.user.email}`))
   } catch (e) {
     console.log("inviteUser ERROR", e);

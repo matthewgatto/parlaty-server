@@ -6,14 +6,20 @@ import UserCategories from '@containers/UserCategories';
 import {getUser} from '@selectors/auth';
 
 const UserRoleFieldsComponent = ({initialValues = {},formKey,roleable = initialValues.roleable, placeholder, user}) => {
+  const isNotParlatyAdmin = user.roleable !== "ParlatyAdmin";
+  const isClientAdmin = user.roleable === "ClientAdmin";
+  const defaultClient = isClientAdmin ? user.oem : initialValues.oem;
+  if(!user || !user.email){
+    return null
+  }
   switch (roleable.toLowerCase()) {
     case "clientadmin":
-      return <ClientSelect formKey={formKey} defaultValue={initialValues.oem} hidden={user.roleable !== "ParlatyAdmin"} />
+      return <ClientSelect formKey={formKey} defaultValue={defaultClient} hidden={isNotParlatyAdmin} />
     case "author":
     case "operator":
       return <>
-        <ClientSelect formKey={formKey} defaultValue={initialValues.oem} hidden={user.roleable !== "ParlatyAdmin"} />
-        <UserCategories formKey={formKey} defaultValue={initialValues.businesses} defaultClient={user.roleable === "ClientAdmin" ? user.oem : initialValues.oem} categories={user.roleable === "ClientAdmin" && user.businesses} />
+        <ClientSelect formKey={formKey} defaultValue={defaultClient} hidden={isNotParlatyAdmin} />
+        <UserCategories formKey={formKey} defaultValue={initialValues.businesses} defaultClient={defaultClient} categories={isClientAdmin && user.businesses} />
       </>
     case "parlatyadmin":
       if(placeholder){

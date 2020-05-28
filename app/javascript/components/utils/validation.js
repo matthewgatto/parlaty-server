@@ -18,11 +18,13 @@ export const inviteSchema = object().shape({
   email: string().email('Invalid email').required('This field is required'),
   name: string().required('This field is required'),
   roleable: string(),
-  client: string().when('roleable',{
+  /*
+  client: mixed().when('roleable',{
     is: "parlatyadmin",
-    then: string(),
-    otherwise: string().required('This field is required').min(1)
+    then: mixed(),
+    otherwise: mixed().required('This field is required')
   })
+  */
 })
 
 export const inviteConfirmationSchema = object().shape({
