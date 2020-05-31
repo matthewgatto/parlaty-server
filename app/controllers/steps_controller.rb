@@ -70,64 +70,28 @@ class StepsController < ApplicationController
 
 	# PUT /steps/:id
 	def update
-		# oem associated, padmin
 		@step = Step.find(params[:id])
-		paramsHasVisual = params[:step][:has_visual]
-		incomingFilename = params[:step][:visual].to_s
-		currentFilename = ""
-		index1 = incomingFilename.index("blobs")
-		index2 = -1
-		len1 = incomingFilename.length()
-		incomingFilenamePart = ""
-		if len1 > 0 && index1 > 0
-			incomingFilenamePart = incomingFilename.slice(index1..len1)
-		end
-		len2 = -1
-		currentFilenamePart = ""
-		if (@step.has_visual)
-			currentFilename = url_for(@step.visuals.first)
-			index2 = currentFilename.index("blobs")
-			len2 = currentFilename.length()
-			len2 = currentFilename.length()
-			currentFilenamePart = ""
-			if len2 > 0 && index2 > 0
-				currentFilenamePart = currentFilename.slice(index2..len2)
-			end
-		end
-
-		if @step.has_visual && @step.visuals.count > 0
-			if paramsHasVisual == "false" || currentFilenamePart.to_s != incomingFilenamePart.to_s
-				# remove visual
-				@step.visuals.purge
-				@step.save
-			end
-		end
-		if(@step.update_attributes(step_params))
-			@step.has_visual = (@step.visuals.count > 0)
-			@step.save
-			step_device_id = params[:step][:device_id]
-			step_device_actions = params[:step][:actions]
-			step_id = @step.id
-			count = 0
-			while step_device_actions && count < step_device_actions.count
-				actionParams = action_params(count)
-				actionId = actionParams[:id]
-				actionValue = actionParams[:parameter_value_8_pack]
-				actionMode = actionParams[:mode]
-				actionTime = actionParams[:time]
-				action = Action.find(actionId)
-				if (action)
-					if(action.update_attributes(actionParams))
+		@step.visuals.purge
+		@step.has_visual = false
+		@step.save
+		if (@step.update_attributes(step_params))
+			if !params[:step][:actions].nil?
+				count = 0
+				while count < params[:step][:actions].count
+					action = Action.find(action_params(count)[:id])
+					if (action)
+						if (action.update_attributes(action_params(count)))
+						else
+						  config.logger.error "action update attributes failed in PUT /steps/:id"
+						  head :bad_request and return
+						end
 					else
-					  config.logger.error "action update attributes failed in PUT /steps/:id"
-					  head :bad_request and return
+						config.logger.error "action find failed in PUT /steps/:id"
+						head :bad_request and return
 					end
-				else
-					config.logger.error "action find failed in PUT /steps/:id"
-					head :bad_request and return
+					count = count + 1
 				end
-				count = count + 1
-	  		end
+			end
 			render status: :ok
 		else
 			head :bad_request
