@@ -9,7 +9,7 @@ const Select = withSelectContainer(SelectComponent)
 const TimeSelect = ({root, ...props}) => {
   const {watch} = useFormContext();
   const mode = watch(`${root}mode`);
-  return <Controller {...props} disabled={mode == "manual"} as={Select} />
+  return <Controller {...props} disabled={mode === "manual" || mode === "continuous"} as={Select} />
 }
 
 const TIME_OPTIONS = [{value: 0, label: "0 seconds"},{value: 1, label: "1 second"}, {value: 2, label: "2 seconds"}, {value: 3, label: "3 seconds"}, {value: 4, label: "4 seconds"}, {value: 5, label: "5 seconds"}, {value: 6, label: "6 seconds"}, {value: 7, label: "7 seconds"}, {value: 8, label: "8 seconds"}]

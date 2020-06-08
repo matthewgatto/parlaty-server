@@ -1,5 +1,5 @@
-import React from 'react';
-import { Controller } from "react-hook-form";
+import React,{useCallback} from 'react';
+import { Controller,useFormContext } from "react-hook-form";
 import SelectComponent, {withSelectContainer} from './Select';
 import CheckBoxComponent from './CheckBox';
 import RadioComponent from './Radio';
@@ -16,10 +16,24 @@ export const Input = withNamedField(Controller)
 export const CheckBox = props => <Input {...props} onChange={([e]) => e.currentTarget.checked} as={CheckBoxComponent} />
 
 const RadioFieldComponent = withField(RadioComponent);
-const ModeRadioComponent = props => (
-  <>
-    <RadioFieldComponent {...props} label="Continuous" check="continuous" />
-    <RadioFieldComponent {...props} label="Manual" check="manual" />
-  </>
-)
-export const ModeRadio = withName(props => <Controller {...props} as={ModeRadioComponent} />)
+const ModeRadioComponent = props => {
+  return(
+    <>
+      <RadioFieldComponent {...props} label="Continuous" check="continuous" />
+      <RadioFieldComponent {...props} label="Manual" check="manual" />
+      <RadioFieldComponent {...props} label="Timed" check="timed" />
+    </>
+  )
+}
+export const ModeRadio = ({root,...props}) => {
+  const {setValue} = useFormContext();
+  const onChange = useCallback(([e]) => {
+    if(e.target.value === "continuous"){
+      setValue(`${root}time`,0)
+    } else if(e.target.value === "timed"){
+      setValue(`${root}time`,8)
+    }
+    return e.target.value
+  },[root,setValue])
+  return <Controller {...props} name={`${root}mode`} onChange={onChange} as={ModeRadioComponent} />
+}
