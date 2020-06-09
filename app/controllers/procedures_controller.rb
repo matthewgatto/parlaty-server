@@ -256,6 +256,10 @@ class ProceduresController < ApplicationController
 				procedure_copy.steps_order << step_copy_id
 			end
 		end
+		oembs = procedure_original.oem_businesses
+		oembs.map do |tmpoemb|
+			tmpoemb.procedures << procedure_copy
+		end
 		procedure_copy.save
 		render json: {"id": procedure_copy.id}, status: :ok
 	end
