@@ -16,7 +16,7 @@
 }
 
 .first {
-  width: 34%;
+  width: 50%;
 }
 
 .label {
@@ -42,5 +42,8 @@
   }
   .text {
     font-size: 1.3em;
+  }
+  .first {
+    width: 34%;
   }
 }
