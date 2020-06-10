@@ -8,7 +8,7 @@ export default ({user}) => (
       <div className={styles.label}>Name</div>
       <div className={styles.text}>{user.name}</div>
     </div>
-    <div>
+    <div  className={styles.second}>
       <div className={styles.label}>Role</div>
       <div className={styles.text}>{user.roleable}</div>
     </div>

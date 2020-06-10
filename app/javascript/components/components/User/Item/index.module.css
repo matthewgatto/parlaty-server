@@ -13,10 +13,14 @@
 .text {
   font-size: 2.4em;
   color: #7b7979;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.first {
+.first,.second {
   width: 50%;
+  overflow: hidden;
 }
 
 .label {
@@ -45,5 +49,8 @@
   }
   .first {
     width: 34%;
+  }
+  .second {
+    width: 66%;
   }
 }
