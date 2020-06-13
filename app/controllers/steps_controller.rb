@@ -111,7 +111,7 @@ class StepsController < ApplicationController
 						# keep in db
 					else
 						# remove from db
-						byebug
+						#byebug
 						visual.destroy
 						visual.blob.destroy
 						
@@ -120,17 +120,17 @@ class StepsController < ApplicationController
 				end
 			elsif step_has_visuals_in_parameters && step_has_visuals_in_db
 				# these are new visuals so remove existing
-				byebug
+				#byebug
 				@step.visuals.purge
 			elsif !step_has_visuals_in_parameters && step_has_visuals_in_db
 				# there are no visuals in params so purge
-				byebug
+				#byebug
 				@step.visuals.purge
 			end
 			if step_has_visuals_in_parameters
 				params[:step][:visuals].each do |visual|
 					if visual.class.to_s != "String"
-						byebug
+						#byebug
 						@step.visuals.attach(visual)
 					end
 				end
