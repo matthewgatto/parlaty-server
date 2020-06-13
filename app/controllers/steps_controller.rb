@@ -1,4 +1,5 @@
 require 'csv'
+require 'uri'
 
 class StepsController < ApplicationController
 	before_action :require_login
@@ -89,26 +90,49 @@ class StepsController < ApplicationController
 					count = count + 1
 				end
 			end
+			
+			#byebug
+
+
 			step_has_visuals_in_db = @step.visuals.attached?
+			step_visuals_in_db_count = @step.visuals.count
 			step_has_visuals_in_parameters = !params[:step][:visuals].nil? && params[:step][:visuals].count > 0
+			step_has_visuals_in_parameters_count = params[:step][:visuals].count if step_has_visuals_in_parameters
 			first_step_visual_in_parameters = params[:step][:visuals].first if step_has_visuals_in_parameters
 			first_step_visual_in_parameters_is_string = first_step_visual_in_parameters.class.to_s == "String"
 
-			#byebug
-
-			if first_step_visual_in_parameters_is_string
-				# do nothing to visuals since put is sending url strings only, no new attachment
-			elsif step_has_visuals_in_parameters
+			
+			if first_step_visual_in_parameters_is_string && step_has_visuals_in_parameters_count == step_visuals_in_db_count
+				# do nothing to visuals since put is sending url strings only, no new attachment and no
+				# attachment has been removed
+			elsif first_step_visual_in_parameters_is_string && step_has_visuals_in_parameters_count != step_visuals_in_db_count
+				@step.visuals.map do |visual|
+					if first_step_visual_in_parameters.include? URI.encode(visual.blob.filename.to_s)
+						# keep in db
+					else
+						# remove from db
+						byebug
+						visual.destroy
+						visual.blob.destroy
+						
+					end
+					#puts "** end"
+				end
+			elsif step_has_visuals_in_parameters && step_has_visuals_in_db
 				# these are new visuals so remove existing
+				byebug
 				@step.visuals.purge
-			elsif !step_has_visuals_in_parameters
+			elsif !step_has_visuals_in_parameters && step_has_visuals_in_db
 				# there are no visuals in params so purge
+				byebug
 				@step.visuals.purge
 			end
-
-			if step_has_visuals_in_parameters && !first_step_visual_in_parameters_is_string
+			if step_has_visuals_in_parameters
 				params[:step][:visuals].each do |visual|
-					@step.visuals.attach(visual)
+					if visual.class.to_s != "String"
+						byebug
+						@step.visuals.attach(visual)
+					end
 				end
 			end
 			render status: :ok
