@@ -71,10 +71,7 @@ class StepsController < ApplicationController
 	# PUT /steps/:id
 	def update
 		@step = Step.find(params[:id])
-		@step.visuals.purge
-		@step.has_visual = false
-		@step.save
-		if (@step.update_attributes(step_params))
+		if (@step.update_attributes(put_step_params))
 			if !params[:step][:actions].nil?
 				count = 0
 				while count < params[:step][:actions].count
@@ -90,6 +87,28 @@ class StepsController < ApplicationController
 						head :bad_request and return
 					end
 					count = count + 1
+				end
+			end
+			step_has_visuals_in_db = @step.visuals.attached?
+			step_has_visuals_in_parameters = !params[:step][:visuals].nil? && params[:step][:visuals].count > 0
+			first_step_visual_in_parameters = params[:step][:visuals].first if step_has_visuals_in_parameters
+			first_step_visual_in_parameters_is_string = first_step_visual_in_parameters.class.to_s == "String"
+
+			#byebug
+
+			if first_step_visual_in_parameters_is_string
+				# do nothing to visuals since put is sending url strings only, no new attachment
+			elsif step_has_visuals_in_parameters
+				# these are new visuals so remove existing
+				@step.visuals.purge
+			elsif !step_has_visuals_in_parameters
+				# there are no visuals in params so purge
+				@step.visuals.purge
+			end
+
+			if step_has_visuals_in_parameters && !first_step_visual_in_parameters_is_string
+				params[:step][:visuals].each do |visual|
+					@step.visuals.attach(visual)
 				end
 			end
 			render status: :ok
@@ -181,6 +200,10 @@ class StepsController < ApplicationController
 
 	private
 
+		def put_step_params
+			params.require(:step).permit(:id, :title, :device_id, :location, :note, :safety, :procedure_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, :has_visual)
+		end
+
 		def step_params
 			params.require(:step).permit(:id, :title, :device_id, :location, :note, :safety, :procedure_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, :has_visual, visuals: [])
 		end
@@ -191,5 +214,6 @@ class StepsController < ApplicationController
 
 		def action_params(index)
 			params[:step].require(:actions)[index].permit(:id, :device_id, :name, :parameter_name, :parameter_value_8_pack, :time, :mode)
-    	end
-end
+		end
+		
+	end
