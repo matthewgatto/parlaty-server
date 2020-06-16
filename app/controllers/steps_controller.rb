@@ -135,6 +135,7 @@ class StepsController < ApplicationController
 					end
 				end
 			end
+			@step = Step.find(params[:id])
 			render status: :ok
 		else
 			head :bad_request
