@@ -28,7 +28,7 @@ const ModeRadioComponent = props => {
 export const ModeRadio = ({root,...props}) => {
   const {setValue} = useFormContext();
   const onChange = useCallback(([e]) => {
-    if(e.target.value === "continuous"){
+    if(e.target.value === "continuous" || e.target.value === "manual"){
       setValue(`${root}time`,0)
     } else if(e.target.value === "timed"){
       setValue(`${root}time`,8)

@@ -15,6 +15,14 @@
   text-transform: capitalize;
 }
 
+.right {
+  display: flex;
+  align-items: center;
+}
+.right > * {
+  margin-left: 1em;
+}
+
 @media (min-width: 768px){
   .container {
     height: 5.2em;

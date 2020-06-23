@@ -1,15 +1,22 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import ListPage from '@components/List/Page';
+import SubmitButton from '@components/SubmitButton';
+import ModalTrigger from '@containers/ModalTrigger';
+import DeleteCategoryConfirmationModal from '../DeleteConfirmationModal'
 import { FETCH_BUSINESS_PROCEDURES_REQUEST } from '@types/business';
 import { getBusinessProcedures } from '@selectors/business';
 
-export default ({match:{params:{id,oem_id},url}}) => (
+export default ({match:{params:{id,oem_id},url}}) => (<>
   <ListPage
     label="Procedures"
     header={{
       header: {text: "Category: ", entityKey: "businesses", id},
-      link: {text: "Add Procedure", to: `${url}/procedures/create`},
-      back: oem_id ? {to: `/oems/${oem_id}`, label: "Choose A Different Category"} : {to: "/", label: "Home"}
+      back: oem_id ? {to: `/oems/${oem_id}`, label: "Choose A Different Category"} : {to: "/", label: "Home"},
+      buttons: (<>
+        <ModalTrigger modal="delete_category_confirmation"><SubmitButton primary label="Delete Category" /></ModalTrigger>
+        <Link to={`${url}/procedures/create`}><SubmitButton primary label="Add Procedure" /></Link>
+      </>)
     }}
     list={{
       id,
@@ -23,4 +30,5 @@ export default ({match:{params:{id,oem_id},url}}) => (
       to: `${url}/procedures`
     }}
   />
-)
+  <DeleteCategoryConfirmationModal category_id={id} />
+</>)

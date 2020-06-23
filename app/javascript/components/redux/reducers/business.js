@@ -7,6 +7,8 @@ import { addIds } from '@utils';
 
 const allBusinesses = (state = null, {type,payload}) => {
   switch (type) {
+    case businessTypes.DELETE_CATEGORY_REQUEST__SUCCESS:
+      return state.filter(category_id => category_id !== payload.category_id)
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case businessTypes.CREATE_BUSINESS_REQUEST__SUCCESS:
@@ -34,6 +36,9 @@ const businessesById = (state = {}, {type,payload}) => {
         ...state,
         ...updatedBusinesses
       }
+    case businessTypes.DELETE_CATEGORY_REQUEST__SUCCESS:
+      const {[payload.category_id]:removedCategory,...remainingCategories} = state;
+      return remainingCategories
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case businessTypes.CREATE_BUSINESS_REQUEST__SUCCESS:

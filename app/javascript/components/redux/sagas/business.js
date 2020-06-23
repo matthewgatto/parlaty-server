@@ -1,9 +1,12 @@
 import { call,fork,put,select } from 'redux-saga/effects';
 import uuid from 'uuid/v4'
+import { push } from 'connected-react-router';
 import { normalize } from 'normalizr';
 import {getSaga} from './fetch';
 import {formSaga,pushAndNotify} from './form';
+import { addToast } from '@actions/toast';
 import {getOEMById} from '@selectors/oem';
+import {getBusinessById} from '@selectors/business';
 import Schemas from '@utils/models';
 import API from '@utils/API';
 
@@ -31,4 +34,27 @@ function* handleBusinessCreateSuccess(response, action){
 
 export function* createBusinessSaga(action){
   yield call(formSaga, "post", action, normalizeOem, handleBusinessCreateSuccess);
+}
+
+export function* deleteCategorySaga(action){
+  try {
+    const url = yield select(({router}) => router.location.pathname)
+    const splitUrl = url.split("/");
+    var oem_id;
+    if(splitUrl[0] === "oems"){
+      oem_id = splitUrl[1]
+    } else {
+      oem_id = yield select(({auth}) => auth.oem)
+    }
+    try {
+      yield fork(API.delete, `/oem_businesses/${action.payload}`);
+    } catch (e) {
+
+    }
+    yield put({type: `${action.type}__SUCCESS`, payload: {category_id: action.payload, oem_id}})
+    yield put(push(splitUrl.slice(0,-2).join('/')))
+    yield put(addToast("success", "Category was successfully deleted."))
+  } catch (e) {
+      console.log("deleteProcedureSaga ERROR", e);
+  }
 }

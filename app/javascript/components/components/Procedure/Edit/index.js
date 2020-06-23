@@ -11,6 +11,7 @@ import DeviceUpdateForm from '@components/Device/Edit';
 import DeviceCopyList from '../DeviceCopyList'
 import ImagePreviewModal from '@components/ImagePreviewModal';
 import VideoPreviewModal from '@components/VideoPreviewModal';
+import VideoProgressModal from '@components/VideoProgressModal';
 import ProcedureCategories from '@components/Procedure/Categories';
 import DeviceManagerModal from '../DeviceManagerModal'
 import DeleteProcedureConfirmationModal from '../DeleteConfirmationModal'
@@ -91,5 +92,6 @@ export default ({match:{params:{oem_id,business_id,id}}}) => {
     <ProcedureCategoriesModal procedure_id={id} oem_id={oem_id} />
     <ImagePreviewModal />
     <VideoPreviewModal />
+    <VideoProgressModal />
   </>)
 }

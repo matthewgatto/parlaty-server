@@ -101,8 +101,16 @@ export const makeStep = (values, root, isFormData) => {
         step = {};
   if(title) step.title = title
   if(spoken) step.spoken = spoken
-  if(mode) step.mode = mode
-  if(time) step.time = time
+  if(mode) {
+    step.mode = mode
+    if(mode === "continuous" || mode === "manual"){
+      step.time = 0
+    } else {
+      step.time = time || 8;
+    }
+  }
+  if(time) {
+    step.time = time}
   if(safety) step.safety = safety
   if(location) step.location = location
   if(device_id){
@@ -112,7 +120,19 @@ export const makeStep = (values, root, isFormData) => {
       step.device_id = device_id
     }
   }
-  if(video) step.video = video
-  if(visual) step.visual = visual
+  if(video) {
+    if(isFormData){
+      step.videos = [{video}]
+    } else {
+      step.video = video
+    }
+  }
+  if(visual) {
+    if(isFormData){
+      step.images = [{image: visual}]
+    } else {
+      step.visual = visual
+    }
+  }
   return step;
 }

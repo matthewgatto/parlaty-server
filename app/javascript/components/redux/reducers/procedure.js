@@ -60,11 +60,13 @@ const proceduresById = (state = {}, {type,payload}) => {
       }
       return state;
     case DELETE_STEP_REQUEST__SUCCESS:
+      const stepOrder = [...state[payload.procedure_id].steps.slice(0,payload.idx), ...state[payload.procedure_id].steps.slice(payload.idx+1)]
       return {
         ...state,
         [payload.procedure_id]: {
           ...state[payload.procedure_id],
-          steps: [...state[payload.procedure_id].steps.slice(0,payload.idx), ...state[payload.procedure_id].steps.slice(payload.idx+1)]
+          steps: stepOrder,
+          steps_order: [...state[payload.procedure_id].steps.slice(0,payload.idx), ...state[payload.procedure_id].steps.slice(payload.idx+1)]
         }
       }
     default:

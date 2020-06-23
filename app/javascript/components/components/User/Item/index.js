@@ -13,4 +13,4 @@ export default ({user}) => (
       <div className={styles.text}>{user.roleable}</div>
     </div>
   </Link>
-)
+);

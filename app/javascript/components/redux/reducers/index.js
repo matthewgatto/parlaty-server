@@ -10,6 +10,7 @@ import devices from './device';
 import actions from './action';
 import toast from './toast';
 import modal from './modal';
+import progress from './progress';
 import users from './user';
 import API from '@utils/API';
 
@@ -26,6 +27,7 @@ export default function(history){
     toast,
     modal,
     users,
+    progress,
     router: connectRouter(history)
   })
   return function(state,action){
