@@ -160,6 +160,7 @@ class StepsController < ApplicationController
 			# rearrange the steps order array
 			so_arr = @procedure.steps_order
 			so_arr.delete(step_id)
+			@procedure.steps_order = so_arr
 			@procedure.save
 		else
 			head :bad_request
