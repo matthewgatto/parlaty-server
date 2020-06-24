@@ -1,7 +1,7 @@
 import { call, select, put } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import uniq from 'lodash/uniq';
-import {formSaga,multipostSaga} from './form';
+import {formSaga,postSaga} from './form';
 import {getSaga} from './fetch';
 import { push } from 'connected-react-router';
 import { addToast } from '@actions/toast';
@@ -59,7 +59,7 @@ function* handleProcedureCreateSuccess(response, {payload}){
 export function* createProcedureSaga(action){
   try {
     yield call(
-      multipostSaga,
+      postSaga,
       {
         ...action,
         payload: {

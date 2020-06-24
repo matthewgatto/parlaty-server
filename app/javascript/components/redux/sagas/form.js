@@ -29,10 +29,9 @@ export function* formSaga(method, action, normalize, cb){
   }
 }
 
-export function* multipostSaga(action, normalize, cb){
+export function* postSaga(action, normalize, cb){
   try {
-    const formData = utils.objectToFormData(action.payload.values)
-    const response = yield call(API.multipost, action.payload.url, formData);
+    const response = yield call(API.post, action.payload.url, action.payload.values);
     if(normalize){
       const payload = yield call(normalize, response, action);
       yield put({
