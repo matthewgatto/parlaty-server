@@ -16,7 +16,6 @@ import * as userTypes from '@types/user';
 
 export default function* appSagas(){
   yield all([
-
     yield takeEvery(authTypes.CREATE_AUTH_REQUEST, auth.loginSaga),
     yield takeEvery(authTypes.CREATE_INVITE_CONFIRMATION_REQUEST, auth.inviteConfirmationSaga),
     yield takeEvery(authTypes.CREATE_PASSWORD_RESET_EMAIL_REQUEST, auth.passwordResetEmailSaga),
@@ -31,6 +30,7 @@ export default function* appSagas(){
     yield takeEvery(oemTypes.UPDATE_OEM_REQUEST, oem.updateOEMSaga),
     yield takeEvery(oemTypes.FETCH_OEMS_REQUEST, oem.oemListSaga),
     yield takeEvery(oemTypes.FETCH_OEM_BUSINESSES_REQUEST, oem.oemBusinessesSaga),
+    yield takeEvery(oemTypes.DELETE_CLIENT_REQUEST, oem.deleteClientSaga),
     yield takeEvery(businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST, business.businessProceduresSaga),
     yield takeEvery(businessTypes.CREATE_BUSINESS_REQUEST, business.createBusinessSaga),
     yield takeEvery(businessTypes.DELETE_CATEGORY_REQUEST, business.deleteCategorySaga),

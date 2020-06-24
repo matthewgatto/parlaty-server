@@ -6,6 +6,8 @@ import * as businessTypes from '@types/business'
 
 const allOems = (state = null, {type, payload}) => {
   switch (type) {
+    case types.DELETE_CLIENT_REQUEST__SUCCESS:
+      return state.filter(client_id => client_id !== payload)
     case types.FETCH_OEMS_REQUEST__SUCCESS:
     case types.CREATE_OEM_REQUEST__SUCCESS:
       if(payload.oems){
@@ -29,6 +31,9 @@ const oemsById = (state = {}, {type,payload}) => {
        }
      }
      return state
+   case types.DELETE_CLIENT_REQUEST__SUCCESS:
+     const {[payload]:removedClient,...remainingClients} = state;
+     return remainingClients
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
     case types.FETCH_OEMS_REQUEST__SUCCESS:
     case types.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:

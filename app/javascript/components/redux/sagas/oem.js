@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects';
+import { call, put,fork } from 'redux-saga/effects';
 import uuid from 'uuid/v4'
 import { normalize } from 'normalizr';
 import { push } from 'connected-react-router';
@@ -56,4 +56,19 @@ export function* oemListSaga(action){
 
 export function* oemBusinessesSaga(action){
   yield call(getSaga, action, normalizeOEMBusinesses);
+}
+
+export function* deleteClientSaga(action){
+  try {
+    try {
+      yield fork(API.delete, `/oems/${action.payload}`);
+    } catch (e) {
+
+    }
+    yield put({type: `${action.type}__SUCCESS`, payload: action.payload})
+    yield put(push('/'))
+    yield put(addToast("success", "Client was successfully deactivated."))
+  } catch (e) {
+      console.log("deleteProcedureSaga ERROR", e);
+  }
 }
