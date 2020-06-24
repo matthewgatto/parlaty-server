@@ -40,7 +40,9 @@ const API = (function(){
         post: (url, body) => fetch(url, {
               method: 'POST',
               headers: {
-                'Authorization': `Bearer ${_token}`
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${_token}`,
+                'Accept': 'application/json'
               },
               body: JSON.stringify(body)
             }
@@ -48,7 +50,9 @@ const API = (function(){
         put: (url, body) => fetch(url, {
               method: 'PUT',
               headers: {
-                'Authorization': `Bearer ${_token}`
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${_token}`,
+                'Accept': 'application/json'
               },
               body: JSON.stringify(body)
             }
@@ -56,7 +60,9 @@ const API = (function(){
         multipost: (url, body, token) => fetch(url, {
               method: 'POST',
               headers: {
-                'Authorization': `Bearer ${token || _token}`
+                'Content-Type':'multipart/form-data',
+                'Authorization': `Bearer ${token || _token}`,
+                'Accept': 'application/json'
               },
               body
             }
@@ -64,7 +70,9 @@ const API = (function(){
         multiput: (url, body, token) => fetch(url, {
               method: 'PUT',
               headers: {
-                'Authorization': `Bearer ${token || _token}`
+                'Content-Type':'multipart/form-data',
+                'Authorization': `Bearer ${token || _token}`,
+                'Accept': 'application/json'
               },
               body
             }
@@ -73,7 +81,9 @@ const API = (function(){
           body,
           {
             headers: {
-              'Authorization': `Bearer ${token || _token}`
+              'Content-Type':'multipart/form-data',
+              'Authorization': `Bearer ${token || _token}`,
+              'Accept': 'application/json'
             },
             onUploadProgress
           }
@@ -82,7 +92,9 @@ const API = (function(){
           body,
           {
             headers: {
-              'Authorization': `Bearer ${token || _token}`
+              'Content-Type':'multipart/form-data',
+              'Authorization': `Bearer ${token || _token}`,
+              'Accept': 'application/json'
             },
             onUploadProgress
           }
