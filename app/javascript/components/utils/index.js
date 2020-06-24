@@ -88,19 +88,13 @@ export const makeAction = (values, root) => ({
   mode: values[`${root}mode`],
 })
 
-export const makeStep = (values, root, isFormData) => {
+export const getNewStepValues = (values,root) => {
   const title = values[`${root}title`],
-        spoken = values[`${root}spoken`],
         mode = values[`${root}mode`],
         time = values[`${root}time`],
-        safety = values[`${root}safety`],
-        visual = values[`${root}visual`],
-        video = values[`${root}video`],
         location = values[`${root}location`],
-        device_id = values[`${root}device_id`],
         step = {};
   if(title) step.title = title
-  if(spoken) step.spoken = spoken
   if(mode) {
     step.mode = mode
     if(mode === "continuous" || mode === "manual"){
@@ -109,10 +103,18 @@ export const makeStep = (values, root, isFormData) => {
       step.time = time || 8;
     }
   }
-  if(time) {
-    step.time = time}
-  if(safety) step.safety = safety
   if(location) step.location = location
+  return step;
+}
+export const makeStep = (values, root, isFormData) => {
+  const spoken = values[`${root}spoken`],
+        safety = values[`${root}safety`],
+        visual = values[`${root}visual`],
+        video = values[`${root}video`],
+        device_id = values[`${root}device_id`],
+        step = getNewStepValues(values,root);
+  if(spoken) step.spoken = spoken
+  if(safety) step.safety = safety
   if(device_id){
     if(isFormData){
       step.device = device_id
