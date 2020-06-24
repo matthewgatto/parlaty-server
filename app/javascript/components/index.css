@@ -1,10 +1,8 @@
-body {
-  overflow-y: scroll;
-}
 html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
   font-size: 5px;
   font-family: "Poppins", sans-serif;
 }
+
 
 @media (orientation: landscape){
   html,textarea,input[type='text'],input[type='password'],input[type='number'],input[type='email'],select {
@@ -65,6 +63,7 @@ html,body,body>div {
 
 body {
   margin: 0;
+  overflow-y: scroll;
 }
 
 textarea:focus, input:focus, button:focus,select:focus{
@@ -79,6 +78,10 @@ h1 {
   color: #7b7979;
   background: #eeefef;
   border-radius: 0.4em;
+}
+
+a {
+  text-decoration: none;
 }
 
 input[type='text'],input[type='password'],input[type='number'],input[type='email'], textarea, select {

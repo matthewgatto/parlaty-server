@@ -8,7 +8,7 @@ const getInputText = (value) => {
       const splitValue = value.split("/");
       return splitValue[splitValue.length - 1]
     }
-    if(typeof value === 'object' && value.name && value.name === "string") return value.name
+    if(value.name && typeof value.name === "string") return value.name
     return "File"
   }
   return "Upload File"
@@ -17,7 +17,7 @@ const getInputText = (value) => {
 export default (props) => {
   const inputRef = useRef(null);
   const { setValue } = useFormContext();
-  const inputText = getInputText(props.value)
+  const inputText = getInputText(props.value);
   const handleInputClick = () => {
     if(props.value){
       setValue(props.name, null);

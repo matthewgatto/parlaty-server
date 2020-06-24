@@ -1,4 +1,6 @@
 import axios from 'axios'
+import {objectToFormData} from '@utils';
+
 const API = (function(){
   var _token = null;
   var checkStatus = function(res){
@@ -60,25 +62,21 @@ const API = (function(){
         multipost: (url, body, token) => fetch(url, {
               method: 'POST',
               headers: {
-                'Content-Type':'multipart/form-data',
-                'Authorization': `Bearer ${token || _token}`,
-                'Accept': 'application/json'
+                'Authorization': `Bearer ${token || _token}`
               },
-              body
+              body: objectToFormData(body)
             }
           ).then(checkStatus),
         multiput: (url, body, token) => fetch(url, {
               method: 'PUT',
               headers: {
-                'Content-Type':'multipart/form-data',
-                'Authorization': `Bearer ${token || _token}`,
-                'Accept': 'application/json'
+                'Authorization': `Bearer ${token || _token}`
               },
-              body
+              body: objectToFormData(body)
             }
           ).then(checkStatus),
         multipostfile: (url, body, onUploadProgress,token) => axios.post(url,
-          body,
+          objectToFormData(body),
           {
             headers: {
               'Content-Type':'multipart/form-data',
@@ -89,7 +87,7 @@ const API = (function(){
           }
         ).then(checkAxiosStatus),
         multiputfile: (url, body, onUploadProgress, token) => axios.put(url,
-          body,
+          objectToFormData(body),
           {
             headers: {
               'Content-Type':'multipart/form-data',

@@ -16,15 +16,23 @@ import Schemas from '@utils/models';
 import API from '@utils/API';
 
 export const cleanStepParams = ({id,visual,has_visual,video,...step}) => {
-  var has_video;
+  var has_video, has_file;
   if(visual || video){
+    const hasImageFile = visual && typeof visual !== 'string';
+    const hasVideoFile = video && typeof video !== 'string'
     step.has_visual = true;
     step.visuals = [];
     if(visual){
+      if(hasImageFile){
+        has_file = true;
+      }
       step.visuals.push(visual)
     }
     if(video){
-      has_video = true;
+      if(hasVideoFile){
+        has_video = true;
+        has_file = true;
+      }
       step.visuals.push(video)
     }
   } else {
@@ -36,7 +44,7 @@ export const cleanStepParams = ({id,visual,has_visual,video,...step}) => {
   if(!step.spoken){
     step.spoken = false
   }
-  return {step,has_video};
+  return {step,has_video,has_file};
 }
 
 function createUploader(step, url, method) {
@@ -47,7 +55,7 @@ function createUploader(step, url, method) {
     return () => {};
   });
 
-  const uploadPromise = () => API[`${method}file`](url, utils.objectToFormData({step}), (event) => {
+  const uploadPromise = () => API[`multi${method}file`](url, {step}, (event) => {
     if (event.loaded.total === 1) {
       emit(END);
     }
@@ -77,7 +85,7 @@ function* uploadSource(step, url, method) {
 const delay = (ms) => new Promise(res => setTimeout(res, ms))
 function* makeStepRequest(uncleanStepValues, url, method){
   try {
-    const {step,has_video} = cleanStepParams(uncleanStepValues);
+    const {step,has_video,has_file} = cleanStepParams(uncleanStepValues);
     if(has_video){
       yield put(setModal("video_progress"))
       try {
@@ -89,7 +97,7 @@ function* makeStepRequest(uncleanStepValues, url, method){
         yield put(setModal())
       }
     } else {
-      return yield call(API[method], url, utils.objectToFormData({step}));
+      return yield call(API[has_file ? `multi${method}` : method], url, {step});
     }
   } catch (e) {
     throw e
@@ -97,7 +105,7 @@ function* makeStepRequest(uncleanStepValues, url, method){
 }
 function* createStepSaga({procedure, step:{actions,...step}, initialValues}){
   try {
-    const response = yield call(makeStepRequest, {...step, procedure_id: procedure.id }, "/steps", "multipost");
+    const response = yield call(makeStepRequest, {...step, procedure_id: procedure.id }, "/steps", "post");
     return {...normalize({...procedure,steps: procedure.steps ? [...procedure.steps, response] : [response]}, Schemas.procedure).entities,id: response.id}
   } catch (e) {
     throw e
@@ -107,7 +115,7 @@ function* createStepSaga({procedure, step:{actions,...step}, initialValues}){
 function* updateStepSaga({procedure, step, idx, initialValues}){
   try {
     step.id = procedure.steps[idx];
-    const response = yield call(makeStepRequest, step, `/steps/${step.id}`, "multiput");
+    const response = yield call(makeStepRequest, step, `/steps/${step.id}`, "put");
     return {...normalize(response, Schemas.step).entities, id: response.id}
   } catch (e) {
     throw e
@@ -188,8 +196,7 @@ export function* reorderStepSaga({payload:{procedure_id, from, to}}){
       for (var i = 1; i < stepOrder.length; i++) {
         steps_order += `,${stepOrder[i]}`
       }
-      const formData = utils.objectToFormData({procedure: {steps_order}});
-      const response = yield call(API.multiput, `/procedures/${procedure_id}/reorder`, formData);
+      const response = yield call(API.multiput, `/procedures/${procedure_id}/reorder`, {procedure: {steps_order}});
       yield put({type: "REORDER_STEP_REQUEST__SUCCESS", payload: {procedures: {[procedure_id]: {...procedure,steps: stepOrder, steps_order: stepOrder}}}});
     }
   } catch (e) {
