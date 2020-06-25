@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { addIds } from '@utils';
+import { addIds, immutableRemove } from '@utils';
 import * as types from '@types/oem'
 import * as authTypes from '@types/auth'
 import * as businessTypes from '@types/business'
@@ -32,8 +32,7 @@ const oemsById = (state = {}, {type,payload}) => {
      }
      return state
    case types.DELETE_CLIENT_REQUEST__SUCCESS:
-     const {[payload]:removedClient,...remainingClients} = state;
-     return remainingClients
+    return immutableRemove(payload,state)
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
     case types.FETCH_OEMS_REQUEST__SUCCESS:
     case types.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
