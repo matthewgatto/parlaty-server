@@ -7,6 +7,7 @@ class StepsController < ApplicationController
 
 	def create
 		# oem associated, padmin
+#byebug
 		@step = Step.new(step_params)
 		@procedure = Procedure.find(@step.procedure_id)
 		prev_si = params[:previous_step_id].to_i

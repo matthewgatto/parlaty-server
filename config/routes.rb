@@ -48,6 +48,8 @@ Rails.application.routes.draw do
 
   post '/oem_businesses', to: 'oem_businesses#create'
 
+  delete '/oem_businesses/:id', to: 'oem_businesses#destroy'
+
   #JDT
   put '/procedures/:id', to: 'procedures#update'
 
@@ -64,6 +66,8 @@ Rails.application.routes.draw do
   get '/oems/:id/oem_businesses', to: 'oem_businesses#oem_oembus_index'
 
   put '/oems/:id', to: 'oems#update'
+
+  delete '/oems/:id', to: 'oems#destroy'
 
   post '/save_steps', to: 'steps#save_step'
 

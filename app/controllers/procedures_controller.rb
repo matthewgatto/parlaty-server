@@ -72,7 +72,7 @@ class ProceduresController < ApplicationController
 	#inlcude creating steps
 	def create
 		#padmin, oem associated with oem_business in json
-
+		#byebug
 		if !(OemBusiness.exists?(id: params[:procedure][:oem_business_id]))
 			render json: { "error": "OemBusiness Id doesn't exist"}, status: :bad_request and return
 		end
@@ -135,18 +135,14 @@ class ProceduresController < ApplicationController
 
 	# DELETE /procedures/:id
 	def destroy
-		 @procedure = Procedure.find(params[:id])
-		 #begin
-	 		if (@procedure.destroy)
-				render json: { "id": params[:id]}, status: :ok
-	 		else
-	 			head :bad_request
-			end
-		#rescue
-	#		config.logger.error "delete of procedure id: " + params[:id].to_s + " failed."
-	#		head :bad_request
-	#	end
-	 end
+		#byebug
+		@procedure = Procedure.find(params[:id])
+		if @procedure.destroy
+			render json: { "id": params[:id]}, status: :ok
+	 	else
+	 		head :bad_request
+		end
+	end
 
 	# PUT /procedures/:id/reorder
 	def reorder

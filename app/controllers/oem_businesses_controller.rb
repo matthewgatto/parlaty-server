@@ -3,6 +3,7 @@ class OemBusinessesController < ApplicationController
 
 	# GET /oem_businesses/:id
 	def show
+		#byebug
 		@oemb = OemBusiness.find(params[:id])
 		curr_user = current_user
 		roleable = curr_user.roleable
@@ -45,6 +46,7 @@ class OemBusinessesController < ApplicationController
 
 	# POST /oem_businesses
 	def create
+		#byebug
 		if !is_p_admin? && !is_client_admin?
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
@@ -60,6 +62,18 @@ class OemBusinessesController < ApplicationController
 		render json: {"oem_business": { "id": @oemb.id, "name": @oem.name, "oem_id": @oem.id}}, status: :ok
 	end
 	
+	# DELETE /oem_businesses/:id
+	def destroy
+		#byebug
+		@oemb = OemBusiness.find(params[:id])
+		if (@oemb)
+			if delete_oem_business(@oemb)
+				render json: { "id": params[:id]}, status: :ok
+			else
+				head :bad_request
+			end
+		end
+	end
 	
 	private
 
