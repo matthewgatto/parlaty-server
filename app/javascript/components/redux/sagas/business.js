@@ -27,7 +27,7 @@ export function* businessProceduresSaga(action){
 
 function* handleBusinessCreateSuccess(response, action){
   const url = yield select(({router}) => router.location.pathname),
-        to = url.split("/").slice(0,-1).join('/')+"/"+response.id,
+        to = url.split("/").slice(0,-1).join('/')+"/"+response.oem_business.id,
         pushAndNotifyFunc = pushAndNotify(to, "Category was successfully added.")
   yield call(pushAndNotifyFunc)
 }
