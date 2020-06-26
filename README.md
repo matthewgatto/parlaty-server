@@ -4,12 +4,6 @@
 
 Run `rake db:create && rake db:migrate && rake db:seed` then `npm install && yarn install --check-files --trace`
 
-Update 20191030:  due to warnings I did the following:
-
-npm install --save-dev 'typescript@latest'
-
-npm install --save-dev 'webpack@^4.0.0'
-
 ### Running the development server
 
 Run both `rails s` & `ruby bin/webpack-dev-server`
@@ -28,4 +22,16 @@ export RAILS_LOG_TO_STDOUT=true
 export PS_DATABASE_PASSWORD=xxxxxxx
 export RAILS_ENV=production
 export SECRET_KEY_BASE=xxxxxxxx
-cap --trace production deploy BRANCH=tmp-deploy-pete
+cap --trace production deploy BRANCH=branch-to-deploy
+
+# Prod
+
+nginx web server
+mysql database
+Linode linux server
+deploy is the user on sandbox.parlaty.com which receives the
+production deployment
+~deploy/parlaty-server/current is the current release
+~deploy/storage is the folder where the images and videos are stored
+
+
