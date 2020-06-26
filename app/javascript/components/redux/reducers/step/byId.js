@@ -7,6 +7,7 @@ import {
   UPDATE_DEVICE_REQUEST__SUCCESS,
   DELETE_DEVICE_REQUEST__SUCCESS
 } from '@types/device';
+import {immutableRemove} from '@utils';
 
 export default (state = {}, {type,payload}) => {
   switch (type) {
@@ -18,8 +19,7 @@ export default (state = {}, {type,payload}) => {
         return merge({}, state, payload.steps)
       }
     case types.DELETE_STEP_REQUEST__SUCCESS:
-      const {[payload.id]:removedStep,...remainingSteps} = state;
-      return remainingSteps
+      return immutableRemove(payload.id,state);
     default:
       return state
   }

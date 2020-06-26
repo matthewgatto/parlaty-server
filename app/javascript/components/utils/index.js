@@ -53,6 +53,11 @@ export function objectToFormData(obj) {
     return formData;
 }
 
+export function immutableRemove(p,o){
+  const {[p]:remove,...remaining} = o;
+  return remaining
+}
+
 export function getUpdatedProperties(newObj = {}, initialObj = {}){
   const updates = {};
   for (var field in newObj) {

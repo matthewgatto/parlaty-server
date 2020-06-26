@@ -3,7 +3,7 @@ import * as businessTypes from '@types/business'
 import * as oemTypes from '@types/oem'
 import * as procedureTypes from '@types/procedure'
 import * as authTypes from '@types/auth'
-import { addIds } from '@utils';
+import { addIds, immutableRemove } from '@utils';
 
 const allBusinesses = (state = null, {type,payload}) => {
   switch (type) {
@@ -37,8 +37,7 @@ const businessesById = (state = {}, {type,payload}) => {
         ...updatedBusinesses
       }
     case businessTypes.DELETE_CATEGORY_REQUEST__SUCCESS:
-      const {[payload.category_id]:removedCategory,...remainingCategories} = state;
-      return remainingCategories
+      return immutableRemove(payload.category_id,state);
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case businessTypes.CREATE_BUSINESS_REQUEST__SUCCESS:

@@ -1,6 +1,6 @@
 import merge from 'lodash/merge'
 import { combineReducers } from 'redux';
-import { addIds } from '@utils';
+import { addIds, immutableRemove } from '@utils';
 import * as types from "@types/procedure";
 import {
   FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS
@@ -34,8 +34,7 @@ const allProcedures = (state = null, {type,payload}) => {
 const proceduresById = (state = {}, {type,payload}) => {
   switch (type) {
     case types.DELETE_PROCEDURE_REQUEST__SUCCESS:
-      const {[payload.procedure_id]:removedProcedure,...remainingProcedures} = state;
-      return remainingProcedures
+      return immutableRemove(payload.procedure_id,state)
     case DELETE_DEVICE_REQUEST__SUCCESS:
       return {
         ...state,
