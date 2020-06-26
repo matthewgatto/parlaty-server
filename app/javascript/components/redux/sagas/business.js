@@ -1,4 +1,4 @@
-import { call,fork,put,select } from 'redux-saga/effects';
+import { call,put,select } from 'redux-saga/effects';
 import uuid from 'uuid/v4'
 import { push } from 'connected-react-router';
 import { normalize } from 'normalizr';
@@ -46,11 +46,7 @@ export function* deleteCategorySaga(action){
     } else {
       oem_id = yield select(({auth}) => auth.oem)
     }
-    try {
-      yield fork(API.delete, `/oem_businesses/${action.payload}`);
-    } catch (e) {
-
-    }
+    yield call(API.delete, `/oem_businesses/${action.payload}`);
     yield put({type: `${action.type}__SUCCESS`, payload: {category_id: action.payload, oem_id}})
     yield put(push(splitUrl.slice(0,-2).join('/')))
     yield put(addToast("success", "Category was successfully deleted."))
