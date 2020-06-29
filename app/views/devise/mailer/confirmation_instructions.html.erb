@@ -1,8 +1,11 @@
 <%
 	require 'uri'
-	uri = URI.parse("https://sandbox.parlaty.com/users/confirmation")
+	uri = URI.parse("https://sandbox.parlaty.com/ZZZZZZZ/users/confirmation")
 	new_query_ar = URI.decode_www_form(uri.query || '') << ["confirmation_token", @token]
 	uri.query = URI.encode_www_form(new_query_ar)
+	link_url = uri.to_s
+	# pound signs don't work well in URI
+	link_url = link_url.sub('ZZZZZZZ','#')
 %>
 
 <p>Welcome <%= @name %>!</p>
@@ -10,5 +13,5 @@
 <p>You can confirm your account email through the link below:</p>
 
 
-<p><%= link_to 'Confirm my account with password', uri.to_s %></p>
+<p><%= link_to 'Confirm my account with password', link_url.to_s %></p>
 

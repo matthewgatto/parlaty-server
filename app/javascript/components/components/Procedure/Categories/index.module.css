@@ -1,0 +1,15 @@
+.container {
+  width: 85vw;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  margin-bottom: 1em;
+}
+@media (min-width: 768px){
+  .container {
+    width: 46em;
+  }
+}

@@ -1,0 +1,36 @@
+.container {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.content {
+  background: #f8f8f7;
+  padding: 4em;
+  border-radius: 1em;
+  position: relative;
+  max-height: 95vh;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0.3em;
+  right: 0.3em;
+  padding: 0.4em;
+  cursor: pointer;
+}
+
+.closeIcon {
+  width: 2.6em;
+  height: 2.6em;
+  fill: #7b7979;
+}

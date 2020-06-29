@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  step: one
+  action: one
+  parameter_value_8_pack: MyString
+
+two:
+  step: two
+  action: two
+  parameter_value_8_pack: MyString

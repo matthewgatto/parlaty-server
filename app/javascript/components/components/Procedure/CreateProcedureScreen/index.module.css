@@ -1,0 +1,148 @@
+/*.invalidField {
+  border-bottom: 1px solid #e23e4d;
+}*/
+.container {
+  width: 34em;
+  margin: 0 auto 4em auto;
+  position: relative;
+  text-align: center;
+}
+
+.header {
+  color: #67318d;
+  font-size: 2.2em;
+  line-height: 2em;
+}
+
+.subheader,.link {
+  color: #7b7979;
+}
+
+.subheader {
+  font-size: 1.3em;
+}
+
+.underline {
+  color: #7b7979;
+}
+.tm {
+  font-size: 0.6em;
+}
+
+.bottomPolygonContainer {
+  width: 6.9em;
+  height: 7.4em;
+  position: absolute;
+  right: -8em;
+  bottom: -8em;
+  font-size: 0.9em;
+}
+
+.bottomPolygonContainer > *,.topPolygonContainer > * {
+  position: absolute;
+}
+.bottomPolygonOne {
+  right: 0;
+  top: 1.6em;
+}
+
+.bottomPolygonTwo {
+  bottom: 0;
+  right: 1.8em;
+}
+
+.bottomPolygonThree {
+  left: 0.5em;
+  bottom: 2.2em;
+}
+
+.bottomPolygonFour {
+  top: 0;
+  left: 0;
+}
+
+.topPolygonContainer {
+  width: 8.2em;
+  height: 6.2em;
+  position: absolute;
+  top: -4em;
+  left: -8em;
+  font-size: 0.9em;
+}
+
+.topPolygonOne {
+  bottom: 0;
+  left: 0;
+}
+
+.topPolygonTwo {
+  bottom: 0.8em;
+  right: 0;
+}
+
+.topPolygonThree {
+  left: 3em;
+  top: 0.6em;
+}
+
+.topPolygonFour {
+  top: 0;
+  left: 0.3em;
+}
+.link {
+  display: block;
+  text-decoration: none;
+  font-size: 1.2em;
+  margin-top: 1em;
+}
+
+.error {
+  height: 1em;
+  line-height: 1em;
+  font-size: 1.3em;
+  margin-top: 1em;
+}
+
+.form {
+
+}
+
+.form label {
+  margin-bottom: 1.2em;
+}
+
+.form button {
+  width: 100%;
+}
+
+.form input[type='text'],.form input[type='password'],.form input[type='number'], .form input[type='email'] {
+  background-color: #fff;
+  border: none;
+  height: 2.16667em;
+}
+.form textarea,.form input[type='text'],.form input[type='password'],.form input[type='number'], .form input[type='email'] {
+  padding: 0 0.333em !important;
+}
+
+.form input[type='text'],.form input[type='password'],.form input[type='number'], .form input[type='email'],.form textarea,.form select {
+  font-size: 1.2em;
+}
+
+.buttonRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.or {
+  color: #7b7979;
+  font-size: 1.4em;
+  flex-shrink: 0;
+  padding: 0 1em;
+}
+
+@media (max-width: 480px) {
+  .form textarea {
+    text-indent:-3px;
+  }
+}

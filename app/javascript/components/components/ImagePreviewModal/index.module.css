@@ -1,0 +1,12 @@
+.container {
+  height: 80vh;
+  width: auto;
+}
+
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  .container {
+    height: auto;
+    width: 80vw;
+  }
+}

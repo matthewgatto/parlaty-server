@@ -10,13 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_22_125812) do
+ActiveRecord::Schema.define(version: 2020_05_26_224728) do
+
+  create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "step_id"
+    t.bigint "action_id"
+    t.string "parameter_value_8_pack"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "mode"
+    t.integer "time"
+    t.index ["action_id"], name: "index_action_copies_on_action_id"
+    t.index ["step_id"], name: "index_action_copies_on_step_id"
+  end
 
   create_table "actions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.bigint "device_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "parameter_name"
+    t.string "parameter_value_8_pack"
+    t.string "parameter_value_12_pack"
+    t.boolean "default"
+    t.string "mode"
+    t.integer "time"
     t.index ["device_id"], name: "index_actions_on_device_id"
   end
 
@@ -41,10 +59,29 @@ ActiveRecord::Schema.define(version: 2020_01_22_125812) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "authors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.boolean "deactivated", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "client_admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.bigint "oem_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["oem_id"], name: "index_client_admins_on_oem_id"
+  end
+
   create_table "devices", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "default"
+    t.bigint "procedure_id"
+    t.text "actions_order"
+    t.index ["procedure_id"], name: "index_devices_on_procedure_id"
   end
 
   create_table "oem_businesses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -53,6 +90,27 @@ ActiveRecord::Schema.define(version: 2020_01_22_125812) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["oem_id"], name: "index_oem_businesses_on_oem_id"
+  end
+
+  create_table "oem_businesses_authors", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "oem_business_id"
+    t.bigint "author_id"
+    t.index ["author_id"], name: "index_oem_businesses_authors_on_author_id"
+    t.index ["oem_business_id"], name: "index_oem_businesses_authors_on_oem_business_id"
+  end
+
+  create_table "oem_businesses_operators", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "oem_business_id"
+    t.bigint "operator_id"
+    t.index ["oem_business_id"], name: "index_oem_businesses_operators_on_oem_business_id"
+    t.index ["operator_id"], name: "index_oem_businesses_operators_on_operator_id"
+  end
+
+  create_table "oem_businesses_procedures", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "oem_business_id"
+    t.bigint "procedure_id"
+    t.index ["oem_business_id"], name: "index_oem_businesses_procedures_on_oem_business_id"
+    t.index ["procedure_id"], name: "index_oem_businesses_procedures_on_procedure_id"
   end
 
   create_table "oems", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -83,10 +141,8 @@ ActiveRecord::Schema.define(version: 2020_01_22_125812) do
   create_table "operators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.boolean "deactivated", default: false
-    t.bigint "oem_business_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["oem_business_id"], name: "index_operators_on_oem_business_id"
   end
 
   create_table "parlaty_admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -103,28 +159,22 @@ ActiveRecord::Schema.define(version: 2020_01_22_125812) do
     t.string "author"
     t.string "language"
     t.text "steps_order"
-    t.bigint "oem_business_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["oem_business_id"], name: "index_procedures_on_oem_business_id"
   end
 
   create_table "steps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
-    t.string "device"
-    t.string "location"
+    t.text "location"
     t.string "mode"
     t.text "note"
     t.integer "time"
-    t.string "parameter_name"
     t.boolean "safety", default: false
     t.boolean "has_visual", default: false
     t.bigint "procedure_id"
     t.bigint "oem_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "parameter_value_8_pack"
-    t.string "parameter_value_12_pack"
     t.boolean "spoken"
     t.bigint "device_id"
     t.index ["device_id"], name: "index_steps_on_device_id"
@@ -145,17 +195,21 @@ ActiveRecord::Schema.define(version: 2020_01_22_125812) do
     t.datetime "updated_at", null: false
     t.string "roleable_type"
     t.bigint "roleable_id"
+    t.string "language"
+    t.string "voice"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["roleable_type", "roleable_id"], name: "index_users_on_roleable_type_and_roleable_id"
   end
 
+  add_foreign_key "action_copies", "actions"
+  add_foreign_key "action_copies", "steps"
   add_foreign_key "actions", "devices"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "client_admins", "oems"
+  add_foreign_key "devices", "procedures"
   add_foreign_key "oem_businesses", "oems"
   add_foreign_key "operator_admins", "oem_businesses"
-  add_foreign_key "operators", "oem_businesses"
-  add_foreign_key "procedures", "oem_businesses"
   add_foreign_key "steps", "devices"
   add_foreign_key "steps", "oems"
   add_foreign_key "steps", "procedures"

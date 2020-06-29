@@ -1,0 +1,10 @@
+.buttonRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.or {
+  color: #7b7979;
+  font-size: 1.4em;
+}

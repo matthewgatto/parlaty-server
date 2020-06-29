@@ -1,26 +1,85 @@
-json = {
-  id: @step.id,
-  title: @step.title,
-  device: @step.device,
-  safety: @step.safety,
-  spoken: @step.spoken,
-  location: @step.location,
-  note: @step.note,
-  visual: visual_check(@step),
-  mode: @step.mode,
-  parameter_name: @step.parameter_name,
-  parameter_value_8_pack: @step.parameter_value_8_pack,
-  time: @step.time,
-  has_visual: @step.has_visual
-}
-
 def visual_check(step)
 	if (step.has_visual)
-        url_for(step.visuals.first)
+		step.visuals.map do |visual|
+		{
+    		visual: url_for(visual),
+			content_type: visual.content_type
+		}
+		end
+	else
+    	nil
+	end
+end
+
+def image_check(step)
+	if (step.has_visual)
+		step.visuals.select{ |visual| visual.content_type.starts_with?('image/') }.map do |visual|
+		{
+			image: url_for(visual),
+			content_type: visual.content_type
+		}
+		end
+	else
+    	nil
+	end
+end
+
+def video_check(step)
+	if (step.has_visual)
+		step.visuals.select{ |visual| visual.content_type.starts_with?('video/') }.map do |visual|
+		{
+			video: url_for(visual),
+			content_type: visual.content_type
+		}
+		end
+	else
+    	nil
+	end
+end
+
+def get_actions2(myactions, step_id)
+	myactions.map do |myaction|
+	{
+		id: myaction.id,
+		name: myaction.name,
+		parameter_name: myaction.parameter_name,
+		parameter_value_8_pack: myaction.parameter_value_8_pack,
+		mode: myaction.mode,
+		time: myaction.time
+	}
+	end
+end
+
+def get_device(device_id, step_id)
+	if (device_id)
+		mydevice = Device.find(device_id)
+		{
+			id: mydevice.id,
+			name: mydevice.name,
+			default: mydevice.default,
+			#oem_business_id: mydevice.oem_business_id,
+			procedure_id: mydevice.procedure_id,
+			actions: get_actions2(mydevice.actions, step_id)
+		}
 	else
 		nil
 	end
 end
 
+json = {
+  id: @step.id,
+  title: @step.title,
+	device: get_device(@step.device_id, @step.id),
+  device_id: @step.device_id,
+  safety: @step.safety,
+  spoken: @step.spoken,
+  location: @step.location,
+  note: @step.note,
+  images: image_check(@step),
+  videos: video_check(@step),
+  mode: @step.mode,
+  time: @step.time,
+  has_visual: @step.has_visual
+}
 
 json

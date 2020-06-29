@@ -1,0 +1,10 @@
+.container {
+  width: 85vw;
+  text-align: center;
+}
+
+@media (min-width: 768px){
+  .container {
+    width: 25em;
+  }
+}

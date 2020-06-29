@@ -1,0 +1,50 @@
+
+.container {
+  margin-bottom: 1em;
+}
+
+.boxes {
+  font-size: 1em;
+  margin-bottom: 0.6em;
+  justify-content: space-between;
+}
+.boxes > * {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.boxes label {
+  margin: 0;
+}
+
+.boxes > *:last-child {
+  margin-left: 1em;
+}
+
+@media (min-width: 768px){
+  .boxes {
+    font-size: 0.7em;
+  }
+  .container label:last-child {
+    margin-left: 1em;
+  }
+}
+@media (min-width: 1024px){
+  .boxes {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 460px){
+  .boxes input {
+    height: 0.8em;
+  }
+  .boxes {
+    flex-wrap: wrap;
+  }
+
+  .boxes > * {
+    justify-content: flex-end;
+  }
+}

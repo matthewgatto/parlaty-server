@@ -1,0 +1,32 @@
+.labelSubText {
+  font-size: 0.9em;
+  margin: 0 0.4em 1em 0.4em;
+  color: #7b7979;
+}
+
+.container {
+  /*background-color: #fff;*/
+  border-radius: 0.3em;
+  box-sizing: border-box;
+  color: #888;
+  font-size: 1.1em;
+  margin: 1.2em 0.4em;
+  border: 1px solid #eeefef;
+}
+
+.number {
+  flex: 0 0 1em;
+}
+
+.text {
+  flex-grow: 1;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+}
+
+.placeholder {
+  padding: 1em;
+}

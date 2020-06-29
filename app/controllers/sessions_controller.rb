@@ -2,7 +2,6 @@ class SessionsController < ApplicationController
 
 	# POST /login
 	def create
-		config.logger.debug "SessionsController.create: email: " + params[:email]
 		@user = User.find_by(email: params[:email])
 
 		# checks if user exist, and valid password (devise's method)
@@ -14,16 +13,19 @@ class SessionsController < ApplicationController
 				@jwt = Auth.encode({ uid: @user.id})
 				
 				begin
-					#oem = Oem.find(@user.id)
-					oem = Oem.find(@user.roleable_id)
-					if oem
-						oem_bus = oem.oem_businesses
-						@sorted_ob = oem_bus.sort_by &:name
+					if (@user.roleable_type == "Author" or @user.roleable_type == "Operator")
+						@sorted_ob = @user.roleable.oem_businesses.sort_by &:name	
+					elsif 
+						oem = Oem.find(@user.roleable_id)
+						if oem
+							oem_bus = oem.oem_businesses
+							@sorted_ob = oem_bus.sort_by &:name
+						end
 					end
-					@devices = Device.all().sort_by &:name
 				rescue ActiveRecord::RecordNotFound
 					@sorted_ob = {}
 				end
+				@devices = Device.all().sort_by &:name
 			end
 		else
 			head :unauthorized

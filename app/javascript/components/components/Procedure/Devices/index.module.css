@@ -1,0 +1,30 @@
+.container {
+  height: 18em;
+  flex-grow: 1;
+  position: relative;
+  margin: 1em 0;
+  background: #fff;
+  border-radius: 1em;
+  padding: 0.8em;
+  text-align: left;
+  color: #888;
+}
+
+.placeholder {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+}
+
+.device {
+  padding: 0.4em;
+  font-size: 1.4em;
+}
+
+.device:hover {
+  background: #e9e4ee;
+  color: #67318d;
+  cursor: pointer;
+}

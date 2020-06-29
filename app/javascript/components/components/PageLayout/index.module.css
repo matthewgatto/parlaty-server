@@ -1,0 +1,30 @@
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+}
+
+.container > * {
+  flex-shrink: 0;
+}
+
+
+.back {
+  position: absolute;
+  top: -1.8em;
+}
+
+.links {
+  display: flex;
+}
+.links > *:nth-child(n+2){
+  margin-left: 0.6em;
+}
+@media (min-width: 768px){
+  .back {
+    top: -2.5em;
+  }
+}

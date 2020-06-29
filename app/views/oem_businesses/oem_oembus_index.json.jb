@@ -1,9 +1,11 @@
 #treat json as a ruby hash object, refer to jb gem
-json = {}
+json = {
+	name: @oem_name
+}
 json[:oem_businesses] = @sorted_ob.map do |oem_business|
 	{
-		name: oem_business.name,	
-		oem_business_id: oem_business.id	
+		name: oem_business.name,
+		oem_business_id: oem_business.id
 	}
 end
 

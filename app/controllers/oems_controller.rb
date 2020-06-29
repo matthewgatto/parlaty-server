@@ -34,8 +34,31 @@ class OemsController < ApplicationController
 		end
 	end
 
+	# POST /oems
+	def create
+		if !is_p_admin?
+			render json: {"error": "Current user access denied"}, status: :forbidden and return
+		end
+		name = params[:name]
+		@oem = Oem.create!(name: name)
+		render json: {"oem": { "id": @oem.id, "name": @oem.name }}, status: :ok
+	end
+
+	# DELETE /oems/:id
+	def destroy
+		#byebug
+		@oem = Oem.find(params[:id])
+		if (@oem)
+			if delete_oem(@oem)
+				render json: { "id": params[:id]}, status: :ok
+			else
+				head :bad_request
+			end
+		end
+	end
 
 	private
+
 	def update_oem_params
 		params.require(:oem).permit(:email, :password)
 	end

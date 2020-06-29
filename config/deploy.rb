@@ -4,7 +4,8 @@ lock "~> 3.11.2"
 set :application, "parlaty-server"
 #set :repo_url, "https://aaa:bbbb@bitbucket.org/jedmahonisgroup/parlaty-server.git"
 #set :repo_url, "https://peterobrien:XXXXXX!@bitbucket.org/jedmahonisgroup/parlaty-server.git"
-set :repo_url, "git@bitbucket.org:jedmahonisgroup/parlaty-server.git"
+#set :repo_url, "git@bitbucket.org:jedmahonisgroup/parlaty-server.git"
+set :repo_url, "git@bitbucket.org:Parlaty/parlaty-server.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp

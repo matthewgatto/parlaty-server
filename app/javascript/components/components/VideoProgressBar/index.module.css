@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+  height: 1.6em;
+  position: relative;
+}
+
+.bar {
+  height: 100%;
+  background: #67328d;
+  width: 0%;
+  transition: all 0.2s linear;
+}

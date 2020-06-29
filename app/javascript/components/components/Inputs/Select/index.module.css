@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+  border-radius: .4em;
+  height: 2.6em;
+  overflow: hidden;
+  position: relative;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.container select {
+  z-index: 99;
+}
+
+.icon {
+  position: absolute;
+  right: .8em;
+  z-index: 98;
+}
+
+.disabled {
+  background-color: #ddd;
+}

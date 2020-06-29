@@ -1,0 +1,37 @@
+.container:not(:first-child) {
+  border-top: 1px solid #eeefef;
+}
+
+.header {
+  padding: 0 0.5em;
+  height: 2.4em;
+  background: #eeefef;
+}
+
+
+.number {
+  flex: 0 0 1.5em;
+}
+
+.text {
+  flex-grow: 1;
+}
+
+.highlight,.selectable:hover {
+  background: #e9e4ee;
+  color: #67318d;
+}
+
+.selectable {
+  cursor: pointer;
+}
+
+.highlight .icon,.selectable:hover .icon {
+  fill: #67318d;
+}
+
+
+.inputs {
+  padding: 0.6em;
+  font-size: 0.8em;
+}

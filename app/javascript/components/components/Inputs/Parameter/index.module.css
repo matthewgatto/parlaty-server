@@ -1,0 +1,46 @@
+.container {
+  margin-bottom: 1.2em;
+  display: block;
+}
+
+.row {
+  background: #fff;
+  border-radius: 0.2em;
+  height: 2.6em;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.label {
+  display: inline-block;
+  color: #888;
+  font-size: 1.1em;
+  margin: 0 0.3em;
+}
+
+.container input {
+  border: none;
+  border-radius: 0;
+  font-size: 1.2em;
+  width: 100%;
+}
+
+.nameFieldContainer,.nameFieldInputWrapper,.valueFieldContainer,.valueFieldInputWrapper {
+  height: 100%;
+  position: relative;
+}
+
+.nameFieldContainer {
+  width: 65%;
+  border-right: 1px solid #f1f1f1;
+}
+
+.valueFieldContainer {
+  width: 35%;
+}
+
+.nameFieldInputWrapper,.valueFieldInputWrapper {
+  flex-grow: 1;
+  color: #888;
+}
