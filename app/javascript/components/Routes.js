@@ -36,7 +36,7 @@ const Routes = ({role}) => {
     case "ParlatyAdmin":
       return(<Switch>
         <Route exact path="/" component={AdminLandingPage} />
-        <Route path="/users/invite" component={UserInvite} />
+        <Route path="/users/invite" render={() => <UserInvite role={role} />} />
         <Route path="/users/:id" render={({match}) => <UserUpdatePage role={role} match={match} />} />
         <Route path="/users" component={UsersPage} />
         <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
@@ -60,7 +60,7 @@ const Routes = ({role}) => {
     case "ClientAdmin":
       return(<Switch>
         <Route exact path="/" component={ClientUserLandingPage} />
-        <Route path="/users/invite" component={UserInvite} />
+        <Route path="/users/invite" render={() => <UserInvite role={role} />} />
         <Route path="/users/:id" render={({match}) => <UserUpdatePage role={role} match={match} />} />
         <Route path="/users" component={UsersPage} />
         <Route exact path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
