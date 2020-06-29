@@ -5,14 +5,15 @@ import ClientSelect from '@containers/ClientSelect';
 import UserCategories from '@containers/UserCategories';
 import {getUser} from '@selectors/auth';
 
-const UserRoleFieldsComponent = ({initialValues = {},formKey,roleable = initialValues.roleable, placeholder, user}) => {
+const UserRoleFieldsComponent = ({initialValues = {},formKey,roleable, placeholder, user}) => {
   const isNotParlatyAdmin = user.roleable !== "ParlatyAdmin";
   const isClientAdmin = user.roleable === "ClientAdmin";
   const defaultClient = isClientAdmin ? user.oem : initialValues.oem;
-  if(!user || !user.email){
+  const role = roleable || initialValues.roleable;
+  if(!user || !user.email || !role){
     return null
   }
-  switch (roleable.toLowerCase()) {
+  switch (role.toLowerCase()) {
     case "clientadmin":
       return <ClientSelect formKey={formKey} defaultValue={defaultClient} hidden={isNotParlatyAdmin} />
     case "author":
