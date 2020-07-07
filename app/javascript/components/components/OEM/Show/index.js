@@ -11,11 +11,11 @@ export default ({match:{url,params:{id}}}) => (<>
   <ListPage
     label="Categories"
     header={{
-      header: {text: "Category: ", entityKey: "oems", id},
+      header: {text: "", entityKey: "oems", id},
       back: {to: "/", label: "Home"},
       buttons: (<>
         <ModalTrigger modal="delete_client_confirmation"><SubmitButton primary label="Delete Client" /></ModalTrigger>
-        <Link to={`${url}/businesses/create`}><SubmitButton primary label="Add Category" /></Link>
+        <Link to={`${url}/businesses/create`}><SubmitButton primary label="Add Site" /></Link>
       </>)
     }}
     list={{
