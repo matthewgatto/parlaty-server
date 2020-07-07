@@ -5,7 +5,7 @@ import { getAllOEMIds } from '@selectors/oem';
 
 const oemListProps = {
   label: "Clients",
-  header: { header: "Procedures: Choose A Client", link: { text: "Add Client", to: "/clients/create" }},
+  header: { header: "Choose A Client", link: { text: "Add Client", to: "/clients/create" }},
   list: {
     text: "Clients",
     to: "/oems",
