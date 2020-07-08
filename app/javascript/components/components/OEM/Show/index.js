@@ -15,6 +15,7 @@ export default ({match:{url,params:{id}}}) => (<>
       back: {to: "/", label: "Home"},
       buttons: (<>
         <ModalTrigger modal="delete_client_confirmation"><SubmitButton primary label="Delete Client" /></ModalTrigger>
+        <Link to={`${url}/update`}><SubmitButton primary label="Edit Client" /></Link>
         <Link to={`${url}/businesses/create`}><SubmitButton primary label="Add Site" /></Link>
       </>)
     }}

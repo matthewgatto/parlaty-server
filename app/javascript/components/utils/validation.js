@@ -33,9 +33,7 @@ export const inviteConfirmationSchema = object().shape({
 })
 
 export const oemSchema = object().shape({
-  email: string().email('Invalid email').required('This field is required'),
   name: string().required('This field is required'),
-  password: string()
 })
 
 export const stepSchema = object().shape({

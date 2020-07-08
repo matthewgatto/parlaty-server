@@ -10,27 +10,20 @@ const inputs = [{
   name: "name",
   label: "Name*",
   required: true
-}, {
-  type: "email",
-  name: "email",
-  label: "Email*",
-  required: true
-}, {
-  type: "password",
-  name: "password",
-  label: "New Password*"
 }]
 
 export default ({match:{params:{id}}}) => {
-  const {name,email} = useSelector(getOEMById(id)),
+  const {name} = useSelector(getOEMById(id)),
         url = `/oems/${id}`;
   return(
     <FormPage
-      layout={{header:"Update OEM"}}
+      layout={{
+        header:"Update Client"
+      }}
       form={{
-        entity: "update_oem",
+        entity: "update_client",
         type: UPDATE_OEM_REQUEST,
-        initialValues: {name,email},
+        initialValues: {name},
         validationSchema: oemSchema,
         url,
         id

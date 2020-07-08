@@ -8,7 +8,14 @@ import withUserInfo from '@containers/withUserInfo'
 export default withUserInfo(({user}) => (
   <PageLayout
     header="Choose A Category"
-    link={user.roleable === "ClientAdmin" ? {to: "/businesses/create", text: "Add Category"} : undefined}
+    link={
+      user.roleable === "ClientAdmin" ?
+        [
+          {to: `/oem/${user.oem}/update`, text: "Edit Client"},
+          {to: "/businesses/create", text: "Add Category"},
+        ] :
+          undefined
+    }
   >
     <Label>Categories</Label>
     <ClientCategories />
