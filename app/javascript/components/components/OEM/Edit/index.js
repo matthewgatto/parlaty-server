@@ -4,6 +4,7 @@ import FormPage from '@components/Form/Page';
 import { oemSchema } from '@utils/validation';
 import { UPDATE_OEM_REQUEST } from '@types/oem';
 import { getOEMById } from '@selectors/oem';
+import withUserInfo from '@containers/withUserInfo'
 
 const inputs = [{
   type: "text",
@@ -12,24 +13,25 @@ const inputs = [{
   required: true
 }]
 
-export default ({match:{params:{id}}}) => {
+export default withUserInfo(({ user, match:{params:{id}}}) => {
   const {name} = useSelector(getOEMById(id)),
-        url = `/oems/${id}`;
+        url = `/oems/${id}`,
+        backUrl = user.roleable === "ClientAdmin" ? "/" : url;
   return(
     <FormPage
       layout={{
-        header:"Update Client"
+        header:"Edit Client"
       }}
       form={{
-        entity: "update_client",
+        entity: "edit_client",
         type: UPDATE_OEM_REQUEST,
         initialValues: {name},
         validationSchema: oemSchema,
         url,
         id
       }}
-      cancel={url}
+      cancel={backUrl}
       inputs={inputs}
     />
   )
-}
+})

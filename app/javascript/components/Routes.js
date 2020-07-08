@@ -52,7 +52,7 @@ const Routes = ({role}) => {
         */}
         <Route path="/oems/:oem_id/businesses/create" component={BusinessForm} />
         <Route path="/oems/:oem_id/businesses/:id" render={OEMBusinessPage} />
-        <Route path="/oems/:id/update" component={OEMUpdatePage} />
+        <Route path="/oems/:id/edit" component={OEMUpdatePage} />
         <Route path="/oems/:id" component={OEMPage} />
         <Route path="/clients/create" component={CreateClientForm} />
         <Redirect to="/" />
@@ -60,7 +60,7 @@ const Routes = ({role}) => {
     case "ClientAdmin":
       return(<Switch>
         <Route exact path="/" component={ClientUserLandingPage} />
-        <Route path="/oem/:id/update" component={OEMUpdatePage} />
+        <Route path="/oem/:id/edit" component={OEMUpdatePage} />
         <Route path="/users/invite" render={() => <UserInvite role={role} />} />
         <Route path="/users/:id" render={({match}) => <UserUpdatePage role={role} match={match} />} />
         <Route path="/users" component={UsersPage} />

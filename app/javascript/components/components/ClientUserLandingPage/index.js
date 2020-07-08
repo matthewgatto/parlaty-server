@@ -11,7 +11,7 @@ export default withUserInfo(({user}) => (
     link={
       user.roleable === "ClientAdmin" ?
         [
-          {to: `/oem/${user.oem}/update`, text: "Edit Client"},
+          {to: `/oem/${user.oem}/edit`, text: "Edit Client"},
           {to: "/businesses/create", text: "Add Category"},
         ] :
           undefined
