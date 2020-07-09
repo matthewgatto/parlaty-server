@@ -9,7 +9,7 @@ import styles from './index.module.css';
 
 export default ({procedure_id,oem_id}) => (
   <div className={styles.container}>
-    <LargeBar title="Update Categories" className={styles.modalHeader} />
+    <LargeBar title="Update Sites" className={styles.modalHeader} />
     <FormContext
       url={`/procedures/${procedure_id}`}
       type="UPDATE_PROCEDURE_CATEGORIES_REQUEST"
@@ -19,7 +19,7 @@ export default ({procedure_id,oem_id}) => (
     >
     {({handleSubmit, formKey}) => (<>
       <ProcedureCategories procedure_id={procedure_id} oem_id={oem_id} />
-      <SubmitButton formKey={formKey} onClick={handleSubmit} label="Update Categories" />
+      <SubmitButton formKey={formKey} onClick={handleSubmit} label="Update Sites" />
     </>)}
     </FormContext>
   </div>

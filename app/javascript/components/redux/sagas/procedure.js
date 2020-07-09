@@ -160,7 +160,7 @@ export function* updateCategoriesSaga(action){
     }
     const response = yield call(API.put, `/procedures/${action.payload.id}/update_categories`,{categories})
     yield put(setModal())
-    yield put(addToast("success", "Procedure categories successfully updated."))
+    yield put(addToast("success", "Procedure sites successfully updated."))
     yield put({type: action.type+"__SUCCESS", payload: {
       businesses: updatedBusinesses,
       procedures: {

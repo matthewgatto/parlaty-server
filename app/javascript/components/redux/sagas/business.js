@@ -28,7 +28,7 @@ export function* businessProceduresSaga(action){
 function* handleBusinessCreateSuccess(response, action){
   const url = yield select(({router}) => router.location.pathname),
         to = url.split("/").slice(0,-1).join('/')+"/"+response.oem_business.id,
-        pushAndNotifyFunc = pushAndNotify(to, "Category was successfully added.")
+        pushAndNotifyFunc = pushAndNotify(to, "Site was successfully added.")
   yield call(pushAndNotifyFunc)
 }
 
@@ -49,7 +49,7 @@ export function* deleteCategorySaga(action){
     yield call(API.delete, `/oem_businesses/${action.payload}`);
     yield put({type: `${action.type}__SUCCESS`, payload: {category_id: action.payload, oem_id}})
     yield put(push(splitUrl.slice(0,-2).join('/')))
-    yield put(addToast("success", "Category was successfully deleted."))
+    yield put(addToast("success", "Site was successfully deleted."))
   } catch (e) {
       console.log("deleteProcedureSaga ERROR", e);
   }

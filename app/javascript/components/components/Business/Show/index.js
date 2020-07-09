@@ -11,10 +11,10 @@ export default ({match:{params:{id,oem_id},url}}) => (<>
   <ListPage
     label="Procedures"
     header={{
-      header: {text: "Category: ", entityKey: "businesses", id},
-      back: oem_id ? {to: `/oems/${oem_id}`, label: "Choose A Different Category"} : {to: "/", label: "Home"},
+      header: {text: "", entityKey: "businesses", id},
+      back: oem_id ? {to: `/oems/${oem_id}`, label: "Choose A Different Site"} : {to: "/", label: "Home"},
       buttons: (<>
-        <ModalTrigger modal="delete_category_confirmation"><SubmitButton primary label="Delete Category" /></ModalTrigger>
+        <ModalTrigger modal="delete_category_confirmation"><SubmitButton primary label="Delete Site" /></ModalTrigger>
         <Link to={`${url}/procedures/create`}><SubmitButton primary label="Add Procedure" /></Link>
       </>)
     }}
@@ -25,7 +25,7 @@ export default ({match:{params:{id,oem_id},url}}) => (<>
       text: "Procedures",
       entityKey: "procedures",
       action: "update",
-      placeholder: "This category has no procedures",
+      placeholder: "This site has no procedures",
       selector: getBusinessProcedures(id),
       to: `${url}/procedures`
     }}

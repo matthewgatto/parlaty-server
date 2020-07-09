@@ -7,7 +7,7 @@ import withUserInfo from '@containers/withUserInfo'
 
 export default withUserInfo(({user}) => (
   <PageLayout
-    header="Choose A Category"
+    header="Choose A Site"
     link={
       user.roleable === "ClientAdmin" ?
         [

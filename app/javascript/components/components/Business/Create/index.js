@@ -22,7 +22,7 @@ export default withUserInfo(({user,match:{params}}) => {
   }
   return(
     <FormPage
-      layout={{header:"New Category"}}
+      layout={{header:"New Site"}}
       form={{
         entity: "business",
         url: "/oem_businesses",

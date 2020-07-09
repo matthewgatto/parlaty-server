@@ -9,7 +9,7 @@ import { getOEMBusinesses } from '@selectors/oem';
 
 export default ({match:{url,params:{id}}}) => (<>
   <ListPage
-    label="Categories"
+    label="Sites"
     header={{
       header: {text: "", entityKey: "oems", id},
       back: {to: "/", label: "Home"},
@@ -23,10 +23,10 @@ export default ({match:{url,params:{id}}}) => (<>
       id,
       type: FETCH_OEM_BUSINESSES_REQUEST,
       url: `${url}/oem_businesses`,
-      text: "Categories",
+      text: "Sites",
       entityKey: "businesses",
       to: `${url}/businesses`,
-      placeholder: "This client has no categories",
+      placeholder: "This client has no sites",
       selector: getOEMBusinesses(id)
     }}
   />
