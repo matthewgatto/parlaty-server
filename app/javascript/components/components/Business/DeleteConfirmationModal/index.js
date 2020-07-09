@@ -8,6 +8,6 @@ export default withModal(({category_id}) => {
   const dispatch = useDispatch();
   const handleYesClick = () => dispatch(deleteCategory(category_id))
   return(
-    <DeleteConfirmation handleYesClick={handleYesClick} entity="category" />
+    <DeleteConfirmation handleYesClick={handleYesClick} entity="site" />
   )
 }, "delete_category_confirmation")

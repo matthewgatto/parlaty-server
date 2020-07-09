@@ -12,12 +12,12 @@ export default withUserInfo(({user}) => (
       user.roleable === "ClientAdmin" ?
         [
           {to: `/oem/${user.oem}/edit`, text: "Edit Client"},
-          {to: "/businesses/create", text: "Add Category"},
+          {to: "/businesses/create", text: "Add Site"},
         ] :
           undefined
     }
   >
-    <Label>Categories</Label>
+    <Label>Sites</Label>
     <ClientCategories />
   </PageLayout>
 ))
