@@ -58,7 +58,7 @@ const EditProcedureFormWithStepLoader = withStepLoader(EditProcedureForm);
 
 export default ({match:{params:{oem_id,business_id,id}}}) => {
   const initialValues = useSelector(getProcedureById(id));
-  var name = initialValues && initialValues.name;
+  let name = initialValues && initialValues.name;
   const dispatch = useDispatch();
   const addSteps = () => dispatch(loadStepForms(initialValues.steps_order))
   useEffect(() => {

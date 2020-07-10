@@ -4,6 +4,7 @@ import FormContext from '@components/Form/Context';
 import SubmitButton from '@containers/SubmitButton';
 import ProcedureCategories from '@containers/ProcedureCategories';
 import {procedureCategoriesSchema} from '@utils/validation';
+import { UPDATE_PROCEDURE_CATEGORIES_REQUEST } from '@types/procedure';
 import styles from './index.module.css';
 
 
@@ -12,7 +13,7 @@ export default ({procedure_id,oem_id}) => (
     <LargeBar title="Update Sites" className={styles.modalHeader} />
     <FormContext
       url={`/procedures/${procedure_id}`}
-      type="UPDATE_PROCEDURE_CATEGORIES_REQUEST"
+      type={UPDATE_PROCEDURE_CATEGORIES_REQUEST}
       entity="procedure_categories"
       validationSchema={procedureCategoriesSchema}
       id={procedure_id}
