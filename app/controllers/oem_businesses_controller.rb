@@ -26,7 +26,7 @@ class OemBusinessesController < ApplicationController
 	end
 
 	# GET /oems/:id/oem_businesses
-	def oem_oembus_index
+	def index
 		# padmin and itself
 		# and users whch belong to oem and oem businesses (categories)
 		can_access = is_p_admin? || cuser_is?("Oem", params[:id]) || is_author? || is_operator?
@@ -41,7 +41,7 @@ class OemBusinessesController < ApplicationController
 		# &:name is {|i| i.name }
 		@oem_name = oem.name
 		@sorted_ob = oem_bus.sort_by &:name
-		# output in oems/oem_oembus_index.json.jb
+		# output in oems/index.json.jb
 	end
 
 	# POST /oem_businesses

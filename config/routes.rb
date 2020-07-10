@@ -26,14 +26,11 @@ Rails.application.routes.draw do
       end
   end
 
+  resources :oems, only: [:index, :create, :update, :destroy]
   resources :steps, only: [:create, :update, :destroy]
-
   resources :devices, only: [:create, :update, :destroy]
-
   resources :operators, only: [:update, :destroy]
-
   resources :oem_businesses, only: [:show]
-
   resources :operator_admins, only: [:update, :destroy]
 
   get '/oem_businesses/:id/operator_admins', to: 'operator_admins#oembus_oadmin_index'
@@ -63,19 +60,11 @@ Rails.application.routes.draw do
 
   post '/steps/:id/visuals', to: 'steps#add_visuals'
 
-  get '/oems/:id/oem_businesses', to: 'oem_businesses#oem_oembus_index'
-
-  put '/oems/:id', to: 'oems#update'
-
-  delete '/oems/:id', to: 'oems#destroy'
+  get '/oems/:id/oem_businesses', to: 'oem_businesses#index'
 
   post '/save_steps', to: 'steps#save_step'
 
   post '/csv_steps', to: 'steps#csv_steps'
-
-  get '/oems', to: 'oems#index'
-
-  post '/oem', to: 'oems#create'
 
   post '/devices/:id', to: 'devices#create'
 
