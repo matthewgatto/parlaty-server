@@ -21,6 +21,10 @@ gem 'jb'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'pundit', '~> 2.1.0'
+gem 'active_model_serializers', '~> 0.10.10'
+gem 'rubocop', '~> 0.86.0'
+
 gem 'devise'
 gem 'jwt'
 # Use ActiveStorage variant

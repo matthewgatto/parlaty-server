@@ -1,10 +1,17 @@
 class ApplicationController < ActionController::API
 	respond_to :json
+	include Pundit
+	rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
 	private
+
+	def user_not_authorized(exception)
+		render json: {"error": I18n.t("pundit.access_denied")}, status: :forbidden
+	end
+
 	# check if user is logged in(check for token), if so assign @user_id
 	def require_login
-		if !request.env["HTTP_AUTHORIZATION"]
+		unless request.env["HTTP_AUTHORIZATION"]
 			# necessary to put return if there are still code after this method that shouldn't be run
 			head :unauthorized and return
 		end

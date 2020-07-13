@@ -3,21 +3,21 @@ class OemsController < ApplicationController
 
   # GET /oems
   def index
-		unless is_p_admin?
-			render json: {"error": "Current user access denied"}, status: :forbidden and return
-		end
-		@user_id = current_user.id
-		@oems = Oem.all
-		#render json: {"oems":[{"name":"OEM 1","oem_id":1,"user_id":@user_id},{"name":"OEM2","oem_id":2,"user_id":@user_id}]}, status: :ok
-		render json: @oems, status: :ok
+		authorize Oem
+   	render json: Oem.all.to_json, status: :ok
+	end
+
+	# POST /oems
+	def create
+		authorize Oem
+		@oem = Oem.create!(oem_params)
+		render json: OemSerializer.oem_as_json(oem), status: :ok
 	end
 
 	# PUT /oems/:id
 	def update
-		if !is_p_admin? && !is_client_admin?
-			render json: {"error": "Current user access denied"}, status: :forbidden and return
-		end
 		@oem = Oem.find(params[:id])
+		authorize @oem
 		if @oem.update_attributes(oem_params)
 			head :ok
 		else
@@ -25,19 +25,10 @@ class OemsController < ApplicationController
 		end
 	end
 
-	# POST /oems
-	def create
-		unless is_p_admin?
-			render json: {"error": "Current user access denied"}, status: :forbidden and return
-		end
-		@oem = Oem.create!(oem_params)
-		render json: {"oem": { "id": @oem.id, "name": @oem.name }}, status: :ok
-	end
-
 	# DELETE /oems/:id
 	def destroy
-		#byebug
 		@oem = Oem.find(params[:id])
+		authorize @oem
 		if @oem.present? && delete_oem(@oem)
 			render json: { "id": params[:id]}, status: :ok
 		else
@@ -48,7 +39,7 @@ class OemsController < ApplicationController
 	private
 
 	def oem_params
-		params.require(:oem).permit(:name)
+		params.require(:oem).permit(policy(@oem).permitted_attributes)
 	end
 
 end
