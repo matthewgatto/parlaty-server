@@ -10,9 +10,11 @@ class OemSerializer
           }
       }
     end
-    
-    def as_json(oem)
-      oem.as_json
+
+    def delete_response(id)
+      {
+        "id": id
+      }
     end
   end
 end
