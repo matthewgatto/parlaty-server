@@ -65,6 +65,7 @@ def get_author_name(author_id)
 end
 
 json = {
+    id: @procedure.id,
 	procedure_id: @procedure.id,
 	name: @procedure.name,
 	oem_businesses: get_oem_businesses(@procedure.oem_businesses),

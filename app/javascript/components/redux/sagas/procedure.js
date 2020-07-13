@@ -84,7 +84,8 @@ export function* createProcedureSaga(action){
 
 }
 
-const normalizeProcedure = ({steps_order, ...procedure}) => normalize(procedure, Schemas.procedure).entities
+const normalizeProcedure = (procedure) => normalize(procedure, Schemas.procedure).entities
+
 export function* updateProcedureSaga(action){
   action.payload.values = {procedure: {id: action.payload.id,name: action.payload.values.name,description: action.payload.values.description}}
   yield call(formSaga, "put", action, normalizeProcedure, handleProcedureUpdateSuccess);

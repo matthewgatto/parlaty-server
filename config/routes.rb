@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'shell#index'
+  root 'dashboard#index'
   devise_for :users, controllers: { 
     confirmations: 'users/confirmations',
     passwords: 'users/passwords',
