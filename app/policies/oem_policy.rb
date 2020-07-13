@@ -9,7 +9,7 @@ class OemPolicy < ApplicationPolicy
   end
 
   def update?
-    parlaty_admin? || !client_admin?
+    parlaty_admin? || client_admin?
   end
 
   def destroy?
