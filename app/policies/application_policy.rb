@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationPolicy
   attr_reader :user, :record
   delegate :parlaty_admin?, :client_admin?, :author?, :operator?, to: :user

@@ -1,5 +1,6 @@
-class OemPolicy < ApplicationPolicy
+# frozen_string_literal: true
 
+class OemPolicy < ApplicationPolicy
   def index?
     parlaty_admin?
   end
@@ -17,7 +18,6 @@ class OemPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [ :name, ]
+    [:name]
   end
-
 end
