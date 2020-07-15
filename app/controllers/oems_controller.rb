@@ -11,9 +11,11 @@ class OemsController < ApplicationController
 
   # POST /oems
   def create
-    authorize Oem
-    @oem = Oem.create!(oem_params)
-    render json: OemSerializer.oem_as_json(oem), status: :ok
+    @oem = Oem.new(oem_params)
+    authorize @oem
+    if @oem.save
+      render json: OemSerializer.oem_as_json(@oem), status: :ok
+    end
   end
 
   # PUT /oems/:id
@@ -41,6 +43,6 @@ class OemsController < ApplicationController
   private
 
   def oem_params
-    params.require(:oem).permit(policy(@oem).permitted_attributes)
+    params.require(:oem).permit(policy(@oem || Oem.new).permitted_attributes)
   end
 end
