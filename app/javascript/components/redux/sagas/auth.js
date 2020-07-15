@@ -12,11 +12,7 @@ const handleInviteConfirmationSuccess = pushAndNotify('/',"Your password has bee
 const makeAuthState = (user) => {
   const normalizedData = normalize(user, Schemas.user);
   const initialState = {auth: normalizedData.entities.users[normalizedData.result]}
-  if(user.roleable_type === "Oem"){
-    const {entities:{oems,businesses}} = normalize({...user, businesses: oem_businesses}, Schemas.oem)
-    initialState.oems = oems;
-    initialState.businesses = businesses || {};
-  } else if(user.roleable_type === "Operator" || user.roleable_type === "Author"){
+  if(user.roleable_type === "Operator" || user.roleable_type === "Author"){
     initialState.businesses = normalizedData.entities.businesses
   } else if(user.roleable_type === "ClientAdmin"){
     initialState.businesses = normalizedData.entities.businesses

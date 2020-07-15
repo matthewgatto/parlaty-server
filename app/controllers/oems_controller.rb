@@ -23,7 +23,7 @@ class OemsController < ApplicationController
     if @oem.update_attributes(oem_params)
       head :ok
     else
-      render json: { "error": @oem.errors.full_messages }, status: :bad_request
+      render json: ApplicationSerializer.error_response(@oem.errors.full_messages), status: :bad_request
     end
   end
 
@@ -32,7 +32,7 @@ class OemsController < ApplicationController
     @oem = Oem.find(params[:id])
     authorize @oem
     if @oem.present? && delete_oem(@oem)
-      render json: OemSerializer.delete_response(params[:id]), status: :ok
+      render json: ApplicationSerializer.delete_response(params[:id]), status: :ok
     else
       head :bad_request
     end

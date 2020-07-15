@@ -89,7 +89,10 @@ const isFormSubmitFailureAction = (type) => (
 export const initialState = {};
 export default (state = initialState, {type, payload}) => {
   if(isFormSubmitAction(type)){
-    return startFormProcessing(state, payload)
+    console.log("was", state);
+    const params = startFormProcessing(state, payload);
+    console.log("now", params);
+    return params;
   }
   if(isFormSubmitFailureAction(type)){
     return setFormErrors(state, payload)

@@ -2,7 +2,8 @@ class UsersController < ApplicationController
     before_action :require_login
 
   # GET /users
-  def users_index
+  def index
+    authorize User
     if is_client_admin?
       oem = Oem.find(current_user.roleable.oem_id)
       tmp_users = Array.new
@@ -29,8 +30,8 @@ class UsersController < ApplicationController
 
   # GET /users/:id
   def show
-    id = params[:id]
-    @user = User.find(id)
+    @user = User.find(params[:id])
+    authorize @user
     @role = @user.roleable
     begin
       if (@user.roleable_type == "Author" or @user.roleable_type == "Operator")
@@ -48,14 +49,12 @@ class UsersController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       @sorted_ob = {}
     end
-    #@oem
-    #@sorted_ob
-
   end
 
   # POST /users
   def create
     @user = User.new(user_params)
+    authorize @user
     if @user.save
       render status: :created
     else
@@ -66,48 +65,22 @@ class UsersController < ApplicationController
 
   # PUT /users/:id
   def update
-    id = params[:id]
-    @user = User.find(id)
-    @user.update_attributes(user_params)
-    if @user
-      @roleable = @user.roleable
-      if @user.roleable_type == "Author" || @user.roleable_type == "Operator"
-        @roleable.oem_businesses.clear
-        new_oem_businesses = params[:user][:categories]
-        new_oem_businesses.map do |new_oemb_id|
-          new_oemb = OemBusiness.find(new_oemb_id)
-          @roleable.oem_businesses << new_oemb
-        end
-        @roleable.save
-      end
-
-      begin
-        if (@user.roleable_type == "Author" or @user.roleable_type == "Operator")
-          @sorted_ob = @user.roleable.oem_businesses.sort_by &:name	
-        elsif 
-          oem = Oem.find(@user.roleable_id)
-          if oem
-            oem_bus = oem.oem_businesses
-            @sorted_ob = oem_bus.sort_by &:name
-          end
-        end
-      rescue ActiveRecord::RecordNotFound
-        @sorted_ob = {}
-      end
-      @devices = Device.all().sort_by &:name
-
-      render "refresh", status: :ok
+    @user = User.find(params[:id])
+    authorize @user
+    if @user.update_attributes(user_params)
+      update_oem_businesses if @user.author? || @user.operator?
+      render json: UserSerializer.update_user_as_json(@user), status: :ok
     else
-      config.logger.error "user find failed in PUT /users/:id " + id.to_s
-      head :bad_request and return
+      head :bad_request and nil
     end
 end
 
   # DELETE /users/:id
   def destroy
     @user = User.find(params[:id])
-    if (@user.destroy)
-      render json: { "id": params[:id]}, status: :ok
+    authorize @user
+    if @user.destroy
+      render json: ApplicationSerializer.delete_response(params[:id]), status: :ok
     else
  	    head :bad_request
     end
@@ -144,8 +117,19 @@ end
 
   private
 
+  def update_oem_businesses
+    role_able = @user.roleable
+    role_able.oem_businesses.clear
+    new_oem_businesses = params[:user][:categories]
+    new_oem_businesses.map do |new_oemb_id|
+      new_oemb = OemBusiness.find(new_oemb_id)
+      role_able.oem_businesses << new_oemb
+    end
+    role_able.save
+  end
+
   def user_params
-    params.require(:user).permit(:mail, :voice, :language)
+    params.require(:user).permit(policy(@user).permitted_attributes)
   end
 
   	# false if not Operator or OperatorAdmin

@@ -26,6 +26,11 @@ Rails.application.routes.draw do
       end
   end
 
+  resources :users do
+    member do
+      get 'refresh'
+    end
+  end
   resources :oems, only: [:index, :create, :update, :destroy]
   resources :steps, only: [:create, :update, :destroy]
   resources :devices, only: [:create, :update, :destroy]
@@ -73,17 +78,4 @@ Rails.application.routes.draw do
   delete '/devices/:id', to: 'devices#destroy'
 
   get '/devices', to: 'devices#devices_index'
-
-  get '/users', to: 'users#users_index'
-
-  get '/users/:id', to: 'users#show'
-
-  get '/users/:id/refresh', to: 'users#refresh'
-
-  post '/users/:id', to: 'users#create'
-
-  put '/users/:id', to: 'users#update'
-
-  delete '/users/:id', to: 'users#destroy'
-
 end

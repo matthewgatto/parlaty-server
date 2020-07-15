@@ -30,6 +30,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+
+  users:
+    create:
+      incorrect_role: roleable type doesn't exist
   pundit:
     access_denied: 'Current user access denied'
     default: 'You cannot perform this action.'

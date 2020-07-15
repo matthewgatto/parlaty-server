@@ -1,8 +1,0 @@
-json = {
-  id: @user.id,
-  email: @user.email,
-  language: @user.language,
-  voice: @user.voice
-}
-
-json

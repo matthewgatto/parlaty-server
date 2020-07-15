@@ -1,16 +1,6 @@
 # frozen_string_literal: true
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
-  
-  # GET /resource/confirmation/new
-  # def new
-  #   super
-  # end
-
-  # POST /resource/confirmation
-  # def create
-  #   super
-  # end
 
   # GET /resource/confirmation?confirmation_token=abcdef
   def show
@@ -32,16 +22,11 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # if confirmation_token matches a user, and password 
   def confirmation_password
     @user = User.confirm_by_token(params[:user][:confirmation_token])
-    if(!@user.id.nil?)
-      if(@user.update_attributes(password: params[:user][:password]))
-        # confirmable method 
-        @user.confirm
-        render json: {} and return
-      end
+    if @user.id.present? && @user.update_attributes(password: params[:user][:password])
+      # @user.confirm
+      render json: {} and return
     end
-    
     render json: { "error": @user.errors.full_messages }, status: :bad_request
-
   end
 
   protected

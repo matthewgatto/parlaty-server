@@ -6,6 +6,7 @@ class User < ApplicationRecord
    
   # roleable calls destory when user gets destroyed       
   belongs_to :roleable, polymorphic: true, optional: true, dependent: :destroy
+  has_many :operations, foreign_key: :operator_id
 
   Users::Role::ROLES.each do |r|
     define_method "#{r}?" do

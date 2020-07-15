@@ -3,9 +3,8 @@ import { NavLink, Link } from 'react-router-dom';
 import styles from './index.module.css';
 import logo from '@assets/images/logo.png';
 
-const Layout = ({children, role,logout}) => {
-  const isAdmin = role === "ParlatyAdmin" || role === "ClientAdmin" || role === "OperatorAdmin",
-        isOEM = role === "Oem";
+const Layout = ({children, role, logout}) => {
+  const isAdmin = role === "ParlatyAdmin" || role === "ClientAdmin";
   return(
     <>
       <div className={styles.header}>
@@ -22,7 +21,7 @@ const Layout = ({children, role,logout}) => {
         {children}
         </main>
         <div className={styles.footer}>
-          <div>&copy; Copyright 2019 Parlaty</div>
+          <div>&copy; Copyright 2020 Parlaty</div>
           <div className={styles.social}>
             <div>Facebook</div>
             <div>Instagram</div>
