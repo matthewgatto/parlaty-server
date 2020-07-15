@@ -2,6 +2,14 @@
 
 class UserSerializer
   class << self
+    def user_as_json(user)
+      {
+        id: user.id,
+        email: user.email,
+        language: user.language,
+        voice: user.voice
+      }
+    end
 
     def update_user_as_json(user)
       {
@@ -16,20 +24,12 @@ class UserSerializer
       }
     end
 
-    def refresh_user_as_json(user)
+    def refresh_user_as_json(user, jwt)
       {
-          jwt: '',
+        jwt: jwt,
       }.merge!(update_user_as_json(user))
     end
 
-    def user_as_json(user)
-      {
-          id: user.id,
-          email: user.email,
-          language: user.language,
-          voice: user.voice
-      }
-    end
     def serialize_oem_businesses(user)
       oem_businesses = OemBusiness.all&.sort_by(&:name) if user.parlaty_admin?
       oem_businesses = user.roleable.oem.oem_businesses&.sort_by(&:name) if user.client_admin?
@@ -39,7 +39,7 @@ class UserSerializer
           name: oem_business.name,
           oem_business_id: oem_business.id
         }
-      end
+      end if oem_businesses
     end
 
     def serialize_devices

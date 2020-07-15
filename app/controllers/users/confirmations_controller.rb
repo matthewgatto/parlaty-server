@@ -23,7 +23,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   def confirmation_password
     @user = User.confirm_by_token(params[:user][:confirmation_token])
     if @user.id.present? && @user.update_attributes(password: params[:user][:password])
-      # @user.confirm
+      @user.confirm
       render json: {} and return
     end
     render json: { "error": @user.errors.full_messages }, status: :bad_request

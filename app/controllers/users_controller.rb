@@ -1,19 +1,16 @@
 class UsersController < ApplicationController
-    before_action :require_login
+  before_action :require_login
 
   # GET /users
   def index
     authorize User
     if is_client_admin?
-      oem = Oem.find(current_user.roleable.oem_id)
+      oem = current_user.roleable.oem
       tmp_users = Array.new
       oem.client_admins.map do |ca|
         tmp_users << ca.user
       end
       oem.oem_businesses.map do |ob|
-        ob.operator_admins.map do |oa|
-          tmp_users << oa.user
-        end
         ob.operators.map do |o|
           tmp_users << o.user
         end
@@ -21,9 +18,9 @@ class UsersController < ApplicationController
           tmp_users << a.user
         end
       end
-      @users = tmp_users.sort_by &:email
+      @users = tmp_users.uniq.compact.sort_by &:email
     else
-      @users = User.all()
+      @users = User.all
     end
     render status: :ok
   end
@@ -58,8 +55,7 @@ class UsersController < ApplicationController
     if @user.save
       render status: :created
     else
-      config.logger.error "user save failed in POST /devices"
-			render json: { "error": @user.errors.full_messages }, status: :bad_request and return
+			render json: ApplicationSerializer.error_response(@user.errors.full_messages), status: :bad_request
     end
   end
 
@@ -71,7 +67,7 @@ class UsersController < ApplicationController
       update_oem_businesses if @user.author? || @user.operator?
       render json: UserSerializer.update_user_as_json(@user), status: :ok
     else
-      head :bad_request and nil
+      head :bad_request
     end
 end
 
@@ -89,30 +85,11 @@ end
   # GET /users/:id
 	def refresh
 		@user = User.find(params[:id])
-    if (@user)
-			@roleable = @user.roleable
-			if deactivated?()
-				render json: {"error": "User has been deactivated"}, status: :bad_request and return
-			else
-				@jwt = Auth.encode({ uid: @user.id})
-				begin
-					if (@user.roleable_type == "Author" or @user.roleable_type == "Operator")
-						@sorted_ob = @user.roleable.oem_businesses.sort_by &:name	
-					elsif 
-						oem = Oem.find(@user.roleable_id)
-						if oem
-							oem_bus = oem.oem_businesses
-							@sorted_ob = oem_bus.sort_by &:name
-						end
-					end
-				rescue ActiveRecord::RecordNotFound
-					@sorted_ob = {}
-				end
-				@devices = Device.all().sort_by &:name
-			end
-		else
-			render json: {"error": "User not found"}, status: :bad_request and return
-		end
+    authorize @user
+    (render json: ApplicationSerializer.error_response(I18n.t("errors.user.not_found")), status: :bad_request and return) if @user.blank?
+    (render json: ApplicationSerializer.error_response(I18n.t("errors.user.deactivated")), status: :bad_request and return) if deactivated?
+    jwt = Auth.encode({ uid: @user.id})
+    render json: UserSerializer.refresh_user_as_json(@user, jwt), status: :ok
 	end
 
   private
@@ -129,18 +106,11 @@ end
   end
 
   def user_params
-    params.require(:user).permit(policy(@user).permitted_attributes)
+    params.require(:user).permit(policy(@user || User.new).permitted_attributes)
   end
 
-  	# false if not Operator or OperatorAdmin
-	def deactivated?()
-		urt = @user.roleable_type
-    if(urt == "Operator" or urt == "OperatorAdmin")
-      @role = @user.roleable
-			return @role.deactivated
-		end
-
-		return false
+	def deactivated?
+    @user.roleable.deactivated if @user.operator?
 	end
 
 end

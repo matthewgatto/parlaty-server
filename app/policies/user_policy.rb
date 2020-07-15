@@ -21,6 +21,10 @@ class UserPolicy < ApplicationPolicy
     index?
   end
 
+  def refresh?
+    true
+  end
+
   def permitted_attributes
     [:email, :language, :voice]
   end

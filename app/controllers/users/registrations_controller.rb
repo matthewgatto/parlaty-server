@@ -29,7 +29,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         respond_with resource
       end
     rescue
-      render json: { error: I18n.t("users.create.incorrect_role") }, status: :bad_request and return
+      render json: ApplicationSerializer.error_response(I18n.t("errors.user.incorrect_role")), status: :bad_request and return
     end
   end
 

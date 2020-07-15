@@ -30,10 +30,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-
-  users:
-    create:
+  errors:
+    user:
+      deactivated: User has been deactivated
       incorrect_role: roleable type doesn't exist
+      not_found: User not found
   pundit:
     access_denied: 'Current user access denied'
     default: 'You cannot perform this action.'
