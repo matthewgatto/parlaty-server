@@ -22,7 +22,7 @@ export default ({role}) => (
     }}
     form={{
       entity: "create_client",
-      url: "/oem",
+      url: "/oems",
       type: CREATE_OEM_REQUEST,
       initialValues: {},
       id: uuid(),
