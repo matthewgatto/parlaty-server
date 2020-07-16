@@ -12,11 +12,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize @user
     @role = @user.roleable
-    if true
-      render json: UserSerializer.user_as_json(@user), status: :ok
-    else
-      head :bad_request
-    end
+    render json: UserSerializer.user_as_json(@user), status: :ok
   end
 
   # POST /users

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::API
 		if @user_id
 			@current_user ||= User.find(@user_id)
 		else
-			head :unauthorized and return
+			head :unauthorized
 		end
 	end
 
@@ -31,25 +31,16 @@ class ApplicationController < ActionController::API
 		delete_saved_steps(oem.saved_steps)
 		delete_client_admins(oem.client_admins)
 		delete_oem_businesses(oem.oem_businesses)
-		if (oem.destroy)
-			return true
-		else
-			return false
-		end
+		oem.destroy
 	end
 
 	def delete_oem_business(oemb)
-		#byebug
 		delete_procedures(oemb.procedures)
-		if (oemb.destroy)
-			return true
-		else
-			return false
-		end
+		oemb.destroy
 	end
 
 	def delete_saved_steps(elements)
-		if !elements.nil?
+		unless elements.nil?
 			elements.map do |element|
 				element.destroy
 			end
@@ -57,7 +48,7 @@ class ApplicationController < ActionController::API
 	end
 
 	def delete_client_admins(elements)
-		if !elements.nil?
+		unless elements.nil?
 			elements.map do |element|
 				element.destroy
 			end
@@ -65,7 +56,7 @@ class ApplicationController < ActionController::API
 	end
 
 	def delete_oem_businesses(elements)
-		if !elements.nil?
+		unless elements.nil?
 			elements.map do |element|
 				delete_oem_business(element)
 			end
@@ -73,7 +64,7 @@ class ApplicationController < ActionController::API
 	end
 
 	def delete_procedures(elements)
-		if !elements.nil?
+		unless elements.nil?
 			elements.map do |element|
 				delete_procedure(element)
 			end
@@ -81,13 +72,8 @@ class ApplicationController < ActionController::API
 	end
 
 	def delete_procedure(procedure)
-		#byebug
 		# don't delete procedure if it belongs to other oem_business
-		if (procedure.oem_businesses.count == 1 && procedure.destroy)
-			return true
-		 else
-			 return false
-		end
+		procedure.oem_businesses.count == 1 && procedure.destroy
 	end
 
 end

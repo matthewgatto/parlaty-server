@@ -1,80 +1,57 @@
 class OemBusinessesController < ApplicationController
 	before_action :require_login
 
-	# GET /oem_businesses/:id
-	def show
-		#byebug
-		@oemb = OemBusiness.find(params[:id])
-		curr_user = current_user
-		roleable = curr_user.roleable
-		hasOemBusiness = false
-		if is_author? || is_operator?
-			roleable.oem_businesses.map do |ob|
-				if !hasOemBusiness
-					hasOemBusiness = ob.id == params[:id].to_i
-				end
-			end
-		end
-		is_valid = is_p_admin? ||
-			(is_author? && hasOemBusiness) ||
-			(is_operator? && hasOemBusiness) ||
-			is_client_admin?
-		if !is_valid
-			render json: {"error": "Current user access denied"}, status: :forbidden and return
-		end
-
-	end
-
 	# GET /oems/:id/oem_businesses
 	def index
-		# padmin and itself
-		# and users whch belong to oem and oem businesses (categories)
-		can_access = is_p_admin? || is_author? || is_operator?
-		if !can_access
-			render json: {"error": "Current user access denied"}, status: :forbidden and return
+		authorize OemBusiness
+		render json: OemSerializer.oem_with_oem_businesses_as_json(Oem.find(params[:id])), status: :ok
+	end
+
+	# GET /oem_businesses/:id
+	def show
+		@oem_business = OemBusiness.find(params[:id])
+		authorize @oem_business
+		if permitted_user?
+			render json: OemBusinessSerializer.show_oem_business_as_json(@oem_business), status: :ok
+		else
+			render json: ApplicationSerializer.error_response(I18n.t("pundit.access_denied")), status: :forbidden
 		end
-
-		oem = Oem.find(params[:id])
-		oem_bus = oem.oem_businesses
-
-		# sort array by name
-		# &:name is {|i| i.name }
-		@oem_name = oem.name
-		@sorted_ob = oem_bus.sort_by &:name
-		# output in oems/index.json.jb
 	end
 
 	# POST /oem_businesses
 	def create
-		#byebug
-		if !is_p_admin? && !is_client_admin?
-			render json: {"error": "Current user access denied"}, status: :forbidden and return
+		@oem_business = OemBusiness.new(oem_business_params)
+		authorize @oem_business
+		if @oem_business.save
+			render json: OemBusinessSerializer.create_oem_business_as_json(@oem_business), status: :ok
+		else
+			render json: ApplicationSerializer.error_response(@oem_business.errors.full_messages), status: :bad_request
 		end
-		name = params[:name]
-		oem_id = params[:oem_id]
-		if (is_client_admin?)
-			@client_admin = current_user.roleable
-			oem_id = @client_admin.oem_id
-		end
-		@oem = Oem.find(oem_id)
-		@oemb = OemBusiness.create!(name: name)
-		@oem.oem_businesses << @oemb
-		render json: {"oem_business": { "id": @oemb.id, "name": @oem.name, "oem_id": @oem.id}}, status: :ok
 	end
 	
 	# DELETE /oem_businesses/:id
 	def destroy
-		#byebug
-		@oemb = OemBusiness.find(params[:id])
-		if (@oemb)
-			if delete_oem_business(@oemb)
-				render json: { "id": params[:id]}, status: :ok
-			else
-				head :bad_request
-			end
+		@oem_business = OemBusiness.find(params[:id])
+		(head :bad_request and return) if @oem_business.blank?
+		authorize @oem_business
+		if delete_oem_business(@oem_business)
+			render json: ApplicationSerializer.delete_response(params[:id]), status: :ok
+		else
+			head :bad_request
 		end
 	end
 	
 	private
+
+	def permitted_user?
+		current_user.parlaty_admin? ||
+		current_user.client_admin? ||
+		@oem_business.author_ids.include?(current_user.id) ||
+		@oem_business.operator_ids.include?(current_user.id)
+	end
+
+	def oem_business_params
+		params.require(:oem_business).permit(policy(@oem_business || OemBusiness.new).permitted_attributes)
+	end
 
 end

@@ -32,13 +32,11 @@ Rails.application.routes.draw do
   resources :oems, only: [:index, :create, :update, :destroy]
   resources :steps, only: [:create, :update, :destroy]
   resources :devices, only: [:create, :update, :destroy]
-  resources :oem_businesses, only: [:show]
+  resources :oem_businesses, only: [:create, :show, :destroy]
+
+  get '/oems/:id/oem_businesses', to: 'oem_businesses#index'
 
   get '/oem_businesses/:id/procedures', to: 'procedures#index'
-
-  post '/oem_businesses', to: 'oem_businesses#create'
-
-  delete '/oem_businesses/:id', to: 'oem_businesses#destroy'
 
   #JDT
   put '/procedures/:id', to: 'procedures#update'
@@ -49,11 +47,7 @@ Rails.application.routes.draw do
 
   put '/procedures/:id/update_categories', to: 'procedures#update_categories'
 
-
-
   post '/steps/:id/visuals', to: 'steps#add_visuals'
-
-  get '/oems/:id/oem_businesses', to: 'oem_businesses#index'
 
   post '/save_steps', to: 'steps#save_step'
 
