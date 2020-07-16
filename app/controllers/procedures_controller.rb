@@ -5,13 +5,8 @@ class ProceduresController < ApplicationController
 
 	# GET /oem_businesses/:id/procedures
 	# return procedures of the oem_business, sorted alphabetically
-	def oembusiness_prod_index
-		# oem associated to oem_business
+	def index
 		oemb = OemBusiness.find(params[:id])
-		if !( is_p_admin? || is_author? || is_operator? || is_client_admin?)
-			render json: {"error": "Current user access denied"}, status: :forbidden and return
-		end
-
 		@procedures = (oemb.procedures).sort_by &:name
 	end
 
@@ -22,15 +17,6 @@ class ProceduresController < ApplicationController
 		arr_of_oem = Array.new
 		@procedure.oem_businesses.map do |oem_business|
 			arr_of_oem << oem_business.oem_id
-		end
-		# have to check if procedure belongs to operator
-		# operator can access its associated procedures, OA and and Oem associated to procedures
-		if !( is_p_admin? \
-			|| is_author? \
-			|| is_operator? \
-			|| is_client_admin? \
-		)
-			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
 		begin
 			@steps = Step.find(@procedure.steps_order)

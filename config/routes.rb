@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   resources :devices, only: [:create, :update, :destroy]
   resources :oem_businesses, only: [:show]
 
-  get '/oem_businesses/:id/procedures', to: 'procedures#oembusiness_prod_index'
+  get '/oem_businesses/:id/procedures', to: 'procedures#index'
 
   post '/oem_businesses', to: 'oem_businesses#create'
 
