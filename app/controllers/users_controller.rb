@@ -4,25 +4,7 @@ class UsersController < ApplicationController
   # GET /users
   def index
     authorize User
-    if is_client_admin?
-      oem = current_user.roleable.oem
-      tmp_users = Array.new
-      oem.client_admins.map do |ca|
-        tmp_users << ca.user
-      end
-      oem.oem_businesses.map do |ob|
-        ob.operators.map do |o|
-          tmp_users << o.user
-        end
-        ob.authors.map do |a|
-          tmp_users << a.user
-        end
-      end
-      @users = tmp_users.uniq.compact.sort_by &:email
-    else
-      @users = User.all
-    end
-    render status: :ok
+    render json: UserSerializer.users_as_json(current_user), status: :ok
   end
 
   # GET /users/:id
@@ -30,21 +12,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize @user
     @role = @user.roleable
-    begin
-      if (@user.roleable_type == "Author" or @user.roleable_type == "Operator")
-        @sorted_ob = @user.roleable.oem_businesses.sort_by &:name	
-        @sorted_ob.map do |oem_business|
-          @oem = Oem.find(oem_business.oem_id)
-        end
-      elsif 
-        @oem = Oem.find(@user.roleable_id)
-        if @oem
-          oem_bus = @oem.oem_businesses
-          @sorted_ob = oem_bus.sort_by &:name
-        end
-      end
-    rescue ActiveRecord::RecordNotFound
-      @sorted_ob = {}
+    if true
+      render json: UserSerializer.user_as_json(@user), status: :ok
+    else
+      head :bad_request
     end
   end
 
