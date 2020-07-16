@@ -42,7 +42,7 @@ class UserSerializer
       simple_user_as_json(user).merge!(
         {
           oem: serialize_oem(user),
-          oem_businesses: OemBusinessSerializer.oem_businesses_as_json(user)
+          oem_businesses: OemBusinessSerializer.user_oem_businesses_as_json(user)
         }
       )
     end

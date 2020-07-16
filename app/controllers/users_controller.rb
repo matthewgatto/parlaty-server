@@ -11,7 +11,6 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     authorize @user
-    @role = @user.roleable
     render json: UserSerializer.user_as_json(@user), status: :ok
   end
 
