@@ -32,12 +32,7 @@ Rails.application.routes.draw do
   resources :oems, only: [:index, :create, :update, :destroy]
   resources :steps, only: [:create, :update, :destroy]
   resources :devices, only: [:create, :update, :destroy]
-  resources :operators, only: [:update, :destroy]
   resources :oem_businesses, only: [:show]
-
-  get '/oem_businesses/:id/operators', to: 'operators#oembus_op_index'
-
-  get '/operators/:id/procedures', to: 'procedures#operator_prod_index'
 
   get '/oem_businesses/:id/procedures', to: 'procedures#oembusiness_prod_index'
 

@@ -15,7 +15,7 @@ class OemBusinessesController < ApplicationController
 				end
 			end
 		end
-		is_valid = is_p_admin? || cuser_is?("Oem", @oemb.oem_id) ||
+		is_valid = is_p_admin? ||
 			(is_author? && hasOemBusiness) ||
 			(is_operator? && hasOemBusiness) ||
 			is_client_admin?
@@ -29,7 +29,7 @@ class OemBusinessesController < ApplicationController
 	def index
 		# padmin and itself
 		# and users whch belong to oem and oem businesses (categories)
-		can_access = is_p_admin? || cuser_is?("Oem", params[:id]) || is_author? || is_operator?
+		can_access = is_p_admin? || is_author? || is_operator?
 		if !can_access
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end

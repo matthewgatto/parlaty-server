@@ -3,31 +3,12 @@ class ProceduresController < ApplicationController
 
 	before_action :require_login
 
-	# GET /operators/:id/procedures
-	# return procedures sorted by most recently used
-	def operator_prod_index
-		# operator itself, OA and Oem associated to operator
-		operator = Operator.find(params[:id])
-		oemb = OemBusiness.find(operator.oem_business_id)
-		arr_of_oa = oemb.operator_admins.pluck(:id)
-
-		if !( is_p_admin?  || cuser_is?("Operator", params[:id]))
-			render json: {"error": "Current user access denied"}, status: :forbidden and return
-		end
-
-		operations = Operation.where(operator_id: params[:id])
-		sorted_op = (operations.sort_by &:last_used).reverse
-		# returns an array of the procedures in the sorted operations
-		pcd_arr = sorted_op.pluck(:procedure_id)
-		@procedures = Procedure.find(pcd_arr)
-	end
-
 	# GET /oem_businesses/:id/procedures
 	# return procedures of the oem_business, sorted alphabetically
 	def oembusiness_prod_index
 		# oem associated to oem_business
 		oemb = OemBusiness.find(params[:id])
-		if !( is_p_admin? || cuser_is?("Oem", oemb.oem_id) || is_author? || is_operator? || is_client_admin?)
+		if !( is_p_admin? || is_author? || is_operator? || is_client_admin?)
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
 
@@ -38,11 +19,6 @@ class ProceduresController < ApplicationController
 	# also returns associated steps
 	def show
 		@procedure = Procedure.find(params[:id])
-		arr_of_oa = Array.new
-		@procedure.oem_businesses.map do |oem_business|
-			tmp_arr_of_oa = oem_business.operator_admins.pluck(:id)
-			arr_of_oa = arr_of_oa + tmp_arr_of_oa
-		end
 		arr_of_oem = Array.new
 		@procedure.oem_businesses.map do |oem_business|
 			arr_of_oem << oem_business.oem_id
@@ -50,7 +26,6 @@ class ProceduresController < ApplicationController
 		# have to check if procedure belongs to operator
 		# operator can access its associated procedures, OA and and Oem associated to procedures
 		if !( is_p_admin? \
-			|| cuser_is?("Oem", arr_of_oem) \
 			|| is_author? \
 			|| is_operator? \
 			|| is_client_admin? \
