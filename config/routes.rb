@@ -15,10 +15,6 @@ Rails.application.routes.draw do
     get "/reset-password", to: "users/passwords#edit"
   end
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
-  # api only app doesn't provide default new, edit path for resources
-
   resources :procedures, only: [:show, :create] do
       member do
         put 'reorder'
@@ -26,11 +22,13 @@ Rails.application.routes.draw do
       end
   end
 
+  post '/login', to: 'sessions#create'
   resources :users do
     member do
       get 'refresh'
     end
   end
+
   resources :oems, only: [:index, :create, :update, :destroy]
   resources :steps, only: [:create, :update, :destroy]
   resources :devices, only: [:create, :update, :destroy]
@@ -56,7 +54,7 @@ Rails.application.routes.draw do
 
   put '/procedures/:id/update_categories', to: 'procedures#update_categories'
 
-  post '/login', to: 'sessions#create'
+
 
   post '/steps/:id/visuals', to: 'steps#add_visuals'
 

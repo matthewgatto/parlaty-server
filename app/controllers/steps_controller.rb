@@ -3,11 +3,9 @@ require 'uri'
 
 class StepsController < ApplicationController
 	before_action :require_login
-	# POST /steps
 
+	# POST /steps
 	def create
-		# oem associated, padmin
-#byebug
 		@step = Step.new(step_params)
 		@procedure = Procedure.find(@step.procedure_id)
 		prev_si = params[:previous_step_id].to_i
