@@ -34,15 +34,8 @@ class SessionsController < ApplicationController
 
 	private
 
-	# false if not Operator or OperatorAdmin
-	def deactivated?()
-		urt = @user.roleable_type
-
-		if(urt == "Operator" or urt == "OperatorAdmin")
-			return @role.deactivated
-		end
-
-		return false
+	def deactivated?
+		@user.roleable.deactivated if @user.operator?
 	end
 
 end

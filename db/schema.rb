@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_26_224728) do
+ActiveRecord::Schema.define(version: 2020_07_16_131140) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -129,15 +129,6 @@ ActiveRecord::Schema.define(version: 2020_05_26_224728) do
     t.index ["procedure_id"], name: "index_operations_on_procedure_id"
   end
 
-  create_table "operator_admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name"
-    t.boolean "deactivated", default: false
-    t.bigint "oem_business_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["oem_business_id"], name: "index_operator_admins_on_oem_business_id"
-  end
-
   create_table "operators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.boolean "deactivated", default: false
@@ -209,7 +200,6 @@ ActiveRecord::Schema.define(version: 2020_05_26_224728) do
   add_foreign_key "client_admins", "oems"
   add_foreign_key "devices", "procedures"
   add_foreign_key "oem_businesses", "oems"
-  add_foreign_key "operator_admins", "oem_businesses"
   add_foreign_key "steps", "devices"
   add_foreign_key "steps", "oems"
   add_foreign_key "steps", "procedures"

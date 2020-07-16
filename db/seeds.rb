@@ -25,20 +25,6 @@ while x <= 2
 	x = x+1
 end
 
-# Operator Admin
-x = 1
-while x <= 3
-	operatorAdmin = OperatorAdmin.create!(oem_business_id: 1, name: Faker::Name.first_name)
-	myemail = "oadmin" + x.to_s + "@jmg.rocks"
-	if x == 1
-		myemail = "oadmin@gmail.com"
-	end
-	user = User.new(email: myemail, password: "password")
-	user.confirm
-	user.roleable = operatorAdmin
-	user.save	
-	x += 1
-end
 
 # Operator
 x = 1

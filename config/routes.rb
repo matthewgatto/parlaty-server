@@ -36,11 +36,6 @@ Rails.application.routes.draw do
   resources :devices, only: [:create, :update, :destroy]
   resources :operators, only: [:update, :destroy]
   resources :oem_businesses, only: [:show]
-  resources :operator_admins, only: [:update, :destroy]
-
-  get '/oem_businesses/:id/operator_admins', to: 'operator_admins#oembus_oadmin_index'
-
-  get '/operator_admins/:id/operators', to: 'operators#oadmin_op_index'
 
   get '/oem_businesses/:id/operators', to: 'operators#oembus_op_index'
 

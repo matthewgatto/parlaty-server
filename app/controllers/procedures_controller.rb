@@ -11,7 +11,7 @@ class ProceduresController < ApplicationController
 		oemb = OemBusiness.find(operator.oem_business_id)
 		arr_of_oa = oemb.operator_admins.pluck(:id)
 
-		if !( is_p_admin?  || cuser_is?("Operator", params[:id]) || cuser_is_in?("OperatorAdmin", arr_of_oa) || cuser_is?("Oem", oemb.oem_id))
+		if !( is_p_admin?  || cuser_is?("Operator", params[:id]))
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
 
@@ -54,8 +54,6 @@ class ProceduresController < ApplicationController
 			|| is_author? \
 			|| is_operator? \
 			|| is_client_admin? \
-			|| cuser_is?("Oem", arr_of_oem) \
-			|| cuser_is?("OperatorAdmin", arr_of_oa) \
 		)
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end

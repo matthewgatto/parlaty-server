@@ -1,22 +1,6 @@
 class OperatorsController < ApplicationController
 	before_action :require_login
 
-	# GET /operator_admins/:id/operators
-	def oadmin_op_index
-		# only operator_admin of id, and its oem
-		op_admin = OperatorAdmin.find(params[:id])
-		@oemb = OemBusiness.find(op_admin.oem_business_id)
-
-		if !( is_p_admin? || cuser_is?("Oem", @oemb.oem_id) || 
-			cuser_is?("OperatorAdmin", params[:id]))
-			render json: {"error": "Current user access denied"}, status: :forbidden and return
-		end
-		# find associated operators through its oem_businesss, have to not be deactivated
-		@operators = op_admin.oem_business.operators.where(deactivated: false)
-
-		# operators/oadmin_index.json.jb
-	end
-
 	# GET /oem_businesses/:id/operators
 	def oembus_op_index
 		# own oem
@@ -37,7 +21,7 @@ class OperatorsController < ApplicationController
 		arr_of_oa = oemb.operator_admins.pluck(:id)
 
 		if !( is_p_admin? || 
-			cuser_is?("Oem", oemb.oem_id) || cuser_is_in?("OperatorAdmin", arr_of_oa) )
+			cuser_is?("Oem", oemb.oem_id))
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
 
@@ -82,7 +66,7 @@ class OperatorsController < ApplicationController
 		oemb = OemBusiness.find(@operator.oem_business_id)
 		arr_of_oa = oemb.operator_admins.pluck(:id)
 		if !( is_p_admin? ||
-			cuser_is?("Oem", oemb.oem_id) || cuser_is_in?("OperatorAdmin", arr_of_oa) )
+			cuser_is?("Oem", oemb.oem_id) )
 			render json: {"error": "Current user access denied"}, status: :forbidden and return
 		end
 
