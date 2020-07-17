@@ -2,11 +2,11 @@
 
 class OemBusinessPolicy < ApplicationPolicy
   def index?
-    parlaty_admin? || author? || operator?
+    true
   end
 
   def show?
-    true
+    index?
   end
 
   def create?
@@ -14,7 +14,7 @@ class OemBusinessPolicy < ApplicationPolicy
   end
 
   def destroy?
-    create?
+    !operator?
   end
 
   def permitted_attributes

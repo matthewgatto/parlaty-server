@@ -159,7 +159,7 @@ export function* updateCategoriesSaga(action){
       const businessToRemoveFrom = businesses.byId[removedCategories[i]]
       updatedBusinesses[removedCategories[i]] = {...businessToRemoveFrom, procedures: businessToRemoveFrom.procedures.filter(x => x != action.payload.id)}
     }
-    const response = yield call(API.put, `/procedures/${action.payload.id}/update_categories`,{categories})
+    const response = yield call(API.put, `/procedures/${action.payload.id}/update`,{ procedure: { oem_business_ids: categories } })
     yield put(setModal())
     yield put(addToast("success", "Procedure sites successfully updated."))
     yield put({type: action.type+"__SUCCESS", payload: {

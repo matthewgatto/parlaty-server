@@ -1,6 +1,7 @@
 class ProceduresController < ApplicationController
 	include ActiveStorage::Downloading
 	before_action :require_login
+	before_action :set_params, only: %i[show update destroy reorder]
 
 	# GET /oem_businesses/:id/procedures
 	def index
@@ -15,10 +16,9 @@ class ProceduresController < ApplicationController
 
 	# GET /procedures/:id
 	def show
-		procedure = Procedure.find(params[:id])
-		authorize procedure
-		steps = Step.find(procedure.steps_order) if procedure.steps_order.present?
-		render json: ProcedureSerializer.procedure_as_json(procedure, steps), status: :ok
+		authorize @procedure
+		@steps = Step.find(@procedure.steps_order) if @procedure.steps_order.present?
+		render json: ProcedureSerializer.procedure_as_json(@procedure, @steps), status: :ok
 	end
 
 	# POST /procedures
@@ -52,68 +52,34 @@ class ProceduresController < ApplicationController
 		end
 	end
 
-	#JDT uncommented update code
+	# PUT /procedures/:id/update
 	 def update
-
-		 @procedure = Procedure.find(params[:id])
-		 if(@procedure.update_attributes(procedure_params))
-			# do we need to update steps too?
-			 #render json: @procedure, status: :ok
-			 @steps = @procedure.steps
-			 render "show", status: :ok
+		 authorize @procedure
+		 if @procedure.update_attributes(procedure_params)
+			 @steps = Step.find(@procedure.steps_order) if @procedure.steps_order.present?
+			 render json: ProcedureSerializer.procedure_as_json(@procedure, @steps), status: :ok
 	 	else
 	 		head :bad_request
 	 	end
 	 end
-	# end uncomment
 
-	# PUT /procedures/:id/update_categories
-	def update_categories
-		@procedure = Procedure.find(params[:id])
-		if (@procedure)
-			@procedure.oem_businesses.clear
-			params[:categories].each do |c_id|
-				oem_business = OemBusiness.find(c_id)
-				@procedure.oem_businesses << oem_business
-			end
-			@procedure.save
-			#render json: @procedure, status: :ok
-			@steps = @procedure.steps
-			render "show", status: :ok
-		else
-			head :bad_request
-		end
+	# PUT /procedures/:id/reorder
+	def reorder
+		authorize @procedure
+		so_arr = procedure_params[:steps_order].split(",").map(&:to_i)
+		@procedure.steps_order = so_arr
+		@procedure.save
+		head :ok
 	end
 
 	# DELETE /procedures/:id
 	def destroy
-		@procedure = Procedure.find(params[:id])
+		authorize @procedure
 		if @procedure.destroy
-			render json: { "id": params[:id]}, status: :ok
+			render json: ApplicationSerializer.delete_response(params[:id]), status: :ok
 	 	else
 	 		head :bad_request
 		end
-	end
-
-	# PUT /procedures/:id/reorder
-	def reorder
-		# oem associated and padmin
-
-		@procedure = Procedure.find(params[:id])
-		so_arr = params[:procedure][:steps_order].split(",").map(&:to_i)
-		pso = @procedure.steps_order
-		# make sure the reordered array has the same elements
-		
-		#if !( (pso - so_arr).blank? and (so_arr.size == pso.size) )
-		#	render json:
-		#	{ "error": "reordered steps_order doesn't have the same elements as the original" } ,status: :bad_request
-		#	return
-		#end
-		
-		@procedure.steps_order = so_arr
-		@procedure.save
-		head :ok
-
 	end
 
 	# PUT /procedures/:id/used
@@ -213,9 +179,12 @@ class ProceduresController < ApplicationController
 
 	private
 
+		def set_params
+			@procedure = Procedure.find(params[:id])
+		end
+
 		def procedure_params
-			#params.require(:procedure).permit(:name, :version, :description, :category, :author, :language, :oem_business_id)
-			params.require(:procedure).permit(:name, :version, :description, :category, :author, :language)
+			params.require(:procedure).permit(policy(@procedure || Procedure.new).permitted_attributes)
 		end
 
 		def step_params(index)

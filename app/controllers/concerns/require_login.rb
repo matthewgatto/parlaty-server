@@ -27,8 +27,8 @@ module RequireLogin
   def permitted_user?(user, oem_business)
     user.parlaty_admin? ||
       user.client_admin? ||
-      oem_business.author_ids.include?(user.id) ||
-      oem_business.operator_ids.include?(user.id)
+      oem_business.author_ids.include?(user.roleable.id) ||
+      oem_business.operator_ids.include?(user.roleable.id)
   end
 
 end
