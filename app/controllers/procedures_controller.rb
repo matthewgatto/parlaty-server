@@ -52,7 +52,7 @@ class ProceduresController < ApplicationController
 		end
 	end
 
-	# PUT /procedures/:id/update
+	# PUT /procedures/:id
 	 def update
 		 authorize @procedure
 		 if @procedure.update_attributes(procedure_params)

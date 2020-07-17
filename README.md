@@ -12,8 +12,7 @@ Then open your browser and point it to localhost:3000
 
 ### Login credentials
 
-user: oem@gmail.com
-
+user: padmin@gmail.com
 password: password
 
 # Deploy to prod
@@ -22,7 +21,7 @@ export RAILS_LOG_TO_STDOUT=true
 export PS_DATABASE_PASSWORD=xxxxxxx
 export RAILS_ENV=production
 export SECRET_KEY_BASE=xxxxxxxx
-cap --trace production deploy BRANCH=branch-to-deploy
+cap production deploy BRANCH=branch-to-deploy
 
 # Prod
 

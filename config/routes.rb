@@ -15,19 +15,20 @@ Rails.application.routes.draw do
     get "/reset-password", to: "users/passwords#edit"
   end
 
-  resources :procedures, only: [:show, :create] do
+  resources :procedures, only: [:show, :create, :update, :destroy] do
       member do
         put 'reorder'
         put 'used'
+        put 'copy'
       end
   end
 
-  post '/login', to: 'sessions#create'
   resources :users do
     member do
       get 'refresh'
     end
   end
+  post '/login', to: 'sessions#create'
 
   resources :oems, only: [:index, :create, :update, :destroy]
   resources :steps, only: [:create, :update, :destroy]
@@ -35,15 +36,9 @@ Rails.application.routes.draw do
   resources :oem_businesses, only: [:create, :show, :destroy]
 
   get '/oems/:id/oem_businesses', to: 'oem_businesses#index'
-
   get '/oem_businesses/:id/procedures', to: 'procedures#index'
 
   #JDT
-  put '/procedures/:id', to: 'procedures#update'
-
-  delete '/procedures/:id', to: 'procedures#destroy'
-
-  post '/procedures/:id/copy', to: 'procedures#copy'
 
   post '/steps/:id/visuals', to: 'steps#add_visuals'
 
