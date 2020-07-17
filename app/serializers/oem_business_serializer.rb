@@ -20,8 +20,12 @@ class OemBusinessSerializer
 
     def show_oem_business_as_json(oem_business)
       simple_oem_business_as_json(oem_business).merge!(
-        { procedures: procedures_as_json(oem_business.procedures) }
+        ProcedureSerializer.procedures_as_json(oem_business.procedures)
       )
+    end
+
+    def procedure_oem_businesses_as_json(oem_businesses)
+      oem_businesses.map{ |oem_business| { oem_business_id: oem_business.id } }
     end
 
     def simple_oem_business_as_json(oem_business)
@@ -31,26 +35,6 @@ class OemBusinessSerializer
         name: oem_business.name,
         oem_id: oem_business.oem_id
       }
-    end
-
-    def procedures_as_json(procedures)
-      procedures.map do |procedure|
-        {
-          id: procedure.id,
-          name: procedure.name,
-          author: author_name(procedure.author),
-          language: procedure.language,
-          devices: DeviceSerializer.devices_as_json(procedure.devices)
-        }
-      end
-    end
-
-    def author_name(author_id)
-      begin
-        User.find(author_id).roleable.name
-      rescue
-        nil
-      end
     end
 
   end

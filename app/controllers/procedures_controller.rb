@@ -1,30 +1,24 @@
 class ProceduresController < ApplicationController
 	include ActiveStorage::Downloading
-
 	before_action :require_login
 
 	# GET /oem_businesses/:id/procedures
-	# return procedures of the oem_business, sorted alphabetically
 	def index
-		oemb = OemBusiness.find(params[:id])
-		@procedures = (oemb.procedures).sort_by &:name
+		oem_business = OemBusiness.find(params[:id])
+		authorize oem_business
+		if permitted_user?(current_user, oem_business)
+			render json: ProcedureSerializer.procedures_as_json((oem_business.procedures).sort_by &:name), status: :ok
+		else
+			render json: ApplicationSerializer.error_response(I18n.t("pundit.access_denied")), status: :forbidden
+		end
 	end
 
 	# GET /procedures/:id
-	# also returns associated steps
 	def show
-		@procedure = Procedure.find(params[:id])
-		arr_of_oem = Array.new
-		@procedure.oem_businesses.map do |oem_business|
-			arr_of_oem << oem_business.oem_id
-		end
-		begin
-			@steps = Step.find(@procedure.steps_order)
-		rescue ActiveRecord::RecordNotFound
-			
-		end
-		#@steps = Step.includes(:visuals).find(@procedure.steps_order)
-		#json output defined in app/views/procedures/show.json.jb
+		procedure = Procedure.find(params[:id])
+		authorize procedure
+		steps = Step.find(procedure.steps_order) if procedure.steps_order.present?
+		render json: ProcedureSerializer.procedure_as_json(procedure, steps), status: :ok
 	end
 
 	# POST /procedures

@@ -11,7 +11,7 @@ class OemBusinessesController < ApplicationController
 	def show
 		@oem_business = OemBusiness.find(params[:id])
 		authorize @oem_business
-		if permitted_user?
+		if permitted_user?(current_user, @oem_business)
 			render json: OemBusinessSerializer.show_oem_business_as_json(@oem_business), status: :ok
 		else
 			render json: ApplicationSerializer.error_response(I18n.t("pundit.access_denied")), status: :forbidden
@@ -42,13 +42,6 @@ class OemBusinessesController < ApplicationController
 	end
 	
 	private
-
-	def permitted_user?
-		current_user.parlaty_admin? ||
-		current_user.client_admin? ||
-		@oem_business.author_ids.include?(current_user.id) ||
-		@oem_business.operator_ids.include?(current_user.id)
-	end
 
 	def oem_business_params
 		params.require(:oem_business).permit(policy(@oem_business || OemBusiness.new).permitted_attributes)

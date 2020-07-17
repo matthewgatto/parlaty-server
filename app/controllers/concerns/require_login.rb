@@ -24,4 +24,11 @@ module RequireLogin
     @user_id = decoded["uid"]
   end
 
+  def permitted_user?(user, oem_business)
+    user.parlaty_admin? ||
+      user.client_admin? ||
+      oem_business.author_ids.include?(user.id) ||
+      oem_business.operator_ids.include?(user.id)
+  end
+
 end
