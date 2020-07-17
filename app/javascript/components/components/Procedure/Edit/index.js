@@ -62,9 +62,9 @@ export default ({match:{params:{oem_id,business_id,id}}}) => {
   const dispatch = useDispatch();
   const addSteps = () => dispatch(loadStepForms(initialValues.steps_order))
   useEffect(() => {
-    if(!initialValues || typeof initialValues.description === 'undefined'){
-      dispatch({type: FETCH_PROCEDURE_REQUEST, payload: {url: `/procedures/${id}`, id}})
-    }
+    // if(!initialValues || typeof initialValues.description === 'undefined'){
+    dispatch({type: FETCH_PROCEDURE_REQUEST, payload: {url: `/procedures/${id}`, id}})
+    // }
     if(initialValues && initialValues.steps && initialValues.steps.length > 0){
       addSteps();
     }

@@ -53,15 +53,14 @@ class ProceduresController < ApplicationController
 	end
 
 	# PUT /procedures/:id
-	 def update
-		 authorize @procedure
-		 if @procedure.update_attributes(procedure_params)
-			 @steps = Step.find(@procedure.steps_order) if @procedure.steps_order.present?
-			 render json: ProcedureSerializer.procedure_as_json(@procedure, @steps), status: :ok
-	 	else
-	 		head :bad_request
-	 	end
-	 end
+	def update
+		authorize @procedure
+		if @procedure.update_attributes(procedure_params)
+			head :ok
+		else
+			head :bad_request
+		end
+	end
 
 	# PUT /procedures/:id/reorder
 	def reorder
