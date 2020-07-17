@@ -14,8 +14,6 @@ class User < ApplicationRecord
     end
   end
 
-  private
-
   def deactivated?
     roleable.deactivated if author? || operator?
   end
