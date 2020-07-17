@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize @user
     if @user.update_attributes(user_params)
-      update_oem_businesses if @user.author? || @user.operator?
+      @user.roleable.update_attributes(roleable_params)
       render json: UserSerializer.update_user_as_json(@user), status: :ok
     else
       head :bad_request
@@ -53,30 +53,18 @@ end
 		@user = User.find(params[:id])
     authorize @user
     (render json: ApplicationSerializer.error_response(I18n.t("errors.user.not_found")), status: :bad_request and return) if @user.blank?
-    (render json: ApplicationSerializer.error_response(I18n.t("errors.user.deactivated")), status: :bad_request and return) if deactivated?
+    (render json: ApplicationSerializer.error_response(I18n.t("errors.user.deactivated")), status: :bad_request and return) if @user.deactivated?
     jwt = Auth.encode({ uid: @user.id})
     render json: UserSerializer.refresh_user_as_json(@user, jwt), status: :ok
 	end
 
   private
 
-  def update_oem_businesses
-    role_able = @user.roleable
-    role_able.oem_businesses.clear
-    new_oem_businesses = params[:user][:categories]
-    new_oem_businesses.map do |new_oemb_id|
-      new_oemb = OemBusiness.find(new_oemb_id)
-      role_able.oem_businesses << new_oemb
-    end
-    role_able.save
+  def roleable_params
+    params.require(:user).permit(policy(@user || User.new).roleable_permitted_attributes(@user.roleable_type))
   end
 
   def user_params
     params.require(:user).permit(policy(@user || User.new).permitted_attributes)
   end
-
-	def deactivated?
-    @user.roleable.deactivated if @user.operator?
-	end
-
 end

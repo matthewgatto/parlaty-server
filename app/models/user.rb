@@ -14,6 +14,12 @@ class User < ApplicationRecord
     end
   end
 
+  private
+
+  def deactivated?
+    roleable.deactivated if author? || operator?
+  end
+
   protected
 
   #override devise definition so that password isn't require at initial sign_up

@@ -24,7 +24,7 @@ export function* inviteUserSaga(action){
       if(!client){
         throw "client"
       }
-      body.client = client
+      body.user.oem_id = client
     } else if(
       roleable === "author" ||
       roleable === "operator"
@@ -32,19 +32,19 @@ export function* inviteUserSaga(action){
       if(!client){
         throw "client"
       }
-      body.client = client
+      body.user.oem_id = client
       if(!categories){
         throw "categories"
       }
-      body.categories = []
+      body.user.oem_business_ids = []
       for (var categoryId in categories) {
         if (categories.hasOwnProperty(categoryId) && categories[categoryId] === true && !isNaN(categoryId)) {
-          body.categories.push(categoryId)
+          body.user.oem_business_ids.push(parseInt(categoryId))
         }
       }
     }
     const response = yield call(API.post, '/users', body)
-    yield put({type: `${action.type}__SUCCESS`, payload: normalize({...response, ...body.user, roleable_type: body.roleable, client: body.client, categories: body.categories}, Schemas.user).entities})
+    yield put({type: `${action.type}__SUCCESS`, payload: normalize({...response, ...body.user, roleable_type: body.roleable}, Schemas.user).entities})
     yield call(pushAndNotify('/users', `A user invite has been sent to ${body.user.email}`))
   } catch (e) {
     console.log("inviteUser ERROR", e);
@@ -56,16 +56,17 @@ export function* inviteUserSaga(action){
 export function* updateUserSaga(action){
   try {
     const {name,email,client,...categories} = action.payload.values
-    const body = {user:{name,email,client}}
+    const body = {user:{name,email}}
     if(categories){
       const categoryArray = []
       for (var categoryId in categories) {
         if (categories.hasOwnProperty(categoryId) && categories[categoryId] === true && !isNaN(categoryId)) {
-          categoryArray.push(categoryId)
+          categoryArray.push(parseInt(categoryId))
         }
       }
-      body.user.categories = categoryArray
+      body.user.oem_business_ids = categoryArray
     }
+    body.user.oem_id = client
     const response = yield call(API.put, `/users/${action.payload.id}`, body);
     const user = yield select(getById(action.payload.id))
     yield put({type: `${action.type}__SUCCESS`, payload: normalize({...user, ...body.user, ...response}, Schemas.user).entities})

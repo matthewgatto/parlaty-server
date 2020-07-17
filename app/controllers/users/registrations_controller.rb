@@ -36,36 +36,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def parlatyadmin_role
-    ParlatyAdmin.create(user_params)
+    ParlatyAdmin.new(roleable_params('ParlatyAdmin'))
   end
 
   def clientadmin_role
-    role_able = ClientAdmin.create(user_params)
-    oem = Oem.find(params[:client])
-    oem.client_admins << role_able
-    role_able
+    ClientAdmin.new(roleable_params('ClientAdmin'))
   end
 
   def author_role
-    role_able = Author.create(user_params)
-    params[:categories].each do |c_id|
-      oem_business = OemBusiness.find(c_id)
-      oem_business.authors << role_able
-    end
-    role_able
+    Author.new(roleable_params('Author'))
   end
 
   def operator_role
-    role_able = Operator.create(user_params)
-    params[:categories].each do |c_id|
-      oem_business = OemBusiness.find(c_id)
-      oem_business.operators << role_able
-    end
-    role_able
+    Operator.new(roleable_params('Operator'))
   end
 
-  def user_params
-    params.require(:user).permit(:name)
+  def roleable_params(type)
+    params.require(:user).permit(policy(User.new).roleable_permitted_attributes(type))
   end
 
   protected
