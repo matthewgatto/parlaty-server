@@ -31,9 +31,11 @@ class UserSerializer
     def simple_user_as_json(user)
       {
         id: user.id,
+        user_id: user.id,
         email: user.email,
         language: user.language,
         voice: user.voice,
+        name: user.roleable.name,
         roleable_type: user.roleable_type,
       }
     end
@@ -48,16 +50,11 @@ class UserSerializer
     end
 
     def update_user_as_json(user)
-      {
-        user_id: user.id,
-        name: user.roleable.name,
-        roleable_type: user.roleable_type,
+      simple_user_as_json(user).merge!({
         roleable_id: user.roleable_id,
-        voice: user.voice,
-        language: user.language,
         oem_businesses: OemBusinessSerializer.user_oem_businesses_as_json(user),
         devices: DeviceSerializer.devices_as_json(Device.all.sort_by(&:name))
-      }
+      })
     end
 
     def refresh_user_as_json(user, jwt)
