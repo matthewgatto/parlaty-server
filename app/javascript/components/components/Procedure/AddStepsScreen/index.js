@@ -12,7 +12,7 @@ import {addToast} from '@actions/toast';
 import { procedureSchema } from '@utils/validation';
 import styles from './index.module.css';
 
-export default ({match:{url,params:{oem_id,business_id,id}},history:{push},location:{pathname}}) => {
+export default ({match:{url,params:{oem_id,oem_business_id,id}},history:{push},location:{pathname}}) => {
   const dispatch = useDispatch()
   const handleSubmitClick = () => {
     push(pathname.split("/").slice(0,-3).join('/'))

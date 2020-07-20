@@ -1,6 +1,6 @@
 import * as authTypes from '@types/auth'
 import * as oemTypes from '@types/oem'
-import * as businessTypes from '@types/business'
+import * as oemBusinessTypes from '@types/oem_business'
 import * as procedureTypes from '@types/procedure'
 import * as stepTypes from '@types/step'
 import * as formTypes from '@types/form';
@@ -53,7 +53,7 @@ const isFormSubmitAction = (type) => (
   || type === userTypes.UPDATE_USER_REQUEST
   || type === oemTypes.CREATE_OEM_REQUEST
   || type === oemTypes.UPDATE_OEM_REQUEST
-  || type === businessTypes.CREATE_BUSINESS_REQUEST
+  || type === oemBusinessTypes.CREATE_BUSINESS_REQUEST
   || type === procedureTypes.CREATE_PROCEDURE_REQUEST
   || type === procedureTypes.UPDATE_PROCEDURE_REQUEST
   || type === procedureTypes.UPDATE_PROCEDURE_CATEGORIES_REQUEST
@@ -74,7 +74,7 @@ const isFormSubmitFailureAction = (type) => (
   || type === userTypes.UPDATE_USER_REQUEST__FAILURE
   || type === oemTypes.CREATE_OEM_REQUEST__FAILURE
   || type === oemTypes.UPDATE_OEM_REQUEST__FAILURE
-  || type === businessTypes.CREATE_BUSINESS_REQUEST__FAILURE
+  || type === oemBusinessTypes.CREATE_BUSINESS_REQUEST__FAILURE
   || type === procedureTypes.CREATE_PROCEDURE_REQUEST__FAILURE
   || type === procedureTypes.UPDATE_PROCEDURE_REQUEST__FAILURE
   || type === procedureTypes.UPDATE_PROCEDURE_CATEGORIES_REQUEST__FAILURE

@@ -4,7 +4,7 @@ import { addIds,immutableRemove } from '@utils';
 import * as types from "@types/device";
 import * as authTypes from '@types/auth';
 import * as procedureTypes from '@types/procedure';
-import * as businessTypes from '@types/business';
+import * as oemBusinessTypes from '@types/oem_business';
 import * as stepTypes from '@types/step';
 
 const allDevices = (state = [], {type,payload}) => {
@@ -16,7 +16,7 @@ const allDevices = (state = [], {type,payload}) => {
         return Object.keys(payload.devices)
       }
       return []
-    case businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
+    case oemBusinessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
@@ -49,7 +49,7 @@ const devicesById = (state = {}, {type,payload}) => {
         }
       }
       return state;
-    case businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
+    case oemBusinessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:

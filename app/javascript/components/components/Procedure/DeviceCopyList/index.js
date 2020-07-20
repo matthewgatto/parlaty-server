@@ -3,7 +3,7 @@ import {useSelector,useDispatch,connect} from 'react-redux';
 import AnimateHeight from 'react-animate-height';
 import LargeBar from '@components/Bar/Large';
 import SmallBar from '@components/Bar/Small'
-import {getBusinessById} from '@selectors/business';
+import {getOemBusinessById} from '@selectors/oem_business';
 import {getProcedureById} from '@selectors/procedure';
 import {getDeviceById} from '@selectors/device';
 import { setModal } from '@actions/modal';
@@ -60,14 +60,14 @@ const ProcedureListWrapper = ({procedures}) => (
   </div>
 )
 
-const ProcedureListContainer = ({business_id}) => {
-  const business = useSelector(getBusinessById(business_id));
-  return <ProcedureListWrapper procedures={business.procedures} />
+const ProcedureListContainer = ({oem_business_id}) => {
+  const oem_business = useSelector(getOemBusinessById(oem_business_id));
+  return <ProcedureListWrapper procedures={oem_business.procedures} />
 }
 
-export default ({business_id}) => (
+export default ({oem_business_id}) => (
   <div className={styles.container}>
     <LargeBar title="Copy A Device" className={styles.modalHeader} />
-    <ProcedureListContainer business_id={business_id} />
+    <ProcedureListContainer oem_business_id={oem_business_id} />
   </div>
 )

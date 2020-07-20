@@ -49,14 +49,14 @@ const EditProcedureForm = ({initialValues, id, oem_business_id}) => useMemo(() =
     extraValues={{oem_business_id}}
     id={initialValues.id}
     procedure_id={id}
-    business_id={oem_business_id}
+    oem_business_id={oem_business_id}
   />
 ),[])
 
 const EditProcedureFormWithStepLoader = withStepLoader(EditProcedureForm);
 
 
-export default ({match:{params:{oem_id,business_id,id}}}) => {
+export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
   const initialValues = useSelector(getProcedureById(id));
   let name = initialValues && initialValues.name;
   const dispatch = useDispatch();
@@ -72,8 +72,8 @@ export default ({match:{params:{oem_id,business_id,id}}}) => {
   return(<>
     <PageLayout
       header={`Edit ${name ? name : "Procedure"}`}
-      back={business_id ? ({
-        to: oem_id ? `/oems/${oem_id}/businesses/${business_id}` : `/businesses/${business_id}`,
+      back={oem_business_id ? ({
+        to: oem_id ? `/oems/${oem_id}/businesses/${oem_business_id}` : `/businesses/${oem_business_id}`,
         label: "Choose A Different Procedure"
       }) : ({
         to: "/",
@@ -81,13 +81,13 @@ export default ({match:{params:{oem_id,business_id,id}}}) => {
       })}
       buttons={<ModalTrigger modal="delete_procedure_confirmation"><SubmitButton primary label="Delete Procedure" /></ModalTrigger>}
     >
-      <EditProcedureFormWithStepLoader id={id} oem_business_id={business_id} addSteps={addSteps} initialValues={initialValues} />
+      <EditProcedureFormWithStepLoader id={id} oem_business_id={oem_business_id} addSteps={addSteps} initialValues={initialValues} />
     </PageLayout>
     <DeleteProcedureConfirmationModal procedure_id={id} />
     <DeleteDeviceConfirmationModal procedure_id={id} />
     <DeviceManagerModal name={name} procedure_id={id} />
     <DeviceCreateModal name={name} procedure_id={id} />
-    <ProcedureDeviceModal business_id={business_id} />
+    <ProcedureDeviceModal oem_business_id={oem_business_id} />
     <DeviceUpdateModal name={name} />
     <ProcedureCategoriesModal procedure_id={id} oem_id={oem_id} />
     <ImagePreviewModal />

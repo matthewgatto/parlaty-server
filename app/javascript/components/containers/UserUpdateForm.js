@@ -10,11 +10,11 @@ export default ({id, role}) => {
   const dispatch = useDispatch();
   const user = useSelector(getById(id));
   useEffect(() => {
-    if(!user || (user.roleable === "ClientAdmin" && !user.oem) || ((user.roleable === "Author" || user.roleable === "Operator") && !user.businesses)){
+    if(!user || (user.roleable === "ClientAdmin" && !user.oem) || ((user.roleable === "Author" || user.roleable === "Operator") && !user.oem_business_ids)){
       dispatch({type: FETCH_USER_REQUEST, payload: id})
     }
   },[]);
-  if(!user || (user.roleable === "ClientAdmin" && !user.oem) || ((user.roleable === "Author" || user.roleable === "Operator") && !user.businesses)){
+  if(!user || (user.roleable === "ClientAdmin" && !user.oem) || ((user.roleable === "Author" || user.roleable === "Operator") && !user.oem_business_ids)){
     return <Loader text="user" />
   }
   return(

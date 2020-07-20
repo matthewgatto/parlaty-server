@@ -13,7 +13,7 @@ const DeviceCreateModal = withModal(DeviceForm, "create_device");
 const ProcedureDeviceModal = withModal(DeviceCopyList, "procedure_device_list");
 const DeviceUpdateModal = withModal(DeviceUpdateForm, "update_device");
 
-export default ({header, subheader, formComponents, procedure_id, business_id, top}) => {
+export default ({header, subheader, formComponents, procedure_id, oem_business_id, top}) => {
   const name = useEntityName("procedures", procedure_id);
   return(<>
     <div className={styles.container}>
@@ -38,7 +38,7 @@ export default ({header, subheader, formComponents, procedure_id, business_id, t
       </div>
     </div>
     <DeviceCreateModal name={name} procedure_id={procedure_id} />
-    <ProcedureDeviceModal business_id={business_id} />
+    <ProcedureDeviceModal oem_business_id={oem_business_id} />
     <DeviceUpdateModal name={name} />
     <DeleteDeviceConfirmationModal procedure_id={procedure_id} />
   </>)

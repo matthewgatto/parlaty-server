@@ -6,34 +6,34 @@ import {getSaga} from './fetch';
 import {formSaga,pushAndNotify} from './form';
 import { addToast } from '@actions/toast';
 import {getOEMById} from '@selectors/oem';
-import {getBusinessById} from '@selectors/business';
+import {getBusinessById} from '@selectors/oem_business';
 import Schemas from '@utils/models';
 import API from '@utils/API';
 
 
-const normalizeBusiness = (response,{payload:{id}}) => normalize({oem_business_id: id, ...response}, Schemas.business).entities
+const normalizeOemBusiness = (response,{payload:{id}}) => normalize({oem_business_id: id, ...response}, Schemas.oem_business).entities
 function* normalizeOem(response,action){
   const oem = yield select(getOEMById(action.payload.values.oem_id));
-  return (oem && oem.businesses) ? (
-    normalize({...oem, businesses: [...oem.businesses, {oem_business_id: response.oem_business.id,...action.payload.values,...response.oem_business}]}, Schemas.oem).entities
+  return (oem && oem.oem_businesses) ? (
+    normalize({...oem, oem_businesses: [...oem.oem_businesses, {oem_business_id: response.oem_business.id,...action.payload.values,...response.oem_business}]}, Schemas.oem).entities
   ) : (
-    normalize({oem_business_id: response.oem_business.id, ...action.payload.values, ...response.oem_business}, Schemas.business).entities
+    normalize({oem_business_id: response.oem_business.id, ...action.payload.values, ...response.oem_business}, Schemas.oem_business).entities
   )
 }
 
-export function* businessProceduresSaga(action){
-  yield call(getSaga, action, normalizeBusiness);
+export function* oemBusinessProceduresSaga(action){
+  yield call(getSaga, action, normalizeOemBusiness);
 }
 
-function* handleBusinessCreateSuccess(response, action){
+function* handleOemBusinessCreateSuccess(response, action){
   const url = yield select(({router}) => router.location.pathname),
         to = url.split("/").slice(0,-1).join('/')+"/"+response.oem_business.id,
         pushAndNotifyFunc = pushAndNotify(to, "Site was successfully added.")
   yield call(pushAndNotifyFunc)
 }
 
-export function* createBusinessSaga(action){
-  yield call(formSaga, "post", action, normalizeOem, handleBusinessCreateSuccess);
+export function* createOemBusinessSaga(action){
+  yield call(formSaga, "post", action, normalizeOem, handleOemBusinessCreateSuccess);
 }
 
 export function* deleteCategorySaga(action){

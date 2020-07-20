@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {getBusinessById}from '@selectors/business';
+import {getOemBusinessById}from '@selectors/oem_business';
 import {CheckBox} from '@components/Inputs';
 
 function contains(a, obj) {
@@ -13,6 +13,6 @@ function contains(a, obj) {
 }
 
 export default ({id,defaultValue}) => {
-  const business = useSelector(getBusinessById(id))
-  return <CheckBox defaultValue={defaultValue && contains(defaultValue, id)} label={business.name} name={id+""} />
+  const oem_business = useSelector(getOemBusinessById(id))
+  return <CheckBox defaultValue={defaultValue && contains(defaultValue, id)} label={oem_business.name} name={id+""} />
 }

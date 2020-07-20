@@ -9,7 +9,7 @@ import { addToast } from '@actions/toast';
 import API from '@utils/API';
 
 const normalizeOEMList = (response) => normalize(response, [Schemas.oem]).entities
-const normalizeOEMBusinesses = ({name,oem_businesses},{payload:{id}}) => normalize({id,name,businesses: oem_businesses}, Schemas.oem).entities
+const normalizeOEMBusinesses = ({name,oem_businesses},{payload:{id}}) => normalize({id,name,oem_businesses: oem_businesses}, Schemas.oem).entities
 const normalizeOEM = (response, {payload:{values:{oem},id}}) => normalize({...oem, id}, Schemas.oem).entities
 export const normalizeOEMInvite = (response,{payload:{values:{user:{name}}}}) => normalize([{...response, name}], [Schemas.oem]).entities
 

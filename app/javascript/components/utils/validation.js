@@ -46,7 +46,7 @@ export const procedureSchema = object().shape({
   steps: array().of(stepSchema)//.required('Must have steps')
 })
 
-export const businessSchema = object().shape({
+export const oem_businessSchema = object().shape({
   name: string().required('This field is required')
 })
 

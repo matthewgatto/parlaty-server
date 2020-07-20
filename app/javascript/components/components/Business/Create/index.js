@@ -2,7 +2,7 @@ import React from 'react';
 import uuid from 'uuid/v4';
 import FormPage from '@components/Form/Page';
 import { clientOrCategorySchema } from '@utils/validation';
-import { CREATE_BUSINESS_REQUEST } from '@types/business';
+import { CREATE_BUSINESS_REQUEST } from '@types/oem_business';
 import withUserInfo from '@containers/withUserInfo';
 
 const inputs = [{
@@ -24,7 +24,7 @@ export default withUserInfo(({user,match:{params}}) => {
     <FormPage
       layout={{header:"New Site"}}
       form={{
-        entity: "business",
+        entity: "oem_business",
         url: "/oem_businesses",
         type: CREATE_BUSINESS_REQUEST,
         initialValues: {},

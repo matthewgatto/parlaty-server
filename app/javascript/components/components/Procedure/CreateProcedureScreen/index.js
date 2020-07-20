@@ -12,7 +12,7 @@ import withModal from '@containers/withModal';
 import { procedureSchema } from '@utils/validation';
 import { CREATE_PROCEDURE_REQUEST } from '@types/procedure';
 import { getUserId } from '@selectors/auth';
-import {getBusinessProceduresWithDevices} from '@selectors/business';
+import {getOemBusinessProceduresWithDevices} from '@selectors/oem_business';
 import {setModal} from '@actions/modal';
 import styles from './index.module.css';
 
@@ -48,7 +48,7 @@ const CopyProcedureButton = ({formKey,oem_business_id}) => {
     <button type="button" className="primary button align_center" onClick={handleClick}>Copy A Procedure</button>
   )
 }
-export default ({match:{url,params:{oem_id,business_id}}}) => {
+export default ({match:{url,params:{oem_id,oem_business_id}}}) => {
   const author = useSelector(getUserId)
   return(<>
     <div className={styles.container}>
@@ -68,7 +68,7 @@ export default ({match:{url,params:{oem_id,business_id}}}) => {
           name: '',
           description: ''
         }}
-        extraValues={{author, oem_business_id: business_id,oem_id}}
+        extraValues={{author, oem_business_id,oem_id}}
         validationSchema={procedureSchema}
         className={styles.form}
         id={uuid()}
@@ -81,7 +81,7 @@ export default ({match:{url,params:{oem_id,business_id}}}) => {
           <Input type="text" name="name" label="Name" formKey={formKey} as="input" />
           <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
           <div className={styles.buttonRow}>
-            <CopyProcedureButton formKey={formKey} oem_business_id={business_id} />
+            <CopyProcedureButton formKey={formKey} oem_business_id={oem_business_id} />
             <div className={styles.or}>- or -</div>
             <SubmitButton formKey={formKey} onClick={handleSubmit} label="Continue" />
           </div>
@@ -94,6 +94,6 @@ export default ({match:{url,params:{oem_id,business_id}}}) => {
         <Polygon className={styles.bottomPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
       </div>
     </div>
-    <CopyModal business_id={business_id} />
+    <CopyModal oem_business_id={oem_business_id} />
   </>)
 }

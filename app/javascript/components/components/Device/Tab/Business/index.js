@@ -1,9 +1,9 @@
 import React from 'react';
 import ListPage from '@components/List/Page';
-import { FETCH_BUSINESS_PROCEDURES_REQUEST } from '@types/business';
-import { getBusinessProcedures } from '@selectors/business';
+import { FETCH_BUSINESS_PROCEDURES_REQUEST } from '@types/oem_business';
+import { getOemBusinessProcedures } from '@selectors/oem_business';
 
-export default ({match:{params:{business_id,oem_id},url}}) => (
+export default ({match:{params:{oem_business_id,oem_id},url}}) => (
   <ListPage
     label="Procedures"
     header={{
@@ -11,13 +11,13 @@ export default ({match:{params:{business_id,oem_id},url}}) => (
       back: {to: oem_id ? `/devices/${oem_id}` : "/devices", label: "Choose A Different Site"}
     }}
     list={{
-      id: business_id,
-      url: `/oem_businesses/${business_id}/procedures`,
+      id: oem_business_id,
+      url: `/oem_businesses/${oem_business_id}/procedures`,
       type: FETCH_BUSINESS_PROCEDURES_REQUEST,
       text: "Procedures",
       entityKey: "procedures",
       placeholder: "This site has no procedures",
-      selector: getBusinessProcedures(business_id),
+      selector: getOemBusinessProcedures(oem_business_id),
       to: url
     }}
   />

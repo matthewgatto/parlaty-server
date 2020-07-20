@@ -10,8 +10,8 @@ export default (props) => {
   };
   const removeBusiness = index => () => {
     setIndexes(prevIndexes => [...prevIndexes.filter(item => item !== index)]);
-    const fieldName = `businesses[${index}]`
+    const fieldName = `oem_businesses[${index}]`
     props.unregister(`${fieldName}.name`);
   };
-  return indexes.map(i => <Input key={i} formKey={props.formKey} type="text" name={`businesses[${i}].name`} register={props.register} />)
+  return indexes.map(i => <Input key={i} formKey={props.formKey} type="text" name={`oem_businesses[${i}].name`} register={props.register} />)
 }

@@ -4,7 +4,7 @@ import { addIds, immutableRemove } from '@utils';
 import * as types from "@types/procedure";
 import {
   FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS
-} from '@types/business';
+} from '@types/oem_business';
 import {
   STEP_SAVE_REQUEST__SUCCESS,
   REORDER_STEP_REQUEST__SUCCESS,

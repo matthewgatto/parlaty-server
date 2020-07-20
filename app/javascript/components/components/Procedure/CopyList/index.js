@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import LargeBar from '@components/Bar/Large';
 import SmallBar from '@components/Bar/Small'
-import {getBusinessById} from '@selectors/business';
+import {getOemBusinessById} from '@selectors/oem_business';
 import {getProcedureById} from '@selectors/procedure';
 import {copyProcedure} from '@actions/procedure';
 import styles from './index.module.css';
@@ -43,8 +43,8 @@ const ProcedureListWrapper = ({procedures, procedureData}) => (
 )
 
 const ProcedureListContainer = ({procedureData}) => {
-  const business = useSelector(getBusinessById(procedureData.values.oem_business_id));
-  return <ProcedureListWrapper procedures={business.procedures} procedureData={procedureData} />
+  const oem_business = useSelector(getOemBusinessById(procedureData.values.oem_business_id));
+  return <ProcedureListWrapper procedures={oem_business.procedures} procedureData={procedureData} />
 }
 
 export default ({modalData}) => (

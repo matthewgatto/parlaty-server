@@ -13,9 +13,9 @@ const makeAuthState = (user) => {
   const normalizedData = normalize(user, Schemas.user);
   const initialState = {auth: normalizedData.entities.users[normalizedData.result]}
   if(user.roleable_type === "Operator" || user.roleable_type === "Author"){
-    initialState.businesses = normalizedData.entities.businesses
+    initialState.oem_businesses = normalizedData.entities.oem_businesses
   } else if(user.roleable_type === "ClientAdmin"){
-    initialState.businesses = normalizedData.entities.businesses
+    initialState.oem_businesses = normalizedData.entities.oem_businesses
     initialState.oems = normalizedData.entities.oems
   }
   return initialState
@@ -77,10 +77,10 @@ export function* inviteUserSaga(action){
     roleable === "author" ||
     roleable === "operator"
   ){
-    body.categories = []
+    body.oem_business_ids = []
     for (var categoryId in categories) {
       if (categories.hasOwnProperty(categoryId) && categories[categoryId] === true && isNumber(categoryId)) {
-        body.categories.push(categoryId)
+        body.oem_business_ids.push(categoryId)
       }
     }
   }

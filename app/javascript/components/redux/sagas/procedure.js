@@ -6,7 +6,7 @@ import {getSaga} from './fetch';
 import { push } from 'connected-react-router';
 import { addToast } from '@actions/toast';
 import { setModal } from '@actions/modal';
-import { getBusinessById } from '@selectors/business';
+import { getOemBusinessById } from '@selectors/oem_business';
 import { getProcedureById } from '@selectors/procedure';
 import { getUserRole } from '@selectors/auth';
 import { getStepForms } from '@selectors/step';
@@ -16,9 +16,9 @@ import API from '@utils/API';
 import * as utils from '@utils';
 
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
-  const business = yield select(getBusinessById(values.procedure.oem_business_id))
-  return business ? (
-    normalize({...business, procedures: business.procedures ? [...business.procedures,{...response, name: values.procedure.name}] : [{...response, name: values.procedure.name}]}, Schemas.business).entities
+  const oem_business = yield select(getOemBusinessById(values.procedure.oem_business_id))
+  return oem_business ? (
+    normalize({...oem_business, procedures: oem_business.procedures ? [...oem_business.procedures,{...response, name: values.procedure.name}] : [{...response, name: values.procedure.name}]}, Schemas.business).entities
   ) : (
     normalize({...response,name: values.procedure.name}, Schemas.procedure).entities
   )
@@ -119,9 +119,9 @@ export function* copyProcedureSaga({payload:{formKey,values:{oem_business_id,...
       body.description = procedure.description
     }
     const response = yield call(API.post, `/procedures/${procedure_id}/copy`,body)
-    const business = yield select(getBusinessById(oem_business_id))
-    const normalizedData = business ? (
-      normalize({...business, procedures: business.procedures ? [...business.procedures,{name: procedure.name, ...response}] : [{name: procedure.name,...response}]}, Schemas.business).entities
+    const oem_business = yield select(getOemBusinessById(oem_business_id))
+    const normalizedData = oem_business ? (
+      normalize({...oem_business, procedures: oem_business.procedures ? [...oem_business.procedures,{name: procedure.name, ...response}] : [{name: procedure.name,...response}]}, Schemas.business).entities
     ) : (
       normalize({name: procedure.name, ...response}, Schemas.procedure).entities
     )
@@ -136,34 +136,34 @@ export function* copyProcedureSaga({payload:{formKey,values:{oem_business_id,...
 
 export function* updateCategoriesSaga(action){
   try {
-    const {procedures,businesses} = yield select(({procedures,businesses}) => ({procedures,businesses}));
+    const {procedures,oem_businesses} = yield select(({procedures,oem_businesses}) => ({procedures,oem_businesses}));
     const procedure = procedures.byId[action.payload.id];
-    const oem_businesses = [];
+    const new_oem_businesses = [];
     const categories = []
     for (var category in action.payload.values) {
       if (action.payload.values.hasOwnProperty(category) && action.payload.values[category] === true){
         categories.push(category)
-        if(businesses.byId[category] && businesses.byId[category].procedures){
-          oem_businesses.push(category)
+        if(oem_businesses.byId[category] && oem_businesses.byId[category].procedures){
+          new_oem_businesses.push(category)
         }
       }
     }
-    const addedCategories = oem_businesses.filter(x => !procedure.oem_businesses.includes(x));
-    const removedCategories = procedure.oem_businesses.filter(x => businesses.byId[x] && businesses.byId[x].procedures && !oem_businesses.includes(x));
-    const updatedBusinesses = {};
+    const addedCategories = new_oem_businesses.filter(x => !procedure.oem_businesses.includes(x));
+    const removedCategories = procedure.oem_businesses.filter(x => oem_businesses.byId[x] && oem_businesses.byId[x].procedures && !new_oem_businesses.includes(x));
+    const updatedOemBusinesses = {};
     for (var i = 0; i < addedCategories.length; i++) {
-      const businessToAddTo = businesses.byId[addedCategories[i]]
-      updatedBusinesses[addedCategories[i]] = {...businessToAddTo, procedures: [...businessToAddTo.procedures, action.payload.id]}
+      const oemBusinessToAddTo = oem_businesses.byId[addedCategories[i]]
+      updatedOemBusinesses[addedCategories[i]] = {...oemBusinessToAddTo, procedures: [...oemBusinessToAddTo.procedures, action.payload.id]}
     }
     for (var i = 0; i < removedCategories.length; i++) {
-      const businessToRemoveFrom = businesses.byId[removedCategories[i]]
-      updatedBusinesses[removedCategories[i]] = {...businessToRemoveFrom, procedures: businessToRemoveFrom.procedures.filter(x => x != action.payload.id)}
+      const oemBusinessToRemoveFrom = oem_businesses.byId[removedCategories[i]]
+      updatedOemBusinesses[removedCategories[i]] = {...oemBusinessToRemoveFrom, procedures: oemBusinessToRemoveFrom.procedures.filter(x => x != action.payload.id)}
     }
     const response = yield call(API.put, `/procedures/${action.payload.id}`,{ procedure: { oem_business_ids: categories } })
     yield put(setModal())
     yield put(addToast("success", "Procedure sites successfully updated."))
     yield put({type: action.type+"__SUCCESS", payload: {
-      businesses: updatedBusinesses,
+      oem_businesses: updatedOemBusinesses,
       procedures: {
         [action.payload.id]: {...procedure, oem_businesses: categories}
       }

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 import auth from './auth';
 import oems from './oem';
-import businesses from './business';
+import oem_businesses from './oem_business';
 import procedures from './procedure';
 import form from './form';
 import steps from './step';
@@ -18,7 +18,7 @@ export default function(history){
   const reducers = combineReducers({
     auth,
     oems,
-    businesses,
+    oem_businesses,
     procedures,
     devices,
     actions,

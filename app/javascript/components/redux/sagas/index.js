@@ -1,14 +1,14 @@
 import { takeEvery, all, fork } from 'redux-saga/effects';
 import * as auth from './auth';
 import * as oem from './oem';
-import * as business from './business';
+import * as oemBusiness from './oem_business';
 import * as procedure from './procedure';
 import * as step from './step';
 import * as device from './device';
 import * as user from './user';
 import * as authTypes from '@types/auth';
 import * as oemTypes from '@types/oem';
-import * as businessTypes from '@types/business';
+import * as oemBusinessTypes from '@types/oem_business';
 import * as procedureTypes from '@types/procedure';
 import * as stepTypes from '@types/step';
 import * as deviceTypes from '@types/device';
@@ -31,9 +31,9 @@ export default function* appSagas(){
     yield takeEvery(oemTypes.FETCH_OEMS_REQUEST, oem.oemListSaga),
     yield takeEvery(oemTypes.FETCH_OEM_BUSINESSES_REQUEST, oem.oemBusinessesSaga),
     yield takeEvery(oemTypes.DELETE_CLIENT_REQUEST, oem.deleteClientSaga),
-    yield takeEvery(businessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST, business.businessProceduresSaga),
-    yield takeEvery(businessTypes.CREATE_BUSINESS_REQUEST, business.createBusinessSaga),
-    yield takeEvery(businessTypes.DELETE_CATEGORY_REQUEST, business.deleteCategorySaga),
+    yield takeEvery(oemBusinessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST, oemBusiness.oemBusinessProceduresSaga),
+    yield takeEvery(oemBusinessTypes.CREATE_BUSINESS_REQUEST, oemBusiness.createOemBusinessSaga),
+    yield takeEvery(oemBusinessTypes.DELETE_CATEGORY_REQUEST, oemBusiness.deleteCategorySaga),
     yield takeEvery(procedureTypes.CREATE_PROCEDURE_REQUEST, procedure.createProcedureSaga),
     yield takeEvery(procedureTypes.UPDATE_PROCEDURE_REQUEST, procedure.updateProcedureSaga),
     yield takeEvery(procedureTypes.FETCH_PROCEDURE_REQUEST, procedure.fetchProcedureSaga),

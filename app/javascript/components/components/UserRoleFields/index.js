@@ -20,7 +20,7 @@ const UserRoleFieldsComponent = ({initialValues = {},formKey,roleable, placehold
     case "operator":
       return <>
         <ClientSelect formKey={formKey} defaultValue={defaultClient} hidden={isNotParlatyAdmin} />
-        <UserCategories formKey={formKey} defaultValue={initialValues.businesses} defaultClient={defaultClient} categories={isClientAdmin && user.businesses} />
+        <UserCategories formKey={formKey} defaultValue={initialValues.oem_business_ids} defaultClient={defaultClient} categories={isClientAdmin && user.oem_business_ids} />
       </>
     case "parlatyadmin":
       if(placeholder){

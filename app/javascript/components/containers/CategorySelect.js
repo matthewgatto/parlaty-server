@@ -5,11 +5,11 @@ import CategorySelect from '@components/CategorySelect';
 
 export default ({client,defaultValue}) => {
   const dispatch = useDispatch();
-  const categories = useSelector(({oems}) => oems.byId[client] && oems.byId[client].businesses)
+  const oem_businesses = useSelector(({oems}) => oems.byId[client] && oems.byId[client].oem_businesses)
   useEffect(() => {
-    if(!categories){
+    if(!oem_businesses){
       dispatch({type: FETCH_OEM_BUSINESSES_REQUEST, payload: {url: `/oems/${client}/oem_businesses`, id: client}})
     }
-  },[categories,client])
-  return <CategorySelect categories={categories} defaultValue={defaultValue} />
+  },[oem_businesses,client])
+  return <CategorySelect categories={oem_businesses} defaultValue={defaultValue} />
 }
