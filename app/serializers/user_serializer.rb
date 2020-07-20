@@ -49,18 +49,15 @@ class UserSerializer
       )
     end
 
-    def update_user_as_json(user)
-      simple_user_as_json(user).merge!({
-        roleable_id: user.roleable_id,
-        oem_businesses: OemBusinessSerializer.user_oem_businesses_as_json(user),
-        devices: DeviceSerializer.devices_as_json(Device.all.sort_by(&:name))
-      })
-    end
-
     def refresh_user_as_json(user, jwt)
-      {
-        jwt: jwt,
-      }.merge!(update_user_as_json(user))
+      simple_user_as_json(user).merge!(
+        {
+          jwt: jwt,
+          roleable_id: user.roleable_id,
+          oem_businesses: OemBusinessSerializer.user_oem_businesses_as_json(user),
+          devices: DeviceSerializer.devices_as_json(Device.all.sort_by(&:name))
+        }
+      )
     end
 
     def serialize_oem(user)
@@ -68,10 +65,7 @@ class UserSerializer
       oem = user.roleable.oem if user.client_admin?
       oem = user.roleable.oem_businesses&.first&.oem if user.author? || user.operator?
       return {} if oem.blank?
-      {
-        id: oem.id,
-        name: oem.name
-      }
+      OemSerializer.simple_oem_as_json(oem)
     end
   end
 end

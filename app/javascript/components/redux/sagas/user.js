@@ -19,7 +19,7 @@ export function* inviteUserSaga(action){
         email
       },
       roleable
-    }
+    };
     if(roleable === "clientadmin"){
       if(!client){
         throw "client"
@@ -36,21 +36,19 @@ export function* inviteUserSaga(action){
       if(!categories){
         throw "categories"
       }
-      body.user.oem_business_ids = []
-      for (var categoryId in categories) {
-        if (categories.hasOwnProperty(categoryId) && categories[categoryId] === true && !isNaN(categoryId)) {
-          body.user.oem_business_ids.push(parseInt(categoryId))
-        }
-      }
+      body.user.oem_business_ids = getOemBusinessIds(categories)
     }
     const response = yield call(API.post, '/users', body)
-    yield put({type: `${action.type}__SUCCESS`, payload: normalize({...response, ...body.user, roleable_type: body.roleable}, Schemas.user).entities})
-    yield call(pushAndNotify('/users', `A user invite has been sent to ${body.user.email}`))
+    if(response.error){
+      yield put(responseErrorHash(action, response))
+    }else{
+      yield put({type: `${action.type}__SUCCESS`, payload: normalize({...response, ...body.user, roleable_type: body.roleable}, Schemas.user).entities})
+      yield call(pushAndNotify('/users', `A user invite has been sent to ${body.user.email}`))
+    }
   } catch (e) {
+    yield put(responseErrorHash(action, {error: "Can not create current user"}))
     console.log("inviteUser ERROR", e);
   }
-
-
 }
 
 export function* updateUserSaga(action){
@@ -58,21 +56,22 @@ export function* updateUserSaga(action){
     const {name,email,client,...categories} = action.payload.values
     const body = {user:{name,email}}
     if(categories){
-      const categoryArray = []
-      for (var categoryId in categories) {
-        if (categories.hasOwnProperty(categoryId) && categories[categoryId] === true && !isNaN(categoryId)) {
-          categoryArray.push(parseInt(categoryId))
-        }
-      }
-      body.user.oem_business_ids = categoryArray
+      body.user.oem_business_ids = getOemBusinessIds(categories)
     }
     body.user.oem_id = client
     const response = yield call(API.put, `/users/${action.payload.id}`, body);
-    const user = yield select(getById(action.payload.id))
-    yield put({type: `${action.type}__SUCCESS`, payload: normalize({...user, ...body.user, ...response}, Schemas.user).entities})
-    yield call(handleUpdateSuccess)
-
+    if(response.error){
+      yield put(responseErrorHash(action, response))
+    }else{
+      const user = yield select(getById(action.payload.id))
+      yield put({
+        type: `${action.type}__SUCCESS`,
+        payload: normalize({...user, ...body.user, ...response}, Schemas.user).entities
+      })
+      yield call(handleUpdateSuccess)
+    }
   } catch (e) {
+    yield put(responseErrorHash(action, e))
     console.log(`PUT /users/${action.payload.id}  ERROR`, e);
   }
 }
@@ -80,8 +79,16 @@ export function* updateUserSaga(action){
 export function* fetchUserSaga(action){
   try {
     const response = yield call(API.get, `/users/${action.payload}`)
-    yield put({type: `${action.type}__SUCCESS`, payload: normalize(response, Schemas.user).entities})
+    if(response.error){
+      yield put(responseErrorHash(action, response))
+    }else{
+      yield put({
+        type: `${action.type}__SUCCESS`,
+        payload: normalize(response, Schemas.user).entities
+      })
+    }
   } catch (e) {
+    yield put(responseErrorHash(action, e))
     console.log(`GET /users/${action.payload} ERROR`, e);
   }
 
@@ -90,14 +97,20 @@ export function* fetchUserSaga(action){
 export function* deleteUserSaga(action){
   try {
     const response = yield call(API.delete, `/users/${action.payload}`)
-    yield put({type: `${action.type}__SUCCESS`, payload: action.payload})
+    if(response.error){
+      yield put(responseErrorHash(action, response))
+    }else{
+      yield put({
+        type: `${action.type}__SUCCESS`,
+        payload: action.payload})
+    }
     yield call(handleDeleteSuccess)
   } catch (e) {
+    yield put(responseErrorHash(action, e))
     console.log(`DELETE /users/${action.payload} ERROR`, e);
   }
 
 }
-
 
 export function* userListSaga(action){
   try {
@@ -106,4 +119,21 @@ export function* userListSaga(action){
   } catch (e) {
     console.log("GET /users ERROR", e);
   }
+}
+
+function responseErrorHash(action, response){
+  return {
+    type: `${action.type}__FAILURE`,
+    payload: {formKey: action.payload.formKey, errors: {formError: response.error}}
+  }
+}
+
+function getOemBusinessIds(oemBusinessIds){
+  const idsArray = []
+  for (let oemBusinessId in oemBusinessIds) {
+    if (!isNaN(oemBusinessId) && oemBusinessIds.hasOwnProperty(oemBusinessId) && oemBusinessIds[oemBusinessId] === true) {
+      idsArray.push(parseInt(oemBusinessId))
+    }
+  }
+  return idsArray;
 }

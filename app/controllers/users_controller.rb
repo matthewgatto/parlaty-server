@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     if @user.save
       render status: :created
     else
-			render json: ApplicationSerializer.error_response(@user.errors.full_messages), status: :bad_request
+			render json: ApplicationSerializer.error_response(@user.errors.full_messages)
     end
   end
 
@@ -31,9 +31,9 @@ class UsersController < ApplicationController
     authorize @user
     if @user.update_attributes(user_params)
       @user.roleable.update_attributes(roleable_params)
-      render json: UserSerializer.update_user_as_json(@user), status: :ok
+      head :ok
     else
-      head :bad_request
+      render json: ApplicationSerializer.error_response(@user.errors.full_messages)
     end
 end
 
@@ -52,8 +52,8 @@ end
 	def refresh
 		@user = User.find(params[:id])
     authorize @user
-    (render json: ApplicationSerializer.error_response(I18n.t("errors.user.not_found")), status: :bad_request and return) if @user.blank?
-    (render json: ApplicationSerializer.error_response(I18n.t("errors.user.deactivated")), status: :bad_request and return) if @user.deactivated?
+    (render json: ApplicationSerializer.error_response(I18n.t("errors.user.not_found")) and return) if @user.blank?
+    (render json: ApplicationSerializer.error_response(I18n.t("errors.user.deactivated")) and return) if @user.deactivated?
     jwt = Auth.encode({ uid: @user.id})
     render json: UserSerializer.refresh_user_as_json(@user, jwt), status: :ok
 	end
