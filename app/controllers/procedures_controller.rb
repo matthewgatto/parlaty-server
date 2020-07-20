@@ -22,33 +22,13 @@ class ProceduresController < ApplicationController
 	end
 
 	# POST /procedures
-	#inlcude creating steps
 	def create
-		#padmin, oem associated with oem_business in json
-		if !(OemBusiness.exists?(id: params[:procedure][:oem_business_id]))
-			render json: { "error": "OemBusiness Id doesn't exist"}, status: :bad_request and return
-		end
-
 		@procedure = Procedure.new(procedure_params)
-		@oemb = OemBusiness.find(params[:procedure][:oem_business_id])
-		@oemb.procedures << @procedure
-		count = 0
-		while params[:steps] && count < params[:steps].count
-			step = @procedure.steps.build(step_params(count))
-			step.save
-			if (step.visuals.count > 0)
-				step.has_visual = true
-				step.save
-			end
-			@procedure.steps_order.push(step.id)
-			count = count + 1
-		end
-
-		if(@procedure.save)
-			#head :ok
-			render json: { "id": @procedure.id}, status: :ok
+		authorize @procedure
+		if @procedure.save
+			render json: ApplicationSerializer.id_to_json(@procedure.id), status: :ok
 		else
-			render json: { "error": @procedure.errors.full_messages }, status: :bad_request
+			render json: ApplicationSerializer.error_response(@procedure.errors.full_messages)
 		end
 	end
 
@@ -58,7 +38,7 @@ class ProceduresController < ApplicationController
 		if @procedure.update_attributes(procedure_params)
 			head :ok
 		else
-			head :bad_request
+			render json: ApplicationSerializer.error_response(@procedure.errors.full_messages)
 		end
 	end
 
@@ -75,7 +55,7 @@ class ProceduresController < ApplicationController
 	def destroy
 		authorize @procedure
 		if @procedure.destroy
-			render json: ApplicationSerializer.delete_response(params[:id]), status: :ok
+			render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
 	 	else
 	 		head :bad_request
 		end

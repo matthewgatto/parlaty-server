@@ -39,14 +39,14 @@ const Routes = ({role}) => {
         <Route path="/users/invite" render={() => <UserInvite role={role} />} />
         <Route path="/users/:id" render={({match}) => <UserUpdatePage role={role} match={match} />} />
         <Route path="/users" component={UsersPage} />
-        <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
-        {/*<Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedurePage} />*/}
-        <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
-        <Route exact path="/oems/:oem_id/businesses/:business_id/procedures/:id/add-steps" component={AddStepsScreen} />
-        <Route path="/oems/:oem_id/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
+        <Route exact path="/oems/:oem_id/businesses/:oem_business_id/procedures/:id/update" component={EditProcedurePage} />
+        {/*<Route path="/oems/:oem_id/businesses/:oem_business_id/procedures/create" component={CreateProcedurePage} />*/}
+        <Route exact path="/oems/:oem_id/businesses/:oem_business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
+        <Route exact path="/oems/:oem_id/businesses/:oem_business_id/procedures/:id/add-steps" component={AddStepsScreen} />
+        <Route path="/oems/:oem_id/businesses/:oem_business_id/procedures/create" component={CreateProcedureScreen} />
         {/*
-        <Route path="/devices/:oem_id/:business_id/:procedure_id" component={DeviceManagerPage} />
-        <Route path="/devices/:oem_id/:business_id" component={DeviceBusinessPage} />
+        <Route path="/devices/:oem_id/:oem_business_id/:procedure_id" component={DeviceManagerPage} />
+        <Route path="/devices/:oem_id/:oem_business_id" component={DeviceBusinessPage} />
         <Route path="/devices/:oem_id" component={DeviceOEMAdminPage} />
         <Route path="/devices" component={DeviceAdminPage} />
         */}
@@ -64,10 +64,10 @@ const Routes = ({role}) => {
         <Route path="/users/invite" render={() => <UserInvite role={role} />} />
         <Route path="/users/:id" render={({match}) => <UserUpdatePage role={role} match={match} />} />
         <Route path="/users" component={UsersPage} />
-        <Route exact path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
-        <Route exact path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
-        <Route exact path="/businesses/:business_id/procedures/:id/add-steps" component={AddStepsScreen} />
-        <Route path="/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
+        <Route exact path="/businesses/:oem_business_id/procedures/:id/update" component={EditProcedurePage} />
+        <Route exact path="/businesses/:oem_business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
+        <Route exact path="/businesses/:oem_business_id/procedures/:id/add-steps" component={AddStepsScreen} />
+        <Route path="/businesses/:oem_business_id/procedures/create" component={CreateProcedureScreen} />
         <Route path="/businesses/create" component={BusinessForm} />
         <Route path="/businesses/:id" component={OEMBusinessPage} />
         <Redirect to="/" />
@@ -80,10 +80,10 @@ const Routes = ({role}) => {
     case "Author":
       return(<Switch>
         <Route exact path="/" component={ClientUserLandingPage} />
-        <Route path="/businesses/:business_id/procedures/:id/update" component={EditProcedurePage} />
-        <Route path="/businesses/:business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
-        <Route path="/businesses/:business_id/procedures/:id/add-steps" component={AddStepsScreen} />
-        <Route path="/businesses/:business_id/procedures/create" component={CreateProcedureScreen} />
+        <Route path="/businesses/:oem_business_id/procedures/:id/update" component={EditProcedurePage} />
+        <Route path="/businesses/:oem_business_id/procedures/:id/add-devices" component={AddDevicesScreen} />
+        <Route path="/businesses/:oem_business_id/procedures/:id/add-steps" component={AddStepsScreen} />
+        <Route path="/businesses/:oem_business_id/procedures/create" component={CreateProcedureScreen} />
         <Route path="/businesses/:id" component={OEMBusinessPage} />
       </Switch>)
     default:

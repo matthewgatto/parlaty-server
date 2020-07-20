@@ -34,7 +34,7 @@ class OemsController < ApplicationController
     @oem = Oem.find(params[:id])
     authorize @oem
     if @oem.present? && delete_oem(@oem)
-      render json: ApplicationSerializer.delete_response(params[:id]), status: :ok
+      render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
     else
       head :bad_request
     end

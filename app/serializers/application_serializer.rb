@@ -2,7 +2,7 @@
 
 class ApplicationSerializer
   class << self
-    def delete_response(id)
+    def id_to_json(id)
       {
         id: id
       }

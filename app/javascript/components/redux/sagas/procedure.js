@@ -18,7 +18,7 @@ import * as utils from '@utils';
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
   const oem_business = yield select(getOemBusinessById(values.procedure.oem_business_id))
   return oem_business ? (
-    normalize({...oem_business, procedures: oem_business.procedures ? [...oem_business.procedures,{...response, name: values.procedure.name}] : [{...response, name: values.procedure.name}]}, Schemas.business).entities
+    normalize({...oem_business, procedures: oem_business.procedures ? [...oem_business.procedures,{...response, name: values.procedure.name}] : [{...response, name: values.procedure.name}]}, Schemas.oem_business).entities
   ) : (
     normalize({...response,name: values.procedure.name}, Schemas.procedure).entities
   )
@@ -70,7 +70,7 @@ export function* createProcedureSaga(action){
               name: action.payload.values.name,
               description: action.payload.values.description,
               author: action.payload.values.author,
-              oem_business_id: action.payload.values.oem_business_id,
+              oem_business_ids: [action.payload.values.oem_business_id],
             }
           }
         }
