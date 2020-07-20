@@ -47,7 +47,7 @@ function* handleProcedureCreateSuccess(response, {payload}){
     if(role === "ParlatyAdmin"){
       to = `/oems/${payload.values.oem_id}/businesses/${payload.values.procedure.oem_business_id}/procedures/${response.id}/add-devices`
     } else {
-      to = `/businesses/${payload.values.procedure.oem_business_id}/procedures/${response.id}/add-devices`
+      to = `/businesses/${payload.values.procedure.oem_business_ids[0]}/procedures/${response.id}/add-devices`
     }
     yield put(push(to))
   } catch (e) {
