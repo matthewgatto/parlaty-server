@@ -51,6 +51,8 @@ class DevicesController < ApplicationController
           new_params = action_params(item)
           new_params[:id].present? ? update_action(new_params) : create_action(new_params)
         end
+        to_be_removed = @device.actions_order - order
+        Action.find(to_be_removed).each(&:destroy)
         @device.actions_order = order
         @device.save
       end

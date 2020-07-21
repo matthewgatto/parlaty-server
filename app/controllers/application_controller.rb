@@ -10,22 +10,6 @@ class ApplicationController < ActionController::API
 		end
 	end
 
-	def is_p_admin?
-		return current_user.roleable_type == "ParlatyAdmin"
-	end
-
-	def is_client_admin?
-		return current_user.roleable_type == "ClientAdmin"
-	end
-
-	def is_author?
-		return current_user.roleable_type == "Author"
-	end
-
-	def is_operator?
-		return current_user.roleable_type == "Operator"
-	end
-
 	def delete_oem(oem)
 		#byebug
 		delete_saved_steps(oem.saved_steps)
