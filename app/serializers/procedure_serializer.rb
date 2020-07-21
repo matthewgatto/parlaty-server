@@ -12,7 +12,6 @@ class ProcedureSerializer
         procedure_id: procedure.id,
         oem_businesses: OemBusinessSerializer.procedure_oem_businesses_as_json(procedure.oem_businesses),
         version: procedure.version,
-        category: procedure.category,
         steps_order: procedure.steps_order,
         steps: StepSerializer.steps_as_json(steps)
       })

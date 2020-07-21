@@ -12,7 +12,7 @@ const handleDeleteSuccess = pushAndNotify('/users', "User was successfully delet
 
 export function* inviteUserSaga(action){
   try {
-    const {name,email,roleable,client,...categories} = action.payload.values;
+    const {name,email,roleable,client,...oemBusinesses} = action.payload.values;
     const body = {
       user: {
         name,
@@ -33,10 +33,10 @@ export function* inviteUserSaga(action){
         throw "client"
       }
       body.user.oem_id = client
-      if(!categories){
-        throw "categories"
+      if(!oemBusinesses){
+        throw "oemBusinesses"
       }
-      body.user.oem_business_ids = getOemBusinessIds(categories)
+      body.user.oem_business_ids = getOemBusinessIds(oemBusinesses)
     }
     const response = yield call(API.post, '/users', body)
     if(response.error){
@@ -53,10 +53,10 @@ export function* inviteUserSaga(action){
 
 export function* updateUserSaga(action){
   try {
-    const {name,email,client,...categories} = action.payload.values
+    const {name,email,client,...oemBusinesses} = action.payload.values
     const body = {user:{name,email}}
-    if(categories){
-      body.user.oem_business_ids = getOemBusinessIds(categories)
+    if(oemBusinesses){
+      body.user.oem_business_ids = getOemBusinessIds(oemBusinesses)
     }
     body.user.oem_id = client
     const response = yield call(API.put, `/users/${action.payload.id}`, body);

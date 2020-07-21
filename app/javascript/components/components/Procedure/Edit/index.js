@@ -12,7 +12,7 @@ import DeviceCopyList from '../DeviceCopyList'
 import ImagePreviewModal from '@components/ImagePreviewModal';
 import VideoPreviewModal from '@components/VideoPreviewModal';
 import VideoProgressModal from '@components/VideoProgressModal';
-import ProcedureCategories from '@components/Procedure/Categories';
+import ProcedureOemBusinesses from '@components/Procedure/OemBusinesses';
 import DeviceManagerModal from '../DeviceManagerModal'
 import DeleteProcedureConfirmationModal from '../DeleteConfirmationModal'
 import DeleteDeviceConfirmationModal from '@components/Device/DeleteConfirmationModal';
@@ -23,7 +23,7 @@ import { getProcedureById } from '@selectors/procedure';
 const DeviceCreateModal = withModal(DeviceForm, "create_device");
 const ProcedureDeviceModal = withModal(DeviceCopyList, "procedure_device_list");
 const DeviceUpdateModal = withModal(DeviceUpdateForm, "update_device");
-const ProcedureCategoriesModal = withModal(ProcedureCategories, "add_category");
+const ProcedureOemBusinessesModal = withModal(ProcedureOemBusinesses, "add_oem_business");
 
 const withStepLoader = (WrappedComponent) =>  (
   class extends React.PureComponent {
@@ -89,7 +89,7 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
     <DeviceCreateModal name={name} procedure_id={id} />
     <ProcedureDeviceModal oem_business_id={oem_business_id} />
     <DeviceUpdateModal name={name} />
-    <ProcedureCategoriesModal procedure_id={id} oem_id={oem_id} />
+    <ProcedureOemBusinessesModal procedure_id={id} oem_id={oem_id} />
     <ImagePreviewModal />
     <VideoPreviewModal />
     <VideoProgressModal />

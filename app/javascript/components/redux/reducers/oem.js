@@ -20,13 +20,13 @@ const allOems = (state = null, {type, payload}) => {
 
 const oemsById = (state = {}, {type,payload}) => {
   switch (type) {
-    case oemBusinessTypes.DELETE_CATEGORY_REQUEST__SUCCESS:
+    case oemBusinessTypes.DELETE_OEM_BUSINESS_REQUEST__SUCCESS:
      if(state[payload.oem_id]){
        return {
          ...state,
          [payload.oem_id]: {
            ...state[payload.oem_id],
-           oem_businesses: state[payload.oem_id].oem_businesses.filter(category_id => category_id !== payload.category_id)
+           oem_businesses: state[payload.oem_id].oem_businesses.filter(oem_business_id => oem_business_id !== payload.oem_business_id)
          }
        }
      }
@@ -38,7 +38,7 @@ const oemsById = (state = {}, {type,payload}) => {
     case types.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case types.CREATE_OEM_REQUEST__SUCCESS:
     case types.UPDATE_OEM_REQUEST__SUCCESS:
-    case oemBusinessTypes.CREATE_BUSINESS_REQUEST__SUCCESS:
+    case oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST__SUCCESS:
       if(payload.oems){
         return {
           ...state,

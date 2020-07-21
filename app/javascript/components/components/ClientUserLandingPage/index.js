@@ -2,7 +2,7 @@ import React from 'react';
 import PageLayout from '@components/PageLayout';
 import Label from '@components/List/Label';
 import List from '@components/List';
-import ClientCategories from '@containers/ClientCategories'
+import ClientOemBusinesses from '@containers/ClientOemBusinesses'
 import withUserInfo from '@containers/withUserInfo'
 
 export default withUserInfo(({user}) => (
@@ -18,6 +18,6 @@ export default withUserInfo(({user}) => (
     }
   >
     <Label>Sites</Label>
-    <ClientCategories />
+    <ClientOemBusinesses />
   </PageLayout>
 ))

@@ -16,7 +16,7 @@ const allDevices = (state = [], {type,payload}) => {
         return Object.keys(payload.devices)
       }
       return []
-    case oemBusinessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
+    case oemBusinessTypes.FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
@@ -49,7 +49,7 @@ const devicesById = (state = {}, {type,payload}) => {
         }
       }
       return state;
-    case oemBusinessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
+    case oemBusinessTypes.FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:

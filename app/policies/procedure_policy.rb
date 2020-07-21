@@ -28,11 +28,10 @@ class ProcedurePolicy < ApplicationPolicy
   def permitted_attributes
     [
       :name,
-      :version,
       :description,
-      :category,
       :author,
       :language,
+      :version,
       :steps_order,
       oem_business_ids: []
     ]

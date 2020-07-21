@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import { FETCH_OEM_BUSINESSES_REQUEST } from '@types/oem';
-import CategorySelect from '@components/CategorySelect';
+import OemBusinessSelect from '@components/OemBusinessSelect';
 
 export default ({client,defaultValue}) => {
   const dispatch = useDispatch();
@@ -11,5 +11,5 @@ export default ({client,defaultValue}) => {
       dispatch({type: FETCH_OEM_BUSINESSES_REQUEST, payload: {url: `/oems/${client}/oem_businesses`, id: client}})
     }
   },[oem_businesses,client])
-  return <CategorySelect categories={oem_businesses} defaultValue={defaultValue} />
+  return <OemBusinessSelect oem_businesses={oem_businesses} defaultValue={defaultValue} />
 }

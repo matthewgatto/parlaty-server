@@ -2,6 +2,12 @@
 
 class DeviceSerializer
   class << self
+    def devices_with_name_as_json(devices)
+      {
+        devices: DeviceSerializer.devices_as_json(devices)
+      }
+    end
+
     def devices_as_json(devices)
       devices.map do |device|
         simple_device_as_json(device)

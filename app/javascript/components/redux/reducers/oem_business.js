@@ -7,11 +7,11 @@ import { addIds, immutableRemove } from '@utils';
 
 const allOemBusinesses = (state = null, {type,payload}) => {
   switch (type) {
-    case oemBusinessTypes.DELETE_CATEGORY_REQUEST__SUCCESS:
-      return state.filter(category_id => category_id !== payload.category_id)
+    case oemBusinessTypes.DELETE_OEM_BUSINESS_REQUEST__SUCCESS:
+      return state.filter(oem_business_id => oem_business_id !== payload.oem_business_id)
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
-    case oemBusinessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
-    case oemBusinessTypes.CREATE_BUSINESS_REQUEST__SUCCESS:
+    case oemBusinessTypes.FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
+    case oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST__SUCCESS:
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(payload.oem_businesses){
         return addIds(state, payload.oem_businesses)
@@ -36,13 +36,13 @@ const oemBusinessesById = (state = {}, {type,payload}) => {
         ...state,
         ...updatedOemBusinesses
       }
-    case oemBusinessTypes.DELETE_CATEGORY_REQUEST__SUCCESS:
-      return immutableRemove(payload.category_id,state);
+    case oemBusinessTypes.DELETE_OEM_BUSINESS_REQUEST__SUCCESS:
+      return immutableRemove(payload.oem_business_id,state);
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
-    case oemBusinessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
-    case oemBusinessTypes.CREATE_BUSINESS_REQUEST__SUCCESS:
+    case oemBusinessTypes.FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
+    case oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST__SUCCESS:
     case procedureTypes.CREATE_PROCEDURE_REQUEST__SUCCESS:
-    case procedureTypes.UPDATE_PROCEDURE_CATEGORIES_REQUEST__SUCCESS:
+    case procedureTypes.UPDATE_PROCEDURE_OEM_BUSINESSES_REQUEST__SUCCESS:
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(payload.oem_businesses){
         return {

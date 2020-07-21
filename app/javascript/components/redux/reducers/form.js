@@ -53,10 +53,10 @@ const isFormSubmitAction = (type) => (
   || type === userTypes.UPDATE_USER_REQUEST
   || type === oemTypes.CREATE_OEM_REQUEST
   || type === oemTypes.UPDATE_OEM_REQUEST
-  || type === oemBusinessTypes.CREATE_BUSINESS_REQUEST
+  || type === oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST
   || type === procedureTypes.CREATE_PROCEDURE_REQUEST
   || type === procedureTypes.UPDATE_PROCEDURE_REQUEST
-  || type === procedureTypes.UPDATE_PROCEDURE_CATEGORIES_REQUEST
+  || type === procedureTypes.UPDATE_PROCEDURE_OEM_BUSINESSES_REQUEST
   || type === stepTypes.CREATE_STEP_REQUEST
   || type === stepTypes.UPDATE_STEP_REQUEST
   || type === stepTypes.STEP_SAVE_REQUEST
@@ -74,10 +74,10 @@ const isFormSubmitFailureAction = (type) => (
   || type === userTypes.UPDATE_USER_REQUEST__FAILURE
   || type === oemTypes.CREATE_OEM_REQUEST__FAILURE
   || type === oemTypes.UPDATE_OEM_REQUEST__FAILURE
-  || type === oemBusinessTypes.CREATE_BUSINESS_REQUEST__FAILURE
+  || type === oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST__FAILURE
   || type === procedureTypes.CREATE_PROCEDURE_REQUEST__FAILURE
   || type === procedureTypes.UPDATE_PROCEDURE_REQUEST__FAILURE
-  || type === procedureTypes.UPDATE_PROCEDURE_CATEGORIES_REQUEST__FAILURE
+  || type === procedureTypes.UPDATE_PROCEDURE_OEM_BUSINESSES_REQUEST__FAILURE
   || type === stepTypes.CREATE_STEP_REQUEST__FAILURE
   || type === stepTypes.UPDATE_STEP_REQUEST__FAILURE
   || type === stepTypes.STEP_SAVE_REQUEST__FAILURE

@@ -2,12 +2,12 @@ import React from 'react';
 import {useDispatch} from 'react-redux';
 import DeleteConfirmation from '@components/Modal/DeleteConfirmation';
 import withModal from '@containers/withModal';
-import { deleteCategory } from '@actions/category';
+import { deleteOemBusiness } from '@actions/oem_business';
 
-export default withModal(({category_id}) => {
+export default withModal(({oem_business_id}) => {
   const dispatch = useDispatch();
-  const handleYesClick = () => dispatch(deleteCategory(category_id))
+  const handleYesClick = () => dispatch(deleteOemBusiness(oem_business_id))
   return(
     <DeleteConfirmation handleYesClick={handleYesClick} entity="site" />
   )
-}, "delete_category_confirmation")
+}, "delete_oem_businesses_confirmation")

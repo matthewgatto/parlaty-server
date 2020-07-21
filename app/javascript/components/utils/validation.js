@@ -50,7 +50,7 @@ export const oem_businessSchema = object().shape({
   name: string().required('This field is required')
 })
 
-export const clientOrCategorySchema = object().shape({
+export const clientOrOemBusinessSchema = object().shape({
   name: string().required('This field is required')
 })
 
@@ -62,6 +62,6 @@ export const deviceSchema = object().shape({
   actions: array().of(actionSchema)//.required('Device actions required')
 })
 
-export const procedureCategoriesSchema = object().shape({
+export const procedureOemBusinessesSchema = object().shape({
 
 })

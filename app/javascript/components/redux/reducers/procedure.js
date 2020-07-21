@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { addIds, immutableRemove } from '@utils';
 import * as types from "@types/procedure";
 import {
-  FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS
+  FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS
 } from '@types/oem_business';
 import {
   STEP_SAVE_REQUEST__SUCCESS,
@@ -21,7 +21,7 @@ const allProcedures = (state = null, {type,payload}) => {
       return state.filter(procedureId => procedureId !== payload.procedure_id)
     case types.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case types.FETCH_PROCEDURE_REQUEST__SUCCESS:
-    case FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
+    case FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
       if(payload.procedures){
         return addIds(state, payload.procedures)
       }
@@ -46,8 +46,8 @@ const proceduresById = (state = {}, {type,payload}) => {
     case types.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case types.UPDATE_PROCEDURE_REQUEST__SUCCESS:
     case types.FETCH_PROCEDURE_REQUEST__SUCCESS:
-    case types.UPDATE_PROCEDURE_CATEGORIES_REQUEST__SUCCESS:
-    case FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
+    case types.UPDATE_PROCEDURE_OEM_BUSINESSES_REQUEST__SUCCESS:
+    case FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case STEP_SAVE_REQUEST__SUCCESS:
     case REORDER_STEP_REQUEST__SUCCESS:
     case CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS:

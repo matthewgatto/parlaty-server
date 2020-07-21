@@ -13,7 +13,7 @@ export default (state = {}, {type,payload}) => {
         return payload.actions
       }
       return {}
-    case oemBusinessTypes.FETCH_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
+    case oemBusinessTypes.FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case deviceTypes.CREATE_DEVICE_REQUEST__SUCCESS:
     case deviceTypes.UPDATE_DEVICE_REQUEST__SUCCESS:

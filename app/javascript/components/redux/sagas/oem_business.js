@@ -36,7 +36,7 @@ export function* createOemBusinessSaga(action){
   yield call(formSaga, "post", action, normalizeOem, handleOemBusinessCreateSuccess);
 }
 
-export function* deleteCategorySaga(action){
+export function* deleteOemBusinessSaga(action){
   try {
     const url = yield select(({router}) => router.location.pathname)
     const splitUrl = url.split("/");
@@ -47,7 +47,7 @@ export function* deleteCategorySaga(action){
       oem_id = yield select(({auth}) => auth.oem)
     }
     yield call(API.delete, `/oem_businesses/${action.payload}`);
-    yield put({type: `${action.type}__SUCCESS`, payload: {category_id: action.payload, oem_id}})
+    yield put({type: `${action.type}__SUCCESS`, payload: {oem_business_id: action.payload, oem_id}})
     yield put(push(splitUrl.slice(0,-2).join('/')))
     yield put(addToast("success", "Site was successfully deleted."))
   } catch (e) {

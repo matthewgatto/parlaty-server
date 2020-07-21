@@ -6,15 +6,15 @@ class DevicePolicy < ApplicationPolicy
   end
 
   def create?
-    index?
+    !operator?
   end
 
   def update?
-    index?
+    !operator?
   end
 
   def destroy?
-    index?
+    !operator?
   end
 
   def permitted_attributes

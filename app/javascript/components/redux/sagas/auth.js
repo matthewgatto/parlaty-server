@@ -63,7 +63,7 @@ export function* selfDataSaga(action){
 }
 const handleUserInvite = pushAndNotify('/', "An invitation link has been sent to the email provided.")
 export function* inviteUserSaga(action){
-  const {name,email,roleable,client,...categories} = action.payload.values;
+  const {name,email,roleable,client,...oemBusinesses} = action.payload.values;
   const body = {
     user: {
       name,
@@ -78,9 +78,9 @@ export function* inviteUserSaga(action){
     roleable === "operator"
   ){
     body.oem_business_ids = []
-    for (var categoryId in categories) {
-      if (categories.hasOwnProperty(categoryId) && categories[categoryId] === true && isNumber(categoryId)) {
-        body.oem_business_ids.push(categoryId)
+    for (var oem_business_id in oemBusinesses) {
+      if (oemBusinesses.hasOwnProperty(oem_business_id) && oemBusinesses[oem_business_id] === true && isNumber(oem_business_id)) {
+        body.oem_business_ids.push(oem_business_id)
       }
     }
   }

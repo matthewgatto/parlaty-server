@@ -2,7 +2,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import { useFormContext } from "react-hook-form";
 import ClientSelect from '@containers/ClientSelect';
-import UserCategories from '@containers/UserCategories';
+import UserOemBusinesses from '@containers/UserOemBusinesses';
 import {getUser} from '@selectors/auth';
 
 const UserRoleFieldsComponent = ({initialValues = {},formKey,roleable, placeholder, user}) => {
@@ -20,7 +20,7 @@ const UserRoleFieldsComponent = ({initialValues = {},formKey,roleable, placehold
     case "operator":
       return <>
         <ClientSelect formKey={formKey} defaultValue={defaultClient} hidden={isNotParlatyAdmin} />
-        <UserCategories formKey={formKey} defaultValue={initialValues.oem_business_ids} defaultClient={defaultClient} categories={isClientAdmin && user.oem_business_ids} />
+        <UserOemBusinesses formKey={formKey} defaultValue={initialValues.oem_business_ids} defaultClient={defaultClient} oem_businesses={isClientAdmin && user.oem_business_ids} />
       </>
     case "parlatyadmin":
       if(placeholder){

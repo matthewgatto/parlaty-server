@@ -24,11 +24,14 @@ export default (props) => (
         <div className={styles.margin}>
           <Input as="input" name="name" type="text" label="Procedure Name" formKey={formKey} />
           <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
+          {/*<Input as="input" name="author" type="text" label="Author" formKey={formKey} />*/}
+          <Input as="input" name="language" type="text" label="Language" formKey={formKey} />
+          <Input as="input" name="version" type="number" label="Version" formKey={formKey} />
         </div>
         <AddStepFormButton formKey={formKey} />
         <div>
         <ModalTrigger modal="manage_devices" className={styles.manageDeviceButton}><SubmitButton label="Manage Device Labels" /></ModalTrigger>
-        <ModalTrigger modal="add_category" className={styles.manageDeviceButton}><SubmitButton label="Add Site" /></ModalTrigger>
+        <ModalTrigger modal="add_oem_business" className={styles.manageDeviceButton}><SubmitButton label="Add Site" /></ModalTrigger>
 
         </div>
         <FormPolygons />

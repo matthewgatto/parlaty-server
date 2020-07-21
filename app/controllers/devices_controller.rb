@@ -4,7 +4,7 @@ class DevicesController < ApplicationController
   # GET /devices
   def index
     authorize Device
-    render json: DeviceSerializer.devices_as_json(Device.all_devices), status: :ok
+    render json: DeviceSerializer.devices_with_name_as_json(Device.all_devices), status: :ok
   end
 
   # POST /devices

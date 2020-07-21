@@ -1,8 +1,8 @@
 import React from 'react';
 import uuid from 'uuid/v4';
 import FormPage from '@components/Form/Page';
-import { clientOrCategorySchema } from '@utils/validation';
-import { CREATE_BUSINESS_REQUEST } from '@types/oem_business';
+import { clientOrOemBusinessSchema } from '@utils/validation';
+import { CREATE_OEM_BUSINESS_REQUEST } from '@types/oem_business';
 import withUserInfo from '@containers/withUserInfo';
 
 const inputs = [{
@@ -26,10 +26,10 @@ export default withUserInfo(({user,match:{params}}) => {
       form={{
         entity: "oem_business",
         url: "/oem_businesses",
-        type: CREATE_BUSINESS_REQUEST,
+        type: CREATE_OEM_BUSINESS_REQUEST,
         initialValues: {},
         extraValues: {oem_id},
-        validationSchema: clientOrCategorySchema,
+        validationSchema: clientOrOemBusinessSchema,
         id: uuid()
       }}
       cancel={cancel}
