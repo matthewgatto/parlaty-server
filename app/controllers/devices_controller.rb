@@ -21,59 +21,14 @@ class DevicesController < ApplicationController
 
   # PUT /devices/:id
   def update
-    deviceId = params[:id]
-    @device = Device.find(deviceId)
-    if (@device)
-      @device.name = device_params[:name]
+    @device = Device.find(params[:id])
+    authorize @device
+    if @device.update_attributes(device_params)
+      save_device_actions
       @device.save
-      count = 0
-      @device.actions_order.clear
-      action_map = Hash.new
-      while params[:device][:actions] && count < params[:device][:actions].count
-        actionParams = action_params(count)
-        action_map[actionParams[:id]] = actionParams[:id]
-        begin
-          @action = Action.find(actionParams[:id])
-          if (@action)
-            if(@action.update_attributes(actionParams))
-            else
-              config.logger.error "action update attributes failed in PUT /devices/:id"
-              head :bad_request and return
-            end
-          else
-            config.logger.error "action find failed in PUT /devices/:id"
-            head :bad_request and return
-          end
-        rescue ActiveRecord::RecordNotFound
-          @action = Action.create!(name: actionParams[:name], device: @device,
-            parameter_name: actionParams[:parameter_name],
-            parameter_value_8_pack: actionParams[:parameter_value_8_pack],
-            time: actionParams[:time], mode: actionParams[:mode])
-          if (@action)
-            action_map[@action.id] = @action.id
-          else
-            config.logger.error "action create failed in PUT /devices/:id"
-            head :bad_request and return
-          end
-        end
-        @device.actions_order.push(@action.id)
-        count = count + 1
-      end
-      #render json: { "id": deviceId}, status: :ok and 
-      # delete those actions that are no longer in params
-      @device.actions.map do |action|
-        tmp_id = action_map[action.id]
-        if tmp_id.nil?
-          @device.actions_order.pop(@action.id)
-          action.destroy
-        end
-      end
-      @device.save
-      @device = Device.find(deviceId)
-      render status: :ok
+      head :ok
     else
-      config.logger.error "device find failed in PUT /devices/:id"
-      head :bad_request and return
+      ApplicationSerializer.error_response(@device.errors.full_messages)
     end
   end
 
@@ -92,15 +47,26 @@ class DevicesController < ApplicationController
 
     def save_device_actions
       @device.transaction do
-        @device = Device.create(device_params)
         order = actions_params.map do |item|
-          @action = Action.new(action_params(item))
-          @action.device = @device
-          @action.save
-          @action.id
+          new_params = action_params(item)
+          new_params[:id].present? ? update_action(new_params) : create_action(new_params)
         end
         @device.actions_order = order
+        @device.save
       end
+    end
+
+    def create_action(item)
+      action = Action.new(item)
+      action.device = @device
+      action.save
+      action.id
+    end
+
+    def update_action(item)
+      action = Action.find(item[:id])
+      action.update_attributes(item)
+      action.id
     end
 
     def device_params
