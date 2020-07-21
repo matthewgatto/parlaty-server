@@ -1,41 +1,21 @@
 class DevicesController < ApplicationController
   before_action :require_login
 
+  # GET /devices
+  def index
+    authorize Device
+    render json: DeviceSerializer.devices_as_json(Device.all_devices), status: :ok
+  end
+
   # POST /devices
   def create
     @device = Device.new(device_params)
-    if @device.procedure_id
-      procedure = Procedure.find(@device.procedure_id)
-      #@device.oem_business_id = procedure.oem_business_id
-    end
-    #if !@device.oem_business_id
-    #  config.logger.error "action create failed in POST /devices: missing oem_business_id"
-    #  head :bad_request and return
-    #end
-    if(@device.save)
-      count = 0
-      while params[:device][:actions] && count < params[:device][:actions].count
-        actionParams = action_params(count)
-        @action = Action.create!(name: actionParams[:name], device: @device,
-          parameter_name: actionParams[:parameter_name],
-          parameter_value_8_pack: actionParams[:parameter_value_8_pack],
-          time: actionParams[:time], mode: actionParams[:mode])
-        if (@action)
-        else
-          config.logger.error "action create failed in POST /devices"
-          head :bad_request and return
-        end
-        @device.actions_order.push(@action.id)
-        count = count + 1
-      end
-      if count > 1
-        @device.save
-      end
-			#render json: { "id": @device.id}, status: :ok and return
-      render status: :created
+    authorize @device
+    save_device_actions
+    if @device.save
+      render json: DeviceSerializer.simple_device_as_json(@device)
     else
-      config.logger.error "device save 2 failed in POST /devices"
-			render json: { "error": @device.errors.full_messages }, status: :bad_request and return
+      render json: ApplicationSerializer.error_response(@device.errors.full_messages)
     end
   end
 
@@ -100,33 +80,39 @@ class DevicesController < ApplicationController
   # DELETE /devices
   def destroy
     @device = Device.find(params[:id])
-    #begin
-	 	  if (@device.destroy)
-        render json: { "id": params[:id]}, status: :ok
-      else
-	 	    head :bad_request
-      end
-    #rescue
-    #  config.logger.error "destroy of device id: " + params[:id].to_s + " failed."
-    #  head :bad_request
-    #end
-  end
-  
-  # GET /devices
-  def devices_index
-    @devices = Device.all()
-    render status: :ok
+    authorize @device
+    if @device.destroy
+      render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
+    else
+      head :bad_request
+    end
   end
 
   private
 
+    def save_device_actions
+      @device.transaction do
+        @device = Device.create(device_params)
+        order = actions_params.map do |item|
+          @action = Action.new(action_params(item))
+          @action.device = @device
+          @action.save
+          @action.id
+        end
+        @device.actions_order = order
+      end
+    end
+
     def device_params
-			params.require(:device).permit(:name, :procedure_id)
+			params.require(:device).permit(policy(@device ||Device.new).permitted_attributes)
     end
-    
-    def action_params(index)
-			params[:device].require(:actions)[index].permit(:id, :device_id, :name, :parameter_name, :parameter_value_8_pack, :time, :mode)
+
+    def actions_params
+			params.require(:device).require(:actions)
     end
-    
+
+    def action_params(item)
+      item.permit(policy(@device ||Device.new).actions_permitted_attributes)
+    end
 end
 

@@ -55,7 +55,7 @@ class UserSerializer
           jwt: jwt,
           roleable_id: user.roleable_id,
           oem_businesses: OemBusinessSerializer.user_oem_businesses_as_json(user),
-          devices: DeviceSerializer.devices_as_json(Device.all.sort_by(&:name))
+          devices: DeviceSerializer.devices_as_json(Device.all_devices.order(&:name))
         }
       )
     end
