@@ -1,19 +1,20 @@
-import React,{useCallback} from 'react';
+import React, { useCallback } from 'react';
 import { Controller,useFormContext } from "react-hook-form";
 import SelectComponent, {withSelectContainer} from './Select';
 import CheckBoxComponent from './CheckBox';
 import RadioComponent from './Radio';
 import FileInputContainer from '@containers/FileInput';
-import Field from './Field';
+import FileInputButtonContainer from '@containers/FileInputButton';
 import withField from './withField';
 import withName from './withName';
 
-const withNamedField = (WrappedComponent) => withName(withField(WrappedComponent))
-export const Select = withNamedField(withSelectContainer(props => <Controller {...props} as={SelectComponent} />))
-export const FileInput = withName(props => <Controller onChange={([el]) => el.currentTarget.files[0]} {...props} as={FileInputContainer} />)
+const withNamedField = (WrappedComponent) => withName(withField(WrappedComponent));
+export const Select = withNamedField(withSelectContainer(props => <Controller {...props} as={SelectComponent} />));
+export const FileInput = withName(props => <Controller onChange={([el]) => el.currentTarget.files[0]} {...props} as={FileInputContainer} />);
+export const FileInputButton = (props) => FileInputButtonContainer(props);
 
-export const Input = withNamedField(Controller)
-export const CheckBox = props => <Input {...props} onChange={([e]) => e.currentTarget.checked} as={CheckBoxComponent} />
+export const Input = withNamedField(Controller);
+export const CheckBox = props => <Input {...props} onChange={([e]) => e.currentTarget.checked} as={CheckBoxComponent} />;
 
 const RadioFieldComponent = withField(RadioComponent);
 const ModeRadioComponent = props => {
@@ -24,7 +25,7 @@ const ModeRadioComponent = props => {
       <RadioFieldComponent {...props} label="Timed" check="timed" />
     </>
   )
-}
+};
 export const ModeRadio = ({root,...props}) => {
   const {setValue} = useFormContext();
   const onChange = useCallback(([e]) => {
@@ -34,6 +35,6 @@ export const ModeRadio = ({root,...props}) => {
       setValue(`${root}time`,8)
     }
     return e.target.value
-  },[root,setValue])
+  },[root,setValue]);
   return <Controller {...props} name={`${root}mode`} onChange={onChange} as={ModeRadioComponent} />
-}
+};

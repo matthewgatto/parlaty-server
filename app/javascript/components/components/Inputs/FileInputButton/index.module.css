@@ -40,15 +40,14 @@
 
 
 .fileInputContainer {
-  width: 29%;
+  width: 35%;
   position: relative;
-  /*background-color: #000;*/
+  background-color: #000;
   border-radius: 0.2em;
-  /*margin-bottom: 1.6em;*/
-  background: white;
-  display: inline-block;
-  min-height: 120px;
-  min-width: 122px;
-  margin: 0 10px 10px 0;
-  border: 1px solid #0000001a;
+  margin-bottom: 1.6em;
+}
+
+.file_container {
+  display: flex;
+  flex-wrap: wrap;
 }

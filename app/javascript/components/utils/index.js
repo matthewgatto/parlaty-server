@@ -71,27 +71,27 @@ export function getUpdatedProperties(newObj = {}, initialObj = {}){
 export function readFile(file){
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = reject
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
     reader.readAsDataURL(file)
   })
 }
 
 
-export const makeName = (root, name) => root ? `${root}${name}` : name
+export const makeName = (root, name) => root ? `${root}${name}` : name;
 
 export const addIds = (state, entityMap) => state ? (
   uniq([...state, ...Object.keys(entityMap)])
 ) : (
   Object.keys(entityMap)
-)
+);
 export const makeAction = (values, root) => ({
   name: values[`${root}name`],
   parameter_name: values[`${root}parameter_name`],
   parameter_value_8_pack: values[`${root}parameter_value_8_pack`],
   time: values[`${root}time`],
   mode: values[`${root}mode`],
-})
+});
 
 export const getNewStepValues = (values,root) => {
   const title = values[`${root}title`],
@@ -99,27 +99,30 @@ export const getNewStepValues = (values,root) => {
         time = values[`${root}time`],
         location = values[`${root}location`],
         step = {};
-  if(title) step.title = title
+  if(title) step.title = title;
   if(mode) {
-    step.mode = mode
+    step.mode = mode;
     if(mode === "continuous" || mode === "manual"){
       step.time = 0
     } else {
       step.time = time || 8;
     }
   }
-  if(location) step.location = location
+  if(location) step.location = location;
   return step;
-}
+};
 export const makeStep = (values, root, isFormData) => {
   const spoken = values[`${root}spoken`],
         safety = values[`${root}safety`],
-        visual = values[`${root}visual`],
-        video = values[`${root}video`],
+        visuals = [],
         device_id = values[`${root}device_id`],
         step = getNewStepValues(values,root);
-  if(spoken) step.spoken = spoken
-  if(safety) step.safety = safety
+  let key = 0;
+  while(typeof values[`${root}media[${key}]`] !== "undefined") {
+    visuals.push(values[`${root}media[${key}]`]); key++
+  }
+  if(spoken) step.spoken = spoken;
+  if(safety) step.safety = safety;
   if(device_id){
     if(isFormData){
       step.device = device_id
@@ -127,19 +130,8 @@ export const makeStep = (values, root, isFormData) => {
       step.device_id = device_id
     }
   }
-  if(video) {
-    if(isFormData){
-      step.videos = [{video}]
-    } else {
-      step.video = video
-    }
-  }
-  if(visual) {
-    if(isFormData){
-      step.images = [{image: visual}]
-    } else {
-      step.visual = visual
-    }
+  if(visuals) {
+    step.visuals = visuals
   }
   return step;
-}
+};
