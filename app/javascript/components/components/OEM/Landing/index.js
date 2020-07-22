@@ -12,7 +12,7 @@ export default ({match:{url}}) => {
       header="Home"
     >
       <Label>Sites</Label>
-      <List items={oem_businesses} to="/businesses" placeholder="You have no sites" text="sites" entityKey="oem_businesses"  />
+      <List items={oem_businesses} to="/sites" placeholder="You have no sites" text="sites" entityKey="oem_businesses"  />
     </PageLayout>
   )
 }

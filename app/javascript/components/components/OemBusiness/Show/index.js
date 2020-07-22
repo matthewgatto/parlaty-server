@@ -12,7 +12,7 @@ export default ({match:{params:{id,oem_id},url}}) => (<>
     label="Procedures"
     header={{
       header: {text: "", entityKey: "oem_businesses", id},
-      back: oem_id ? {to: `/oems/${oem_id}`, label: "Choose A Different Site"} : {to: "/", label: "Home"},
+      back: oem_id ? {to: `/clients/${oem_id}`, label: "Choose A Different Site"} : {to: "/", label: "Home"},
       buttons: (<>
         <ModalTrigger modal="delete_oem_businesses_confirmation"><SubmitButton primary label="Delete Site" /></ModalTrigger>
         <Link to={`${url}/procedures/create`}><SubmitButton primary label="Add Procedure" /></Link>

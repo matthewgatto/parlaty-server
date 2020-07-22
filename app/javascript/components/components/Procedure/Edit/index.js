@@ -73,7 +73,7 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
     <PageLayout
       header={`Edit ${name ? name : "Procedure"}`}
       back={oem_business_id ? ({
-        to: oem_id ? `/oems/${oem_id}/businesses/${oem_business_id}` : `/businesses/${oem_business_id}`,
+        to: oem_id ? `/clients/${oem_id}/sites/${oem_business_id}` : `/sites/${oem_business_id}`,
         label: "Choose A Different Procedure"
       }) : ({
         to: "/",

@@ -41,7 +41,7 @@ export function* deleteOemBusinessSaga(action){
     const url = yield select(({router}) => router.location.pathname)
     const splitUrl = url.split("/");
     var oem_id;
-    if(splitUrl[0] === "oems"){
+    if(splitUrl[0] === "clients"){
       oem_id = splitUrl[1]
     } else {
       oem_id = yield select(({auth}) => auth.oem)

@@ -16,7 +16,7 @@ export default withUserInfo(({user,match:{params}}) => {
   var oem_id, cancel;
   if(params && params.oem_id){
     oem_id = params.oem_id
-    cancel = `/oems/${params.oem_id}`
+    cancel = `/clients/${params.oem_id}`
   } else {
     oem_id = user.oem
   }
