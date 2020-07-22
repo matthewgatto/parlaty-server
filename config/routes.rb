@@ -31,19 +31,15 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
 
   resources :oems, only: [:index, :create, :update, :destroy]
-  resources :steps, only: [:create, :update, :destroy]
   resources :devices, only: [:index, :create, :update, :destroy]
   resources :oem_businesses, only: [:create, :show, :destroy]
 
   get '/oems/:id/oem_businesses', to: 'oem_businesses#index'
   get '/oem_businesses/:id/procedures', to: 'procedures#index'
 
-  #JDT
-
+  resources :steps, only: [:create, :update, :destroy]
   post '/steps/:id/visuals', to: 'steps#add_visuals'
-
   post '/save_steps', to: 'steps#save_step'
-
   post '/csv_steps', to: 'steps#csv_steps'
 
 end
