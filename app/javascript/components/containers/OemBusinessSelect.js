@@ -11,5 +11,5 @@ export default ({client,defaultValue}) => {
       dispatch({type: FETCH_OEM_BUSINESSES_REQUEST, payload: {url: `/oems/${client}/oem_businesses`, id: client}})
     }
   },[oem_businesses,client])
-  return <OemBusinessSelect oem_businesses={oem_businesses} defaultValue={defaultValue} />
+  return <OemBusinessSelect oemBusinesses={oem_businesses} defaultValue={defaultValue} />
 }
