@@ -42,11 +42,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
             name="media"
             label="Media*"
             formKey={formKey}
-            defaultValue={(initialValues.videos && initialValues.videos[0])
-              ? initialValues.videos[0].video
-              : (initialValues.images && initialValues.images[0])
-                ? initialValues.images[0].image
-                : undefined}
+            defaultValues={initialValues.visuals || undefined}
             root={root}
           />
         </div>

@@ -5,9 +5,9 @@ import ImageFileDisplay from '@components/ImageFileDisplay';
 import VideoFileDisplay from '@components/VideoFileDisplay';
 import DocFileDisplay from '@components/DocFileDisplay';
 
-export default ({formKey, ...props}) => {
+export default ({formKey, defaultValues, ...props}) => {
   const inputRef = useRef(null);
-  const [filesList, setFilesList] = useState([]);
+  const [filesList, setFilesList] = useState(defaultValues || []);
   const typeFile = file => {
       if (~file.type.indexOf('video')) return VideoFileDisplay;
       else if (~file.type.indexOf('image')) return ImageFileDisplay;

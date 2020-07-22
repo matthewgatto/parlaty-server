@@ -15,21 +15,23 @@ import API from '@utils/API';
 export const cleanStepParams = ({id,visuals,has_visual,...step}) => {
   let has_video = false, has_file = false;
   if(visuals){
+    let media = [];
     visuals.forEach(file=> {
       const hasImageFile = file && ~file.type.indexOf('image');
       const hasVideoFile = file && ~file.type.indexOf('video');
       step.has_visual = true;
       step.visuals = [];
-      if(visuals){
+      if(file){
         if(hasImageFile){
           has_file = true;
         } else if(hasVideoFile){
           has_video = true;
           has_file = true;
         }
-        step.visuals.push(file)
+        media.push(file);
       }
     });
+    step.visuals = media;
   } else {
     step.has_visual = false;
   }
