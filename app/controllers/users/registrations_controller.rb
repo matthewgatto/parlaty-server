@@ -16,20 +16,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
       yield resource if block_given?
       if resource.persisted?
-        if resource.active_for_authentication?
-          respond_with resource, location: after_sign_up_path_for(resource)
-        else
-          set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
-          expire_data_after_sign_in!
-          respond_with resource, location: after_inactive_sign_up_path_for(resource)
-        end
+        render json: UserSerializer.user_as_json(resource), status: :ok
       else
-        clean_up_passwords resource
-        set_minimum_password_length
-        respond_with resource
+        render json: ApplicationSerializer.error_response(resource.errors.messages)
       end
     rescue
-      render json: ApplicationSerializer.error_response(I18n.t("errors.user.incorrect_role")), status: :bad_request and return
+      render json: ApplicationSerializer.error_response(I18n.t("errors.user.incorrect_role"))
     end
   end
 

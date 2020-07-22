@@ -124,7 +124,7 @@ export function* userListSaga(action){
 function responseErrorHash(action, response){
   return {
     type: `${action.type}__FAILURE`,
-    payload: {formKey: action.payload.formKey, errors: {formError: response.error}}
+    payload: {formKey: action.payload.formKey, errors: {fieldErrors: response.error}}
   }
 }
 

@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     if @user.save
       render status: :created
     else
-			render json: ApplicationSerializer.error_response(@user.errors.full_messages)
+			render json: ApplicationSerializer.error_response(@user.errors.messages)
     end
   end
 
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
       @user.roleable.update_attributes(roleable_params)
       head :ok
     else
-      render json: ApplicationSerializer.error_response(@user.errors.full_messages)
+      render json: ApplicationSerializer.error_response(@user.errors.messages)
     end
 end
 
