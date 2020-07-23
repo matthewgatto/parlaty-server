@@ -2,6 +2,8 @@ import { normalize, schema } from 'normalizr';
 
 const action = new schema.Entity("actions");
 
+const language = new schema.Entity("languages");
+
 const device = new schema.Entity("devices", {
   actions: [action]
 });
@@ -59,6 +61,7 @@ const user = new schema.Entity("users", {
 })
 
 export default {
+  language,
   device,
   step,
   procedure,

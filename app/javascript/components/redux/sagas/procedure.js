@@ -172,7 +172,7 @@ function procedureParams(action, type){
     name: action.payload.values.name,
     description: action.payload.values.description,
     author: action.payload.values.author,
-    language: action.payload.values.language,
+    language_id: action.payload.values.language,
     version: action.payload.values.version,
   };
   if(type === "update"){

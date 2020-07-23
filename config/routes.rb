@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     end
   end
   post '/login', to: 'sessions#create'
-
+  resources :languages, only: [:index]
   resources :oems, only: [:index, :create, :update, :destroy]
   resources :devices, only: [:index, :create, :update, :destroy]
   resources :oem_businesses, only: [:create, :show, :destroy]
