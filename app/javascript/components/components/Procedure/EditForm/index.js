@@ -32,7 +32,7 @@ export default (props) => (
         <AddStepFormButton formKey={formKey} />
         <div>
         <ModalTrigger modal="manage_devices" className={styles.manageDeviceButton}><SubmitButton label="Manage Device Labels" /></ModalTrigger>
-        <ModalTrigger modal="add_oem_business" className={styles.manageDeviceButton}><SubmitButton label="Add Site" /></ModalTrigger>
+        { props.oem_id ? <ModalTrigger modal="add_oem_business" className={styles.manageDeviceButton}><SubmitButton label="Add Site" /></ModalTrigger> : null }
 
         </div>
         <FormPolygons />

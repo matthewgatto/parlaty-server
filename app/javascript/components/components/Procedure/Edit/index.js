@@ -41,7 +41,7 @@ const withStepLoader = (WrappedComponent) =>  (
   }
 )
 
-const EditProcedureForm = ({initialValues, id, oem_business_id}) => useMemo(() => (
+const EditProcedureForm = ({initialValues, id, oem_business_id, oem_id}) => useMemo(() => (
   <ProcedureForm
     url={`/procedures/${id}`}
     type={UPDATE_PROCEDURE_REQUEST}
@@ -49,6 +49,7 @@ const EditProcedureForm = ({initialValues, id, oem_business_id}) => useMemo(() =
     extraValues={{oem_business_id}}
     id={initialValues.id}
     procedure_id={id}
+    oem_id={oem_id}
     oem_business_id={oem_business_id}
   />
 ),[])
@@ -81,7 +82,7 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
       })}
       buttons={<ModalTrigger modal="delete_procedure_confirmation"><SubmitButton primary label="Delete Procedure" /></ModalTrigger>}
     >
-      <EditProcedureFormWithStepLoader id={id} oem_business_id={oem_business_id} addSteps={addSteps} initialValues={initialValues} />
+      <EditProcedureFormWithStepLoader id={id} oem_id={oem_id} oem_business_id={oem_business_id} addSteps={addSteps} initialValues={initialValues} />
     </PageLayout>
     <DeleteProcedureConfirmationModal procedure_id={id} />
     <DeleteDeviceConfirmationModal procedure_id={id} />
@@ -89,7 +90,7 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
     <DeviceCreateModal name={name} procedure_id={id} />
     <ProcedureDeviceModal oem_business_id={oem_business_id} />
     <DeviceUpdateModal name={name} />
-    <ProcedureOemBusinessesModal procedure_id={id} oem_id={oem_id} />
+    { oem_id ? <ProcedureOemBusinessesModal procedure_id={id} oem_id={oem_id} /> : null }
     <ImagePreviewModal />
     <VideoPreviewModal />
     <VideoProgressModal />
