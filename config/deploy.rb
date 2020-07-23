@@ -73,7 +73,7 @@ namespace :deploy do
   end
 end
 
-after "deploy:db:migrate", "deploy:import_languages"
+after "deploy:migrate", "deploy:import_languages"
 namespace :deploy do
   desc 'Runs rake procedures:import_languages'
   task import_languages do
