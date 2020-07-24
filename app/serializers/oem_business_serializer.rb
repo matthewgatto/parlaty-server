@@ -10,10 +10,6 @@ class OemBusinessSerializer
       oem_businesses.map{ |oem_business| simple_oem_business_as_json(oem_business) }
     end
 
-    def oem_businesses_hash_as_json(oem_businesses)
-      { oem_businesses: oem_businesses_as_json(oem_businesses) }
-    end
-
     def oem_businesses_as_json(oem_businesses)
       oem_businesses.map{ |oem_business| simple_oem_business_as_json(oem_business) }
     end

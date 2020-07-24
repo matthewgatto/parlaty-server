@@ -12,5 +12,11 @@ class OemSerializer
         name: oem.name
       }
     end
+
+    def oem_with_oem_businesses_as_json(oem, oem_businesses)
+      simple_oem_as_json(oem).merge!({
+        oem_businesses: OemBusinessSerializer.oem_businesses_as_json(oem_businesses)
+      })
+    end
   end
 end
