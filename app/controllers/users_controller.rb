@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     authorize @user
     if @user.save
-      render status: :created
+      render json: UserSerializer.user_as_json(@user), status: :ok
     else
 			render json: ApplicationSerializer.error_response(@user.errors.messages)
     end
