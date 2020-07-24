@@ -3,9 +3,7 @@
 class DeviceSerializer
   class << self
     def devices_with_name_as_json(devices)
-      {
-        devices: DeviceSerializer.devices_as_json(devices)
-      }
+      { devices: devices_as_json(devices) }
     end
 
     def devices_as_json(devices)
@@ -17,7 +15,7 @@ class DeviceSerializer
     def device_as_json_by_id(device_id)
       return nil if device_id.blank?
       device = Device.find(device_id)
-      DeviceSerializer.simple_device_as_json(device)
+      simple_device_as_json(device)
     end
 
     def simple_device_as_json(device)

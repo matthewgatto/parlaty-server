@@ -7,55 +7,14 @@ class StepsController < ApplicationController
 	# POST /steps
 	def create
 		@step = Step.new(step_params)
-		@procedure = Procedure.find(@step.procedure_id)
-		prev_si = params[:previous_step_id].to_i
-		pso = @procedure.steps_order
-
-		#zero means step is first order
-		if !(pso.include? prev_si or prev_si == 0)
-			render json: { "error": "previous step id doesn't exist in procedure_id" }, status: :bad_request and return
-		end
-
-		if(@step.save)
-			if(prev_si== 0)
-				pso.push(@step.id)
-			else
-				i = pso.index(prev_si)
-				pso.insert(i+1, @step.id)
-			end
-			@step.has_visual = (@step.visuals.count > 0)
-			@step.save
-
-			step_device_id = params[:step][:device_id]
-			step_device_actions = params[:step][:actions]
-			step_id = @step.id
-			count = 0
-			while step_device_actions && count < step_device_actions.count
-				actionParams = action_params(count)
-				actionId = actionParams[:id]
-				actionValue = actionParams[:parameter_value_8_pack]
-				actionMode = actionParams[:mode]
-				actionTime = actionParams[:time]
-				action = Action.find(actionId)
-				if (action)
-				  	if(action.update_attributes(actionParams))
-					else
-					  config.logger.error "action update attributes failed in PUT /steps/:id"
-					  head :bad_request and return
-					end
-				else
-					config.logger.error "action find failed in PUT /steps/:id"
-					head :bad_request and return
-				end
-				count = count + 1
-	  		end
-			# end new 20200310
-			@procedure.save
-
-			#render json: @step, status: :created
-			render status: :created
+		authorize @step
+		@step.has_visual = @step.visuals.count > 0
+		if @step.save
+			update_device_params
+			update_procedure_step_orders
+			render json: StepSerializer.step_as_json(@step), status: :ok
 		else
-			render json: { "error": @step.errors.full_messages }, status: :bad_request
+			render json: ApplicationSerializer.error_response(@step.errors.messages)
 		end
 	end
 
@@ -188,57 +147,51 @@ class StepsController < ApplicationController
 		@headers = @table.shift #remove first element of file to get the headers
 	end
 
-
-	# # reorder steps of a procedure
-	# # have to refactor to minimize query calls
-	# # have to edit code, since routes changed, no procedure id
-	# def reorder
-	# 	byebug 
-	# 	return
-	# 	main_step = Step.find(params[:step_id])
-	# 	if(@step.procedure_id != params[:procedure_id])
-	# 		# have to put return else will finish running the method
-	# 		render json: { error: 'step does not belong to procedure' }, status: :bad_request and return 
-	# 	end
-	# 	#new position's node before, 0 if new position is top
-	# 	new_order_previous = params[:previous_order]
-	# 	procedure_id = params[:id]
-	# 	order = main_step.order
-
-	# 	change = order - (new_order_previous+1)
-
-	# 	if(change > 0)
-	# 		# if change is positive, means moved up, steps between old and new position order +1
-	# 		# e.g change from order 5 to order 2, means order 2, 3, 4 all add one 
-	# 		#update new position, ... excludes "order"
-	# 		@thesteps = Step.where({order: (new_order_previous+1)...order, procedure_id: procedure_id})
-	# 		@thesteps.map { |x| x.update_attributes(order: x.order+1) }
-
-	# 	elsif(change < 0)
-	# 		# if change is negative, means moved down, steps between old and new position order -1
-	# 		# e.g from order 3 to 5, means order 4, 5 all subtract one
-	# 		@thesteps = Step.where({order: (order+1)..(new_order_previous+1), procedure_id: procedure_id})
-	# 		@thesteps.map { |x| x.update_attributes(order: x.order-1) }
-	# 	end
-	# 		main_step.update_attributes(order: order - change)
-	# end
-
 	private
 
-		def put_step_params
-			params.require(:step).permit(:id, :title, :device_id, :location, :note, :safety, :procedure_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, :has_visual)
+		def update_procedure_step_orders
+			@procedure = Procedure.find(@step.procedure_id)
+			@procedure.steps_order.push(@step.id)
+			@procedure.save
+		end
+
+		def update_device_params
+			step_device_actions = params[:step][:actions]
+			count = 0
+			while step_device_actions && count < step_device_actions.count
+				actionParams = action_params(count)
+				actionId = actionParams[:id]
+				action = Action.find(actionId)
+				if (action)
+					if(action.update_attributes(actionParams))
+					else
+						config.logger.error "action update attributes failed in PUT /steps/:id"
+						head :bad_request and return
+					end
+				else
+					config.logger.error "action find failed in PUT /steps/:id"
+					head :bad_request and return
+				end
+				count = count + 1
+			end
 		end
 
 		def step_params
-			params.require(:step).permit(:id, :title, :device_id, :location, :note, :safety, :procedure_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, :has_visual, visuals: [])
+			params.require(:step).permit(policy(@step || Step.new).permitted_attributes)
+		end
+
+		def action_params(index)
+			params[:step].require(:actions)[index].permit(:id, :device_id, :name, :parameter_name, :parameter_value_8_pack, :time, :mode)
+		end
+
+		def put_step_params
+			params.require(:step).permit(:id, :title, :device_id, :location, :note, :safety, :procedure_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, :has_visual)
 		end
 
 		def save_step_params
 			params.require(:step).permit(:title, :device_id, :location, :note, :safety, :oem_id, :mode, :time, :parameter_name, :parameter_value_8_pack, :spoken, visuals: [])
 		end
 
-		def action_params(index)
-			params[:step].require(:actions)[index].permit(:id, :device_id, :name, :parameter_name, :parameter_value_8_pack, :time, :mode)
-		end
+
 		
 	end
