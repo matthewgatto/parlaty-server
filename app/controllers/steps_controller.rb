@@ -3,8 +3,10 @@
 require 'csv'
 # StepsController
 class StepsController < ApplicationController
-  before_action :require_login
+
   include Devices::DeviceActions
+  include Steps::AttachmentsUploader
+  before_action :require_login
   before_action :set_params, only: %i[update destroy]
 
   # POST /steps
@@ -62,11 +64,6 @@ class StepsController < ApplicationController
     order.push(@step.id)
     @procedure.steps_order = order
     @procedure.save
-  end
-
-  def update_attached_files
-    @step.visuals.purge if @step.visuals.attached?
-    @step.update_attributes(visuals_params)
   end
 
   def set_params
