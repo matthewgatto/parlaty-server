@@ -4,7 +4,9 @@ class OemBusinessesController < ApplicationController
 	# GET /oems/:id/oem_businesses
 	def index
 		authorize OemBusiness
-		render json: OemSerializer.oem_with_oem_businesses_as_json(Oem.find(params[:id])), status: :ok
+		oem_businesses = OemBusiness.where(oem_id: params[:id])
+		oem_businesses = oem_businesses.by_user(current_user) if current_user.author? || current_user.operator?
+		render json: OemBusinessSerializer.oem_businesses_hash_as_json(oem_businesses.sort_by(&:name)), status: :ok
 	end
 
 	# GET /oem_businesses/:id
