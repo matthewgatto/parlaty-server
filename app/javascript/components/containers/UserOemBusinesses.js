@@ -10,7 +10,7 @@ export default ({defaultValue,defaultClient, oemBusinesses}) => {
     return null
   }
   return oemBusinesses ? (
-    <OemBusinessSelectComponent defaultValue={defaultValue} oem_businesses={oemBusinesses} />
+    <OemBusinessSelectComponent defaultValue={defaultValue} oemBusinesses={oemBusinesses} />
   ) : (
     <OemBusinessSelectContainer defaultValue={defaultValue} client={client || defaultClient} />
   )

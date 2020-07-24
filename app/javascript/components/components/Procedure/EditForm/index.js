@@ -15,6 +15,7 @@ import styles from './index.module.css';
 export default (props) => (
   <FormContext
     {...props}
+    initialValues={{...props.initialValues, version: props.initialValues.version ? props.initialValues.version + 1 : 0}}
     entity="procedure"
     validationSchema={procedureSchema}
     className={styles.content}
@@ -26,12 +27,12 @@ export default (props) => (
           <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
           {/*<Input as="input" name="author" type="text" label="Author" formKey={formKey} />*/}
           <Input as="input" name="language" type="text" label="Language" formKey={formKey} />
-          <Input as="input" name="version" type="number" label="Version" formKey={formKey} />
+          <Input as="input" name="version" type="text" label="Version" disabled formKey={formKey} />
         </div>
         <AddStepFormButton formKey={formKey} />
         <div>
         <ModalTrigger modal="manage_devices" className={styles.manageDeviceButton}><SubmitButton label="Manage Device Labels" /></ModalTrigger>
-        <ModalTrigger modal="add_oem_business" className={styles.manageDeviceButton}><SubmitButton label="Add Site" /></ModalTrigger>
+        { props.oem_id ? <ModalTrigger modal="add_oem_business" className={styles.manageDeviceButton}><SubmitButton label="Add Site" /></ModalTrigger> : null }
 
         </div>
         <FormPolygons />

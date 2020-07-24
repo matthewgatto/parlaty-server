@@ -34,6 +34,5 @@ export default ({customClick = null, ...props}) => {
       inputRef.current.value = null;
     }
   },[props.value]);
-  console.log(props);
   return <FileInput {...props} inputRef={inputRef} onClick={handleInputClick} inputText={inputText} />
 }

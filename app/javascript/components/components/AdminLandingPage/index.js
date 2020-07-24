@@ -8,7 +8,7 @@ const oemListProps = {
   header: { header: "Choose A Client", link: { text: "Add Client", to: "/clients/create" }},
   list: {
     text: "Clients",
-    to: "/oems",
+    to: "/clients",
     entityKey: "oems",
     placeholder: "There are no clients",
     type: FETCH_OEMS_REQUEST,

@@ -23,7 +23,7 @@ export function* inviteOEMSaga(action){
 
 const normalizeOEMCreate = (response,{payload:{values}}) => normalize({...values,...response}, Schemas.oem).entities
 function* handleOEMCreate(response,action){
-  const pushAndNotifyFunc = pushAndNotify(`/oems/${response.id}`, "Client was successfully added.");
+  const pushAndNotifyFunc = pushAndNotify(`/clients/${response.id}`, "Client was successfully added.");
   yield call(pushAndNotifyFunc)
 }
 
@@ -38,7 +38,7 @@ export function* createOEMSaga(action){
   yield call(handleOEMCreate, response.oem, action)
 }
 function* handleOEMUpdate(response, {payload:{id}}){
-  yield put(push(`/oems/${id}`))
+  yield put(push(`/clients/${id}`))
   yield put(addToast("success", "OEM successfully updated."))
 }
 export function* updateOEMSaga(action){

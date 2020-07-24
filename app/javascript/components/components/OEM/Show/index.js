@@ -16,16 +16,16 @@ export default ({match:{url,params:{id}}}) => (<>
       buttons: (<>
         <ModalTrigger modal="delete_client_confirmation"><SubmitButton primary label="Delete Client" /></ModalTrigger>
         <Link to={`${url}/edit`}><SubmitButton primary label="Edit Client" /></Link>
-        <Link to={`${url}/businesses/create`}><SubmitButton primary label="Add Site" /></Link>
+        <Link to={`${url}/sites/create`}><SubmitButton primary label="Add Site" /></Link>
       </>)
     }}
     list={{
       id,
       type: FETCH_OEM_BUSINESSES_REQUEST,
-      url: `${url}/oem_businesses`,
+      url: `/oems/${id}/oem_businesses`,
       text: "Sites",
       entityKey: "oem_businesses",
-      to: `${url}/businesses`,
+      to: `${url}/sites`,
       placeholder: "This client has no sites",
       selector: getOemBusinesses(id)
     }}

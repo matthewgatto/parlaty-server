@@ -17,9 +17,10 @@ export const cleanStepParams = ({id,visuals,has_visual,...step}) => {
   if(visuals){
     let media = [];
     visuals.forEach(file=> {
-      const hasImageFile = file && ~file.type.indexOf('image');
-      const hasVideoFile = file && ~file.type.indexOf('video');
-      step.has_visual = true;
+      const hasImageFile = file.type && ~file.type.indexOf('image');
+      const hasVideoFile = file.type && ~file.type.indexOf('video');
+      const hasURLMedia = file && typeof file === 'string';
+      if(hasURLMedia) step.has_visual = true;
       step.visuals = [];
       if(file){
         if(hasImageFile){
@@ -80,6 +81,7 @@ function* uploadSource(step, url, method) {
   return yield call(uploadPromise);
 }
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
 function* makeStepRequest(uncleanStepValues, url, method){
   try {
     const {step,has_video,has_file} = cleanStepParams(uncleanStepValues);
@@ -100,6 +102,7 @@ function* makeStepRequest(uncleanStepValues, url, method){
     throw e
   }
 }
+
 function* createStepSaga({procedure, step:{actions,...step}, initialValues}){
   try {
     const response = yield call(makeStepRequest, {...step, procedure_id: procedure.id }, "/steps", "post");

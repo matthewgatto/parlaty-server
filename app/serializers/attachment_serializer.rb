@@ -8,6 +8,7 @@ class AttachmentSerializer
       return nil unless step.has_visual
       step.visuals.map do |visual|
         {
+          id: visual.id,
           visual: rails_blob_url(visual, only_path: true),
           type: visual.content_type
         }

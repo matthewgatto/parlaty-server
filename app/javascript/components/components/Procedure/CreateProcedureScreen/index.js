@@ -16,18 +16,6 @@ import {getOemBusinessProceduresWithDevices} from '@selectors/oem_business';
 import {setModal} from '@actions/modal';
 import styles from './index.module.css';
 
-const inputs = [{
-  type: "text",
-  name: "name",
-  placeholder: "Name",
-  required: true
-}, {
-  type: "text",
-  name: "description",
-  placeholder: "Description",
-  required: true
-}]
-
 const CopyModal = withModal(CopyList, "procedure_copy_list");
 
 const CopyProcedureButton = ({formKey,oem_business_id}) => {
@@ -66,7 +54,9 @@ export default ({match:{url,params:{oem_id,oem_business_id}}}) => {
         type={CREATE_PROCEDURE_REQUEST}
         initialValues={{
           name: '',
-          description: ''
+          description: '',
+          language: '',
+          version: 1
         }}
         extraValues={{author, oem_business_id,oem_id}}
         validationSchema={procedureSchema}
@@ -80,6 +70,9 @@ export default ({match:{url,params:{oem_id,oem_business_id}}}) => {
           </div>
           <Input type="text" name="name" label="Name" formKey={formKey} as="input" />
           <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
+          {/*<Input as="input" name="author" type="text" label="Author" formKey={formKey} />*/}
+          <Input as="input" name="language" type="text" label="Language" formKey={formKey} />
+          <Input as="input" name="version" type="number" label="Version" formKey={formKey} disabled/>
           <div className={styles.buttonRow}>
             <CopyProcedureButton formKey={formKey} oem_business_id={oem_business_id} />
             <div className={styles.or}>- or -</div>

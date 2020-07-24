@@ -17,14 +17,12 @@ export const loginSchema = object().shape({
 export const inviteSchema = object().shape({
   email: string().email('Invalid email').required('This field is required'),
   name: string().required('This field is required'),
-  roleable: string(),
-  /*
+  roleable: string().notOneOf([""], 'This field is required'),
   client: mixed().when('roleable',{
-    is: "parlatyadmin",
+    is: roleable => roleable === "parlatyadmin" || roleable === undefined || roleable === "",
     then: mixed(),
     otherwise: mixed().required('This field is required')
   })
-  */
 })
 
 export const inviteConfirmationSchema = object().shape({
@@ -42,7 +40,7 @@ export const stepSchema = object().shape({
 
 export const procedureSchema = object().shape({
   name: string().required('This field is required'),
-  description: string().required('This field is required'),
+  description: string().required('This field is required').max(200, 'Too Long symbols, max: 200'),
   steps: array().of(stepSchema)//.required('Must have steps')
 })
 

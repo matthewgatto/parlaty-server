@@ -22,17 +22,17 @@ export function immutableMove(arr, from, to) {
 }
 
 export function objectToFormData(obj) {
-    var formData = new FormData();
+    let formData = new FormData();
     function appendFormData(data, root) {
           root = root || '';
           if (data instanceof File) {
               formData.append(root, data);
           } else if (Array.isArray(data)) {
-            for (var i = 0; i < data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 appendFormData(data[i], root + '[]');
             }
           } else if (typeof data === 'object' && data) {
-              for (var key in data) {
+              for (let key in data) {
                   if (data.hasOwnProperty(key)) {
                       if (root === '') {
                           appendFormData(data[key], key);

@@ -16,10 +16,9 @@ export default ({label, name, onClick, onChange, inputRef, values, deleteElem, t
       </label>
     </div>
     <div className={styles.file_container}>
-      {values && [...values].map((file, i) => {
-        console.log('file', file);
-      return (<FileInput name={name+'['+i+']'} label="" formKey={formKey} index={i} defaultValue={file.visual} root={root} key={i} customClick={deleteElem} displayComponent={typeFile(file)}/>
-      )})}
+      {values && [...values].map((file, i) => (
+        <FileInput name={name+'['+i+']'} label="" formKey={formKey} index={i} defaultValue={file.visual || file} root={root} key={file.id || file.lastModified +  Math.random(10000)} customClick={deleteElem} displayComponent={typeFile(file)}/>
+      ))}
     </div>
   </>
 )

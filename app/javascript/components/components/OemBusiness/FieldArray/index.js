@@ -4,11 +4,11 @@ import {Input} from '@components/Inputs';
 export default (props) => {
   const [indexes, setIndexes] = useState([...Array(props.initialLength).keys()]);
   const [counter, setCounter] = useState(props.initialLength);
-  const addBusiness = () => {
+  const addOemBusiness = () => {
     setIndexes(prevIndexes => [...prevIndexes, counter]);
     setCounter(prevCounter => prevCounter + 1);
   };
-  const removeBusiness = index => () => {
+  const removeOemBusiness = index => () => {
     setIndexes(prevIndexes => [...prevIndexes.filter(item => item !== index)]);
     const fieldName = `oem_businesses[${index}]`
     props.unregister(`${fieldName}.name`);

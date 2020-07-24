@@ -20,6 +20,5 @@ export default ({formKey, defaultValues, ...props}) => {
       setFilesList((prevState=[]) => [...prevState, ...files]);
       el.currentTarget.value = null;
     };
-  // console.log('filesList', filesList);
   return <FileInputButton onClick={handleClick} deleteElem={deleteElem} typeFile={typeFile} onChange={handleChange} values={filesList} {...props} inputRef={inputRef} />
 }

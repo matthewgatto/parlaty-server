@@ -4,7 +4,7 @@ import styles from './index.module.css';
 
 const ImageDisplay = withFileLoader(({isLoading,...props}) => (
   <img {...props} className={isLoading ? `${styles.image} ${styles.hide}` : styles.image} />
-),"image_preview")
+),"image_preview");
 export default ({src,setModal,setFile}) => (
   <div className={styles.container}>
     {src ? (

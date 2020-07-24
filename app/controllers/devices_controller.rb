@@ -76,6 +76,7 @@ class DevicesController < ApplicationController
     end
 
     def actions_params
+      return [] if params.require(:device)[:actions].blank?
 			params.require(:device).require(:actions)
     end
 

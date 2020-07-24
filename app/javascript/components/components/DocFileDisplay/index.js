@@ -4,7 +4,7 @@ import styles from './index.module.css';
 
 const DocDisplay = withFileLoader(({ isLoading, params }) => (
   <div className={isLoading ? `${styles.doc} ${styles.hide}` : styles.doc}>
-    {params && params[name || visual].split('.').pop()}
+    {params && (params.name || params.visual).split('.').pop()}
     </div>
 ),"doc_preview");
 

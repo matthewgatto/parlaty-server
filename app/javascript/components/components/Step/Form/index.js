@@ -7,9 +7,7 @@ import FormError from '@containers/FormError';
 import SpokenBox from '@components/Inputs/SpokenBox';
 import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
-import ImageFileDisplay from '@components/ImageFileDisplay';
-import VideoFileDisplay from '@components/VideoFileDisplay';
-import { Input, CheckBox, Select, FileInput, VideoInput, ModeRadio, FileInputButton } from '@components/Inputs';
+import { Input, CheckBox, Select, ModeRadio, FileInputButton } from '@components/Inputs';
 import styles from './index.module.css';
 
 
