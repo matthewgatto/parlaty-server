@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
+# StepPolicy
 class StepPolicy < ApplicationPolicy
-
   def create?
     !operator?
   end
@@ -15,19 +15,24 @@ class StepPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:title,
-     :device_id,
-     :location,
-     :note,
-     :safety,
-     :procedure_id,
-     :mode,
-     :time,
-     :parameter_name,
-     :parameter_value_8_pack,
-     :spoken,
-     :has_visual,
-     visuals: []
-    ]
+    %i[title
+       device_id
+       location
+       note
+       safety
+       procedure_id
+       mode
+       time
+       parameter_name
+       parameter_value_8_pack
+       spoken]
+  end
+
+  def visuals_permitted_attributes
+    [visuals: []]
+  end
+
+  def actions_permitted_attributes
+    %i[id device_id name parameter_name parameter_value_8_pack time mode]
   end
 end

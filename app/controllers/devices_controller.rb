@@ -1,5 +1,6 @@
 class DevicesController < ApplicationController
   before_action :require_login
+  include Devices::DeviceActions
 
   # GET /devices
   def index
@@ -44,32 +45,6 @@ class DevicesController < ApplicationController
   end
 
   private
-
-    def save_device_actions
-      @device.transaction do
-        order = actions_params.map do |item|
-          new_params = action_params(item)
-          new_params[:id].present? ? update_action(new_params) : create_action(new_params)
-        end
-        to_be_removed = @device.actions_order - order
-        Action.find(to_be_removed).each(&:destroy)
-        @device.actions_order = order
-        @device.save
-      end
-    end
-
-    def create_action(item)
-      action = Action.new(item)
-      action.device = @device
-      action.save
-      action.id
-    end
-
-    def update_action(item)
-      action = Action.find(item[:id])
-      action.update_attributes(item)
-      action.id
-    end
 
     def device_params
 			params.require(:device).permit(policy(@device ||Device.new).permitted_attributes)

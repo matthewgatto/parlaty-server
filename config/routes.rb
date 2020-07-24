@@ -38,8 +38,6 @@ Rails.application.routes.draw do
   get '/oem_businesses/:id/procedures', to: 'procedures#index'
 
   resources :steps, only: [:create, :update, :destroy]
-  post '/steps/:id/visuals', to: 'steps#add_visuals'
-  post '/save_steps', to: 'steps#save_step'
   post '/csv_steps', to: 'steps#csv_steps'
 
 end
