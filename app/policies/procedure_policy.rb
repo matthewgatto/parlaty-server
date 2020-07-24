@@ -30,7 +30,7 @@ class ProcedurePolicy < ApplicationPolicy
       :name,
       :description,
       :author,
-      :language,
+      :language_id,
       :version,
       :steps_order,
       oem_business_ids: []

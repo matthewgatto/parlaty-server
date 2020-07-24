@@ -6,6 +6,8 @@ import * as procedure from './procedure';
 import * as step from './step';
 import * as device from './device';
 import * as user from './user';
+import * as language from './language';
+import * as languageTypes from '@types/language';
 import * as authTypes from '@types/auth';
 import * as oemTypes from '@types/oem';
 import * as oemBusinessTypes from '@types/oem_business';
@@ -49,6 +51,8 @@ export default function* appSagas(){
     yield fork(device.getFreshDeviceData),
     yield takeEvery(deviceTypes.CREATE_DEVICE_REQUEST, device.createDeviceSaga),
     yield takeEvery(deviceTypes.UPDATE_DEVICE_REQUEST, device.updateDeviceSaga),
-    yield takeEvery(deviceTypes.CREATE_PROCEDURE_DEVICE_REQUEST, device.createProcedureDeviceSaga)
+    yield takeEvery(deviceTypes.CREATE_PROCEDURE_DEVICE_REQUEST, device.createProcedureDeviceSaga),
+
+    yield takeEvery(languageTypes.FETCH_LANGUAGES_REQUEST, language.languagesSaga)
   ])
 }

@@ -23,7 +23,7 @@ class ProcedureSerializer
         name: procedure.name,
         description: procedure.description,
         author: author_name(procedure.author),
-        language: procedure.language,
+        language_id: procedure.language_id,
         devices: DeviceSerializer.devices_as_json(procedure.devices)
       }
     end

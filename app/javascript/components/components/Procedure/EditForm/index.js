@@ -9,6 +9,7 @@ import ProcedureSubmitButton from '@containers/SubmitButton';
 import SubmitButton from '@components/SubmitButton';
 import ModalTrigger from '@containers/ModalTrigger';
 import { procedureSchema } from '@utils/validation';
+import LanguagesSelect from "@containers/LanguagesSelect";
 import styles from './index.module.css';
 
 
@@ -26,13 +27,13 @@ export default (props) => (
           <Input as="input" name="name" type="text" label="Procedure Name" formKey={formKey} />
           <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
           {/*<Input as="input" name="author" type="text" label="Author" formKey={formKey} />*/}
-          <Input as="input" name="language" type="text" label="Language" formKey={formKey} />
+          <LanguagesSelect formKey={formKey} defaultValue={props.initialValues.language_id}/>
           <Input as="input" name="version" type="text" label="Version" disabled formKey={formKey} />
         </div>
         <AddStepFormButton formKey={formKey} />
         <div>
         <ModalTrigger modal="manage_devices" className={styles.manageDeviceButton}><SubmitButton label="Manage Device Labels" /></ModalTrigger>
-        { props.oem_id ? <ModalTrigger modal="add_oem_business" className={styles.manageDeviceButton}><SubmitButton label="Add Site" /></ModalTrigger> : null }
+        <ModalTrigger modal="add_oem_business" className={styles.manageDeviceButton}><SubmitButton label="Add Site" /></ModalTrigger>
 
         </div>
         <FormPolygons />
