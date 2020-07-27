@@ -5,8 +5,13 @@ export const forgotPasswordSchema = object().shape({
 })
 
 export const resetPasswordSchema = object().shape({
-  password: string().required('Password is required'),
-  password_confirmation: string().required('Passwords must match').oneOf([ref('password'), null], 'Passwords must match')
+  password: string()
+    .required('Password is required')
+    .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+      'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters'),
+  password_confirmation: string()
+    .required('Passwords must match')
+    .oneOf([ref('password'), null], 'Passwords must match')
 })
 
 export const loginSchema = object().shape({
