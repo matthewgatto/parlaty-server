@@ -12,14 +12,18 @@ export const pushAndNotify = (to,message) => (function*(){
 export function* formSaga(method, action, normalize, cb){
   try {
     const response = yield call(API[method], action.payload.url, action.payload.values);
-    if(normalize){
-      const payload = yield call(normalize, response, action);
-      yield put({
-        type: `${action.type}__SUCCESS`,
-        payload
-      })
+    if(response.error){
+      yield put({type: `${action.type}__FAILURE`, payload: {formKey: action.payload.formKey, errors:{fieldErrors: response.error}}})
+    }else{
+      if(normalize){
+        const payload = yield call(normalize, response, action);
+        yield put({
+          type: `${action.type}__SUCCESS`,
+          payload
+        })
+      }
+      if(cb) yield call(cb, response, action)
     }
-    if(cb) yield call(cb, response, action)
   } catch (e) {
     console.log("e", e);
     var formError = "An unexpected error has occurred"

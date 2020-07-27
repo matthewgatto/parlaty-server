@@ -1,7 +1,5 @@
 import { call, put, select } from 'redux-saga/effects';
-import uuid from 'uuid/v4';
 import { normalize } from 'normalizr';
-import { push } from 'connected-react-router'
 import API from '@utils/API';
 import Schemas from '@utils/models';
 import {formSaga,pushAndNotify} from './form';
@@ -121,13 +119,6 @@ export function* userListSaga(action){
   }
 }
 
-function responseErrorHash(action, response){
-  return {
-    type: `${action.type}__FAILURE`,
-    payload: {formKey: action.payload.formKey, errors: {fieldErrors: response.error}}
-  }
-}
-
 function getOemBusinessIds(oemBusinessIds){
   const idsArray = []
   for (let oemBusinessId in oemBusinessIds) {
@@ -136,4 +127,11 @@ function getOemBusinessIds(oemBusinessIds){
     }
   }
   return idsArray;
+}
+
+function responseErrorHash(action, response){
+  return {
+    type: `${action.type}__FAILURE`,
+    payload: {formKey: action.payload.formKey, errors: {fieldErrors: response.error}}
+  }
 }
