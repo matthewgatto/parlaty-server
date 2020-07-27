@@ -76,7 +76,7 @@ export function* createProcedureSaga(action){
 
 }
 
-const normalizeProcedure = (procedure) => normalize(procedure, Schemas.procedure).entities
+const normalizeProcedure = (procedure) => normalize(procedure.procedure, Schemas.procedure).entities
 
 export function* updateProcedureSaga(action){
   action.payload.values = {procedure: procedureParams(action, "update")};
@@ -172,12 +172,12 @@ function procedureParams(action, type){
     name: action.payload.values.name,
     description: action.payload.values.description,
     author: action.payload.values.author,
-    language_id: action.payload.values.language,
+    language_id: action.payload.values.language_id,
     version: action.payload.values.version,
   };
   if(type === "update"){
     params.id = action.payload.id;
-    // params.steps_order = '';
+    params.version = params.version + 1;
   }else{
     params.oem_business_ids = [action.payload.values.oem_business_id];
   }

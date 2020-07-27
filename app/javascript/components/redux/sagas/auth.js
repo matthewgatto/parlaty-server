@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import API from '@utils/API';
 import {formSaga,pushAndNotify} from './form';
-import {normalizeOEMInvite} from './oem';
+import {normalizeOemInvite} from './oem';
 import Schemas from '@utils/models';
 
 const handleUpdatePasswordSuccess = pushAndNotify('/',"Your password was successfully updated.")
@@ -85,7 +85,7 @@ export function* inviteUserSaga(action){
     }
   }
   //action.payload.values = body
-  //yield call(formSaga, "post", action, action.payload.values.roleable === "oem" && normalizeOEMInvite, handleUserInvite);
+  //yield call(formSaga, "post", action, action.payload.values.roleable === "oem" && normalizeOemInvite, handleUserInvite);
 }
 
 export const inviteConfirmationSaga = makePasswordFormSaga("post", handleInviteConfirmationSuccess)

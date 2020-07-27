@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import FormPage from '@components/Form/Page';
 import { oemSchema } from '@utils/validation';
 import { UPDATE_OEM_REQUEST } from '@types/oem';
-import { getOEMById } from '@selectors/oem';
+import { getOemById } from '@selectors/oem';
 import withUserInfo from '@containers/withUserInfo'
 
 const inputs = [{
@@ -14,7 +14,7 @@ const inputs = [{
 }]
 
 export default withUserInfo(({ user, match:{params:{id}}}) => {
-  const {name} = useSelector(getOEMById(id)),
+  const {name} = useSelector(getOemById(id)),
         url = `/oems/${id}`,
         backUrl = user.roleable === "ClientAdmin" ? "/" : url;
   return(

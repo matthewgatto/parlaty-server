@@ -14,6 +14,5 @@ export default ({location:{search}}) => (
         extraValues: {confirmation_token: queryString.parse(search).confirmation_token},
         validationSchema: inviteConfirmationSchema
       }}
-      cancel="/"
     />
 )

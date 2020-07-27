@@ -1,7 +1,7 @@
 import React from 'react';
 import ListPage from '../List/Page';
 import { FETCH_OEMS_REQUEST } from '@types/oem';
-import { getAllOEMIds } from '@selectors/oem';
+import { getAllOemIds } from '@selectors/oem';
 
 const oemListProps = {
   label: "Clients",
@@ -12,7 +12,7 @@ const oemListProps = {
     entityKey: "oems",
     placeholder: "There are no clients",
     type: FETCH_OEMS_REQUEST,
-    selector: getAllOEMIds,
+    selector: getAllOemIds,
     url: "/oems"
   }
 }

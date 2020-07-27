@@ -16,7 +16,6 @@ import styles from './index.module.css';
 export default (props) => (
   <FormContext
     {...props}
-    initialValues={{...props.initialValues, version: props.initialValues.version ? props.initialValues.version + 1 : 0}}
     entity="procedure"
     validationSchema={procedureSchema}
     className={styles.content}

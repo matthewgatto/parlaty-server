@@ -12,6 +12,6 @@ export default ({formKey, defaultValue}) => {
     }
   },[languages]);
   return(
-    <Select defaultValue={ defaultValue } options={languages || []} label="Language" name="language" formKey={formKey} placeholder="Choose a language..." unclearable />
+    <Select defaultValue={ defaultValue } options={languages || []} label="Language" name="language_id" formKey={formKey} placeholder="Choose a language..." unclearable />
   )
 }
