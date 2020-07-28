@@ -12,13 +12,13 @@ import AddDevicesScreen from '@components/Procedure/AddDevicesScreen';
 import AddStepsScreen from '@components/Procedure/AddStepsScreen';
 import ClientUserLandingPage from '@components/ClientUserLandingPage';
 import AdminLandingPage from '@components/AdminLandingPage';
-import OemPage from '@components/OEM/Show';
-import CreateClientForm from '@components/OEM/Create';
-import OemLandingPage from '@components/OEM/Landing';
-import OemUpdatePage from '@components/OEM/Edit';
+import OemPage from '@components/Oem/Show';
+import CreateClientForm from '@components/Oem/Create';
+import OemLandingPage from '@components/Oem/Landing';
+import OemUpdatePage from '@components/Oem/Edit';
 import DeviceAdminPage from '@components/Device/Tab/Admin';
-import DeviceOemAdminPage from '@components/Device/Tab/OEM/Admin';
-import DeviceOemLandingPage from '@components/Device/Tab/OEM/Landing';
+import DeviceOemAdminPage from '@components/Device/Tab/Oem/Admin';
+import DeviceOemLandingPage from '@components/Device/Tab/Oem/Landing';
 import DeviceBusinessPage from '@components/Device/Tab/OemBusiness';
 import DeviceManagerPage from '@components/Device/Tab/Manager';
 import BusinessForm from '@components/OemBusiness/Create';
@@ -52,15 +52,15 @@ const Routes = ({role}) => {
         */}
         <Route path="/clients/:oem_id/sites/create" component={BusinessForm} />
         <Route path="/clients/:oem_id/sites/:id" render={OemBusinessPage} />
-        <Route path="/clients/:id/edit" component={OemUpdatePage} />
+        <Route path="/clients/:oem_id/edit" component={OemUpdatePage} />
         <Route path="/clients/create" component={CreateClientForm} />
-        <Route path="/clients/:id" component={OemPage} />
+        <Route path="/clients/:oem_id" component={OemPage} />
         <Redirect to="/" />
       </Switch>)
     case "ClientAdmin":
       return(<Switch>
         <Route exact path="/" component={ClientUserLandingPage} />
-        <Route path="/clients/:id/edit" component={OemUpdatePage} />
+        <Route path="/clients/:oem_id/edit" component={OemUpdatePage} />
         <Route path="/users/invite" render={() => <UserInvite role={role} />} />
         <Route path="/users/:id" render={({match}) => <UserUpdatePage role={role} match={match} />} />
         <Route path="/users" component={UsersPage} />

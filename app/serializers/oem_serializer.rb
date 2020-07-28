@@ -7,10 +7,7 @@ class OemSerializer
     end
 
     def simple_oem_as_json(oem)
-      {
-        id: oem.id,
-        name: oem.name
-      }
+      oem.as_json
     end
 
     def oem_with_oem_businesses_as_json(oem, oem_businesses)

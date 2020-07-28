@@ -7,11 +7,11 @@ import DeleteClientConfirmationModal from '../DeleteConfirmationModal'
 import { FETCH_OEM_BUSINESSES_REQUEST } from '@types/oem';
 import { getOemBusinesses } from '@selectors/oem';
 
-export default ({match:{url,params:{id}}}) => (<>
+export default ({match:{url,params:{oem_id}}}) => (<>
   <ListPage
     label="Sites"
     header={{
-      header: {text: "", entityKey: "oems", id},
+      header: {text: "", entityKey: "oems", oem_id},
       back: {to: "/", label: "Home"},
       buttons: (<>
         <ModalTrigger modal="delete_client_confirmation"><SubmitButton primary label="Delete Client" /></ModalTrigger>
@@ -20,15 +20,15 @@ export default ({match:{url,params:{id}}}) => (<>
       </>)
     }}
     list={{
-      id,
+      oem_id,
       type: FETCH_OEM_BUSINESSES_REQUEST,
-      url: `/oems/${id}/oem_businesses`,
+      url: `/oems/${oem_id}/oem_businesses`,
       text: "Sites",
       entityKey: "oem_businesses",
       to: `${url}/sites`,
       placeholder: "This client has no sites",
-      selector: getOemBusinesses(id)
+      selector: getOemBusinesses(oem_id)
     }}
   />
-  <DeleteClientConfirmationModal client_id={id} />
+  <DeleteClientConfirmationModal client_id={oem_id} />
 </>)

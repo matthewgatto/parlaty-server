@@ -9,4 +9,12 @@ class OemBusiness < ApplicationRecord
 				.where("#{user.roleable_type.downcase}s.id = ?", user.roleable.id)
 	}
 
+	scope :procedures_sum, -> (oem_id) {
+		joins(:procedures)
+				.select("COUNT(procedure_id) AS count")
+				.select("SUM(COUNT(procedure_id)) OVER() AS procedures_sum")
+				.where(oem_id: oem_id)
+				.first
+				.procedures_sum
+	}
 end

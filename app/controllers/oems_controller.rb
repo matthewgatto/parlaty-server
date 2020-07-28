@@ -45,6 +45,6 @@ class OemsController < ApplicationController
   private
 
   def oem_params
-    params.require(:oem).permit(policy(@oem || Oem.new).permitted_attributes)
+    params.require(:oem).permit(policy(@oem || Oem.new).permitted_attributes(current_user.roleable_type))
   end
 end
