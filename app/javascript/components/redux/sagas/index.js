@@ -6,6 +6,8 @@ import * as procedure from './procedure';
 import * as step from './step';
 import * as device from './device';
 import * as user from './user';
+import * as language from './language';
+import * as languageTypes from '@types/language';
 import * as authTypes from '@types/auth';
 import * as oemTypes from '@types/oem';
 import * as oemBusinessTypes from '@types/oem_business';
@@ -25,9 +27,9 @@ export default function* appSagas(){
     yield takeEvery(userTypes.DELETE_USER_REQUEST, user.deleteUserSaga),
     yield takeEvery(userTypes.FETCH_USERS_REQUEST, user.userListSaga),
     yield takeEvery(userTypes.FETCH_USER_REQUEST, user.fetchUserSaga),
-    //yield takeEvery(oemTypes.CREATE_OEM_REQUEST, oem.inviteOEMSaga),
-    yield takeEvery(oemTypes.CREATE_OEM_REQUEST, oem.createOEMSaga),
-    yield takeEvery(oemTypes.UPDATE_OEM_REQUEST, oem.updateOEMSaga),
+    //yield takeEvery(oemTypes.CREATE_OEM_REQUEST, oem.inviteOemSaga),
+    yield takeEvery(oemTypes.CREATE_OEM_REQUEST, oem.createOemSaga),
+    yield takeEvery(oemTypes.UPDATE_OEM_REQUEST, oem.updateOemSaga),
     yield takeEvery(oemTypes.FETCH_OEMS_REQUEST, oem.oemListSaga),
     yield takeEvery(oemTypes.FETCH_OEM_BUSINESSES_REQUEST, oem.oemBusinessesSaga),
     yield takeEvery(oemTypes.DELETE_CLIENT_REQUEST, oem.deleteClientSaga),
@@ -49,6 +51,8 @@ export default function* appSagas(){
     yield fork(device.getFreshDeviceData),
     yield takeEvery(deviceTypes.CREATE_DEVICE_REQUEST, device.createDeviceSaga),
     yield takeEvery(deviceTypes.UPDATE_DEVICE_REQUEST, device.updateDeviceSaga),
-    yield takeEvery(deviceTypes.CREATE_PROCEDURE_DEVICE_REQUEST, device.createProcedureDeviceSaga)
+    yield takeEvery(deviceTypes.CREATE_PROCEDURE_DEVICE_REQUEST, device.createProcedureDeviceSaga),
+
+    yield takeEvery(languageTypes.FETCH_LANGUAGES_REQUEST, language.languagesSaga)
   ])
 }

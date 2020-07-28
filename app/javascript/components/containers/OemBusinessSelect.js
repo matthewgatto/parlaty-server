@@ -7,7 +7,7 @@ export default ({client,defaultValue}) => {
   const dispatch = useDispatch();
   const oem_businesses = useSelector(({oems}) => oems.byId[client] && oems.byId[client].oem_businesses)
   useEffect(() => {
-    if(!oem_businesses){
+    if(!oem_businesses && client){
       dispatch({type: FETCH_OEM_BUSINESSES_REQUEST, payload: {url: `/oems/${client}/oem_businesses`, id: client}})
     }
   },[oem_businesses,client])

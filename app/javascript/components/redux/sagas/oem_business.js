@@ -5,15 +5,15 @@ import { normalize } from 'normalizr';
 import {getSaga} from './fetch';
 import {formSaga,pushAndNotify} from './form';
 import { addToast } from '@actions/toast';
-import {getOEMById} from '@selectors/oem';
-import {getBusinessById} from '@selectors/oem_business';
+import {getOemById} from '@selectors/oem';
+import {getOemBusinessById} from '@selectors/oem_business';
 import Schemas from '@utils/models';
 import API from '@utils/API';
 
 
 const normalizeOemBusiness = (response,{payload:{id}}) => normalize({oem_business_id: id, ...response}, Schemas.oem_business).entities
 function* normalizeOem(response,action){
-  const oem = yield select(getOEMById(action.payload.values.oem_id));
+  const oem = yield select(getOemById(action.payload.values.oem_id));
   return (oem && oem.oem_businesses) ? (
     normalize({...oem, oem_businesses: [...oem.oem_businesses, {oem_business_id: response.oem_business.id,...action.payload.values,...response.oem_business}]}, Schemas.oem).entities
   ) : (

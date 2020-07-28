@@ -8,54 +8,54 @@ import Schemas from '@utils/models';
 import { addToast } from '@actions/toast';
 import API from '@utils/API';
 
-const normalizeOEMList = (response) => normalize(response, [Schemas.oem]).entities
-const normalizeOEMBusinesses = ({name,oem_businesses},{payload:{id}}) => normalize({id,name,oem_businesses: oem_businesses}, Schemas.oem).entities
-const normalizeOEM = (response, {payload:{values:{oem},id}}) => normalize({...oem, id}, Schemas.oem).entities
-export const normalizeOEMInvite = (response,{payload:{values:{user:{name}}}}) => normalize([{...response, name}], [Schemas.oem]).entities
+const normalizeOemList = (response) => normalize(response, [Schemas.oem]).entities
+const normalizeOemBusinesses = ({name,oem_businesses},{payload:{id}}) => normalize({id,name,oem_businesses: oem_businesses}, Schemas.oem).entities
+const normalizeOem = (response, {payload:{values:{oem},id}}) => normalize({...oem, id}, Schemas.oem).entities
+export const normalizeOemInvite = (response,{payload:{values:{user:{name}}}}) => normalize([{...response, name}], [Schemas.oem]).entities
 
+// const handleOemInvite = pushAndNotify('/', "An invitation link has been sent to the email provided.")
+// export function* inviteOemSaga(action){
+//   action.payload.values = {user: {email: action.payload.values.email, name: action.payload.values.name}, roleable: "oem"}
+//   yield call(inviteOemSaga, "post", action, normalizeOemInvite, handleOemInvite);
+// }
 
+const normalizeOemCreate = (value) => normalize(value, Schemas.oem).entities
 
-const handleOEMInvite = pushAndNotify('/', "An invitation link has been sent to the email provided.")
-export function* inviteOEMSaga(action){
-  action.payload.values = {user: {email: action.payload.values.email, name: action.payload.values.name}, roleable: "oem"}
-  yield call(formSaga, "post", action, normalizeOEMInvite, handleOEMInvite);
+function* handleOemCreate(newId){
+  const pushAndNotifyFunc = pushAndNotify(`/clients/${newId}`, "Client was successfully added.");
+  yield call(pushAndNotifyFunc);
 }
 
-const normalizeOEMCreate = (response,{payload:{values}}) => normalize({...values,...response}, Schemas.oem).entities
-function* handleOEMCreate(response,action){
-  const pushAndNotifyFunc = pushAndNotify(`/clients/${response.id}`, "Client was successfully added.");
-  yield call(pushAndNotifyFunc)
-}
-
-export function* createOEMSaga(action){
-  //yield call(formSaga, "post", action, normalizeOEMCreate, handleOEMCreate);
+export function* createOemSaga(action){
+  //yield call(formSaga, "post", action, normalizeOemCreate, handleOemCreate);
   const response = yield call(API.post, action.payload.url, action.payload.values)
-  const payload = yield call(normalizeOEMCreate, response.oem, action);
+  const newId = response.id;
+  const payload = yield call(normalizeOemCreate, {...response, ...action.payload.values});
   yield put({
     type: `${action.type}__SUCCESS`,
     payload
   })
-  yield call(handleOEMCreate, response.oem, action)
+  yield call(handleOemCreate, newId);
 }
-function* handleOEMUpdate(response, {payload:{id}}){
+function* handleOemUpdate(response, {payload:{id}}){
   yield put(push(`/clients/${id}`))
-  yield put(addToast("success", "OEM successfully updated."))
+  yield put(addToast("success", "Client successfully updated."))
 }
-export function* updateOEMSaga(action){
+export function* updateOemSaga(action){
   const values = {oem: {}}
   if(action.payload.values.name && action.payload.values.name.length > 0) values.oem.name = action.payload.values.name;
   if(action.payload.values.email && action.payload.values.email.length > 0) values.oem.email = action.payload.values.email;
   if(action.payload.values.password && action.payload.values.password.length > 0) values.oem.password = action.payload.values.password;
   action.payload.values = values;
-  yield call(formSaga, "put", action, normalizeOEM, handleOEMUpdate);
+  yield call(formSaga, "put", action, normalizeOem, handleOemUpdate);
 }
 
 export function* oemListSaga(action){
-  yield call(getSaga, action, normalizeOEMList);
+  yield call(getSaga, action, normalizeOemList);
 }
 
 export function* oemBusinessesSaga(action){
-  yield call(getSaga, action, normalizeOEMBusinesses);
+  yield call(getSaga, action, normalizeOemBusinesses);
 }
 
 export function* deleteClientSaga(action){

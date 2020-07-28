@@ -13,9 +13,9 @@ class OemSerializer
       }
     end
 
-    def oem_with_oem_businesses_as_json(oem)
+    def oem_with_oem_businesses_as_json(oem, oem_businesses)
       simple_oem_as_json(oem).merge!({
-        oem_businesses: OemBusinessSerializer.oem_businesses_as_json(oem.oem_businesses.sort_by(&:name))
+        oem_businesses: OemBusinessSerializer.oem_businesses_as_json(oem_businesses)
       })
     end
   end

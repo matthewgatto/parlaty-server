@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_16_131140) do
+ActiveRecord::Schema.define(version: 2020_07_23_092455) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -84,6 +84,14 @@ ActiveRecord::Schema.define(version: 2020_07_16_131140) do
     t.index ["procedure_id"], name: "index_devices_on_procedure_id"
   end
 
+  create_table "languages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "abbreviation"
+    t.string "default_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "oem_businesses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.bigint "oem_id"
@@ -148,10 +156,10 @@ ActiveRecord::Schema.define(version: 2020_07_16_131140) do
     t.text "description"
     t.string "category"
     t.string "author"
-    t.string "language"
     t.text "steps_order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "language_id"
   end
 
   create_table "steps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

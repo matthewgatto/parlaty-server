@@ -72,3 +72,15 @@ namespace :deploy do
     end
   end
 end
+
+after "deploy:migrate", "deploy:import_languages"
+namespace :deploy do
+  desc 'Runs rake procedures:import_languages'
+  task :import_languages do
+    on roles(:web) do
+      within release_path do
+        execute :rake, 'procedures:import_languages'
+      end
+    end
+  end
+end

@@ -14,7 +14,9 @@ class OemsController < ApplicationController
     @oem = Oem.new(oem_params)
     authorize @oem
     if @oem.save
-      render json: OemSerializer.oem_as_json(@oem), status: :ok
+      render json: ApplicationSerializer.id_to_json(@oem.reload.id), status: :ok
+    else
+      render json: ApplicationSerializer.error_response(@oem.errors.full_messages)
     end
   end
 
@@ -23,7 +25,7 @@ class OemsController < ApplicationController
     @oem = Oem.find(params[:id])
     authorize @oem
     if @oem.update_attributes(oem_params)
-      head :ok
+      render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
     else
       render json: ApplicationSerializer.error_response(@oem.errors.full_messages), status: :bad_request
     end

@@ -9,11 +9,9 @@ class ProcedureSerializer
 
     def procedure_as_json(procedure, steps)
       simple_procedure_as_json(procedure).merge!({
-        procedure_id: procedure.id,
         oem_businesses: OemBusinessSerializer.procedure_oem_businesses_as_json(procedure.oem_businesses),
-        version: procedure.version,
-        steps_order: procedure.steps_order,
-        steps: StepSerializer.steps_as_json(steps)
+        steps: StepSerializer.steps_as_json(steps),
+        devices: DeviceSerializer.devices_as_json(procedure.devices)
       })
     end
 
@@ -21,10 +19,12 @@ class ProcedureSerializer
       {
         id: procedure.id,
         name: procedure.name,
+        version: procedure.version || 1,
+        steps_order: procedure.steps_order,
         description: procedure.description,
+        procedure_id: procedure.id,
         author: author_name(procedure.author),
-        language: procedure.language,
-        devices: DeviceSerializer.devices_as_json(procedure.devices)
+        language_id: procedure.language_id,
       }
     end
 

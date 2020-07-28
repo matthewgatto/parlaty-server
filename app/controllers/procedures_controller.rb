@@ -36,7 +36,7 @@ class ProceduresController < ApplicationController
 	def update
 		authorize @procedure
 		if @procedure.update_attributes(procedure_params)
-			head :ok
+			render json: ApplicationSerializer.id_to_json(@procedure.id), status: :ok
 		else
 			render json: ApplicationSerializer.error_response(@procedure.errors.full_messages)
 		end
