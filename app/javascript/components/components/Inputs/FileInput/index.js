@@ -3,7 +3,7 @@ import Close from '@components/SVG/Close';
 import Upload from '@components/SVG/Upload';
 import styles from './index.module.css';
 
-export default ({label, name, initialValue, value, onChange,inputRef, onClick, inputText, displayComponent: DisplayComponent, index}) => (<>
+export default ({label, name, initialValue, value, onChange,inputRef, onClick, inputText, displayComponent: DisplayComponent}) => (<>
   {label.length ? <label className={`${styles.label} align_center`}>{label}</label> : null}
   <div className={styles.fileInputContainer}>
   <DisplayComponent src={value} setFile={onClick}/>
@@ -18,6 +18,5 @@ export default ({label, name, initialValue, value, onChange,inputRef, onClick, i
     </span>
     <input ref={inputRef} className={styles.hidden} name={name} type="file" onChange={onChange} />
   </div>
-    {index}
   </div>
 </>)

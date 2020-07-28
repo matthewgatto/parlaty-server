@@ -115,6 +115,7 @@ export const makeStep = (values, root, isFormData) => {
   const spoken = values[`${root}spoken`],
         safety = values[`${root}safety`],
         visuals = [],
+        defaultMedia = values[`${root}defaultMedia`],
         device_id = values[`${root}device_id`],
         step = getNewStepValues(values,root);
   let key = 0;
@@ -130,8 +131,7 @@ export const makeStep = (values, root, isFormData) => {
       step.device_id = device_id
     }
   }
-  if(visuals) {
-    step.visuals = visuals
-  }
+  if(defaultMedia) step.defaultMedia = defaultMedia;
+  if(visuals) step.visuals = visuals;
   return step;
 };

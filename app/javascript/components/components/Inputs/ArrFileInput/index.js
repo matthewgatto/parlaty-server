@@ -1,9 +1,9 @@
 import React from 'react';
 import Upload from '@components/SVG/Upload';
 import styles from './index.module.css';
-import { FileInput } from "@components/Inputs";
+import { FileInput, Radio  } from "@components/Inputs";
 
-export default ({label, name, onClick, onChange, inputRef, values, deleteElem, typeFile, formKey, root }) => (
+export default ({label, name, onClick, onChange, inputRef, values, deleteElem, typeFile, formKey, root, radio }) => (
   <>
     <label className={`${styles.label} align_center`}>{label}</label>
     <div className={styles.fileInputContainer}>
@@ -17,7 +17,10 @@ export default ({label, name, onClick, onChange, inputRef, values, deleteElem, t
     </div>
     <div className={styles.file_container}>
       {values && [...values].map((file, i) => (
-        <FileInput name={name+'['+i+']'} label="" formKey={formKey} index={i} defaultValue={file.visual || file} root={root} key={file.id || file.lastModified +  Math.random(10000)} customClick={deleteElem} displayComponent={typeFile(file)}/>
+        <div key={file.id || file.lastModified +  Math.random(10000)} className={styles.fileList}>
+          <FileInput name={name+'['+i+']'} label="" formKey={formKey} index={i} defaultValue={file.visual || file} root={root} customClick={deleteElem} displayComponent={typeFile(file, true)}/>
+          {radio.isShown && typeFile(file) !== 'application' && <Radio withoutCheck={radio.withoutCheck} root={root} index={i} actionRoot={radio.actionRoot} defaultValue={radio.defaultValue || -1} label={radio.label} labelClass={styles.radio}/>}
+        </div>
       ))}
     </div>
   </>

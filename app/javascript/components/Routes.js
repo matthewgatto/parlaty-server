@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { logout } from '@actions/auth';
 import Layout from '@components/Layout';
 import LoginPage from '@components/LoginPage';
-import OEMBusinessPage from '@components/Business/Show';
+import OemBusinessPage from '@components/OemBusiness/Show';
 //import CreateProcedurePage from '@components/Procedure/Create';
 import EditProcedurePage from '@components/Procedure/Edit';
 import CreateProcedureScreen from '@components/Procedure/CreateProcedureScreen';

@@ -7,7 +7,7 @@ import FormError from '@containers/FormError';
 import SpokenBox from '@components/Inputs/SpokenBox';
 import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
-import { Input, CheckBox, Select, ModeRadio, FileInputButton } from '@components/Inputs';
+import { Input, CheckBox, Select, ModeRadio, ArrFileInput } from '@components/Inputs';
 import styles from './index.module.css';
 
 
@@ -36,12 +36,19 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         <Input as="textarea" defaultValue={initialValues.location || ''} formKey={formKey} type="text" label="Instruction" root={root} name="location" rows="4"  />
         <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultValue={initialValues.device} />
         <div>
-          <FileInputButton
+          <ArrFileInput
             name="media"
             label="Media*"
             formKey={formKey}
             defaultValues={initialValues.visuals || undefined}
             root={root}
+            radio={{
+              isShown: true,
+              label: 'Display image for step in app',
+              actionRoot: 'defaultMedia',
+              defaultValue: initialValues.defaultMedia,
+              withoutCheck: true
+            }}
           />
         </div>
         <div className={styles.error}>
