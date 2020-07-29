@@ -20,7 +20,7 @@ export function* formSaga(method, action, normalize, cb){
         const payload = yield call(normalize, updResponse, action);
         yield put({
           type: `${action.type}__SUCCESS`,
-          payload: {...payload, ...response },
+          payload: payload,
         })
       }
       if(cb) yield call(cb, response, action)

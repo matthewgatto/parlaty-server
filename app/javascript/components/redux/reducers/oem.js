@@ -37,22 +37,12 @@ const oemsById = (state = {}, {type,payload}) => {
     case types.FETCH_OEMS_REQUEST__SUCCESS:
     case types.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST__SUCCESS:
-      if(payload.oems){
-        return {
-          ...state,
-          ...payload.oems
-        }
-      }
-      return state
     case types.CREATE_OEM_REQUEST__SUCCESS:
     case types.UPDATE_OEM_REQUEST__SUCCESS:
       if(payload.oems){
         return {
           ...state,
-          [payload.id]: {
-            ...state[payload.id],
-            ...payload.oems[payload.id]
-          }
+          ...payload.oems
         }
       }
       return state
