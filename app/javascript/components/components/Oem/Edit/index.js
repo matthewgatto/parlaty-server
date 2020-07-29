@@ -20,7 +20,7 @@ export default withUserInfo(({ user, match:{params:{oem_id, id}}}) => {
   }, {
     type: "text",
     name: "procedures_limit",
-    label: "Procedures Limit",
+    label: "Procedure Count Limit",
     disabled: user.roleable === "ClientAdmin"
   }]
 

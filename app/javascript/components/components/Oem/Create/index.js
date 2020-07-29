@@ -12,7 +12,7 @@ let inputs = [{
 }, {
   type: "text",
   name: "procedures_limit",
-  label: "Procedures Limit"
+  label: "Procedure Count Limit"
 }]
 
 export default ({role}) => (
