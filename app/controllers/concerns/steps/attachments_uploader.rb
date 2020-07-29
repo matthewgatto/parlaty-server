@@ -12,7 +12,7 @@ module Steps
     private
 
     def update_attached_files
-      new_visuals_params = visuals_params[:visuals]
+      new_visuals_params = visuals_params[:visuals] || []
       string_visuals_params = new_visuals_params.select { |params| params.class == String }
       remove_not_used_visuals(string_visuals_params)
       (new_visuals_params - string_visuals_params).each do |visual_params|
