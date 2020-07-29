@@ -14,7 +14,5 @@ class OemBusiness < ApplicationRecord
 				.select("COUNT(procedure_id) AS count")
 				.select("SUM(COUNT(procedure_id)) OVER() AS procedures_sum")
 				.where(oem_id: oem_id)
-				.first
-				.procedures_sum
 	}
 end
