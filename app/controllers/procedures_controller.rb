@@ -23,13 +23,14 @@ class ProceduresController < ApplicationController
 
 	# POST /procedures
 	def create
-		if limited?
-			begin
+		begin
+			if limited?
 				(render json: ApplicationSerializer.error_response(I18n.t("errors.procedure.limited")) and return)
-			rescue => error
-				(render json: ApplicationSerializer.error_response("Rescued: #{error.inspect}") and return)
 			end
+		rescue => error
+			(render json: ApplicationSerializer.error_response("Rescued: #{error.inspect}") and return)
 		end
+
 		@procedure = Procedure.new(procedure_params)
 		authorize @procedure
 		if @procedure.save
