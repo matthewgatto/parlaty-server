@@ -12,7 +12,7 @@ class OemBusiness < ApplicationRecord
 	scope :procedures_sum, -> (oem_id) {
 		joins(:procedures)
 				.select("COUNT(procedure_id) AS count")
-				.select("SUM(COUNT(procedure_id)) OVER() AS procedures_sum")
+				.select("SUM(COUNT(procedure_id)) OVER(PARTITION BY COUNT(procedure_id)) AS procedures_sum")
 				.where(oem_id: oem_id)
 	}
 end
