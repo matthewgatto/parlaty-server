@@ -179,7 +179,7 @@ class ProceduresController < ApplicationController
 			limit = oem.procedures_limit
 			return false if limit.blank?
 
-			count = OemBusiness.procedures_sum(oem.id)&.first&.procedures_sum
+			count = OemBusiness.procedures_count(oem.id).map{|a| a.count}.sum
 			limit.to_i <= (count || 0).to_i
 		end
 
