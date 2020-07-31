@@ -12,7 +12,7 @@ import Schemas from '@utils/models';
 import API from '@utils/API';
 
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
-  const oem_business = yield select(getOemBusinessById(values.procedure.oem_business_id))
+  const oem_business = yield select(getOemBusinessById(values.procedure.oem_business_ids[0]))
   return oem_business ? (
     normalize({...oem_business, procedures: oem_business.procedures ? [...oem_business.procedures,{...response, name: values.procedure.name}] : [{...response, name: values.procedure.name}]}, Schemas.oem_business).entities
   ) : (
