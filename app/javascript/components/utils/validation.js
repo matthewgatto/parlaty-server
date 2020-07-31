@@ -1,4 +1,4 @@
-import {string, object, array, number,mixed, ref} from 'yup';
+import {string, object, array, number, mixed, ref} from 'yup';
 
 export const forgotPasswordSchema = object().shape({
   email: string().email('Invalid email').required('Email is required')
@@ -42,6 +42,7 @@ export const inviteConfirmationSchema = object().shape({
 
 export const oemSchema = object().shape({
   name: string().required('This field is required'),
+  procedures_limit: string().matches(/(^[0-9]+$|^$)/, 'Must be a positive number')
 })
 
 export const stepSchema = object().shape({
@@ -54,11 +55,7 @@ export const procedureSchema = object().shape({
   steps: array().of(stepSchema)//.required('Must have steps')
 })
 
-export const oem_businessSchema = object().shape({
-  name: string().required('This field is required')
-})
-
-export const clientOrOemBusinessSchema = object().shape({
+export const oemBusinessSchema = object().shape({
   name: string().required('This field is required')
 })
 

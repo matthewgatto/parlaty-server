@@ -1,7 +1,7 @@
 import React from 'react';
 import uuid from 'uuid/v4';
 import FormPage from '@components/Form/Page';
-import { clientOrOemBusinessSchema } from '@utils/validation';
+import { oemBusinessSchema } from '@utils/validation';
 import { CREATE_OEM_BUSINESS_REQUEST } from '@types/oem_business';
 import withUserInfo from '@containers/withUserInfo';
 
@@ -29,7 +29,7 @@ export default withUserInfo(({user,match:{params}}) => {
         type: CREATE_OEM_BUSINESS_REQUEST,
         initialValues: {},
         extraValues: {oem_id},
-        validationSchema: clientOrOemBusinessSchema,
+        validationSchema: oemBusinessSchema,
         id: uuid()
       }}
       cancel={cancel}
