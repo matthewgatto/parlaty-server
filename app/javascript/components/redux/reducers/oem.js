@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { addIds, immutableRemove } from '@utils';
 import * as types from '@types/oem'
+import * as procedureTypes from "@types/procedure";
 import * as authTypes from '@types/auth'
 import * as oemBusinessTypes from '@types/oem_business'
 
@@ -39,6 +40,7 @@ const oemsById = (state = {}, {type,payload}) => {
     case oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST__SUCCESS:
     case types.CREATE_OEM_REQUEST__SUCCESS:
     case types.UPDATE_OEM_REQUEST__SUCCESS:
+    case procedureTypes.CREATE_PROCEDURE_REQUEST__SUCCESS:
       if(payload.oems){
         return {
           ...state,

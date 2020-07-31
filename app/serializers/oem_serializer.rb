@@ -2,12 +2,19 @@
 
 class OemSerializer
   class << self
+    include Procedures::ProcedureCountLimit
+
     def oem_as_json(oem)
       { oem: simple_oem_as_json(oem) }
     end
 
     def simple_oem_as_json(oem)
-      oem.as_json
+      oem.as_json.merge!(
+        {
+          limited: count_limited?(oem),
+          procedures_count: procedures_count(oem)
+        }
+      )
     end
 
     def oem_with_oem_businesses_as_json(oem, oem_businesses)

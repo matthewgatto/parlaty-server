@@ -3,15 +3,11 @@
 class ApplicationSerializer
   class << self
     def id_to_json(id)
-      {
-        id: id
-      }
+      { id: id }
     end
 
     def error_response(message)
-      {
-        error: message
-      }
+      { error: message }
     end
   end
 end

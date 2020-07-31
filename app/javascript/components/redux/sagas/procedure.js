@@ -11,12 +11,20 @@ import {getUserRole} from '@selectors/auth';
 import Schemas from '@utils/models';
 import API from '@utils/API';
 
+const normalizeOem = ({oem}) => normalize(oem, Schemas.oem).entities;
+
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
   const oem_business = yield select(getOemBusinessById(values.procedure.oem_business_ids[0]))
   return oem_business ? (
-    normalize({...oem_business, procedures: oem_business.procedures ? [...oem_business.procedures,{...response, name: values.procedure.name}] : [{...response, name: values.procedure.name}]}, Schemas.oem_business).entities
+    {
+      ...normalize({...oem_business, procedures: oem_business.procedures ?
+          [...oem_business.procedures,{...response, name: values.procedure.name}] :
+          [{...response, name: values.procedure.name}]}, Schemas.oem_business).entities,
+      ...normalizeOem(response)
+    }
   ) : (
-    normalize({...response,name: values.procedure.name}, Schemas.procedure).entities
+    { ...normalize({...response,name: values.procedure.name}, Schemas.procedure).entities,
+      ...normalizeOem(response) }
   )
 }
 

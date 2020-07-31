@@ -51,7 +51,7 @@ const Routes = ({role}) => {
         <Route path="/devices" component={DeviceAdminPage} />
         */}
         <Route path="/clients/:oem_id/sites/create" component={BusinessForm} />
-        <Route path="/clients/:oem_id/sites/:oem_business_id" render={OemBusinessPage} />
+        <Route path="/clients/:oem_id/sites/:oem_business_id" component={OemBusinessPage} />
         <Route path="/clients/:oem_id/edit" component={OemUpdatePage} />
         <Route path="/clients/create" component={CreateClientForm} />
         <Route path="/clients/:oem_id" component={OemPage} />

@@ -15,6 +15,10 @@ class ProcedureSerializer
       })
     end
 
+    def created_procedure_as_json(id, oem)
+      ApplicationSerializer.id_to_json(id).merge!(OemSerializer.oem_as_json(oem))
+    end
+
     def simple_procedure_as_json(procedure)
       {
         id: procedure.id,

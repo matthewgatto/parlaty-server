@@ -2,6 +2,7 @@
 
 class OemsController < ApplicationController
   before_action :require_login
+  before_action :set_params, only: %i[update destroy]
 
   # GET /oems
   def index
@@ -22,7 +23,6 @@ class OemsController < ApplicationController
 
   # PUT /oems/:id
   def update
-    @oem = Oem.find(params[:id])
     authorize @oem
     if @oem.update_attributes(oem_params)
       render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
@@ -33,7 +33,6 @@ class OemsController < ApplicationController
 
   # DELETE /oems/:id
   def destroy
-    @oem = Oem.find(params[:id])
     authorize @oem
     if @oem.present? && delete_oem(@oem)
       render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
@@ -43,6 +42,10 @@ class OemsController < ApplicationController
   end
 
   private
+
+  def set_params
+    @oem = Oem.find(params[:id])
+  end
 
   def oem_params
     params.require(:oem).permit(policy(@oem || Oem.new).permitted_attributes(current_user.roleable_type))
