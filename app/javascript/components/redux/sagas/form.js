@@ -20,7 +20,7 @@ export function* formSaga(method, action, normalize, cb){
         const payload = yield call(normalize, updResponse, action);
         yield put({
           type: `${action.type}__SUCCESS`,
-          payload
+          payload: payload,
         })
       }
       if(cb) yield call(cb, response, action)
@@ -37,16 +37,20 @@ export function* formSaga(method, action, normalize, cb){
 export function* postSaga(action, normalize, cb){
   try {
     const response = yield call(API.post, action.payload.url, action.payload.values);
-    if(normalize){
-      const payload = yield call(normalize, response, action);
-      yield put({
-        type: `${action.type}__SUCCESS`,
-        payload
-      })
+    if(response.error){
+      yield put({type: `${action.type}__FAILURE`, payload: {formKey: action.payload.formKey, errors: {formError: response.error}}})
+    }else{
+      if(normalize){
+        const payload = yield call(normalize, response, action);
+        yield put({
+          type: `${action.type}__SUCCESS`,
+          payload
+        })
+      }
+      if(cb) yield call(cb, response, action)
     }
-    if(cb) yield call(cb, response, action)
   } catch (e) {
-    var formError = "An unexpected error has occurred"
+    let formError = "An unexpected error has occurred"
     if(e.formError) formError = e.formError;
     else if(e === 401) formError = "Invalid login credentials";
     yield put({type: `${action.type}__FAILURE`, payload: {formKey: action.payload.formKey, errors:{formError}}})

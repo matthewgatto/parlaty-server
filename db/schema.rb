@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_23_092455) do
+ActiveRecord::Schema.define(version: 2020_07_28_080122) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 2020_07_23_092455) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "procedures_limit", precision: 10
   end
 
   create_table "operations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

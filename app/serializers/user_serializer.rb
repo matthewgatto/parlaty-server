@@ -50,11 +50,10 @@ class UserSerializer
     end
 
     def refresh_user_as_json(user, jwt)
-      simple_user_as_json(user).merge!(
+      user_as_json(user).merge!(
         {
           jwt: jwt,
           roleable_id: user.roleable_id,
-          oem_businesses: OemBusinessSerializer.user_oem_businesses_as_json(user),
           devices: DeviceSerializer.devices_as_json(Device.all_devices.sort_by(&:name))
         }
       )

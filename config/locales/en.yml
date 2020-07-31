@@ -31,6 +31,8 @@
 
 en:
   errors:
+    procedure:
+      limited: You have exceeded the limit on procedures
     user:
       deactivated: User has been deactivated
       incorrect_role: roleable type doesn't exist

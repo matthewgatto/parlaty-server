@@ -3,6 +3,7 @@
 ### Prep
 
 Run `rake db:create && rake db:migrate && rake db:seed` then `npm install && yarn install --check-files --trace`
+Run `rake procedures:import_languages`
 
 ### Running the development server
 

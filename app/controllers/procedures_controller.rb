@@ -23,6 +23,14 @@ class ProceduresController < ApplicationController
 
 	# POST /procedures
 	def create
+		begin
+			if limited?
+				(render json: ApplicationSerializer.error_response(I18n.t("errors.procedure.limited")) and return)
+			end
+		rescue => error
+			(render json: ApplicationSerializer.error_response("Rescued: #{error.inspect}") and return)
+		end
+
 		@procedure = Procedure.new(procedure_params)
 		authorize @procedure
 		if @procedure.save
@@ -160,6 +168,19 @@ class ProceduresController < ApplicationController
 
 		def set_params
 			@procedure = Procedure.find(params[:id])
+		end
+
+		def limited?
+			oem_business_ids = procedure_params[:oem_business_ids]
+			oem_business = OemBusiness.where(id: oem_business_ids).first if oem_business_ids.present?
+			return true if oem_business.blank?
+
+			oem = oem_business.oem
+			limit = oem.procedures_limit
+			return false if limit.blank?
+
+			count = OemBusiness.procedures_count(oem.id).map{|a| a.count}.sum
+			limit.to_i <= (count || 0).to_i
 		end
 
 		def procedure_params

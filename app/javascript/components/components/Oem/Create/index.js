@@ -4,11 +4,15 @@ import FormPage from '@components/Form/Page';
 import { clientOrOemBusinessSchema } from '@utils/validation';
 import { CREATE_OEM_REQUEST } from '@types/oem';
 
-const inputs = [{
+let inputs = [{
   type: "text",
   name: "name",
   label: "Name*",
   required: true
+}, {
+  type: "text",
+  name: "procedures_limit",
+  label: "Procedure Count Limit"
 }]
 
 export default ({role}) => (

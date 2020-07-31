@@ -17,7 +17,8 @@ class OemPolicy < ApplicationPolicy
     index?
   end
 
-  def permitted_attributes
+  def permitted_attributes(type)
+    return [:name, :procedures_limit] if type == Users::Role::ADMIN_ROLE.classify.to_s
     [:name]
   end
 end

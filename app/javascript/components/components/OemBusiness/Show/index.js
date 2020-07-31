@@ -7,11 +7,11 @@ import DeleteOemBusinessConfirmationModal from '../DeleteConfirmationModal'
 import { FETCH_OEM_BUSINESS_PROCEDURES_REQUEST } from '@types/oem_business';
 import { getOemBusinessProcedures } from '@selectors/oem_business';
 
-export default ({match:{params:{id,oem_id},url}}) => (<>
+export default ({match:{params:{oem_business_id,oem_id},url}}) => (<>
   <ListPage
     label="Procedures"
     header={{
-      header: {text: "", entityKey: "oem_businesses", id},
+      header: {text: "", entityKey: "oem_businesses", oem_business_id},
       back: oem_id ? {to: `/clients/${oem_id}`, label: "Choose A Different Site"} : {to: "/", label: "Home"},
       buttons: (<>
         <ModalTrigger modal="delete_oem_businesses_confirmation"><SubmitButton primary label="Delete Site" /></ModalTrigger>
@@ -19,16 +19,16 @@ export default ({match:{params:{id,oem_id},url}}) => (<>
       </>)
     }}
     list={{
-      id,
-      url: `/oem_businesses/${id}`,
+      oem_business_id,
+      url: `/oem_businesses/${oem_business_id}`,
       type: FETCH_OEM_BUSINESS_PROCEDURES_REQUEST,
       text: "Procedures",
       entityKey: "procedures",
       action: "update",
       placeholder: "This site has no procedures",
-      selector: getOemBusinessProcedures(id),
+      selector: getOemBusinessProcedures(oem_business_id),
       to: `${url}/procedures`
     }}
   />
-  <DeleteOemBusinessConfirmationModal oem_business_id={id} />
+  <DeleteOemBusinessConfirmationModal oem_business_id={oem_business_id} />
 </>)

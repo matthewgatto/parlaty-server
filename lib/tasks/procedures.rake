@@ -6,6 +6,7 @@ namespace :procedures do
       {name: 'English', abbreviation: 'en', default_name: 'english'},
       {name: 'Русский', abbreviation: 'ru', default_name: 'russian'},
       {name: 'Española', abbreviation: 'es', default_name: 'spanish'},
+      {name: 'Français', abbreviation: 'fr', default_name: 'french'},
     ]
     languages.each{ |language| Language.create(language) }
   end

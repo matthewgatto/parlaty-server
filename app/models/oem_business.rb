@@ -9,4 +9,9 @@ class OemBusiness < ApplicationRecord
 				.where("#{user.roleable_type.downcase}s.id = ?", user.roleable.id)
 	}
 
+	scope :procedures_count, -> (oem_id) {
+		joins(:procedures)
+				.select("COUNT(procedure_id) AS count")
+				.where(oem_id: oem_id)
+	}
 end
