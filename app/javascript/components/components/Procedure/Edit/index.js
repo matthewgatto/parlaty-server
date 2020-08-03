@@ -49,7 +49,7 @@ const EditProcedureForm = ({initialValues, id, oem_business_id}) => useMemo(() =
     extraValues={{oem_business_id}}
     id={initialValues.id}
     procedure_id={id}
-    oem_business_id={oem_business_id}
+    oemBusinessId={oem_business_id}
   />
 ),[])
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_28_080122) do
+ActiveRecord::Schema.define(version: 2020_08_03_102008) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -156,11 +156,11 @@ ActiveRecord::Schema.define(version: 2020_07_28_080122) do
     t.float "version"
     t.text "description"
     t.string "category"
-    t.string "author"
     t.text "steps_order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "language_id"
+    t.string "author_id"
   end
 
   create_table "steps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

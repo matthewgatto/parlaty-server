@@ -179,7 +179,7 @@ function procedureParams(action, type){
   let params = {
     name: action.payload.values.name,
     description: action.payload.values.description,
-    author: action.payload.values.author,
+    author_id: action.payload.values.author_id,
     language_id: action.payload.values.language_id,
     version: action.payload.values.version,
   };

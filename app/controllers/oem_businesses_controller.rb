@@ -1,5 +1,6 @@
 class OemBusinessesController < ApplicationController
 	before_action :require_login
+	include OemBusinesses::PermittedUsers
 
 	# GET /oems/:id/oem_businesses
 	def index

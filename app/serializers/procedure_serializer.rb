@@ -27,18 +27,9 @@ class ProcedureSerializer
         steps_order: procedure.steps_order,
         description: procedure.description,
         procedure_id: procedure.id,
-        author: author_name(procedure.author),
+        author_id: procedure.author_id,
         language_id: procedure.language_id,
       }
     end
-
-    def author_name(author_id)
-      begin
-        User.find(author_id).roleable.name
-      rescue
-        nil
-      end
-    end
-
   end
 end

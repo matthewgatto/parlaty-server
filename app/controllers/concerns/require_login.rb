@@ -18,17 +18,11 @@ module RequireLogin
   def require_login
     token = request.env["HTTP_AUTHORIZATION"]
     (head :unauthorized and return) unless token
+
     token_match = token.match(/Bearer\s(.*)/)
     (head :unauthorized and return) if token_match.blank?
+
     decoded = Auth.decode(token_match[1])
     @user_id = decoded["uid"]
   end
-
-  def permitted_user?(user, oem_business)
-    user.parlaty_admin? ||
-      user.client_admin? ||
-      oem_business.author_ids.include?(user.roleable.id) ||
-      oem_business.operator_ids.include?(user.roleable.id)
-  end
-
 end

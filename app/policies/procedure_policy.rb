@@ -29,7 +29,7 @@ class ProcedurePolicy < ApplicationPolicy
     [
       :name,
       :description,
-      :author,
+      :author_id,
       :language_id,
       :version,
       :steps_order,

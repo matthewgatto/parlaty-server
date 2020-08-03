@@ -14,7 +14,6 @@ import styles from './index.module.css';
 export default ({match:{params:{oem_business_id,oem_id},url}}) => {
   const id_oem = useSelector(getOemIdByOemBusinessId(oem_business_id)),
     oem = useOemInfo(oem_id || id_oem);
-  console.log("oem_id: ", id_oem);
 
   const labelCounter = oem ?
       `${oem.procedures_count}/${oem.procedures_limit}` :
@@ -28,7 +27,6 @@ export default ({match:{params:{oem_business_id,oem_id},url}}) => {
     {
       disabled: false
     };
-  console.log("notifications: ", notifications);
   return (<>
     <ListPage
       label="Procedures"

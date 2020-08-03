@@ -13,6 +13,7 @@ import { procedureSchema } from '@utils/validation';
 import { CREATE_PROCEDURE_REQUEST } from '@types/procedure';
 import { getUserId } from '@selectors/auth';
 import LanguagesSelect from "@containers/LanguagesSelect";
+import AuthorSelect from "@containers/AuthorSelect";
 import {getOemBusinessProceduresWithDevices} from '@selectors/oem_business';
 import {setModal} from '@actions/modal';
 import styles from './index.module.css';
@@ -56,6 +57,7 @@ export default ({match:{url,params:{oem_id,oem_business_id}}}) => {
         initialValues={{
           name: '',
           description: '',
+          author_id: '',
           language_id: '',
           version: 1
         }}
@@ -71,8 +73,8 @@ export default ({match:{url,params:{oem_id,oem_business_id}}}) => {
           </div>
           <Input type="text" name="name" label="Name" formKey={formKey} as="input" />
           <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
-          {/*<Input as="input" name="author" type="text" label="Author" formKey={formKey} />*/}
-          <LanguagesSelect formKey={formKey} defaultValue={null}/>
+          <AuthorSelect formKey={formKey} defaultValue={author} oemBusinessId={oem_business_id}/>
+          <LanguagesSelect formKey={formKey} defaultValue={undefined}/>
           <Input as="input" name="version" type="text" label="Version" formKey={formKey} disabled/>
           <div className={styles.buttonRow}>
             <CopyProcedureButton formKey={formKey} oem_business_id={oem_business_id} />
