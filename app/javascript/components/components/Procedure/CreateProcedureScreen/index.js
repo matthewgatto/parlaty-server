@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import {useSelector,useDispatch} from 'react-redux';
 import FormError from '@containers/FormError';
 import FormContext from '@components/Form/Context';
-import {Input} from '@components/Inputs';
+import {Input, LimitedTextArea} from '@components/Inputs';
 import Polygon from '@components/SVG/PolygonH';
 import SubmitButton from '@containers/SubmitButton'
 import CopyList from '../CopyList';
@@ -72,7 +72,7 @@ export default ({match:{url,params:{oem_id,oem_business_id}}}) => {
             <FormError formKey={formKey} />
           </div>
           <Input type="text" name="name" label="Name" formKey={formKey} as="input" />
-          <Input as="textarea" label="Description" name="description" rows="6" formKey={formKey} />
+          <LimitedTextArea as="textarea" label="Description" name="description" rows="4" formKey={formKey} limit={200}/>
           <AuthorSelect formKey={formKey} defaultValue={author} oemBusinessId={oem_business_id}/>
           <LanguagesSelect formKey={formKey} defaultValue={undefined}/>
           <Input as="input" name="version" type="text" label="Version" formKey={formKey} disabled/>
