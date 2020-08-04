@@ -2,6 +2,7 @@ class ProceduresController < ApplicationController
 	include ActiveStorage::Downloading
 	before_action :require_login
 	include Procedures::ProcedureCountLimit
+	include OemBusinesses::PermittedUsers
 	before_action :set_params, only: %i[show update destroy reorder]
 
 	# GET /oem_businesses/:id/procedures
