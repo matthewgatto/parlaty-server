@@ -21,11 +21,13 @@ class StepPolicy < ApplicationPolicy
        note
        safety
        procedure_id
+       loop_value
        mode
        time
        parameter_name
        parameter_value_8_pack
-       spoken]
+       spoken
+    ]
   end
 
   def visuals_permitted_attributes

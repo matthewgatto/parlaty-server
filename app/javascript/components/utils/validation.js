@@ -47,6 +47,7 @@ export const oemSchema = object().shape({
 
 export const stepSchema = object().shape({
   title: string().required('This field is required'),
+  loop_value: string().matches(/(^[0-9]+$|^$)/, 'Must be a positive number')
 })
 
 export const procedureSchema = object().shape({

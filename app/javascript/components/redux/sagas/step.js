@@ -164,13 +164,13 @@ export function* stepSaveSaga({type,payload:{values,root,procedure_id,id,idx,for
       yield call(addStepActionValues, step, values, root)
     }
     yield call(validateStep, step, root)
-    var successPayload = {};
+    let successPayload = {};
     if(procedure_id){
       const procedure = yield select(getProcedureById(procedure_id));
       if(stepMeta.isDuplicate){
-        successPayload = yield call(createStepSaga, {step, initialValues: stepMeta.initialValues, procedure})
+        successPayload = yield call(createStepSaga, {procedure, step, initialValues: stepMeta.initialValues})
       } else {
-        successPayload = yield call(updateStepSaga, {step, idx, initialValues: stepMeta.initialValues, procedure})
+        successPayload = yield call(updateStepSaga, {procedure, step, idx, initialValues: stepMeta.initialValues})
       }
     }
     yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: {formKey, idx, ...successPayload}});
