@@ -3,7 +3,7 @@ import * as oemBusinessTypes from '@types/oem_business'
 import * as oemTypes from '@types/oem'
 import * as procedureTypes from '@types/procedure'
 import * as authTypes from '@types/auth'
-import { addIds, immutableRemove } from '@utils';
+import { addIds, immutableRemove, combinedPayload } from '@utils';
 
 const allOemBusinesses = (state = null, {type,payload}) => {
   switch (type) {
@@ -39,6 +39,10 @@ const oemBusinessesById = (state = {}, {type,payload}) => {
     case oemBusinessTypes.DELETE_OEM_BUSINESS_REQUEST__SUCCESS:
       return immutableRemove(payload.oem_business_id,state);
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
+      if(payload.oem_businesses){
+        return combinedPayload(payload.oem_businesses, state);
+      }
+      return state;
     case oemBusinessTypes.FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST__SUCCESS:
     case procedureTypes.CREATE_PROCEDURE_REQUEST__SUCCESS:
@@ -50,8 +54,9 @@ const oemBusinessesById = (state = {}, {type,payload}) => {
           ...payload.oem_businesses
         }
       }
+      return state;
     default:
-      return state
+      return state;
   }
 }
 

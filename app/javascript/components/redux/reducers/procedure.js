@@ -1,6 +1,6 @@
 import merge from 'lodash/merge'
 import { combineReducers } from 'redux';
-import { addIds, immutableRemove } from '@utils';
+import { addIds, immutableRemove, combinedPayload } from '@utils';
 import * as types from "@types/procedure";
 import {
   FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS
@@ -47,7 +47,6 @@ const proceduresById = (state = {}, {type,payload}) => {
     case types.UPDATE_PROCEDURE_REQUEST__SUCCESS:
     case types.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case types.UPDATE_PROCEDURE_OEM_BUSINESSES_REQUEST__SUCCESS:
-    case FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case STEP_SAVE_REQUEST__SUCCESS:
     case REORDER_STEP_REQUEST__SUCCESS:
     case CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS:
@@ -58,6 +57,12 @@ const proceduresById = (state = {}, {type,payload}) => {
         }
       }
       return state;
+    case FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
+      if(payload.procedures){
+        return combinedPayload(payload.procedures, state);
+      }else{
+        return state;
+      }
     case DELETE_STEP_REQUEST__SUCCESS:
       const stepOrder = [...state[payload.procedure_id].steps.slice(0,payload.idx), ...state[payload.procedure_id].steps.slice(payload.idx+1)]
       return {

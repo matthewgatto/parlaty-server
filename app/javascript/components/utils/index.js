@@ -77,6 +77,16 @@ export function readFile(file){
   })
 }
 
+export const combinedPayload = (payload, state) => {
+  let val = {};
+  Object.keys(payload).forEach(procedure_id => {
+    if(state[procedure_id]) {
+      val[procedure_id]={...state[procedure_id], ...payload[procedure_id]}
+    } else {
+      val[procedure_id]= payload[procedure_id]}
+  });
+  return val
+}
 
 export const makeName = (root, name) => root ? `${root}${name}` : name
 
