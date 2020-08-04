@@ -3,6 +3,7 @@ import { Controller,useFormContext } from "react-hook-form";
 import SelectComponent, {withSelectContainer} from './Select';
 import CheckBoxComponent from './CheckBox';
 import RadioComponent from './Radio';
+import LimitedTextAreaInput from './LimitedTextArea';
 import FileInputContainer from '@containers/FileInput';
 import ArrFileInputContainer from '@containers/ArrFileInput';
 import withField from './withField';
@@ -14,6 +15,7 @@ export const FileInput = withName(props => <Controller onChange={([el]) => el.cu
 export const ArrFileInput = (props) => ArrFileInputContainer(props);
 
 export const Input = withNamedField(Controller);
+export const LimitedTextArea = withNamedField(props => <Controller {...props} as={LimitedTextAreaInput} />)
 export const CheckBox = props => <Input {...props} onChange={([e]) => e.currentTarget.checked} as={CheckBoxComponent} />;
 
 export const Radio = ({root, actionRoot, defaultValue, index, withoutCheck, ...props}) => {

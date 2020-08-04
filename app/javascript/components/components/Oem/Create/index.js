@@ -1,7 +1,7 @@
 import React from 'react';
 import uuid from 'uuid/v4'
 import FormPage from '@components/Form/Page';
-import { clientOrOemBusinessSchema } from '@utils/validation';
+import { oemSchema } from '@utils/validation';
 import { CREATE_OEM_REQUEST } from '@types/oem';
 
 let inputs = [{
@@ -30,7 +30,7 @@ export default ({role}) => (
       type: CREATE_OEM_REQUEST,
       initialValues: {},
       id: uuid(),
-      validationSchema: clientOrOemBusinessSchema
+      validationSchema: oemSchema
     }}
     inputs={inputs}
     cancel="/"

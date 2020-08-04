@@ -5,6 +5,13 @@
   font-weight: 600;
 }
 
+.header{
+  float: left;
+}
+.headerCount{
+  float: right;
+}
+
 @media (min-width: 768px){
   .container {
     font-size: 1.6em;

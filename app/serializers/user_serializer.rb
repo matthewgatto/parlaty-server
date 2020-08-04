@@ -66,5 +66,14 @@ class UserSerializer
       return {} if oem.blank?
       OemSerializer.simple_oem_as_json(oem)
     end
+
+    def authors_as_json(authors)
+      authors.map do |author|
+        {
+          id: author.id,
+          name: "#{author.roleable_type}: #{author.roleable.name} (#{author.email})"
+        }
+      end
+    end
   end
 end

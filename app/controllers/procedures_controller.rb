@@ -1,6 +1,7 @@
 class ProceduresController < ApplicationController
 	include ActiveStorage::Downloading
 	before_action :require_login
+	include Procedures::ProcedureCountLimit
 	before_action :set_params, only: %i[show update destroy reorder]
 
 	# GET /oem_businesses/:id/procedures
@@ -23,18 +24,12 @@ class ProceduresController < ApplicationController
 
 	# POST /procedures
 	def create
-		begin
-			if limited?
-				(render json: ApplicationSerializer.error_response(I18n.t("errors.procedure.limited")) and return)
-			end
-		rescue => error
-			(render json: ApplicationSerializer.error_response("Rescued: #{error.inspect}") and return)
-		end
+		(render json: ApplicationSerializer.error_response(I18n.t("errors.procedure.limited")) and return) if limited?
 
 		@procedure = Procedure.new(procedure_params)
 		authorize @procedure
 		if @procedure.save
-			render json: ApplicationSerializer.id_to_json(@procedure.id), status: :ok
+			render json: ProcedureSerializer.created_procedure_as_json(@procedure.id, @oem), status: :ok
 		else
 			render json: ApplicationSerializer.error_response(@procedure.errors.full_messages)
 		end
@@ -175,12 +170,8 @@ class ProceduresController < ApplicationController
 			oem_business = OemBusiness.where(id: oem_business_ids).first if oem_business_ids.present?
 			return true if oem_business.blank?
 
-			oem = oem_business.oem
-			limit = oem.procedures_limit
-			return false if limit.blank?
-
-			count = OemBusiness.procedures_count(oem.id).map{|a| a.count}.sum
-			limit.to_i <= (count || 0).to_i
+			@oem = oem_business.oem
+			count_limited?(@oem)
 		end
 
 		def procedure_params

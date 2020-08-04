@@ -2,6 +2,8 @@
 
 class OemBusinessSerializer
   class << self
+    include OemBusinesses::PermittedUsers
+
     def user_oem_businesses_as_json(user)
       oem_businesses = OemBusiness.all&.sort_by(&:name) if user.parlaty_admin?
       oem_businesses = user.roleable.oem.oem_businesses&.sort_by(&:name) if user.client_admin?
@@ -21,6 +23,8 @@ class OemBusinessSerializer
     def show_oem_business_as_json(oem_business)
       simple_oem_business_as_json(oem_business).merge!(
         ProcedureSerializer.procedures_as_json(oem_business.procedures)
+      ).merge!(
+        authors: UserSerializer.authors_as_json(authors_list(oem_business))
       )
     end
 

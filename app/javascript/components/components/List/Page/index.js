@@ -3,11 +3,11 @@ import Label from '../Label';
 import PageLayout from '@components/PageLayout';
 import List from '@containers/List';
 
-export default ({header, label, list}) => (
+export default ({header, labelCounter, label, list}) => (
   <PageLayout
     {...header}
   >
-    <Label>{label}</Label>
+    <Label labelCounter = {labelCounter}>{label}</Label>
     <List {...list} />
   </PageLayout>
 )

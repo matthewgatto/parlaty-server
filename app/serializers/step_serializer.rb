@@ -15,6 +15,7 @@ class StepSerializer
         location: step.location,
         safety: step.safety,
         spoken: step.spoken,
+        loop_value: step.loop_value,
         note: step.note,
         visuals: AttachmentSerializer.files_as_json(step),
         mode: step.mode,
