@@ -1,24 +1,25 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import ArrFileInput from '@components/Inputs/ArrFileInput';
 import { FileInput } from "@components/Inputs";
-import ImageFileDisplay from '@components/ImageFileDisplay';
-import VideoFileDisplay from '@components/VideoFileDisplay';
-import DocFileDisplay from '@components/DocFileDisplay';
+import { useDispatch } from "react-redux";
+import { updateFileList } from '@actions/step';
 
-export default ({formKey, defaultValues, ...props}) => {
+export default ({formKey, defaultValues, idx, ...props}) => {
   const inputRef = useRef(null);
+  const dispatch = useDispatch();
   const [filesList, setFilesList] = useState(defaultValues || []);
-  const typeFile = (file, display) => {
-      if (~file.type.indexOf('video')) return display ? VideoFileDisplay : 'video';
-      else if (~file.type.indexOf('image')) return display ? ImageFileDisplay : 'image';
-      else if (~file.type.indexOf('application') || ~file.type.indexOf('text')) return display ? DocFileDisplay : 'application';
-    },
-    deleteElem = (params) => setFilesList(prev =>  prev.filter((file, i) => i !== params.index)),
+  useEffect(() => {
+    if(defaultValues === filesList) dispatch(updateFileList(idx, defaultValues));
+  }, [defaultValues, idx]);
+  const deleteElem = (params) => setFilesList(prev =>  prev.filter((file, i) => i !== params.index)),
     handleClick = () => {inputRef.current.click()},
     handleChange = (el) => {
       const files = [...el.currentTarget.files];
       setFilesList((prevState=[]) => [...prevState, ...files]);
+      console.log(formKey, defaultValues, props);
+      debugger;
+      dispatch(updateFileList(idx, [...filesList, ...files]));
       el.currentTarget.value = null;
     };
-  return <ArrFileInput onClick={handleClick} deleteElem={deleteElem} typeFile={typeFile} onChange={handleChange} values={filesList} {...props} inputRef={inputRef} />
+  return <ArrFileInput onClick={handleClick} deleteElem={deleteElem} onChange={handleChange} idx={idx} values={filesList} {...props} inputRef={inputRef} />
 }

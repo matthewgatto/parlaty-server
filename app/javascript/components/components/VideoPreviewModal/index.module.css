@@ -1,6 +1,10 @@
 .container {
   height: 80vh;
   width: auto;
+  max-width: calc(100% - 4vw) !important;
+}
+.container:only-child {
+  max-width: 100%;
 }
 
 

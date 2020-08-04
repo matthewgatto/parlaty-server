@@ -1,1 +1,2 @@
 export const SET_MODAL = "SET_MODAL";
+export const CHANGE_ACTIVE_FILE = "CHANGE_ACTIVE_FILE";

@@ -5,11 +5,11 @@ import * as types from '@types/step';
 export default (state = [], {type, payload}) => {
   switch (type) {
     case types.ADD_STEP_FORM:
-      return state.length > 0 ? [...state, payload] : [payload]
+      return state.length > 0 ? [...state, payload] : [payload];
     case types.REMOVE_STEP_FORM:
-      return [...state.slice(0,payload),...state.slice(payload+1)]
+      return [...state.slice(0,payload),...state.slice(payload+1)];
     case types.REORDER_STEP_REQUEST:
-      return immutableMove(state, payload.from, payload.to)
+      return immutableMove(state, payload.from, payload.to);
     case types.OPEN_STEP_FORM:
       return [...state.slice(0,payload.idx),{...state[payload.idx], isOpen: true, formValues: payload.formValues},...state.slice(payload.idx+1)];
     case types.CLOSE_STEP_FORM:
@@ -19,7 +19,11 @@ export default (state = [], {type, payload}) => {
     case LOCATION_CHANGE:
       return [];
     case types.LOAD_STEP_FORMS:
-      return payload
+      return payload;
+    case types.UPDATE_FILE_LIST:{
+      state.splice(payload.idx,1, {...state[payload.idx], localFileList: payload.fileList});
+      return state;
+    }
     default:
       return state
   }

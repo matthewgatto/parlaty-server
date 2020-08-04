@@ -1,14 +1,16 @@
 import React, {useState,useEffect,useCallback} from 'react';
 import { useDispatch } from 'react-redux';
 import {readFile} from '@utils';
-import {setModal} from '@actions/modal';
+import {setModal, changeActiveFile} from '@actions/modal';
+import { getStepFileList } from '@selectors/step';
 
-export default (WrappedComponent, modal) => (props) => {
+export default (WrappedComponent, modal) => ({isArrParams, ...props}) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [src, setSrc] = useState();
   const openModal = useCallback(() => {
-    dispatch(setModal(modal, src))
+    if (!isArrParams || !isArrParams.change) dispatch(setModal(modal, isArrParams ? {isArrParams, src} : src));
+    else dispatch(changeActiveFile({src: props.src, ...isArrParams}));
   }, [src, dispatch]);
   const setImageSrc = useCallback(async () => {
     setSrc(props.src instanceof File ? await readFile(props.src) : props.src)

@@ -7,8 +7,8 @@ export default (WrappedComponent, modalType) => (props) => {
   const modal = useSelector(getModal);
   if(modal && modal.type === modalType){
     return(
-      <ModalOverlay>
-        <WrappedComponent {...props} modalData={modal.data} />
+      <ModalOverlay params={modal.data.isArrParams || null}>
+        <WrappedComponent {...props} modalData={modal.data.isArrParams ? modal.data.src : modal.data}/>
       </ModalOverlay>
     )
   }

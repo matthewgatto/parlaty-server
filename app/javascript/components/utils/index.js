@@ -1,4 +1,7 @@
 import uniq from 'lodash/uniq';
+import ImageFileDisplay from '@components/ImageFileDisplay';
+import VideoFileDisplay from '@components/VideoFileDisplay';
+import DocFileDisplay from '@components/DocFileDisplay';
 
 export function immutableMove(arr, from, to) {
   return arr.reduce((prev, current, idx, self) => {
@@ -111,6 +114,7 @@ export const getNewStepValues = (values,root) => {
   if(location) step.location = location;
   return step;
 };
+
 export const makeStep = (values, root, isFormData) => {
   const spoken = values[`${root}spoken`],
         safety = values[`${root}safety`],
@@ -134,4 +138,10 @@ export const makeStep = (values, root, isFormData) => {
   if(defaultMedia) step.defaultMedia = defaultMedia;
   if(visuals) step.visuals = visuals;
   return step;
+};
+
+export const typeFile = (file) => {
+  if (~file.type.indexOf('video')) return [VideoFileDisplay, 'video'];
+  else if (~file.type.indexOf('image')) return [ImageFileDisplay, 'image'];
+  else if (~file.type.indexOf('application') || ~file.type.indexOf('text')) return [DocFileDisplay, 'application'];
 };
