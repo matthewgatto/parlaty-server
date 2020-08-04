@@ -10,7 +10,7 @@ export default (WrappedComponent, modal) => ({isArrParams, ...props}) => {
   const [src, setSrc] = useState();
   const openModal = useCallback(() => {
     if (!isArrParams || !isArrParams.change) dispatch(setModal(modal, isArrParams ? {isArrParams, src} : src));
-    else dispatch(changeActiveFile({src: props.src, ...isArrParams}));
+    else dispatch(changeActiveFile({src: src, ...isArrParams}));
   }, [src, dispatch]);
   const setImageSrc = useCallback(async () => {
     setSrc(props.src instanceof File ? await readFile(props.src) : props.src)
