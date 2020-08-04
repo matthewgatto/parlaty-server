@@ -13,7 +13,7 @@ class StepsController < ApplicationController
   def create
     @step = Step.new(step_params)
     authorize @step
-    @step.has_visual = visuals_params[:visuals].present? && visuals_params[:visuals].positive?
+    @step.has_visual = visuals_params[:visuals].present? && visuals_params[:visuals].count.positive?
     if @step.save
       update_attached_files
       update_device_actions
