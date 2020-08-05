@@ -7,10 +7,9 @@ import AddFormButton from '@components/Form/Nested/AddFormButton';
 import * as utils from '@utils';
 
 export default () => {
+  const { getValues } = useFormContext()
   const dispatch = useDispatch();
-  // const { getValues } = useFormContext()
-  // const lastStepFormId = useSelector(getLastStepFormId)
-  // const handleClick = () => dispatch(addStepForm(lastStepFormId ? utils.getNewStepValues(getValues(), `steps[${lastStepFormId}].`) : {mode: "continuous", time: 8, safety: true}, false));
-  const handleClick = () => dispatch(addStepForm({mode: "continuous", time: 8, safety: true}, true));
+  const lastStepFormId = useSelector(getLastStepFormId)
+  const handleClick = () => dispatch(addStepForm(lastStepFormId ? utils.getNewStepValues(getValues(), `steps[${lastStepFormId}].`) : {mode: "continuous", time: 8, safety: true}, true));
   return <AddFormButton text="Add Step" onClick={handleClick} />
 }
