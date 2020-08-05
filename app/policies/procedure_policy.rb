@@ -25,6 +25,10 @@ class ProcedurePolicy < ApplicationPolicy
     create?
   end
 
+  def copy?
+    create?
+  end
+
   def permitted_attributes
     [
       :name,
