@@ -41,6 +41,7 @@ const oemsById = (state = {}, {type,payload}) => {
     case types.CREATE_OEM_REQUEST__SUCCESS:
     case types.UPDATE_OEM_REQUEST__SUCCESS:
     case procedureTypes.CREATE_PROCEDURE_REQUEST__SUCCESS:
+    case procedureTypes.DELETE_PROCEDURE_REQUEST__SUCCESS:
       if(payload.oems){
         return {
           ...state,

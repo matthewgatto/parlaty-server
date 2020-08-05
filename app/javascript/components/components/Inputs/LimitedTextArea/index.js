@@ -12,7 +12,7 @@ export default ({rows, cols, limit, name, value}) => {
   return (
     <div>
       <div className={styles.counter}>
-        {ref.current && ref.current.value.length || value.length}/{limit}
+        {ref.current && ref.current.value.length || value && value.length || 0}/{limit}
       </div>
       <textarea
         maxLength={limit}

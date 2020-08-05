@@ -35,7 +35,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
           <CheckBox formKey={formKey} label="Option to Skip" root={root} name="safety" defaultValue={initialValues.safety || false} />
         </div>
         <TimeSelect formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
-        <Input as="input" defaultValue={initialValues.loop_value} formKey={formKey} type="text" label="Number of Loops" root={root} name="loop_value" />
+        <Input as="input" defaultValue={initialValues.loop_value || 1} formKey={formKey} type="text" label="Number of Loops" root={root} name="loop_value" />
         <Input as="textarea" defaultValue={initialValues.location || ''} formKey={formKey} type="text" label="Instruction" root={root} name="location" rows="4"  />
         <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultValue={initialValues.device} />
         <div>

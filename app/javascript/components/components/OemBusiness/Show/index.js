@@ -14,23 +14,21 @@ import styles from './index.module.css';
 export default ({match:{params:{oem_business_id,oem_id},url}}) => {
   const id_oem = useSelector(getOemIdByOemBusinessId(oem_business_id)),
     oem = useOemInfo(oem_id || id_oem);
-
-  const labelCounter = oem ?
-      `${oem.procedures_count}/${oem.procedures_limit}` :
-    null
-  const limited = oem && oem.limited;
+  const procedures_limit = oem && oem.procedures_limit ? parseInt(oem.procedures_limit) : false
+  const procedures_count = oem && oem.procedures_count ? parseInt(oem.procedures_count) : 0
+  const limited = oem && procedures_limit && (procedures_limit - procedures_count <= 0);
+  const labelCounter = procedures_limit ?
+    `${procedures_count}/${procedures_limit}` : false
   const notifications = limited ?
     {
       disabled: true,
       info: '!',
     } :
-    {
-      disabled: false
-    };
+    { disabled: false };
   return (<>
     <ListPage
       label="Procedures"
-      labelCounter={labelCounter}
+      labelCounter={procedures_limit ? labelCounter : false}
       header={{
         header: {text: "", entityKey: "oem_businesses", oem_business_id},
         back: oem_id ? {to: `/clients/${oem_id}`, label: "Choose A Different Site"} : {to: "/", label: "Home"},

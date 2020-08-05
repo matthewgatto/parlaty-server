@@ -57,6 +57,13 @@ export function* postSaga(action, normalize, cb){
   }
 }
 
+export function responseErrorHash(action, response){
+  return {
+    type: `${action.type}__FAILURE`,
+    payload: {formKey: action.payload.formKey, errors: {fieldErrors: response.error}}
+  }
+}
+
 function normalizeSuccessResponse(response, action) {
   if(Object.keys(response).length === 0) return action;
   if(Object.keys(response).length === 1 && typeof(response.id) !== 'undefined' && response.id != null) return combineValues(response, action);
