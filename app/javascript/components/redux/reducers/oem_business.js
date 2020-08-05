@@ -29,7 +29,7 @@ const oemBusinessesById = (state = {}, {type,payload}) => {
         const oem_business_id = payload.oem_businesses[i];
         const oem_business = state[oem_business_id]
         if(oem_business && oem_business.procedures && oem_business.procedures.length > 0){
-          updatedOemBusinesses[oem_business_id] = {...oem_business, procedures: oem_business.procedures.filter(procedure => procedure !== payload.procedure_id)}
+          updatedOemBusinesses[oem_business_id] = {...oem_business, procedures: oem_business.procedures.filter(procedure => (parseInt(procedure) !== parseInt(payload.procedure_id)))}
         }
       }
       return {
