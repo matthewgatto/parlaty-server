@@ -13,12 +13,16 @@ class OemBusinessesController < ApplicationController
 
 	# GET /oem_businesses/:id
 	def show
-		@oem_business = OemBusiness.find(params[:id])
-		authorize @oem_business
-		if permitted_user?(current_user, @oem_business)
-			render json: OemBusinessSerializer.show_oem_business_as_json(@oem_business), status: :ok
-		else
-			render json: ApplicationSerializer.error_response(I18n.t("pundit.access_denied")), status: :forbidden
+		begin
+			@oem_business = OemBusiness.find(params[:id])
+			authorize @oem_business
+			if permitted_user?(current_user, @oem_business)
+				render json: OemBusinessSerializer.show_oem_business_as_json(@oem_business), status: :ok
+			else
+				render json: ApplicationSerializer.error_response(I18n.t("pundit.access_denied")), status: :forbidden
+			end
+		rescue => error
+			(render json: ApplicationSerializer.error_response("Rescued: #{error.inspect}") and return)
 		end
 	end
 
