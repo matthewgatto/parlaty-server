@@ -27,7 +27,7 @@ const oemsById = (state = {}, {type,payload}) => {
           ...state,
           [payload.oem_id]: {
             ...state[payload.oem_id],
-            oem_businesses: state[payload.oem_id].oem_businesses.filter(oem_business_id => oem_business_id !== payload.oem_business_id)
+            oem_businesses: state[payload.oem_id].oem_businesses.filter(oem_business_id => parseInt(oem_business_id) !== parseInt(payload.oem_business_id))
           }
         }
       }

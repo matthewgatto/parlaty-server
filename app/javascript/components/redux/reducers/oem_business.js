@@ -8,7 +8,7 @@ import { addIds, immutableRemove, combinedPayload } from '@utils';
 const allOemBusinesses = (state = null, {type,payload}) => {
   switch (type) {
     case oemBusinessTypes.DELETE_OEM_BUSINESS_REQUEST__SUCCESS:
-      return state.filter(oem_business_id => oem_business_id !== payload.oem_business_id)
+      return state.filter(oem_business_id => parseInt(oem_business_id) !== parseInt(payload.oem_business_id))
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case oemBusinessTypes.FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST__SUCCESS:
@@ -40,7 +40,10 @@ const oemBusinessesById = (state = {}, {type,payload}) => {
       return immutableRemove(payload.oem_business_id,state);
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
       if(payload.oem_businesses){
-        return combinedPayload(payload.oem_businesses, state);
+        return {
+          ...state,
+          ...combinedPayload(payload.oem_businesses, state)
+        };
       }
       return state;
     case oemBusinessTypes.FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:

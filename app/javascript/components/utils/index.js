@@ -79,11 +79,11 @@ export function readFile(file){
 
 export const combinedPayload = (payload, state) => {
   let val = {};
-  Object.keys(payload).forEach(procedure_id => {
-    if(state[procedure_id]) {
-      val[procedure_id]={...state[procedure_id], ...payload[procedure_id]}
+  Object.keys(payload).forEach(id => {
+    if(state[id]) {
+      val[id]={...state[id], ...payload[id]}
     } else {
-      val[procedure_id]= payload[procedure_id]}
+      val[id]= payload[id]}
   });
   return val
 }
