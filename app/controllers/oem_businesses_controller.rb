@@ -22,7 +22,7 @@ class OemBusinessesController < ApplicationController
 				render json: ApplicationSerializer.error_response(I18n.t("pundit.access_denied")), status: :forbidden
 			end
 		rescue => error
-			(render json: ApplicationSerializer.error_response("Rescued: #{error}") and return)
+			(render json: ApplicationSerializer.error_response("Rescued: #{error.backtrace}: #{error.message} (#{error.class})") and return)
 		end
 	end
 
