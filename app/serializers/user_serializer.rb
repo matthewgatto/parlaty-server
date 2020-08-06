@@ -72,7 +72,7 @@ class UserSerializer
         {
           id: author.id,
           name: "#{author.roleable_type}: #{author.roleable.name} (#{author.email})"
-        }
+        } if authors.present?
       end
     end
   end
