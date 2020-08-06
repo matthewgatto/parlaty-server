@@ -68,11 +68,11 @@ class UserSerializer
     end
 
     def authors_as_json(authors)
-      authors.map do |author|
+      authors.compact.map do |author|
         {
           id: author.id,
           name: "#{author.roleable_type}: #{author.roleable.name} (#{author.email})"
-        } if authors.present?
+        }
       end
     end
   end
