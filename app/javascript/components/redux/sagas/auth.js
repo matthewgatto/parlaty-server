@@ -1,12 +1,35 @@
-import { call, put } from 'redux-saga/effects';
+import {call, put, select} from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import API from '@utils/API';
 import {formSaga, pushAndNotify, goToSuccessPage} from './form';
 import Schemas from '@utils/models';
 
-const handleUpdatePasswordSuccess = goToSuccessPage("Your password was successfully updated.")
-const handlePasswordResetEmailSuccess = goToSuccessPage("A password recovery link has been sent to your email.")
-const handleInviteConfirmationSuccess = goToSuccessPage("Your password has been set, you may now login.")
+function* handleActionSuccess(response, messages){
+  yield call(response.role === "Operator" ? goToSuccessPage(messages.operator) : pushAndNotify("/", messages.user))
+}
+
+function handleInviteConfirmationSuccess(response){
+  let messages = {
+    operator: "Your password has been set, you may now login in mobile device",
+    user: "Your password has been set, you may now login."
+  }
+  return handleActionSuccess(response, messages);
+}
+function handleUpdatePasswordSuccess(response){
+  let messages = {
+    operator: "Your password was successfully updated.",
+    user: "Your password was successfully updated."
+  }
+  return handleActionSuccess(response, messages);
+}
+
+function handlePasswordResetEmailSuccess(response){
+  let messages = {
+    operator: "A password recovery link has been sent to your email.",
+    user: "A password recovery link has been sent to your email."
+  }
+  return handleActionSuccess(response, messages);
+}
 
 const makeAuthState = (user) => {
   const normalizedData = normalize(user, Schemas.user);
@@ -74,7 +97,7 @@ export function* inviteUserSaga(action){
     roleable === "operator"
   ){
     body.oem_business_ids = []
-    for (var oem_business_id in oemBusinesses) {
+    for (let oem_business_id in oemBusinesses) {
       if (oemBusinesses.hasOwnProperty(oem_business_id) && oemBusinesses[oem_business_id] === true && isNumber(oem_business_id)) {
         body.oem_business_ids.push(oem_business_id)
       }
