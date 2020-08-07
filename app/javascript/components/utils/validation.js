@@ -42,7 +42,7 @@ export const inviteConfirmationSchema = object().shape({
 
 export const oemSchema = object().shape({
   name: string().required('This field is required'),
-  procedures_limit: string().matches(/(^[0-9]+$|^$)/, 'Must be a positive number')
+  procedures_limit: string().nullable().matches(/(^[0-9]+$|^$)/, 'Must be a positive number')
 })
 
 export const stepSchema = object().shape({

@@ -1,13 +1,12 @@
 import { call, put } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import API from '@utils/API';
-import {formSaga,pushAndNotify} from './form';
-import {normalizeOemInvite} from './oem';
+import {formSaga, pushAndNotify, goToSuccessPage} from './form';
 import Schemas from '@utils/models';
 
-const handleUpdatePasswordSuccess = pushAndNotify('/',"Your password was successfully updated.")
-const handlePasswordResetEmailSuccess = pushAndNotify('/',"A password recovery link has been sent to your email.")
-const handleInviteConfirmationSuccess = pushAndNotify('/',"Your password has been set, you may now login.")
+const handleUpdatePasswordSuccess = goToSuccessPage("Your password was successfully updated.")
+const handlePasswordResetEmailSuccess = goToSuccessPage("A password recovery link has been sent to your email.")
+const handleInviteConfirmationSuccess = goToSuccessPage("Your password has been set, you may now login.")
 
 const makeAuthState = (user) => {
   const normalizedData = normalize(user, Schemas.user);
@@ -40,14 +39,11 @@ export function* loginSaga(action){
   yield call(formSaga, "post", action, handleLoginResponse);
 }
 
-
 const makePasswordFormSaga = (method, cb) => (function*(action){
   const {password_confirmation, ...user} = action.payload.values;
   action.payload.values = p("user", user);
   yield call(formSaga, method, action, undefined, cb);
 })
-
-
 
 export function* selfDataSaga(action){
   try {

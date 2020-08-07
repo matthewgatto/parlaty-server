@@ -5,6 +5,7 @@ import oems from './oem';
 import oem_businesses from './oem_business';
 import procedures from './procedure';
 import form from './form';
+import message from './message';
 import languages from './language';
 import steps from './step';
 import devices from './device';
@@ -25,6 +26,7 @@ export default function(history){
     devices,
     actions,
     steps,
+    message,
     form,
     toast,
     modal,

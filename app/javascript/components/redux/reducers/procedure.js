@@ -59,7 +59,10 @@ const proceduresById = (state = {}, {type,payload}) => {
       return state;
     case FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
       if(payload.procedures){
-        return combinedPayload(payload.procedures, state);
+        return {
+          ...state,
+          ...combinedPayload(payload.procedures, state)
+        };
       }else{
         return state;
       }

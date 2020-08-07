@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '@actions/auth';
 import Layout from '@components/Layout';
+import SuccessPage from '@components/SuccessPage';
 import LoginPage from '@components/LoginPage';
 import OemBusinessPage from '@components/OemBusiness/Show';
 //import CreateProcedurePage from '@components/Procedure/Create';
@@ -89,7 +90,7 @@ const Routes = ({role}) => {
     default:
       return(<Switch>
         <Route exact path="/" component={LoginPage} />
-        {/*<Route path="/register" component={SignUpPage} />*/}
+        <Route path="/success" component={SuccessPage} />
         <Route path="/users/confirmation" component={InvitationConfirmationForm} />
         <Route path="/forgot-password" component={ForgotPasswordForm} />
         <Route path="/reset-password" component={ResetPasswordForm} />
