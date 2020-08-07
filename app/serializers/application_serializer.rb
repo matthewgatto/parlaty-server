@@ -2,6 +2,10 @@
 
 class ApplicationSerializer
   class << self
+    def role_as_json(role)
+      { role: role }
+    end
+
     def id_to_json(id)
       { id: id }
     end

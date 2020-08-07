@@ -2,11 +2,12 @@ import React from 'react';
 import Close from '@components/SVG/Close';
 import Upload from '@components/SVG/Upload';
 import styles from './index.module.css';
+import FileLoader from '@containers/withFileLoader';
 
-export default ({label, name, initialValue, value, onChange,inputRef, onClick, inputText, isArrParams = null, displayComponent: DisplayComponent}) => (<>
+export default ({label, name, value, file, onChange,inputRef, onClick, inputText, isArrParams = null}) => (<>
   {label.length ? <label className={`${styles.label} align_center`}>{label}</label> : null}
   <div className={styles.fileInputContainer}>
-  <DisplayComponent src={value} setFile={onClick} isArrParams={isArrParams} />
+  <FileLoader file={file} src={value} setFile={onClick} isArrParams={isArrParams} />
   <div className={`${styles.container} align_center`} onClick={onClick}>
     <span className={`button align_center ${styles.button}`}>
     <div className={styles.name}>{inputText}</div>

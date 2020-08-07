@@ -21,8 +21,8 @@ export default ({label, name, onClick, onChange, inputRef, values, deleteElem, f
         const type = typeFile(file), radioParams = radio.params.filter(obj=> obj.type === type[1])[0];
         return (
           <div key={file.id || file.lastModified +  Math.random(10000)} className={styles.fileList}>
-            <FileInput isArrParams={{index: i, idx}} name={name+'['+i+']'} label="" formKey={formKey} index={i} defaultValue={file.visual || file} root={root} customClick={deleteElem} displayComponent={type[0]}/>
-            {radio.isShown && radioParams && <Radio withoutCheck={radio.withoutCheck} root={root} index={i} actionRoot={radio.actionRoot} defaultValue={radio.defaultValue || -1} label={radioParams.label || ''} labelClass={styles.radio}/>}
+            <FileInput file={file} isArrParams={{index: i, idx}} name={name+'['+i+']'} label="" formKey={formKey} index={i} defaultValue={file.visual || file} root={root} customClick={deleteElem} />
+            {radio.isShown && radioParams && <Radio name={`${root}${radio.actionRoot}`} withoutCheck={radio.withoutCheck} root={root} index={i} actionRoot={radio.actionRoot} defaultValue={radio.defaultValue || -1} label={radioParams.label || ''} labelClass={styles.radio}/>}
           </div>
         )
       })}

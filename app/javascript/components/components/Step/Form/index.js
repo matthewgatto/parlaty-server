@@ -25,15 +25,15 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
     <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
       <div className={styles.container}>
         <div className={styles.titleWrapper}>
-        <SpokenBox idx={idx} labelClass={`${styles.spoken} align_center`} root={root} defaultValue={initialValues.spoken || false} />
-        <Input as="input" defaultValue={initialValues.title} formKey={formKey} type="text" required label="Title*" root={root} name="title" />
+          <SpokenBox idx={idx} labelClass={`${styles.spoken} align_center`} root={root} defaultValue={initialValues.spoken || false} />
+          <Input as="input" defaultValue={initialValues.title} formKey={formKey} type="text" required label="Title*" root={root} name="title" />
         </div>
         <div className={`${styles.boxes} align_center`}>
           <ModeRadio formKey={formKey} root={root} name="mode" defaultValue={initialValues.mode || "continuous"} />
           <CheckBox formKey={formKey} label="Option to Skip" root={root} name="safety" defaultValue={initialValues.safety || false} />
         </div>
         <TimeSelect formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
-        <Input as="input" defaultValue={initialValues.loop_value} formKey={formKey} type="text" label="Number of Loops" root={root} name="loop_value" />
+        <Input as="input" defaultValue={initialValues.loop_value || 1} formKey={formKey} type="text" label="Number of Loops" root={root} name="loop_value" />
         <Input as="textarea" defaultValue={initialValues.location || ''} formKey={formKey} type="text" label="Instruction" root={root} name="location" rows="4"  />
         <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultValue={initialValues.device} />
         <div>

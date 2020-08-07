@@ -5,12 +5,16 @@ import logo from '@assets/images/logo.png';
 
 const Layout = ({children, role, logout}) => {
   const isAdmin = role === "ParlatyAdmin" || role === "ClientAdmin";
+  const isSuccessPage = window.location.hash === "#/success"
   return(
     <>
       <div className={styles.header}>
-        <Link to="/"><img className={styles.logo} src={logo} /></Link>
+        { isSuccessPage ?
+          <img className={styles.logo} src={logo} /> :
+          <Link to="/"><img className={styles.logo} src={logo} /></Link>
+        }
         <div className={styles.links}>
-          <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>
+          {!isSuccessPage && <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>}
           {isAdmin && <NavLink className={styles.link} activeClassName={styles.active} to="/users">Users</NavLink>}
           <NavLink className={styles.link} activeClassName={styles.active} to="/support">Support</NavLink>
           {role && <Link to="/" onClick={logout} className={styles.link}>Logout</Link>}

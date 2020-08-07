@@ -10,6 +10,7 @@ import DeviceForm from '@components/Device/Create';
 import DeviceUpdateForm from '@components/Device/Edit';
 import DeviceCopyList from '../DeviceCopyList'
 import ImagePreviewModal from '@components/ImagePreviewModal';
+import DocPreviewModal from '@components/DocPreviewModal';
 import VideoPreviewModal from '@components/VideoPreviewModal';
 import VideoProgressModal from '@components/VideoProgressModal';
 import ProcedureOemBusinesses from '@components/Procedure/OemBusinesses';
@@ -93,5 +94,6 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
     <ImagePreviewModal />
     <VideoPreviewModal />
     <VideoProgressModal />
+    <DocPreviewModal />
   </>)
 }

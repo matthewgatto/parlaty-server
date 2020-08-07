@@ -32,7 +32,7 @@
 <ellipse fill="white" stroke="black" cx="-55" cy="-73" rx="88.2844" ry="18"/>
 <text text-anchor="middle" x="-55" y="-69.3" font-family="Times,serif" font-size="14.00">ApplicationController</text>
 </g>
-<!-- ShellController -->
+<!-- DashboardController -->
 <g id="node5" class="node"><title>ShellController</title>
 <ellipse fill="white" stroke="black" cx="98" cy="-205" rx="64.9885" ry="18"/>
 <text text-anchor="middle" x="98" y="-201.3" font-family="Times,serif" font-size="14.00">ShellController</text>

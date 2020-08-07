@@ -10,14 +10,12 @@ export default ({formKey, defaultValues, idx, ...props}) => {
   const [filesList, setFilesList] = useState(defaultValues || []);
   useEffect(() => {
     if(defaultValues === filesList) dispatch(updateFileList(idx, defaultValues));
-  }, [defaultValues, idx]);
+  }, [defaultValues, idx, filesList, updateFileList]);
   const deleteElem = (params) => setFilesList(prev =>  prev.filter((file, i) => i !== params.index)),
     handleClick = () => {inputRef.current.click()},
     handleChange = (el) => {
       const files = [...el.currentTarget.files];
       setFilesList((prevState=[]) => [...prevState, ...files]);
-      console.log(formKey, defaultValues, props);
-      debugger;
       dispatch(updateFileList(idx, [...filesList, ...files]));
       el.currentTarget.value = null;
     };

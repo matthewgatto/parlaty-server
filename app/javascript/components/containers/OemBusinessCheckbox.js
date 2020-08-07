@@ -14,5 +14,5 @@ function contains(a, obj) {
 
 export default ({id,defaultValue}) => {
   const oem_business = useSelector(getOemBusinessById(id))
-  return <CheckBox defaultValue={defaultValue && contains(defaultValue, id)} label={oem_business.name} name={id+""} />
+  return <CheckBox defaultValue={defaultValue && contains(defaultValue, id)} label={oem_business && oem_business.name} name={id+""} />
 }

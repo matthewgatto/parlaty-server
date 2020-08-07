@@ -3,5 +3,7 @@ import withModal from '@containers/withModal';
 import styles from './index.module.css';
 
 export default withModal(({modalData}) => (
-  <img src={modalData} className={styles.container} />
+  <div className={styles.wrapper}>
+    <img src={modalData} className={styles.container} />
+  </div>
 ), "image_preview")

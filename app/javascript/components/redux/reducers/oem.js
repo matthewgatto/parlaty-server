@@ -27,7 +27,7 @@ const oemsById = (state = {}, {type,payload}) => {
           ...state,
           [payload.oem_id]: {
             ...state[payload.oem_id],
-            oem_businesses: state[payload.oem_id].oem_businesses.filter(oem_business_id => oem_business_id !== payload.oem_business_id)
+            oem_businesses: state[payload.oem_id].oem_businesses.filter(oem_business_id => parseInt(oem_business_id) !== parseInt(payload.oem_business_id))
           }
         }
       }
@@ -41,6 +41,7 @@ const oemsById = (state = {}, {type,payload}) => {
     case types.CREATE_OEM_REQUEST__SUCCESS:
     case types.UPDATE_OEM_REQUEST__SUCCESS:
     case procedureTypes.CREATE_PROCEDURE_REQUEST__SUCCESS:
+    case procedureTypes.DELETE_PROCEDURE_REQUEST__SUCCESS:
       if(payload.oems){
         return {
           ...state,

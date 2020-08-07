@@ -24,7 +24,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     @user = User.confirm_by_token(params[:user][:confirmation_token])
     if @user.id.present? && @user.update_attributes(password: params[:user][:password])
       @user.confirm
-      render json: {}, status: :ok
+      render json: ApplicationSerializer.role_as_json(@user.roleable_type), status: :ok
     else
       render json: ApplicationSerializer.error_response(@user.errors.messages)
     end

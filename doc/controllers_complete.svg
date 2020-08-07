@@ -63,7 +63,7 @@
 <text text-anchor="start" x="-76.5" y="129.2" font-family="Times,serif" font-size="14.00">is_p_admin?</text>
 <text text-anchor="start" x="-76.5" y="144.2" font-family="Times,serif" font-size="14.00">require_login</text>
 </g>
-<!-- ShellController -->
+<!-- DashboardController -->
 <g id="node5" class="node"><title>ShellController</title>
 <path fill="white" stroke="black" d="M352,-188C352,-188 428,-188 428,-188 434,-188 440,-194 440,-200 440,-200 440,-270 440,-270 440,-276 434,-282 428,-282 428,-282 352,-282 352,-282 346,-282 340,-276 340,-270 340,-270 340,-200 340,-200 340,-194 346,-188 352,-188"/>
 <text text-anchor="middle" x="390" y="-266.8" font-family="Times,serif" font-size="14.00">ShellController</text>

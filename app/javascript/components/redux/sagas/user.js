@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import API from '@utils/API';
 import Schemas from '@utils/models';
-import {formSaga,pushAndNotify} from './form';
+import {pushAndNotify, responseErrorHash} from './form';
 import {getById} from '@selectors/user';
 
 const handleUpdateSuccess = pushAndNotify('/users', "User was successfully updated")
@@ -127,11 +127,4 @@ function getOemBusinessIds(oemBusinessIds){
     }
   }
   return idsArray;
-}
-
-function responseErrorHash(action, response){
-  return {
-    type: `${action.type}__FAILURE`,
-    payload: {formKey: action.payload.formKey, errors: {fieldErrors: response.error}}
-  }
 }

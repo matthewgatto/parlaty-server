@@ -80,6 +80,16 @@ export function readFile(file){
   })
 }
 
+export const combinedPayload = (payload, state) => {
+  let val = {};
+  Object.keys(payload).forEach(id => {
+    if(state[id]) {
+      val[id]={...state[id], ...payload[id]}
+    } else {
+      val[id]= payload[id]}
+  });
+  return val
+}
 
 export const makeName = (root, name) => root ? `${root}${name}` : name;
 
@@ -143,7 +153,7 @@ export const makeStep = (values, root, isFormData) => {
 };
 
 export const typeFile = (file) => {
-  if (~file.type.indexOf('video')) return [VideoFileDisplay, 'video'];
-  else if (~file.type.indexOf('image')) return [ImageFileDisplay, 'image'];
-  else if (~file.type.indexOf('application') || ~file.type.indexOf('text')) return [DocFileDisplay, 'application'];
+  if (~file.type.indexOf('video')) return [VideoFileDisplay, 'video', 'video_preview'];
+  else if (~file.type.indexOf('image')) return [ImageFileDisplay, 'image', 'image_preview'];
+  else if (~file.type.indexOf('application') || ~file.type.indexOf('text')) return [DocFileDisplay, 'application', 'doc_preview'];
 };

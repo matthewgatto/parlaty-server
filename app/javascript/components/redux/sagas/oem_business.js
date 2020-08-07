@@ -40,14 +40,9 @@ export function* deleteOemBusinessSaga(action){
   try {
     const url = yield select(({router}) => router.location.pathname)
     const splitUrl = url.split("/");
-    var oem_id;
-    if(splitUrl[0] === "clients"){
-      oem_id = splitUrl[1]
-    } else {
-      oem_id = yield select(({auth}) => auth.oem)
-    }
+    const oem_business = yield select(getOemBusinessById(action.payload));
     yield call(API.delete, `/oem_businesses/${action.payload}`);
-    yield put({type: `${action.type}__SUCCESS`, payload: {oem_business_id: action.payload, oem_id}})
+    yield put({type: `${action.type}__SUCCESS`, payload: {oem_business_id: action.payload, oem_id: oem_business.oem_id}})
     yield put(push(splitUrl.slice(0,-2).join('/')))
     yield put(addToast("success", "Site was successfully deleted."))
   } catch (e) {

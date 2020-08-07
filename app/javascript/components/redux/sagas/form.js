@@ -1,12 +1,20 @@
 import { call, put } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import API from '@utils/API';
-import * as utils from '@utils';
 import { addToast } from '@actions/toast';
+import {FETCH_MESSAGE_REQUEST__SUCCESS} from '@types/message'
 
 export const pushAndNotify = (to,message) => (function*(){
   yield put(push(to))
   yield put(addToast("success", message))
+})
+
+export const goToSuccessPage = (message) => (function*(){
+  yield put({
+    type: FETCH_MESSAGE_REQUEST__SUCCESS,
+    payload: {message: {message}}
+  })
+  yield put(push("/success"));
 })
 
 export function* formSaga(method, action, normalize, cb){
@@ -54,6 +62,13 @@ export function* postSaga(action, normalize, cb){
     if(e.formError) formError = e.formError;
     else if(e === 401) formError = "Invalid login credentials";
     yield put({type: `${action.type}__FAILURE`, payload: {formKey: action.payload.formKey, errors:{formError}}})
+  }
+}
+
+export function responseErrorHash(action, response){
+  return {
+    type: `${action.type}__FAILURE`,
+    payload: {formKey: action.payload.formKey, errors: {fieldErrors: response.error}}
   }
 }
 
