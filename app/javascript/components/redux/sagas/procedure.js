@@ -15,8 +15,6 @@ import {DELETE_PROCEDURE_REQUEST__SUCCESS, CREATE_PROCEDURE_REQUEST} from '@type
 
 const normalizeOem = ({oem}) => normalize(oem, Schemas.oem).entities;
 
-const normalizeOem = ({oem}) => normalize(oem, Schemas.oem).entities;
-
 function* getNewEntitiesFromProcedure(response,{payload:{values}}){
   const oem_business = yield select(getOemBusinessById(values.procedure.oem_business_ids[0]))
   return oem_business ? (

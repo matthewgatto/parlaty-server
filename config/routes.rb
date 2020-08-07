@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       member do
         put 'reorder'
         put 'used'
-				post 'copy'
+		post 'copy'
       end
   end
 
