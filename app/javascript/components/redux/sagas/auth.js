@@ -10,7 +10,7 @@ function* handleActionSuccess(response, messages){
 
 function handleInviteConfirmationSuccess(response){
   let messages = {
-    operator: "Your password has been set, you may now login in mobile device",
+    operator: "Your password has been set. You may now login through the Parlaty iOS app.",
     user: "Your password has been set, you may now login."
   }
   return handleActionSuccess(response, messages);
