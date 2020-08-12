@@ -9,7 +9,7 @@ import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
 import ImageFileDisplay from '@components/ImageFileDisplay';
 import VideoFileDisplay from '@components/VideoFileDisplay';
-import { Input, CheckBox, Select, FileInput, VideoInput, ModeRadio } from '@components/Inputs';
+import { Input, CheckBox, Select, FileInput, VideoInput, ModeRadio, LimitedTextArea } from '@components/Inputs';
 import styles from './index.module.css';
 
 
@@ -36,7 +36,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         </div>
         <TimeSelect formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
         <Input as="input" defaultValue={initialValues.loop_value || 1} formKey={formKey} type="text" label="Number of Loops" root={root} name="loop_value" />
-        <Input as="textarea" defaultValue={initialValues.location || ''} formKey={formKey} type="text" label="Instruction" root={root} name="location" rows="4"  />
+        <LimitedTextArea as="textarea" defaultValue={initialValues.location || ''} label="Instruction" name="location" rows="4" formKey={formKey} limit={200}/>
         <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultValue={initialValues.device} />
         <div>
           <FileInput name="visual" label="Image*" formKey={formKey} defaultValue={(initialValues.images && initialValues.images[0]) ? initialValues.images[0].image : undefined} root={root} displayComponent={ImageFileDisplay} />
