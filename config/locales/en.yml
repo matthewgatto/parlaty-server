@@ -37,6 +37,7 @@ en:
       deactivated: User has been deactivated
       incorrect_role: roleable type doesn't exist
       not_found: User not found
+      web_operator: Please login through the iOS app
   pundit:
     access_denied: 'Current user access denied'
     default: 'You cannot perform this action.'

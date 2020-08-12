@@ -35,7 +35,7 @@ export function* formSaga(method, action, normalize, cb){
     }
   } catch (e) {
     console.log("e", e);
-    var formError = "An unexpected error has occurred"
+    let formError = "An unexpected error has occurred"
     if(e.formError) formError = e.formError;
     else if(e === 401) formError = "Invalid login credentials";
     yield put({type: `${action.type}__FAILURE`, payload: {formKey: action.payload.formKey, errors:{formError}}})
