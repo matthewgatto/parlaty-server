@@ -12,7 +12,7 @@ class DevicesController < ApplicationController
   def create
     @device = Device.new(device_params)
     authorize @device
-    save_device_actions
+    save_device_actions(@device)
     if @device.save
       render json: DeviceSerializer.simple_device_as_json(@device)
     else
@@ -25,7 +25,7 @@ class DevicesController < ApplicationController
     @device = Device.find(params[:id])
     authorize @device
     if @device.update_attributes(device_params)
-      save_device_actions
+      save_device_actions(@device)
       @device.save
       head :ok
     else

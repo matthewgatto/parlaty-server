@@ -14,6 +14,7 @@ import * as utils from '@utils';
 import { stepSchema } from '@utils/validation';
 import Schemas from '@utils/models';
 import API from '@utils/API';
+import {STEP_SAVE_REQUEST__SUCCESS} from '@types/step';
 
 export const cleanStepParams = ({id,visual,has_visual,video,...step}) => {
   var has_video, has_file;
@@ -83,6 +84,7 @@ function* uploadSource(step, url, method) {
   return yield call(uploadPromise);
 }
 const delay = (ms) => new Promise(res => setTimeout(res, ms))
+
 function* makeStepRequest(uncleanStepValues, url, method){
   try {
     const {step,has_video,has_file} = cleanStepParams(uncleanStepValues);
@@ -103,7 +105,7 @@ function* makeStepRequest(uncleanStepValues, url, method){
     throw e
   }
 }
-function* createStepSaga({procedure, step:{actions,...step}, initialValues}){
+function* createStepSaga({procedure, step, initialValues}){
   try {
     const response = yield call(makeStepRequest, {...step, procedure_id: procedure.id }, "/steps", "post");
     return {...normalize({...procedure,steps: procedure.steps ? [...procedure.steps, response] : [response]}, Schemas.procedure).entities,id: response.id}
@@ -137,7 +139,7 @@ const validateStep = async (step, root) => {
     await stepSchema.validate(step, {abortEarly: false, stripUnknown: true});
   } catch (e) {
     const fieldErrors = {};
-    for (var i = 0; i < e.inner.length; i++) {
+    for (let i = 0; i < e.inner.length; i++) {
       fieldErrors[`${root}${e.inner[i].path}`] = e.inner[i].message
     }
     throw {type: "VALIDATION_FAILURE", fieldErrors}
@@ -159,7 +161,7 @@ function* addStepActionValues(step, values, root){
 export function* stepSaveSaga({type,payload:{values,root,procedure_id,id,idx,formKey}}){
   try {
     const stepMeta = yield select(getStepFormData(id, idx));
-    var step = utils.makeStep(values, root);
+    let step = utils.makeStep(values, root);
     if(step.device_id){
       yield call(addStepActionValues, step, values, root)
     }
@@ -173,13 +175,13 @@ export function* stepSaveSaga({type,payload:{values,root,procedure_id,id,idx,for
         successPayload = yield call(updateStepSaga, {procedure, step, idx, initialValues: stepMeta.initialValues})
       }
     }
-    yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: {formKey, idx, ...successPayload}});
+    yield put({type: STEP_SAVE_REQUEST__SUCCESS, payload: {formKey, idx, ...successPayload}});
   } catch (e) {
     console.log("stepSaveSaga ERROR", e);
     if(e.type === "VALIDATION_FAILURE"){
       yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{fieldErrors: e.fieldErrors}}})
     } else {
-      var formError = "An unexpected error has occurred"
+      let formError = "An unexpected error has occurred"
       if(e.formError) formError = e.formError;
       else if(e === 401) formError = "Unauthorized";
       yield put({type: `${type}__FAILURE`, payload: {formKey, errors:{formError}}})
