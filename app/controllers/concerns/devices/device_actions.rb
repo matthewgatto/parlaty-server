@@ -27,6 +27,7 @@ module Devices
 
     def create_dup_device(device, step)
       new_device = device.dup
+      new_device.name += ' (changed)'
       new_device.parent_id = device.id
       new_device.save
       save_device_actions(new_device, is_dup: true, from_parent: true)

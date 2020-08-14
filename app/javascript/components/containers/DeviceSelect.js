@@ -20,7 +20,8 @@ const DeviceSelectContainer = ({root, value, formKey, ...props}) => {
 export default ({name, procedure_id, ...props}) => {
   const {devices} = useSelector(getProcedureById(procedure_id))
   const deviceArray = useSelector((state) => (devices && devices.length > 0) ? devices.map(deviceId => state.devices.byId[deviceId]) : null)
+  const devicesWithoutChildren = deviceArray && deviceArray.filter(device => device.parent_id === null || parseInt(device.id) === parseInt(props.defaultValue))
   return(
-    <Controller {...props} options={(deviceArray && deviceArray.length > 0) ? deviceArray.map(({id, name}) => ({value: id, label: name})) : undefined} name={makeName(props.root, name)} as={DeviceSelectContainer} />
+    <Controller {...props} options={(devicesWithoutChildren && devicesWithoutChildren.length > 0) ? devicesWithoutChildren.map(({id, name}) => ({value: id, label: name})) : undefined} name={makeName(props.root, name)} as={DeviceSelectContainer} />
   )
 }
