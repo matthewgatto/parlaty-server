@@ -109,7 +109,6 @@ export function* deleteProcedureSaga(action){
     yield call(API.delete, `/procedures/${action.payload}`);
     const oem_business = yield select(getOemBusinessById(procedure.oem_businesses[0]));
     const oem = yield select(getOemById(oem_business.oem_id));
-    console.log(oem);
 
     const normalizedResponse = {procedure_id: action.payload, oem_businesses: procedure.oem_businesses, ...updateProceduresCountInOem("delete", oem)};
     yield put({type: DELETE_PROCEDURE_REQUEST__SUCCESS, payload: normalizedResponse})

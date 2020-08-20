@@ -11,6 +11,7 @@ import * as utils from '@utils';
 import { stepSchema } from '@utils/validation';
 import Schemas from '@utils/models';
 import API from '@utils/API';
+import {STEP_SAVE_REQUEST__SUCCESS} from '@types/step';
 
 export const cleanStepParams = ({id,visuals,has_visual,...step}) => {
   let has_video = false, has_file = false;
@@ -103,7 +104,7 @@ function* makeStepRequest(uncleanStepValues, url, method){
   }
 }
 
-function* createStepSaga({procedure, step:{actions,...step}, initialValues}){
+function* createStepSaga({procedure, step, initialValues}){
   try {
     const response = yield call(makeStepRequest, {...step, procedure_id: procedure.id }, "/steps", "post");
     return {...normalize({...procedure,steps: procedure.steps ? [...procedure.steps, response] : [response]}, Schemas.procedure).entities,id: response.id}
@@ -173,7 +174,7 @@ export function* stepSaveSaga({type,payload:{values,root,procedure_id,id,idx,for
         successPayload = yield call(updateStepSaga, {procedure, step, idx, initialValues: stepMeta.initialValues})
       }
     }
-    yield put({type: "STEP_SAVE_REQUEST__SUCCESS", payload: {formKey, idx, ...successPayload}});
+    yield put({type: STEP_SAVE_REQUEST__SUCCESS, payload: {formKey, idx, ...successPayload}});
   } catch (e) {
     console.log("stepSaveSaga ERROR", e);
     if(e.type === "VALIDATION_FAILURE"){

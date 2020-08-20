@@ -11,7 +11,7 @@ export default ({id, root, isDragging, initialAction, handleDeleteClick, handleD
   <div className={styles.wrapper} {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
     <Header text={title} handleDeleteClick={handleDeleteClick} handleDuplicateClick={handleDuplicateClick} color={color} />
     <div className={styles.container}>
-      <Input as="input" defaultValue={initialAction && initialAction.name} formKey={formKey} type="text" required label="Name*" root={root} name="name" />
+      <Input as="input" defaultValue={initialAction && initialAction.name} formKey={formKey} type="text" required label="Default Name*" root={root} name="name" />
       <ParameterFields initialName={/*REMOVE check for null values*/(initialAction && initialAction.parameter_name) ? initialAction.parameter_name : undefined} initialValue={/*REMOVE check for null values*/(initialAction && initialAction.parameter_value_8_pack) ? initialAction.parameter_value_8_pack : undefined} formKey={formKey} root={root} />
       <ModeAndTimeFields defaultTime={(initialAction && initialAction.time) ? initialAction.time : 8} defaultMode={(initialAction && initialAction.mode) ? initialAction.mode : "continuous"} root={root} />
     </div>

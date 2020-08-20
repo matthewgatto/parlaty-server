@@ -6,6 +6,7 @@ import { addToast } from '@actions/toast';
 import { setModal } from '@actions/modal';
 import { getActionForms } from '@selectors/action';
 import { getProcedureById } from '@selectors/procedure';
+import { getDeviceById } from '@selectors/device';
 import { deviceSchema } from '@utils/validation';
 import Schemas from '@utils/models';
 import API from '@utils/API';
@@ -173,16 +174,7 @@ export function* deleteDeviceSaga(action){
     const pathname = yield select(({router}) => router.location.pathname);
     const splitPath = pathname.split('/');
     if(splitPath[1] !== "devices"){
-      const procedure = yield select(getProcedureById(action.payload.procedure_id));
-      const steps = yield select(state => state.steps)
-      const stepsWithDevices = {};
-      for (var i = 0; i < procedure.steps.length; i++) {
-        const step = steps.byId[procedure.steps[i]]
-        if(step.device && step.device.id == action.payload.device_id){
-          stepsWithDevices[procedure.steps[i]] = {...step,device_id: null,device:null}
-        }
-      }
-      payload.steps = stepsWithDevices
+      payload.steps = yield call(setStepsWithDevices, action);
     }
     yield put({type: "DELETE_DEVICE_REQUEST__SUCCESS", payload})
     yield put(setModal());
@@ -190,4 +182,21 @@ export function* deleteDeviceSaga(action){
   } catch (e) {
       console.log("deleteDeviceSaga ERROR", e);
   }
+}
+
+function* setStepsWithDevices(action){
+  const procedure = yield select(getProcedureById(action.payload.procedure_id));
+  const device_id = action.payload.device_id;
+  const steps = yield select(state => state.steps)
+  const stepsWithDevices = {};
+  for (let i = 0; i < procedure.steps.length; i++) {
+    const step = steps.byId[procedure.steps[i]]
+    if(step.device_id){
+      const stepDevice = yield select(getDeviceById(step.device_id));
+      if(stepDevice.parent_id === device_id || step.device_id === device_id){
+        stepsWithDevices[procedure.steps[i]] = {...step,device_id: null,device:null}
+      }
+    }
+  }
+  return stepsWithDevices;
 }

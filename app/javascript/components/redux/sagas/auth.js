@@ -1,7 +1,7 @@
 import {call, put, select} from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import API from '@utils/API';
-import {formSaga, pushAndNotify, goToSuccessPage} from './form';
+import {formSaga, postSaga, pushAndNotify, goToSuccessPage} from './form';
 import Schemas from '@utils/models';
 
 function* handleActionSuccess(response, messages){
@@ -10,7 +10,7 @@ function* handleActionSuccess(response, messages){
 
 function handleInviteConfirmationSuccess(response){
   let messages = {
-    operator: "Your password has been set, you may now login in mobile device",
+    operator: "Your password has been set. You may now login through the Parlaty iOS app.",
     user: "Your password has been set, you may now login."
   }
   return handleActionSuccess(response, messages);
@@ -59,7 +59,8 @@ function handleLoginResponse(auth){
 
 const p = (i,x) => ({[i]:x})
 export function* loginSaga(action){
-  yield call(formSaga, "post", action, handleLoginResponse);
+  action.payload.values.web_request = true;
+  yield call(postSaga, action, handleLoginResponse);
 }
 
 const makePasswordFormSaga = (method, cb) => (function*(action){

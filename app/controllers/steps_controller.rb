@@ -16,7 +16,7 @@ class StepsController < ApplicationController
     @step.has_visual = visuals_params[:visuals].present? && visuals_params[:visuals].count.positive?
     if @step.save
       update_attached_files
-      update_device_actions
+      update_step_device(@step, step_params[:device_id])
       update_procedure_step_orders
       render json: StepSerializer.step_as_json(@step.reload), status: :ok
     else
@@ -29,7 +29,7 @@ class StepsController < ApplicationController
     authorize @step
     if @step.update_attributes(step_params)
       update_attached_files
-      update_device_actions
+      update_step_device(@step, step_params[:device_id])
       render json: StepSerializer.step_as_json(@step.reload), status: :ok
     else
       render json: ApplicationSerializer.error_response(@step.errors.messages)

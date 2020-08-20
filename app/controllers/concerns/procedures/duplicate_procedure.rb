@@ -36,20 +36,25 @@ module Procedures
 			result = {}
 			devices_map = {}
 			result[:devices] = devices.map do |device|
-				new_device = device.dup
-				actions_result = device_actions_dup(device.actions)
-				new_device.actions = actions_result[:actions] if actions_result.present?
-				new_device.actions_order = actions_result.present? ?
-				  device.actions_order.map{ |item| actions_result[:actions_map][item] } : []
-				new_device.save
-				devices_map[device.id] = new_device.id
+				new_device = device_dup(device)
+				devices_map[device.id] = new_device.id if new_device
 				new_device
 			end
 			result[:devices_map] = devices_map
 			result
 		end
 
-		def device_actions_dup(actions)
+		def device_dup(device)
+			new_device = device.dup
+			actions_result = actions_dup(device.actions)
+			new_device.actions = actions_result[:actions] if actions_result.present?
+			new_device.actions_order = actions_result.present? ?
+				  device.actions_order.map{ |item| actions_result[:actions_map][item] } : []
+			new_device.save
+			new_device
+		end
+
+		def actions_dup(actions)
 			return {} if actions.blank?
 
 			result = {}

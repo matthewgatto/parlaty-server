@@ -19,7 +19,7 @@ class DeviceSerializer
     end
 
     def simple_device_as_json(device)
-      device.as_json(include: [:actions])
+      device.as_json(include: [:actions], methods: [:child_ids])
     end
   end
 end

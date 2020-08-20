@@ -6,7 +6,11 @@ import { setModal } from '@actions/modal';
 import styles from './index.module.css';
 
 const DeviceItem = ({deviceId}) => {
-  const {name} = useSelector(getDeviceById(deviceId));
+  const device = useSelector(getDeviceById(deviceId));
+  if(device.parent_id > 0) {
+    return false;
+  }
+  const name = device.name
   const dispatch = useDispatch()
   const handleClick = () => dispatch(setModal("update_device", deviceId))
   return <div onClick={handleClick} className={styles.device}>{name}</div>

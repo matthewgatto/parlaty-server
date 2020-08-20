@@ -61,7 +61,7 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
   const initialValues = useSelector(getProcedureById(id));
   let name = initialValues && initialValues.name;
   const dispatch = useDispatch();
-  const addSteps = () => dispatch(loadStepForms(initialValues.steps_order))
+  const addSteps = () => dispatch(loadStepForms(initialValues.steps_order || []))
   useEffect(() => {
     // if(!initialValues || typeof initialValues.description === 'undefined'){
     dispatch({type: FETCH_PROCEDURE_REQUEST, payload: {url: `/procedures/${id}`, id}})

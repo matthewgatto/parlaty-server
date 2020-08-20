@@ -2,19 +2,22 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import styles from './index.module.css';
 import logo from '@assets/images/logo.png';
+import {useSelector} from "react-redux";
+import {getMessage} from '@selectors/message';
 
 const Layout = ({children, role, logout}) => {
   const isAdmin = role === "ParlatyAdmin" || role === "ClientAdmin";
-  const isSuccessPage = window.location.hash === "#/success"
+  const message = useSelector(getMessage);
+  const isMessage = message.message;
   return(
     <>
       <div className={styles.header}>
-        { isSuccessPage ?
+        { isMessage ?
           <img className={styles.logo} src={logo} /> :
           <Link to="/"><img className={styles.logo} src={logo} /></Link>
         }
         <div className={styles.links}>
-          {!isSuccessPage && <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>}
+          {!isMessage && <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>}
           {isAdmin && <NavLink className={styles.link} activeClassName={styles.active} to="/users">Users</NavLink>}
           <NavLink className={styles.link} activeClassName={styles.active} to="/support">Support</NavLink>
           {role && <Link to="/" onClick={logout} className={styles.link}>Logout</Link>}

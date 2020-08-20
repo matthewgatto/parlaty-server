@@ -12,6 +12,9 @@ import styles from './index.module.css';
 const ProcedureDevice = ({id, setSelection, selection}) => {
   const device = useSelector(getDeviceById(id));
   const handleClick = () => setSelection(device);
+  if(device.parent_id > 0) {
+    return false;
+  }
   return <div className={selection === device ? `${styles.deviceItem} ${styles.selected}` : styles.deviceItem} onClick={handleClick}>{device.name}</div>
 }
 
