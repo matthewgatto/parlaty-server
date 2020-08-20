@@ -11,7 +11,12 @@ export default ({formKey, defaultValues, idx, ...props}) => {
   useEffect(() => {
     if(defaultValues === filesList) dispatch(updateFileList(idx, defaultValues));
   }, [defaultValues, idx, filesList, updateFileList]);
-  const deleteElem = (params) => setFilesList(prev =>  prev.filter((file, i) => i !== params.index)),
+  const deleteElem = (params) => setFilesList(prev => {
+        const newArr = prev.filter((file, i) => i !== params.index);
+        dispatch(updateFileList(idx, newArr));
+        return newArr;
+      }
+    ),
     handleClick = () => {inputRef.current.click()},
     handleChange = (el) => {
       const files = [...el.currentTarget.files];

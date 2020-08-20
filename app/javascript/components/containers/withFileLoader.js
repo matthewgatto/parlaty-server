@@ -16,7 +16,7 @@ export default ({isArrParams, file, setFile, ...props}) => {
     else dispatch(changeActiveFile({src: src, ...isArrParams, type: type[2]}));
   }, [src, dispatch]);
   const setImageSrc = useCallback(async () => {
-    debugger;
+    // debugger;
     setSrc(props.src instanceof File ? await readFile(props.src) : props.src)
   }, [props.src, setSrc]);
   useEffect(() => {

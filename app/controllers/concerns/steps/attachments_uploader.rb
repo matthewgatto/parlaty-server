@@ -18,6 +18,7 @@ module Steps
       (new_visuals_params - string_visuals_params).each do |visual_params|
         @step.visuals.attach(visual_params)
       end
+      @step.has_visual = @step.visuals.attached?
       @step.save
     end
 
