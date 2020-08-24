@@ -22,6 +22,8 @@ class DevicePolicy < ApplicationPolicy
   end
 
   def actions_permitted_attributes
-    [:id, :name, :parameter_name, :parameter_value_8_pack, :time, :mode]
+    [:id, :name, :parameter_name, :parameter_value_8_pack, :time, :mode,
+      visuals: []
+    ]
   end
 end

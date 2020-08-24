@@ -1,6 +1,7 @@
 class DevicesController < ApplicationController
   before_action :require_login
   include Devices::DeviceActions
+  include Attachments::Uploader
 
   # GET /devices
   def index

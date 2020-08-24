@@ -98,13 +98,22 @@ export const addIds = (state, entityMap) => state ? (
 ) : (
   Object.keys(entityMap)
 );
-export const makeAction = (values, root) => ({
-  name: values[`${root}name`],
-  parameter_name: values[`${root}parameter_name`],
-  parameter_value_8_pack: values[`${root}parameter_value_8_pack`],
-  time: values[`${root}time`],
-  mode: values[`${root}mode`],
-});
+export const makeAction = (values, root) => {
+  const visuals = [],
+    action = {
+      name: values[`${root}name`],
+      parameter_name: values[`${root}parameter_name`],
+      parameter_value_8_pack: values[`${root}parameter_value_8_pack`],
+      time: values[`${root}time`],
+      mode: values[`${root}mode`],
+    };
+  let key = 0;
+  while(typeof values[`${root}media[${key}]`] !== "undefined") {
+    visuals.push(values[`${root}media[${key}]`]); key++
+  }
+  if(visuals) action.visuals = visuals;
+  return action;
+};
 
 export const getNewStepValues = (values,root) => {
   const title = values[`${root}title`],

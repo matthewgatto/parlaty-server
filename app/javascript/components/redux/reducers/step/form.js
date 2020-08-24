@@ -20,7 +20,7 @@ export default (state = [], {type, payload}) => {
       return [];
     case types.LOAD_STEP_FORMS:
       return payload;
-    case types.UPDATE_FILE_LIST:{
+    case types.UPDATE_STEP_FILE_LIST:{
       state.splice(payload.idx,1, {...state[payload.idx], localFileList: payload.fileList});
       return state;
     }

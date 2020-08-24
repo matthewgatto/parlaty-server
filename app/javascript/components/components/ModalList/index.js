@@ -4,6 +4,7 @@ import { FileInput } from '@components/Inputs';
 import { readFile, typeFile } from '@utils';
 import styles from "./index.module.css";
 import { getStepFileList } from '@selectors/step';
+import { getActionFileList } from '@selectors/action';
 import {useDispatch, useSelector} from "react-redux";
 import FileLoader from '@containers/withFileLoader';
 
@@ -33,8 +34,8 @@ import FileLoader from '@containers/withFileLoader';
 
 
 export default ({params}) => {
-  const {index: activeIndex, idx} = params;
-  const files = useSelector(getStepFileList(idx));
+  const {index: activeIndex, idx, item} = params;
+  const files = useSelector(item === 'step' ? getStepFileList(idx) : item === 'action' ? getActionFileList(idx): null);
   return(
     <div className={styles.panel}>
       {files && [...files].map((file, i) => (

@@ -9,4 +9,3 @@ export const deleteStep = (id, idx, procedure_id) => ({type: types.DELETE_STEP_R
 
 export const openStepForm = (idx, formValues = {}) => ({type: types.OPEN_STEP_FORM, payload: {idx,formValues}});
 export const closeStepForm = (idx) => ({type: types.CLOSE_STEP_FORM, payload: idx});
-export const updateFileList = (idx, fileList = {}) => ({type: types.UPDATE_FILE_LIST, payload: {idx, fileList}});

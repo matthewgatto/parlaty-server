@@ -12,7 +12,11 @@ export default (state = [], {type, payload}) => {
     case types.CLEAR_ACTION_FORMS:
       return [];
     case types.LOAD_ACTION_FORMS:
-      return payload
+      return payload;
+    case types.UPDATE_ACTION_FILE_LIST:{
+      state.splice(payload.idx,1, {...state[payload.idx], localFileList: payload.fileList});
+      return state;
+    }
     default:
       return state
   }

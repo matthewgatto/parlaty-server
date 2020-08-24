@@ -4,7 +4,7 @@ import styles from './index.module.css';
 import { FileInput, Radio  } from "@components/Inputs";
 import { typeFile } from '@utils';
 
-export default ({label, name, onClick, onChange, inputRef, values, deleteElem, formKey, root, radio, idx }) => (
+export default ({label, name, onClick, onChange, inputRef, values, deleteElem, formKey, root, radio, idx, item }) => (
   <>
     <label className={`${styles.label} align_center`}>{label}</label>
     <div className={styles.fileInputContainer}>
@@ -21,7 +21,7 @@ export default ({label, name, onClick, onChange, inputRef, values, deleteElem, f
         const type = typeFile(file), radioParams = radio.params.filter(obj=> obj.type === type[1])[0];
         return (
           <div key={file.id || file.lastModified +  Math.random(10000)} className={styles.fileList}>
-            <FileInput file={file} isArrParams={{index: i, idx}} name={name+'['+i+']'} label="" formKey={formKey} index={i} defaultValue={file.visual || file} root={root} customClick={deleteElem} />
+            <FileInput file={file} isArrParams={{index: i, idx, item}} name={name+'['+i+']'} label="" formKey={formKey} index={i} defaultValue={file.visual || file} root={root} customClick={deleteElem} />
             {radio.isShown && radioParams && <Radio withoutChecked={true} name={`${root}${radio.actionRoot}`} withoutCheck={radio.withoutCheck} root={root} index={i} actionRoot={radio.actionRoot} defaultValue={radio.defaultValue || -1} label={radioParams.label || ''} labelClass={styles.radio}/>}
           </div>
         )

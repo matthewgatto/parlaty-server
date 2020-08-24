@@ -37,7 +37,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
         <LimitedTextArea as="textarea" defaultValue={initialValues.location || ''} label="Instruction" name="location" rows="6" root={root} formKey={formKey} limit={300}/>
         <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultValue={initialValues.device} />
         <div>
-          <ArrFileInput name="media" label="Media*" formKey={formKey} idx={idx} defaultValues={initialValues.visuals || undefined} root={root}
+          <ArrFileInput name="media" label="Media*" formKey={formKey} idx={idx} defaultValues={initialValues.visuals || undefined} root={root} item={'step'}
             radio={{isShown: true, params: [{type: 'image', label: 'Display image for step in app'},{type: 'video', label: 'Display video for step in app'}], actionRoot: 'defaultMedia', defaultValue: initialValues.defaultMedia, withoutCheck: true}}
           />
         </div>

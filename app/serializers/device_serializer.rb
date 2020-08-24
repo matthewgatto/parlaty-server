@@ -19,7 +19,11 @@ class DeviceSerializer
     end
 
     def simple_device_as_json(device)
-      device.as_json(include: [:actions], methods: [:child_ids])
+      device.as_json(methods: [:child_ids]).merge!(
+        actions: device.actions.map{ |action|
+          action.as_json.merge!(visuals: AttachmentSerializer.files_as_json(action))
+        }
+      )
     end
   end
 end

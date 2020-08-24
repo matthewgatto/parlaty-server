@@ -1,112 +1,18 @@
 import { call, put, select, fork, take } from 'redux-saga/effects';
-import { eventChannel, END } from 'redux-saga'
 import { normalize } from 'normalizr';
-import { reorderStep, closeStepForm } from '@actions/step';
 import {getProcedureById} from '@selectors/procedure';
 import {getStepFormData} from '@selectors/step';
 import {getDeviceById} from '@selectors/device';
-import { setModal } from '@actions/modal';
-import { setProgress } from '@reducers/progress';
 import * as utils from '@utils';
 import { stepSchema } from '@utils/validation';
 import Schemas from '@utils/models';
 import API from '@utils/API';
+import {makeObjRequest} from '@utils/uploader';
 import {STEP_SAVE_REQUEST__SUCCESS} from '@types/step';
-
-export const cleanStepParams = ({id,visuals,has_visual,...step}) => {
-  let has_video = false, has_file = false;
-  if(visuals){
-    let media = [];
-    visuals.forEach(file=> {
-      const hasImageFile = file.type && ~file.type.indexOf('image');
-      const hasVideoFile = file.type && ~file.type.indexOf('video');
-      const hasURLMedia = file && typeof file === 'string';
-      if(hasURLMedia) step.has_visual = true;
-      step.visuals = [];
-      if(file){
-        if(hasImageFile){
-          has_file = true;
-        } else if(hasVideoFile){
-          has_video = true;
-          has_file = true;
-        }
-        media.push(file);
-      }
-    });
-    step.visuals = media;
-  } else {
-    step.has_visual = false;
-  }
-  if(!step.safety){
-    step.safety = false
-  }
-  if(!step.spoken){
-    step.spoken = false
-  }
-  return {step,has_video,has_file};
-};
-
-function createUploader(step, url, method) {
-
-  let emit;
-  const chan = eventChannel(emitter => {
-    emit = emitter;
-    return () => {};
-  });
-
-  const uploadPromise = () => API[`multi${method}file`](url, {step}, (event) => {
-    if (event.loaded.total === 1) {
-      emit(END);
-    }
-    emit(event);
-  });
-
-  return [ uploadPromise, chan ];
-}
-
-function* watchOnProgress(chan) {
-  var isUploading = true;
-  while (isUploading) {
-    const data = yield take(chan);
-    const percent = parseInt( Math.round( ( data.loaded / data.total ) * 100 ));
-    yield put(setProgress(percent));
-    if(percent === 100){
-      isUploading = false
-    }
-  }
-}
-
-function* uploadSource(step, url, method) {
-  const [ uploadPromise, chan ] = createUploader(step, url, method);
-  yield fork(watchOnProgress, chan);
-  return yield call(uploadPromise);
-}
-const delay = (ms) => new Promise(res => setTimeout(res, ms));
-
-function* makeStepRequest(uncleanStepValues, url, method){
-  try {
-    const {step,has_video,has_file} = cleanStepParams(uncleanStepValues);
-    if(has_video){
-      yield put(setModal("video_progress"));
-      try {
-        return yield call(uploadSource, step, url, method)
-      } catch (e) {
-        throw e
-      } finally {
-        yield delay(200);
-        yield put(setModal())
-      }
-    } else {
-      return yield call(API[has_file ? `multi${method}` : method], url, {step});
-    }
-  } catch (e) {
-    throw e
-  }
-}
 
 function* createStepSaga({procedure, step, initialValues}){
   try {
-    const response = yield call(makeStepRequest, {...step, procedure_id: procedure.id }, "/steps", "post");
+    const response = yield call(makeObjRequest, {...step, procedure_id: procedure.id }, "/steps", "post", "step");
     return {...normalize({...procedure,steps: procedure.steps ? [...procedure.steps, response] : [response]}, Schemas.procedure).entities,id: response.id}
   } catch (e) {
     throw e
@@ -116,7 +22,7 @@ function* createStepSaga({procedure, step, initialValues}){
 function* updateStepSaga({procedure, step, idx, initialValues}){
   try {
     step.id = procedure.steps[idx];
-    const response = yield call(makeStepRequest, step, `/steps/${step.id}`, "put");
+    const response = yield call(makeObjRequest, step, `/steps/${step.id}`, "put", "step");
     return {...normalize(response, Schemas.step).entities, id: response.id}
   } catch (e) {
     throw e

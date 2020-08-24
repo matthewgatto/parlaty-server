@@ -22,6 +22,6 @@ export default ({idx, id, formId, isOpen, formKey, provided, color}) => {
     dispatch(removeActionForm(idx))
   }
   return (
-    <Form formKey={formKey} root={root} id={id} initialAction={initialValues} title={`Action ${idx+1}`} color={color} handleDeleteClick={handleDeleteClick} handleDuplicateClick={handleDuplicateClick} provided={provided} />
+    <Form formKey={formKey} root={root} id={id} idx={idx} initialAction={initialValues} title={`Action ${idx+1}`} color={color} handleDeleteClick={handleDeleteClick} handleDuplicateClick={handleDuplicateClick} provided={provided} />
   )
 }

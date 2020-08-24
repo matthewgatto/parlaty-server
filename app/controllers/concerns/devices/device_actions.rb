@@ -61,6 +61,7 @@ module Devices
       new_action.device = device
       new_action.save
       new_action.update_attributes(item.except(:id))
+      update_attached_files(action, item)
       new_action.id
     end
 
@@ -68,12 +69,14 @@ module Devices
       action = Action.new(item)
       action.device = device
       action.save
+      update_attached_files(action, item)
       action.id
     end
 
     def update_action(item)
       action = Action.find(item[:id])
       action.update_attributes(item)
+      update_attached_files(action, item)
       action.id
     end
 
