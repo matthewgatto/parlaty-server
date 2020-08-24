@@ -102,11 +102,7 @@ export function* createProcedureDeviceSaga({type, payload:{values,id,formKey}}){
       device.actions = actionIds.map(action => utils.makeAction(values, `actions[${action.formId}].`))
     }
     yield call(validateDevice, device)
-    const response = yield call(
-      API.post,
-      "/devices",
-      {device}
-    );
+    const response = yield call(makeObjRequest, {device}, "/devices", "post", "device");
     const procedure = yield select(getProcedureById(values.procedure_id));
     const newState = yield call(normalize,{...procedure, devices: procedure.devices ? [...procedure.devices, response] : [response]}, Schemas.procedure)
     yield put({type: `${type}__SUCCESS`, payload: newState.entities})

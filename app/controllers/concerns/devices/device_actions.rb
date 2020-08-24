@@ -60,13 +60,13 @@ module Devices
       new_action = action.dup
       new_action.device = device
       new_action.save
-      new_action.update_attributes(item.except(:id))
-      update_attached_files(action, item)
+      new_action.update_attributes(item.except(:id, :visuals))
+      update_attached_files(new_action, item)
       new_action.id
     end
 
     def create_action(item, device)
-      action = Action.new(item)
+      action = Action.new(item.except(:visuals))
       action.device = device
       action.save
       update_attached_files(action, item)
@@ -75,7 +75,7 @@ module Devices
 
     def update_action(item)
       action = Action.find(item[:id])
-      action.update_attributes(item)
+      action.update_attributes(item.except(:visuals))
       update_attached_files(action, item)
       action.id
     end
