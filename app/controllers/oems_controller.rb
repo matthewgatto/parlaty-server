@@ -34,7 +34,7 @@ class OemsController < ApplicationController
   # DELETE /oems/:id
   def destroy
     authorize @oem
-    if @oem.present? && delete_oem(@oem)
+    if @oem.present? && @oem.destroy
       render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
     else
       head :bad_request

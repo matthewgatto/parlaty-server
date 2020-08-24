@@ -38,7 +38,7 @@ class OemBusinessesController < ApplicationController
 		@oem_business = OemBusiness.find(params[:id])
 		(head :bad_request and return) if @oem_business.blank?
 		authorize @oem_business
-		if delete_oem_business(@oem_business)
+		if @oem_business.destroy
 			render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
 		else
 			head :bad_request
