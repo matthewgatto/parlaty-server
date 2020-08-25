@@ -88,9 +88,8 @@ export default ({ initialValues, formKey, root, procedure_id, idx, ...props}) =>
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
-          variant="scrollable"
-          scrollButtons="auto"
-          aria-label="scrollable auto tabs example"
+          aria-label="auto tabs example"
+          centered
         >
           <CustTab label="Loop" {...tabProps(0)} />
           <CustTab label="Device" {...tabProps(1)} />
