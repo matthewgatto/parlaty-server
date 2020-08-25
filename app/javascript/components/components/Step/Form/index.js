@@ -2,14 +2,14 @@ import React from 'react';
 import { useFormContext } from "react-hook-form";
 import AnimateHeight from 'react-animate-height';
 import StepHeader from '@containers/StepHeader';
-import DeviceSelect from '@containers/DeviceSelect';
 import FormError from '@containers/FormError';
 import SpokenBox from '@components/Inputs/SpokenBox';
 import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
-import { Input, CheckBox, Select, ModeRadio, ArrFileInput, LimitedTextArea } from '@components/Inputs';
+import { Input, CheckBox, Select, ModeRadio, LimitedTextArea } from '@components/Inputs';
 import styles from './index.module.css';
 
+import Tabs from '@components/Step/Tabs';
 
 const TIME_OPTIONS = [{value: 0, label: "0 seconds"}, {value: 1, label: "1 second"}, {value: 2, label: "2 seconds"}, {value: 3, label: "3 seconds"}, {value: 4, label: "4 seconds"}, {value: 5, label: "5 seconds"}, {value: 6, label: "6 seconds"}, {value: 7, label: "7 seconds"}, {value: 8, label: "8 seconds"}]
 
@@ -33,14 +33,8 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
           <CheckBox formKey={formKey} label="Option to Skip" root={root} name="safety" defaultValue={initialValues.safety || false} />
         </div>
         <TimeSelect formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
-        <Input as="input" defaultValue={initialValues.loop_value || 1} formKey={formKey} type="text" label="Number of Loops" root={root} name="loop_value" />
         <LimitedTextArea as="textarea" defaultValue={initialValues.location || ''} label="Instruction" name="location" rows="6" root={root} formKey={formKey} limit={300}/>
-        <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultValue={initialValues.device} />
-        <div>
-          <ArrFileInput name="media" label="Media*" formKey={formKey} idx={idx} defaultValues={initialValues.visuals || undefined} root={root} objName={'step'}
-            radio={{isShown: true, params: [{type: 'image', label: 'Display in app'},{type: 'video', label: 'Display in app'}], actionRoot: 'defaultMedia', defaultValue: initialValues.defaultMedia, withoutChecked: true}}
-          />
-        </div>
+        <Tabs initialValues={initialValues} formKey={formKey} root={root} procedure_id={procedure_id} idx={idx} />
         <div className={styles.error}>
           <FormError formKey={formKey} large />
         </div>
