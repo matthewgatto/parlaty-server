@@ -45,6 +45,9 @@
   position: relative;
   border-radius: 0.2em;
   background: white;
-  display: inline-block;
   border: 1px solid #0000001a;
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }

@@ -2,9 +2,9 @@
   height: 1em;
   font-size: 1.1em;
   line-height: 1em;
-  margin: 0.4em;
   font-weight: 600;
   color: #7b7979;
+  margin: 1px 0.4em 0.4em;
 }
 
 .container > *:nth-child(2) {

@@ -57,6 +57,7 @@
   flex-direction: row-reverse;
   min-width: 122px;
   margin-top: 5px;
+  justify-content: center;
 }
 
 .fileList {

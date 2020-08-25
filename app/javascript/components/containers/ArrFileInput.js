@@ -9,11 +9,11 @@ export default ({formKey, defaultValues, idx, ...props}) => {
   const dispatch = useDispatch();
   const [filesList, setFilesList] = useState(defaultValues || []);
   useEffect(() => {
-    if(defaultValues === filesList) dispatch(updateFileList(idx, props.item, defaultValues));
+    if(defaultValues === filesList) dispatch(updateFileList(idx, props.objName, defaultValues));
   }, [defaultValues, idx, filesList, updateFileList]);
   const deleteElem = (params) => setFilesList(prev => {
         const newArr = prev.filter((file, i) => i !== params.index);
-        dispatch(updateFileList(idx, props.item, newArr));
+        dispatch(updateFileList(idx, props.objName, newArr));
         return newArr;
       }
     ),
@@ -21,7 +21,7 @@ export default ({formKey, defaultValues, idx, ...props}) => {
     handleChange = (el) => {
       const files = [...el.currentTarget.files];
       setFilesList((prevState=[]) => [...prevState, ...files]);
-      dispatch(updateFileList(idx, props.item, [...filesList, ...files]));
+      dispatch(updateFileList(idx, props.objName, [...filesList, ...files]));
       el.currentTarget.value = null;
     };
   return <ArrFileInput onClick={handleClick} deleteElem={deleteElem} onChange={handleChange} idx={idx} values={filesList} {...props} inputRef={inputRef} />

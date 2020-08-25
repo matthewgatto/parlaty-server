@@ -34,12 +34,10 @@ const actionParams = ({device, ...obj}) => {
     device.actions.forEach(action => {
       if(action.visuals){
         action.visuals.forEach(file=> {
-          const hasImageFile = file.type && ~file.type.indexOf('image');
           const hasVideoFile = file.type && ~file.type.indexOf('video');
           if(file){
             has_file = true;
-            if(hasImageFile){
-            } else if(hasVideoFile){
+              if(hasVideoFile){
               has_video = true;
             }
           }
@@ -47,7 +45,7 @@ const actionParams = ({device, ...obj}) => {
       }
     });
   }
-  obj = device
+  obj = device;
   return {obj, has_video, has_file};
 };
 
@@ -58,11 +56,12 @@ export const stepParams = ({id,visuals,has_visual,...obj}) => {
     visuals.forEach(file=> {
       const hasImageFile = file.type && ~file.type.indexOf('image');
       const hasVideoFile = file.type && ~file.type.indexOf('video');
+      const hasDocFile = file.type && (~file.type.indexOf('application') || ~file.type.indexOf('text'));
       const hasURLMedia = file && typeof file === 'string';
       if(hasURLMedia) obj.has_visual = true;
       obj.visuals = [];
       if(file){
-        if(hasImageFile){
+        if(hasImageFile || hasDocFile){
           has_file = true;
         } else if(hasVideoFile){
           has_video = true;
