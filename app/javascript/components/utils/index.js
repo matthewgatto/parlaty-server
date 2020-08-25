@@ -3,6 +3,17 @@ import ImageFileDisplay from '@components/ImageFileDisplay';
 import VideoFileDisplay from '@components/VideoFileDisplay';
 import DocFileDisplay from '@components/DocFileDisplay';
 
+
+export function updateProceduresCountInOem(action, oem, count){
+  if(!oem || !count) return {};
+  let result = {oems: {}};
+  if(action === "delete"){
+    oem.procedures_count = oem.procedures_count - count;
+  }
+  result.oems[oem.id] = oem;
+  return result;
+}
+
 export function immutableMove(arr, from, to) {
   return arr.reduce((prev, current, idx, self) => {
     if (from === to) {

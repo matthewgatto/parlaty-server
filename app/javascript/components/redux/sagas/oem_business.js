@@ -9,7 +9,7 @@ import {getOemById} from '@selectors/oem';
 import {getOemBusinessById} from '@selectors/oem_business';
 import Schemas from '@utils/models';
 import API from '@utils/API';
-
+  import {updateProceduresCountInOem} from '@utils';
 
 const normalizeOemBusiness = (response,{payload:{id}}) => normalize({oem_business_id: id, ...response}, Schemas.oem_business).entities
 function* normalizeOem(response,action){
@@ -42,7 +42,9 @@ export function* deleteOemBusinessSaga(action){
     const splitUrl = url.split("/");
     const oem_business = yield select(getOemBusinessById(action.payload));
     yield call(API.delete, `/oem_businesses/${action.payload}`);
-    yield put({type: `${action.type}__SUCCESS`, payload: {oem_business_id: action.payload, oem_id: oem_business.oem_id}})
+    const oem = yield select(getOemById(oem_business.oem_id));
+    const normalizedResponse = {oem_business_id: action.payload, oem_id: oem_business.oem_id, ...updateProceduresCountInOem("delete", oem, oem_business.procedures.length)};
+    yield put({type: `${action.type}__SUCCESS`, payload: normalizedResponse})
     yield put(push(splitUrl.slice(0,-2).join('/')))
     yield put(addToast("success", "Site was successfully deleted."))
   } catch (e) {

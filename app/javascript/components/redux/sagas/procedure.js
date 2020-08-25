@@ -10,6 +10,7 @@ import {getOemById} from '@selectors/oem';
 import {getProcedureById} from '@selectors/procedure';
 import {getUserRole} from '@selectors/auth';
 import Schemas from '@utils/models';
+import {updateProceduresCountInOem} from '@utils';
 import API from '@utils/API';
 import {DELETE_PROCEDURE_REQUEST__SUCCESS, CREATE_PROCEDURE_REQUEST} from '@types/procedure'
 
@@ -110,7 +111,7 @@ export function* deleteProcedureSaga(action){
     const oem_business = yield select(getOemBusinessById(procedure.oem_businesses[0]));
     const oem = yield select(getOemById(oem_business.oem_id));
 
-    const normalizedResponse = {procedure_id: action.payload, oem_businesses: procedure.oem_businesses, ...updateProceduresCountInOem("delete", oem)};
+    const normalizedResponse = {procedure_id: action.payload, oem_businesses: procedure.oem_businesses, ...updateProceduresCountInOem("delete", oem, 1)};
     yield put({type: DELETE_PROCEDURE_REQUEST__SUCCESS, payload: normalizedResponse})
     yield call(handleProcedureRequestSuccess,{values:{procedure}}, "Procedure was successfully deleted.")
   } catch (e) {
@@ -185,16 +186,6 @@ export function* updateOemBusinessesSaga(action){
     console.log("error", e);
   }
 
-}
-
-function updateProceduresCountInOem(action, oem){
-  if(!oem) return {};
-  let result = {oems: {}};
-  if(action === "delete"){
-    oem.procedures_count = oem.procedures_count - 1;
-  }
-  result.oems[oem.id] = oem;
-  return result;
 }
 
 function procedureParams(action, type){

@@ -22,7 +22,7 @@ const allOems = (state = null, {type, payload}) => {
 const oemsById = (state = {}, {type,payload}) => {
   switch (type) {
     case oemBusinessTypes.DELETE_OEM_BUSINESS_REQUEST__SUCCESS:
-      if(state[payload.oem_id]){
+      if(state[payload.oem_id] && state[payload.oem_id].oem_businesses){
         return {
           ...state,
           [payload.oem_id]: {
