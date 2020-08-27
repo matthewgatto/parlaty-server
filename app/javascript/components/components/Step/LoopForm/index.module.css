@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.container > * {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin-bottom: 0.4em;
+}
+
+.checkbox{
+  display: flex;
+  align-items: center;
+}
+.input{
+  max-width: 5rem;
+}
+
+.disabled {
+  background-color: #ddd !important;
+}

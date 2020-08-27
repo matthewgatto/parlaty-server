@@ -128,13 +128,19 @@ export const makeAction = (values, root) => {
 
 export const getNewStepValues = (values,root) => {
   const title = values[`${root}title`],
+        steps_in_loop = values[`${root}steps_in_loop`],
+        enabled_loop = values[`${root}enabled_loop`],
         loop_value = values[`${root}loop_value`],
         mode = values[`${root}mode`],
         time = values[`${root}time`],
         location = values[`${root}location`],
         step = {};
   if(title) step.title = title;
-  if(loop_value) step.loop_value = loop_value
+  step.enabled_loop = enabled_loop;
+  if(enabled_loop){
+    step.steps_in_loop = steps_in_loop;
+    step.loop_value = loop_value;
+  }
   if(mode) {
     step.mode = mode;
     if(mode === "continuous" || mode === "manual"){

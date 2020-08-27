@@ -13,7 +13,7 @@ export default ({formKey,...props}) => {
         root = `steps[${props.formId}].`,
         stepFormKey = `step,${props.formId}`,
         initialValues = stepMeta.storeValues || stepMeta.formValues || {}/*stepMeta.isDuplicate ? stepMeta.formValues : (stepMeta.storeValues || {})*/
-  var title;
+  let title;
   if(stepMeta.isDuplicate && (!stepMeta.formValues || !stepMeta.formValues.title)){
     title = "New Step"
   } else if(stepMeta.storeValues && stepMeta.storeValues.title){
@@ -21,6 +21,9 @@ export default ({formKey,...props}) => {
   } else {
     title = `Step ${props.idx+1}: ${getValues()[`${root}title`]}`
   }
+  let looped_by = stepMeta.storeValues && stepMeta.storeValues.looped_by || -1;
+  console.log(looped_by);
+  if(looped_by > -1) title += ` (looped by Step ${looped_by})`
   const handleCloseForm = () => {
     if(!stepMeta.isDuplicate){
       dispatch(closeStepForm(props.idx))

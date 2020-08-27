@@ -7,8 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
-import { Input, ArrFileInput} from '@components/Inputs';
+import {ArrFileInput} from '@components/Inputs';
 import DeviceSelect from '@containers/DeviceSelect';
+import LoopForm from '@components/Step/LoopForm';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -65,6 +66,9 @@ const CustTab = withStyles({
   selected: {
     color: '#67318d',
   },
+  disabled: {
+    backgroundColor: '#ddd',
+  },
 })(Tab);
 function tabProps(index) {
   return {
@@ -79,7 +83,8 @@ export default ({ initialValues, formKey, root, procedure_id, idx, ...props}) =>
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const looped = initialValues.looped_by;
+  const disabledTab = looped !== -1 && looped !== idx+1;
   return (
     <div>
       <AppBar position="static" color="default" className={classes.header}>
@@ -91,16 +96,16 @@ export default ({ initialValues, formKey, root, procedure_id, idx, ...props}) =>
           aria-label="auto tabs example"
           centered
         >
-          <CustTab label="Loop" {...tabProps(0)} />
-          <CustTab label="Device" {...tabProps(1)} />
+          <CustTab label="Device" {...tabProps(0)} />
+          <CustTab label="Loop" disabled={disabledTab} {...tabProps(1)} />
           <CustTab label="Media" {...tabProps(2)} />
         </CustTabs>
       </AppBar>
-      <TabPanel  value={value} index={0}>
-        <Input as="input" defaultValue={initialValues.loop_value || 1} formKey={formKey} type="text" label="Number of Loops" root={root} name="loop_value" />
+      <TabPanel value={value} index={0}>
+        <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultValue={initialValues.device} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <DeviceSelect procedure_id={procedure_id} label="Device" root={root} name="device_id" defaultValue={initialValues.device} />
+        <LoopForm formKey={formKey} defaultValue={initialValues} root={root}/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         <div>

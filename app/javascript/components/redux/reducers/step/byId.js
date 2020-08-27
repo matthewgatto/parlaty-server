@@ -13,6 +13,7 @@ export default (state = {}, {type,payload}) => {
   switch (type) {
     case UPDATE_DEVICE_REQUEST__SUCCESS:
     case types.STEP_SAVE_REQUEST__SUCCESS:
+    case types.UPDATE_LOOPED_STEPS:
     case FETCH_PROCEDURE_REQUEST__SUCCESS:
     case DELETE_DEVICE_REQUEST__SUCCESS:
       if(payload.steps){

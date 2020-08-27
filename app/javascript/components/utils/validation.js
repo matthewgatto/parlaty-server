@@ -47,7 +47,16 @@ export const oemSchema = object().shape({
 
 export const stepSchema = object().shape({
   title: string().required('This field is required'),
-  loop_value: string().matches(/(^[0-9]+$|^$)/, 'Must be a positive number')
+  loop_value: string().when('enabled_loop',{
+    is: enabled_loop => !enabled_loop,
+    then: string().matches(/(^[0-9]+$|^$)/, 'Must be a positive number'),
+    otherwise: string()
+  }),
+  steps_in_loop: string().when('enabled_loop',{
+    is: enabled_loop => !enabled_loop,
+    then: string().matches(/(^[0-9]+$|^$)/, 'Must be a positive number'),
+    otherwise: string()
+  }),
 })
 
 export const procedureSchema = object().shape({

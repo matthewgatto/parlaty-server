@@ -13,6 +13,7 @@ import Schemas from '@utils/models';
 import {updateProceduresCountInOem} from '@utils';
 import API from '@utils/API';
 import {DELETE_PROCEDURE_REQUEST__SUCCESS, CREATE_PROCEDURE_REQUEST} from '@types/procedure'
+import {updateStepsByLoop} from "./step";
 
 const normalizeOem = ({oem}) => normalize(oem, Schemas.oem).entities;
 
@@ -102,6 +103,8 @@ const normalizeFullProcedure = ({procedure_id, steps, ...procedure}) => normaliz
 
 export function* fetchProcedureSaga(action){
   yield call(getSaga, action, normalizeFullProcedure);
+  const procedure = yield select(getProcedureById(action.payload.id));
+  if(procedure) yield call(updateStepsByLoop, procedure);
 }
 
 export function* deleteProcedureSaga(action){

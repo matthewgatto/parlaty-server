@@ -21,6 +21,8 @@ class StepPolicy < ApplicationPolicy
        note
        safety
        procedure_id
+       enabled_loop
+       steps_in_loop
        loop_value
        mode
        time
