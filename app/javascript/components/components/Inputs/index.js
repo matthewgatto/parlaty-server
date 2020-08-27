@@ -35,7 +35,7 @@ export const ModeRadio = ({root,...props}) => {
     if(e.target.value === "continuous" || e.target.value === "manual"){
       setValue(`${root}time`,0)
     } else if(e.target.value === "timed"){
-      setValue(`${root}time`,8)
+      setValue(`${root}time`,2)
     }
     return e.target.value
   },[root,setValue]);

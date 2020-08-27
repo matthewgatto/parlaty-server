@@ -41,7 +41,7 @@ class StepsController < ApplicationController
     authorize @step
     @procedure = Procedure.find(@step.procedure_id)
     if @step.delete
-      @procedure.steps_order.delete(params[:id])
+      @procedure.steps_order.delete(params[:id].to_i)
       @procedure.save
       render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
     else
