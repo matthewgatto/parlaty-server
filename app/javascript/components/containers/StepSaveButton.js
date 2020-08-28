@@ -1,14 +1,14 @@
 import React from 'react';
-import { useFormContext } from "react-hook-form";
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import StepSaveButton from '@components/Step/SaveButton';
 import {STEP_SAVE_REQUEST} from '@types/step';
 import {isFormProcessing} from '@selectors/form';
+import { getStepValues } from '@selectors/step'
 
 export default ({root, formKey, procedure_id, id, idx}) => {
-  const { getValues } = useFormContext()
-  const isProcessing = useSelector(isFormProcessing(formKey))
   const dispatch = useDispatch();
-  const handleSubmit = () => dispatch({type: STEP_SAVE_REQUEST, payload: {formKey, procedure_id, id, idx, root, values: getValues()}})
+  const isProcessing = useSelector(isFormProcessing(formKey));
+  const values = useSelector(getStepValues(idx));
+  const handleSubmit = () => dispatch({type: STEP_SAVE_REQUEST, payload: {formKey, procedure_id, id, idx, values: values}});
   return <StepSaveButton isProcessing={isProcessing} onClick={handleSubmit} />
 }

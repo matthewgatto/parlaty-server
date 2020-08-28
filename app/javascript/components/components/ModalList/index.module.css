@@ -10,6 +10,7 @@
     overflow-y: auto;
     margin-right: -35px;
     margin-left: auto;
+    user-select: none;
 }
 .hide {
     display: none;

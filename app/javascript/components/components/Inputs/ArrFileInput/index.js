@@ -2,7 +2,7 @@ import React from 'react';
 import Upload from '@components/SVG/Upload';
 import styles from './index.module.css';
 import { FileInput, Radio  } from "@components/Inputs";
-import { typeFile } from '@utils';
+import { typeFile, makeName } from '@utils';
 
 export default ({label, name, onClick, onChange, inputRef, values, deleteElem, formKey, root, radio, idx, objName }) => (
   <>
@@ -22,7 +22,7 @@ export default ({label, name, onClick, onChange, inputRef, values, deleteElem, f
         return (
           <div key={file.id || file.lastModified +  Math.random(10000)} className={styles.fileList}>
             <FileInput file={file} isArrParams={{index: i, idx, objName}} name={name+'['+i+']'} label="" formKey={formKey} index={i} defaultValue={file.visual || file} root={root} customClick={deleteElem} />
-            {radio.isShown && radioParams && <Radio name={`${root}${radio.actionRoot}`} withoutChecked={radio.withoutChecked} root={root} index={i} actionRoot={radio.actionRoot} defaultValue={radio.defaultValue || -1} label={radioParams.label || ''} labelClass={styles.radio}/>}
+            {radio.isShown && radioParams && <Radio name={makeName(root, radio.actionRoot)} withoutChecked={radio.withoutChecked} root={root} index={i} actionRoot={radio.actionRoot} defaultValue={radio.defaultValue || -1} label={radioParams.label || ''} labelClass={styles.radio}/>}
           </div>
         )
       })}

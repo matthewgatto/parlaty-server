@@ -5,7 +5,7 @@ import styles from './index.module.css';
 
 
 export const withSelectContainer = WrappedComponent => ({className, ...props}) => {
-  var classStr = `${styles.container} align_center`;
+  let classStr = `${styles.container} align_center`;
   if(className) classStr += " "+className;
   if(props.disabled) classStr += " "+styles.disabled;
   return(
@@ -14,7 +14,7 @@ export const withSelectContainer = WrappedComponent => ({className, ...props}) =
       <Triangle className={styles.icon} />
     </div>
   )
-}
+};
 
 export default ({options, placeholder, ...props}) => (
   <select {...props}>

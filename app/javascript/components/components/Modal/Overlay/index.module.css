@@ -12,7 +12,7 @@
 }
 
 .content {
-    /*width: 90vw;*/
+  max-width: 90vw;
   background: #f8f8f7;
   padding: 4em;
   border-radius: 1em;

@@ -33,11 +33,11 @@ export default function(history){
     users,
     progress,
     router: connectRouter(history)
-  })
+  });
   return function(state,action){
     if(action.type === "LOGOUT"){
       API.setToken(null);
-      localStorage.removeItem('login_data_4_16')
+      localStorage.removeItem('login_data_4_16');
       state = {};
     }
     return reducers(state, action);

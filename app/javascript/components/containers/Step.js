@@ -1,10 +1,11 @@
-import React,{useCallback,useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useFormContext } from "react-hook-form";
 import { useSelector,useDispatch } from 'react-redux';
 import {mountForm,unmountForm} from '@actions/form';
 import {closeStepForm,removeStepForm} from '@actions/step';
 import {getStepFormData} from '@selectors/step';
 import Step from '@components/Step/Form';
+import {updateTabValues} from "@actions/form";
 
 export default ({formKey,...props}) => {
   const { getValues, setValue } = useFormContext(),
@@ -12,7 +13,7 @@ export default ({formKey,...props}) => {
         dispatch = useDispatch(),
         root = `steps[${props.formId}].`,
         stepFormKey = `step,${props.formId}`,
-        initialValues = stepMeta.storeValues || stepMeta.formValues || {}/*stepMeta.isDuplicate ? stepMeta.formValues : (stepMeta.storeValues || {})*/
+        initialValues = stepMeta.storeValues || stepMeta.formValues || {};/*stepMeta.isDuplicate ? stepMeta.formValues : (stepMeta.storeValues || {})*/
   let title;
   if(stepMeta.isDuplicate && (!stepMeta.formValues || !stepMeta.formValues.title)){
     title = "New Step"
@@ -22,11 +23,10 @@ export default ({formKey,...props}) => {
     title = `Step ${props.idx+1}: ${getValues()[`${root}title`]}`
   }
   let looped_by = stepMeta.storeValues && stepMeta.storeValues.looped_by || -1;
-  console.log(looped_by);
   if(looped_by > -1) title += ` (looped by Step ${looped_by})`
   const handleCloseForm = () => {
     if(!stepMeta.isDuplicate){
-      dispatch(closeStepForm(props.idx))
+      dispatch(closeStepForm(props.idx));
       for (var field in initialValues) {
         if (initialValues.hasOwnProperty(field)) {
           setValue(`${root}${field}`, initialValues[field])
@@ -35,10 +35,11 @@ export default ({formKey,...props}) => {
     } else {
       dispatch(removeStepForm(props.idx))
     }
-  }
+  };
   useEffect(() => {
+    dispatch(updateTabValues(props.idx, initialValues));
     dispatch(mountForm(stepFormKey));
     return () => dispatch(unmountForm(stepFormKey));
-  }, [])
+  }, []);
   return <Step title={title} procedureFormKey={formKey} formKey={stepFormKey} root={root} isOpen={stepMeta.isOpen} initialValues={initialValues} isDuplicate={stepMeta.isDuplicate} /*timeOptions={TIME_OPTIONS}*/ handleCloseForm={handleCloseForm} {...props} />
 }

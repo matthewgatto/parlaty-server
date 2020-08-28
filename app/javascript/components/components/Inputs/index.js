@@ -10,13 +10,15 @@ import ArrFileInputContainer from '@containers/ArrFileInput';
 import withField from './withField';
 import withName from './withName';
 
+const defChange = ([e]) => e.currentTarget.checked;
+
 const withNamedField = (WrappedComponent) => withName(withField(WrappedComponent));
 export const Select = withNamedField(withSelectContainer(props => <Controller {...props} as={SelectComponent} />));
 export const FileInput = withName(props => <Controller onChange={([el]) => el.currentTarget.files[0]} {...props} as={FileInputContainer} />);
-export const ArrFileInput = (props) => ArrFileInputContainer(props);
+export const ArrFileInput = props => ArrFileInputContainer(props);
 export const Input = withNamedField(Controller);
 export const LimitedTextArea = withNamedField(props => <Controller {...props} as={LimitedTextAreaInput} />);
-export const CheckBox = props => <Input {...props} onChange={([e]) => e.currentTarget.checked} as={CheckBoxComponent} />;
+export const CheckBox = ({ onChange, ...props }) => <Input {...props} onChange={e => onChange && onChange(e) || defChange(e)} as={CheckBoxComponent} />;
 export const Radio = props => RadioContainer(props);
 
 const RadioFieldComponent = withField(RadioComponent);
@@ -29,9 +31,9 @@ const ModeRadioComponent = props => {
     </>
   )
 };
-export const ModeRadio = ({root,...props}) => {
+export const ModeRadio = ({root, onChange = null, ...props}) => {
   const {setValue} = useFormContext();
-  const onChange = useCallback(([e]) => {
+  const defChange = useCallback(([e]) => {
     if(e.target.value === "continuous" || e.target.value === "manual"){
       setValue(`${root}time`,0)
     } else if(e.target.value === "timed"){
@@ -39,5 +41,5 @@ export const ModeRadio = ({root,...props}) => {
     }
     return e.target.value
   },[root,setValue]);
-  return <Controller {...props} name={`${root}mode`} onChange={onChange} as={ModeRadioComponent} />
+  return <Controller {...props} name={`${root}mode`} onChange={e => onChange && onChange(e) || defChange(e) } as={ModeRadioComponent} />
 };

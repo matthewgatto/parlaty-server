@@ -53,12 +53,11 @@ const validateStep = async (step, root) => {
   }
 };
 
-function* addStepActionValues(step, values, root){
+function* addStepActionValues(step, values){
   const device = yield select(getDeviceById(step.device_id));
   if(device.actions){
-    const actionsRoot = `${root}actions`;
     step.actions = device.actions.map(id => {
-      const actionRoot = `${actionsRoot}[${id}].`;
+      const actionRoot = `actions[${id}].`;
       const {name,parameter_name,...actionCopyValues} = utils.makeAction(values, actionRoot);
       return({id, ...actionCopyValues})
     }).filter(action => Object.keys(action).length > 1)
@@ -68,9 +67,9 @@ function* addStepActionValues(step, values, root){
 export function* stepSaveSaga({type,payload:{values,root,procedure_id,id,idx,formKey}}){
   try {
     const stepMeta = yield select(getStepFormData(id, idx));
-    let step = utils.makeStep(values, root);
+    let step = utils.makeStep(values);
     if(step.device_id){
-      yield call(addStepActionValues, step, values, root)
+      yield call(addStepActionValues, step, values)
     }
     yield call(validateStep, step, root);
     let successPayload = {};

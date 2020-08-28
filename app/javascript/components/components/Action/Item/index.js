@@ -13,7 +13,7 @@ const makeActionItemClassStr = (isSelected, hasParameterValues) => {
   return classStr;
 }
 
-export default ({position, action, root, formKey}) => {
+export default ({position, action, root, formKey, onChange}) => {
   const [isOpen, setIsOpen] = useState();
   const {setValue} = useFormContext();
   const hasParameterValues = (action && action.parameter_name && action.parameter_value_8_pack) ? true : false
@@ -39,8 +39,8 @@ export default ({position, action, root, formKey}) => {
       {hasParameterValues &&
         <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
           <div className={styles.inputs}>
-            <Input type="text" as="input" root={actionRoot} name="parameter_value_8_pack" label="Parameter Value" defaultValue={action.parameter_value_8_pack} />
-            <ModeAndTimeFields defaultTime={action.time || 8} defaultMode={action.mode || "continuous"} root={actionRoot} />
+            <Input onChange={([e]) => onChange(e)} type="text" as="input" root={actionRoot} name="parameter_value_8_pack" label="Parameter Value" defaultValue={action.parameter_value_8_pack} />
+            <ModeAndTimeFields onChange={onChange} defaultTime={action.time || 8} defaultMode={action.mode || "continuous"} root={actionRoot} />
           </div>
         </AnimateHeight>
       }

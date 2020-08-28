@@ -126,14 +126,14 @@ export const makeAction = (values, root) => {
   return action;
 };
 
-export const getNewStepValues = (values,root) => {
-  const title = values[`${root}title`],
-        steps_in_loop = values[`${root}steps_in_loop`],
-        enabled_loop = values[`${root}enabled_loop`],
-        loop_value = values[`${root}loop_value`],
-        mode = values[`${root}mode`],
-        time = values[`${root}time`],
-        location = values[`${root}location`],
+export const getNewStepValues = (values) => {
+  const title = values['title'],
+        steps_in_loop = values['steps_in_loop'],
+        enabled_loop = values['enabled_loop'],
+        loop_value = values['loop_value'],
+        mode = values['mode'],
+        time = values['time'],
+        location = values['location'],
         step = {};
   if(title) step.title = title;
   step.enabled_loop = enabled_loop;
@@ -153,17 +153,16 @@ export const getNewStepValues = (values,root) => {
   return step;
 };
 
-export const makeStep = (values, root, isFormData) => {
-  const spoken = values[`${root}spoken`],
-        safety = values[`${root}safety`],
+export const makeStep = (values, isFormData) => {
+  const spoken = values.spoken,
+        safety = values.safety,
         visuals = [],
-        defaultMedia = values[`${root}defaultMedia`],
-        device_id = values[`${root}device_id`],
-        step = getNewStepValues(values,root);
-  let key = 0;
-  while(typeof values[`${root}media[${key}]`] !== "undefined") {
-    visuals.push(values[`${root}media[${key}]`]); key++
-  }
+        defaultMedia = values.defaultMedia,
+        device_id = values.device_id,
+        step = getNewStepValues(values);
+  values['visuals'] && values.visuals.forEach(file=>{
+    visuals.push(file.hasOwnProperty('visual') ? file.visual : file)
+  });
   if(spoken) step.spoken = spoken;
   if(safety) step.safety = safety;
   if(device_id){
