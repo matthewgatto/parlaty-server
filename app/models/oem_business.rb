@@ -13,7 +13,7 @@ class OemBusiness < ApplicationRecord
 
 	scope :procedures_count, -> (oem_id) {
 		joins(:procedures)
-				.select("COUNT(procedure_id) AS count")
+				.select("COUNT(DISTINCT procedure_id) AS count")
 				.where(oem_id: oem_id)
 	}
 
