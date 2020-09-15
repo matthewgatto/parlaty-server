@@ -172,7 +172,7 @@ export const makeStep = (values, isFormData) => {
       step.device_id = device_id
     }
   }
-  if(defaultMedia) step.defaultMedia = defaultMedia;
+  if(defaultMedia || defaultMedia === 0) step.default_media = defaultMedia;
   if(visuals) step.visuals = visuals;
   return step;
 };

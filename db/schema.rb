@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_26_132338) do
+ActiveRecord::Schema.define(version: 2020_09_15_091403) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(version: 2020_08_26_132338) do
     t.integer "loop_value", default: 1
     t.boolean "enabled_loop", default: false
     t.integer "steps_in_loop", default: 1
+    t.integer "default_media", default: -1
     t.index ["device_id"], name: "index_steps_on_device_id"
     t.index ["oem_id"], name: "index_steps_on_oem_id"
     t.index ["procedure_id"], name: "index_steps_on_procedure_id"

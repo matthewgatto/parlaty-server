@@ -109,7 +109,7 @@ export default ({ initialValues, formKey, root, procedure_id, idx, updateParams 
       <TabPanel tab={tab} index={2}>
         <div>
           <ArrFileInput name="media" label="Media*" formKey={formKey} idx={idx} defaultValues={values.visuals || undefined} root={root} objName={'step'}
-                        radio={{isShown: true, params: [{type: 'image', label: 'Display in app'},{type: 'video', label: 'Display in app'}], actionRoot: 'defaultMedia', defaultValue: values.defaultMedia, withoutChecked: true}}
+                        radio={{isShown: true, params: [{type: 'image', label: 'Display in app'},{type: 'video', label: 'Display in app'}], actionRoot: 'defaultMedia', defaultValue: values.default_media, withoutChecked: true}}
           />
         </div>
       </TabPanel>

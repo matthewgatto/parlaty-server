@@ -29,6 +29,7 @@ class StepPolicy < ApplicationPolicy
        parameter_name
        parameter_value_8_pack
        spoken
+       default_media
     ]
   end
 
