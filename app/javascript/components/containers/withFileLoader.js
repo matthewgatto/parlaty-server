@@ -25,7 +25,7 @@ export default ({isArrParams, file, setFile, ...props}) => {
   return (
     <>
       {src ? (
-        <Display params={file} src={src} onLoad={() => setIsLoading(false)} isLoading={isLoading} onClick={isLoading && !file.type.indexOf('application') ? undefined : openModal}/>
+        <Display params={file} src={src} onLoad={() => setIsLoading(false)} isLoading={isLoading} onClick={(isLoading && !file.type.indexOf('application') || (isArrParams && isArrParams.objName === "action")) ? undefined : openModal}/>
       ) : (
         <div onClick={setFile} className={styles.placeholder}>No File Uploaded</div>
       )}
