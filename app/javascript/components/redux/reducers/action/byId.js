@@ -20,8 +20,12 @@ export default (state = {}, {type,payload}) => {
     case deviceTypes.CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS:
     case stepTypes.STEP_SAVE_REQUEST__SUCCESS:
       if(payload.actions){
-        return merge({}, state, payload.actions)
+        return {
+          ...state,
+          ...payload.actions
+        };
       }
+      return state
     default:
       return state
   }
