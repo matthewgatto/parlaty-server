@@ -24,7 +24,7 @@ const TimeSelect = (props) => {
 export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, initialValues, procedureFormKey, handleCloseForm, isDragging, provided}) => {
   const dispatch = useDispatch();
   const updateStepParams = useCallback(([e]) => {
-      dispatch(updateTabValues(idx, {[e.target.name.split(root).pop()]: e.target.value}));
+      dispatch(updateTabValues(idx, {[e.target.name.split(root).pop()]: (e.target.type === "checkbox" ? e.target.checked : e.target.value)}));
   }, [dispatch, root]);
   return (
     <div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef} className={styles.wrapper}>
