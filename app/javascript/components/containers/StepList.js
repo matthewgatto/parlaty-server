@@ -1,5 +1,4 @@
 import React,{useCallback} from 'react';
-import { Draggable } from "react-beautiful-dnd";
 import { useSelector,useDispatch } from 'react-redux';
 import {reorderStep,closeStepForm} from '@actions/step';
 import {getStepForms} from '@selectors/step';
@@ -8,9 +7,7 @@ import Placeholder from '@components/Placeholder';
 import Step from './Step';
 
 const StepList = withDND(({steps, ...props}) => steps.map((step, idx) => (
-  <Draggable key={step.formId} draggableId={step.formId} index={idx}>
-    {(provided, snapshot) => <Step {...props} id={step.id} formId={step.formId} idx={idx} provided={provided} isDragging={snapshot.isDragging} />}
-  </Draggable>
+  <Step {...props} id={step.id} formId={step.formId} idx={idx} />
 )))
 
 export default (props) => {

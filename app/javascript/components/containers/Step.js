@@ -6,6 +6,7 @@ import {closeStepForm,removeStepForm} from '@actions/step';
 import {getStepFormData} from '@selectors/step';
 import Step from '@components/Step/Form';
 import {updateTabValues} from "@actions/form";
+import {Draggable} from "react-beautiful-dnd";
 
 export default ({formKey,...props}) => {
   const { getValues, setValue } = useFormContext(),
@@ -23,11 +24,13 @@ export default ({formKey,...props}) => {
     title = `Step ${props.idx+1}: ${getValues()[`${root}title`]}`
   }
   let looped_by = stepMeta.storeValues && stepMeta.storeValues.looped_by || -1;
-  if(looped_by > -1) title += ` (looped by Step ${looped_by})`
+  let isLooped = looped_by > -1;
+  if(isLooped) title += ` (looped by Step ${looped_by})`
+  let isDragDisabled = (isLooped || !stepMeta.id);
   const handleCloseForm = () => {
     if(!stepMeta.isDuplicate){
       dispatch(closeStepForm(props.idx));
-      for (var field in initialValues) {
+      for (let field in initialValues) {
         if (initialValues.hasOwnProperty(field)) {
           setValue(`${root}${field}`, initialValues[field])
         }
@@ -41,5 +44,9 @@ export default ({formKey,...props}) => {
     dispatch(mountForm(stepFormKey));
     return () => dispatch(unmountForm(stepFormKey));
   }, []);
-  return <Step title={title} procedureFormKey={formKey} formKey={stepFormKey} root={root} isOpen={stepMeta.isOpen} initialValues={initialValues} isDuplicate={stepMeta.isDuplicate} /*timeOptions={TIME_OPTIONS}*/ handleCloseForm={handleCloseForm} {...props} />
+  return(
+    <Draggable key={props.formId} draggableId={props.formId} index={props.idx} isDragDisabled={isDragDisabled}>
+      {(provided, snapshot) => <Step provided={provided} isDragging={snapshot.isDragging} title={title} procedureFormKey={formKey} formKey={stepFormKey} root={root} isOpen={stepMeta.isOpen} initialValues={initialValues} isDuplicate={stepMeta.isDuplicate} /*timeOptions={TIME_OPTIONS}*/ handleCloseForm={handleCloseForm} {...props} />}
+    </Draggable>
+  )
 }
