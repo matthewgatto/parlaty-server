@@ -10,7 +10,18 @@ module Devices
 
     private
 
-    def update_step_device(step, device_id)
+    def update_device_actions(device, action, device_actions_params)
+      save_device_actions(device, device_actions_params)
+      update_children_device_actions(device) if action.eql?('update')
+    end
+
+    def update_children_device_actions(device)
+      device.children.each do |child|
+        save_device_actions(child, device.actions, is_dup_actions: true)
+      end
+    end
+
+    def update_step_device(step, device_id, device_actions_params)
       if step.device.present? && device_id.blank?
         step.device.destroy
         return false
@@ -21,45 +32,56 @@ module Devices
       return false unless device
 
       device.parent_id.present? ?
-        save_device_actions(device, is_dup: true) :
-        create_dup_device(device, step)
+        save_device_actions(device, device_actions_params, is_dup_device: true) :
+        create_dup_device(device, step, device_actions_params)
     end
 
-    def create_dup_device(device, step)
+    def create_dup_device(device, step, device_actions_params)
       new_device = device.dup
-      new_device.name += ' (changed)'
       new_device.parent_id = device.id
       new_device.save
-      save_device_actions(new_device, is_dup: true, from_parent: true)
+      save_device_actions(new_device, device_actions_params, is_dup_device: true, from_parent: true)
       step.device = new_device
       step.save
     end
 
-    def save_device_actions(device, options ={})
+    def save_device_actions(device, device_actions_params, options ={})
       device.transaction do
-        order = actions_params.map do |item|
-          update_actions(device, item, options)
+        order = device_actions_params.map do |item|
+          options[:is_dup_actions] ? dup_actions(device, item) : update_actions(device, item, options)
         end
-        remove_not_used_actions(device, order) unless options[:is_dup]
+        remove_not_used_actions(device, order) unless options[:is_dup_device]
         device.actions_order = order
         device.save
       end
     end
 
+    def dup_actions(device, item)
+      new_action = dup_action(item, device)
+      update_attached_files(new_action, item)
+      new_action.id
+    end
+
     def update_actions(device, item, options)
       new_params = action_params(item)
-      if options[:is_dup]
+      if options[:is_dup_device]
         options[:from_parent] ? create_dup_action(new_params, device) : update_action(new_params)
       else
         new_params[:id].present? ? update_action(new_params) : create_action(new_params, device)
       end
     end
 
-    def create_dup_action(item, device)
-      action = Action.find(item[:id])
+    def dup_action(action, device)
       new_action = action.dup
+      new_action.parent_id = action.id
       new_action.device = device
       new_action.save
+      new_action
+    end
+
+    def create_dup_action(item, device)
+      action = Action.find(item[:id])
+      new_action = dup_action(action, device)
       new_action.update_attributes(item.except(:id, :visuals))
       update_attached_files(new_action, item)
       new_action.id

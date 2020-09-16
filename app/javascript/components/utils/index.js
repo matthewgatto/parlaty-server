@@ -157,7 +157,7 @@ export const makeStep = (values, isFormData) => {
   const spoken = values.spoken,
         safety = values.safety,
         visuals = [],
-        defaultMedia = values.defaultMedia,
+        default_media = values.default_media,
         device_id = values.device_id,
         step = getNewStepValues(values);
   values['visuals'] && values.visuals.forEach(file=>{
@@ -172,8 +172,9 @@ export const makeStep = (values, isFormData) => {
       step.device_id = device_id
     }
   }
-  if(defaultMedia || defaultMedia === 0) step.default_media = defaultMedia;
   if(visuals) step.visuals = visuals;
+  if(default_media || default_media === 0) step.default_media = default_media;
+  if(visuals && visuals.length === 0) step.default_media = -1
   return step;
 };
 

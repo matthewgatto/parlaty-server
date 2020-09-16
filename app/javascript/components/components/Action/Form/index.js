@@ -16,7 +16,7 @@ export default ({id, idx, root, isDragging, initialAction, handleDeleteClick, ha
       <ModeAndTimeFields defaultTime={(initialAction && initialAction.time) ? initialAction.time : 8} defaultMode={(initialAction && initialAction.mode) ? initialAction.mode : "continuous"} root={root} />
       <div>
         <ArrFileInput name="media" label="Media*" formKey={formKey} idx={idx} defaultValues={initialAction && initialAction.visuals || undefined} root={root} objName={'action'}
-                      radio={{isShown: false, params: [], actionRoot: 'defaultMedia', defaultValue: (initialAction && initialAction.default_media), withoutChecked: true}}
+                      radio={{isShown: false, params: [], actionRoot: 'default_media', defaultValue: (initialAction && initialAction.default_media), withoutChecked: true}}
         />
       </div>
     </div>

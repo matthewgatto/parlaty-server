@@ -6,6 +6,7 @@ import ActionList from '@components/Action/List';
 import withField from '@components/Inputs/withField';
 import {makeName} from '@utils'
 import {getProcedureById} from '@selectors/procedure';
+import {getDeviceById} from '@selectors/device';
 
 const DeviceSelect = withField(withSelectContainer(SelectComponent));
 
@@ -26,7 +27,12 @@ const DeviceSelectContainer = ({root, formKey, device_id, ...props}) => {
 export default ({name, procedure_id, onChange, ...props}) => {
   const {devices} = useSelector(getProcedureById(procedure_id));
   const deviceArray = useSelector((state) => (devices && devices.length > 0) ? devices.map(deviceId => state.devices.byId[deviceId]) : null);
-  const devicesWithoutChildren = deviceArray && deviceArray.filter(device => device.parent_id === null || parseInt(device.id) === parseInt(props.defaultValue));
+  let selectedDevice = useSelector(getDeviceById(props.defaultValue));
+  let parentDeviceId = selectedDevice && selectedDevice.parent_id;
+  const devicesWithoutChildren = deviceArray && deviceArray.filter(device => (
+    (device.parent_id === null && parseInt(parentDeviceId) !== parseInt(device.id)) ||
+    parseInt(device.id) === parseInt(props.defaultValue))
+  );
   return(
     <Controller
       {...props}
