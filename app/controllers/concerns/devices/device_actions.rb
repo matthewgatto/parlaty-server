@@ -103,7 +103,7 @@ module Devices
     end
 
     def remove_not_used_actions(device, order)
-      Action.find(device.actions_order - order).each(&:destroy)
+      Action.where(id: device.actions_order - order).each(&:destroy)
     end
   end
 end
