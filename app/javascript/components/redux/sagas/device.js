@@ -68,7 +68,7 @@ export function* updateDeviceSaga({type,payload:{formKey,id,values}}){
     }
     yield call(validateDevice, device)
     const response = yield call(makeObjRequest, {device}, `/devices/${id}`, "put", "device");
-    const {entities} = normalize(response, Schemas.device);
+    const entities = normalize(response, [Schemas.device]).entities;
     yield put({type: `${type}__SUCCESS`, payload: entities})
     yield put(setModal())
     yield put(addToast("success", "Device successfully updated."))

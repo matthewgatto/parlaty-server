@@ -28,7 +28,8 @@ class DevicesController < ApplicationController
     if @device.update_attributes(device_params)
       update_device_actions(@device, 'update', actions_params)
       @device.save
-      render json: DeviceSerializer.simple_device_as_json(@device)
+      devices = @device.children.to_a << @device
+      render json: DeviceSerializer.devices_as_json(devices)
     else
       ApplicationSerializer.error_response(@device.errors.full_messages)
     end
