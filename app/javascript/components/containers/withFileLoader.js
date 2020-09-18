@@ -2,7 +2,6 @@ import React, {useState,useEffect,useCallback} from 'react';
 import { useDispatch } from 'react-redux';
 import {readFile, typeFile} from '@utils';
 import {setModal, changeActiveFile} from '@actions/modal';
-import { getStepFileList } from '@selectors/step';
 import styles from "../components/DocFileDisplay/index.module.css";
 
 export default ({isArrParams, file, setFile, ...props}) => {

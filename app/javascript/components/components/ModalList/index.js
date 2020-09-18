@@ -1,9 +1,6 @@
 import React from 'react';
-import { setModal, changeActiveFile } from '@actions/modal';
-import { FileInput } from '@components/Inputs';
-import { readFile, typeFile } from '@utils';
 import styles from "./index.module.css";
-import { getStepFileList } from '@selectors/step';
+import { getStepFileList } from '@selectors/template';
 import { getActionFileList } from '@selectors/action';
 import { useSelector } from "react-redux";
 import FileLoader from '@containers/withFileLoader';

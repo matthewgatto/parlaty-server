@@ -20,11 +20,6 @@ export default (state = [], {type, payload}) => {
       return [];
     case types.LOAD_STEP_FORMS:
       return payload;
-    case types.UPDATE_STEP_FILE_LIST:
-      state.splice(payload.idx,1, {...state[payload.idx], visuals: payload.fileList});
-      return state;
-    case types.UPDATE_TAB_VALUES:
-      return [...state.slice(0,payload.idx),{...state[payload.idx], ...payload.values},...state.slice(payload.idx+1)];
     default:
       return state
   }

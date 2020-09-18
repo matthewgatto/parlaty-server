@@ -8,8 +8,8 @@ import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
 import { Input, CheckBox, Select, ModeRadio, LimitedTextArea } from '@components/Inputs';
 import styles from './index.module.css';
-import { updateTabValues } from '@actions/form'
-
+import { setStepValues } from '@actions/template'
+import TimeMode from '@components/Step/TimeMode';
 import Tabs from '@components/Step/Tabs';
 import {useDispatch} from "react-redux";
 
@@ -21,13 +21,13 @@ const TimeSelect = (props) => {
   return <Select {...props} disabled={mode === "manual" || mode === "continuous"} options={TIME_OPTIONS} label="Time" name="time" />
 };
 
-export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, initialValues, procedureFormKey, handleCloseForm, isDragging, provided}) => {
+export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, initialValues, procedureFormKey, handleCloseForm}) => {
   const dispatch = useDispatch();
   const updateStepParams = useCallback(([e]) => {
-      dispatch(updateTabValues(idx, {[e.target.name.split(root).pop()]: (e.target.type === "checkbox" ? e.target.checked : e.target.value)}));
+      dispatch(setStepValues(idx, {[e.target.name.split(root).pop()]: (e.target.type === "checkbox" ? e.target.checked : e.target.value)}));
   }, [dispatch, root]);
   return (
-    <div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef} className={styles.wrapper}>
+    <div className={styles.wrapper}>
       <StepHeader isDuplicate={isDuplicate} isOpen={isOpen} title={title} procedure_id={procedure_id} idx={idx} id={id} root={root} handleCloseForm={handleCloseForm} />
       <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
         <div className={styles.container}>
@@ -36,8 +36,9 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
             <Input onChange={updateStepParams} as="input" defaultValue={initialValues.title} formKey={formKey} type="text" required label="Title*" root={root} name="title" />
           </div>
           <div className={`${styles.boxes} align_center`}>
-            <ModeRadio onChange={updateStepParams} formKey={formKey} root={root} name="mode" defaultValue={initialValues.mode || "continuous"} />
-            <CheckBox onChange={updateStepParams} formKey={formKey} label="Option to Skip" root={root} name="safety" defaultValue={initialValues.safety || false} />
+            <TimeMode onChange={updateStepParams} formKey={formKey} root={root} defaultValue={initialValues}/>
+            {/*<ModeRadio onChange={updateStepParams} formKey={formKey} root={root} name="mode" defaultValue={initialValues.mode || "continuous"} />*/}
+            {/*<CheckBox onChange={updateStepParams} formKey={formKey} label="Safety" root={root} name="safety" defaultValue={initialValues.safety || false} />*/}
           </div>
           <TimeSelect onChange={updateStepParams} formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
           <LimitedTextArea onChange={updateStepParams} as="textarea" defaultValue={initialValues.location || ''} label="Instruction" name="location" rows="6" root={root} formKey={formKey} limit={300}/>

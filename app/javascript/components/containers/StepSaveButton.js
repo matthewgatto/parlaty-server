@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import StepSaveButton from '@components/Step/SaveButton';
 import {STEP_SAVE_REQUEST} from '@types/step';
 import {isFormProcessing} from '@selectors/form';
-import { getStepValues } from '@selectors/step'
+import { getStepValues } from '@selectors/template'
 
 export default ({root, formKey, procedure_id, id, idx}) => {
   const dispatch = useDispatch();

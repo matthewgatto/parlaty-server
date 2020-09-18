@@ -14,6 +14,7 @@ import toast from './toast';
 import modal from './modal';
 import progress from './progress';
 import users from './user';
+import template from './template';
 import API from '@utils/API';
 
 export default function(history){
@@ -27,6 +28,7 @@ export default function(history){
     actions,
     steps,
     message,
+    template,
     form,
     toast,
     modal,

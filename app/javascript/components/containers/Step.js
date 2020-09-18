@@ -5,7 +5,7 @@ import {mountForm,unmountForm} from '@actions/form';
 import {closeStepForm,removeStepForm} from '@actions/step';
 import {getStepFormData} from '@selectors/step';
 import Step from '@components/Step/Form';
-import {updateTabValues} from "@actions/form";
+import {setStepValues} from "@actions/template";
 import {Draggable} from "react-beautiful-dnd";
 
 export default ({formKey,...props}) => {
@@ -14,7 +14,7 @@ export default ({formKey,...props}) => {
         dispatch = useDispatch(),
         root = `steps[${props.formId}].`,
         stepFormKey = `step,${props.formId}`,
-        initialValues = stepMeta.storeValues || stepMeta.formValues || {};/*stepMeta.isDuplicate ? stepMeta.formValues : (stepMeta.storeValues || {})*/
+        initialValues = stepMeta.storeValues || stepMeta.formValues || {};
   let title;
   if(stepMeta.isDuplicate && (!stepMeta.formValues || !stepMeta.formValues.title)){
     title = "New Step"
@@ -40,13 +40,17 @@ export default ({formKey,...props}) => {
     }
   };
   useEffect(() => {
-    dispatch(updateTabValues(props.idx, initialValues));
+    dispatch(setStepValues(props.idx, initialValues));
     dispatch(mountForm(stepFormKey));
     return () => dispatch(unmountForm(stepFormKey));
   }, []);
   return(
     <Draggable key={props.formId} draggableId={props.formId} index={props.idx} isDragDisabled={isDragDisabled}>
-      {(provided, snapshot) => <Step provided={provided} isDragging={snapshot.isDragging} title={title} procedureFormKey={formKey} formKey={stepFormKey} root={root} isOpen={stepMeta.isOpen} initialValues={initialValues} isDuplicate={stepMeta.isDuplicate} /*timeOptions={TIME_OPTIONS}*/ handleCloseForm={handleCloseForm} {...props} />}
+      {(provided, snapshot) =>
+        <div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
+          <Step isDragging={snapshot.isDragging} title={title} procedureFormKey={formKey} formKey={stepFormKey} root={root} isOpen={stepMeta.isOpen} initialValues={initialValues} isDuplicate={stepMeta.isDuplicate} /*timeOptions={TIME_OPTIONS}*/ handleCloseForm={handleCloseForm} {...props} />
+        </div>
+      }
     </Draggable>
   )
 }

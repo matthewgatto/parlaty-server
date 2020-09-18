@@ -6,13 +6,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { getStepValues } from '@selectors/step'
+import { getStepValues } from '@selectors/template'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 import {ArrFileInput} from '@components/Inputs';
 import DeviceSelect from '@containers/DeviceSelect';
 import LoopForm from '@components/Step/LoopForm';
-import { updateTabValues } from '@actions/form'
 
 function TabPanel(props) {
   const { children, tab, index, ...other } = props;
@@ -81,15 +80,15 @@ function tabProps(index) {
 }
 
 export default ({ initialValues, formKey, root, procedure_id, idx, updateParams }) => {
-  const [values,  setValues] = useState(initialValues);
-  const [tab, setTab] = React.useState(0);
+  const [values, setValues] = useState(initialValues);
+  const [tab, setTab] = useState(0);
   const classes = useStyles();
   const updateValue = useSelector(getStepValues(idx));
   const handleChange = (event, newValue) => {
     setValues({...values, ...updateValue});
     setTab(newValue);
   };
-  const looped = initialValues.looped_by;
+  const looped = values.looped_by;
   const disabledTab = looped !== -1 && looped !== idx+1;
   return (
     <div>
@@ -108,7 +107,7 @@ export default ({ initialValues, formKey, root, procedure_id, idx, updateParams 
       </TabPanel>
       <TabPanel tab={tab} index={2}>
         <div>
-          <ArrFileInput name="media" label="Media*" formKey={formKey} idx={idx} defaultValues={values.visuals || undefined} root={root} objName={'step'}
+          <ArrFileInput setTabValues={setValues} name="media" label="Media*" formKey={formKey} idx={idx} defaultValues={values.visuals || undefined} root={root} objName={'step'}
                         radio={{isShown: true, params: [{type: 'image', label: 'Display in app'},{type: 'video', label: 'Display in app'}], actionRoot: 'default_media', defaultValue: values.default_media, withoutChecked: true}}
           />
         </div>
