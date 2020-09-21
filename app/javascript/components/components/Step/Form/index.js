@@ -24,7 +24,8 @@ const TimeSelect = (props) => {
 export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, initialValues, procedureFormKey, handleCloseForm}) => {
   const dispatch = useDispatch();
   const updateStepParams = useCallback(([e]) => {
-      dispatch(setStepValues(idx, {[e.target.name.split(root).pop()]: (e.target.type === "checkbox" ? e.target.checked : e.target.value)}));
+      let name = e.target.name.split(root).pop();
+      dispatch(setStepValues(idx, {[name]: (e.target.type === "checkbox" ? e.target.checked : e.target.value)}));
   }, [dispatch, root]);
   return (
     <div className={styles.wrapper}>

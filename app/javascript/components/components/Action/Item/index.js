@@ -7,13 +7,13 @@ import { Input } from '@components/Inputs';
 import styles from './index.module.css';
 
 const makeActionItemClassStr = (isSelected, hasParameterValues) => {
-  var classStr = `${styles.header} align_center`;
+  let classStr = `${styles.header} align_center`;
   if(hasParameterValues) classStr += ` ${styles.selectable}`;
   if(isSelected) classStr += ` ${styles.highlight}`;
   return classStr;
 }
 
-export default ({position, action, parent, root, formKey, onChange}) => {
+export default ({position, action, parent, actionValues, root, onChange}) => {
   const [isOpen, setIsOpen] = useState();
   const {setValue} = useFormContext();
   const hasParameterValues = !!(action && action.parameter_name && action.parameter_value_8_pack)
@@ -22,26 +22,35 @@ export default ({position, action, parent, root, formKey, onChange}) => {
       setIsOpen(!isOpen);
     }
   }
-  let paramValueTitle = `Parameter Value (default ${ (!parent) ? action.parameter_value_8_pack : parent.parameter_value_8_pack})`
+
+  let actionParameterName = actionValues && actionValues.parameter_name || action.parameter_name;
+  let actionParameterValue = actionValues && actionValues.parameter_value_8_pack || action.parameter_value_8_pack;
+  let actionTime = actionValues && actionValues.time || action.time;
+  let actionMode = actionValues && actionValues.mode || action.mode;
+  let paramNameTitle = `Parameter Name (default ${ (!parent) ? actionParameterName : parent.parameter_name})`
+  let paramValueTitle = `Parameter Value (default ${ (!parent) ? actionParameterValue : parent.parameter_value_8_pack})`
+  let actionName = `${action.name}${(hasParameterValues) ? ` (${actionParameterName} ${actionParameterValue})` : ""} `
   const actionRoot = `${root}actions[${action.id}].`
   useEffect(() => {
-    setValue(`${actionRoot}parameter_value_8_pack`, action.parameter_value_8_pack);
-    setValue(`${actionRoot}time`, action.time);
-    setValue(`${actionRoot}mode`, action.mode);
+    setValue(`${actionRoot}parameter_name`, actionParameterName);
+    setValue(`${actionRoot}parameter_value_8_pack`, actionParameterValue);
+    setValue(`${actionRoot}time`, actionTime);
+    setValue(`${actionRoot}mode`, actionMode);
   }, [action,actionRoot,setValue])
 
   return(
     <div className={styles.container}>
-      <div onClick={handleClick} className={makeActionItemClassStr(/*isSelected*/isOpen, hasParameterValues)}>
+      <div onClick={handleClick} className={makeActionItemClassStr(isOpen, hasParameterValues)}>
         <div className={styles.number}>{position}</div>
-        <div className={styles.text}>{action.name}</div>
+        <div className={styles.text}>{actionName}</div>
         {hasParameterValues && <Gear className={styles.icon} />}
       </div>
       {hasParameterValues &&
         <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
           <div className={styles.inputs}>
-            <Input onChange={([e]) => onChange(e)} type="text" as="input" root={actionRoot} name="parameter_value_8_pack" label={paramValueTitle} defaultValue={action.parameter_value_8_pack} />
-            <ModeAndTimeFields onChange={onChange} defaultTime={action.time || 8} defaultMode={action.mode || "continuous"} root={actionRoot} />
+            <Input onChange={([e]) => onChange(e)} type="text" as="input" root={actionRoot} name="parameter_name" label={paramNameTitle} defaultValue={actionParameterName} />
+            <Input onChange={([e]) => onChange(e)} type="text" as="input" root={actionRoot} name="parameter_value_8_pack" label={paramValueTitle} defaultValue={actionParameterValue} />
+            <ModeAndTimeFields onChange={onChange} defaultTime={actionTime || 8} defaultMode={actionMode || "continuous"} root={actionRoot} />
           </div>
         </AnimateHeight>
       }

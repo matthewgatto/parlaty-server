@@ -58,7 +58,7 @@ function* addStepActionValues(step, values){
   if(device.actions){
     step.actions = device.actions.map(id => {
       const actionRoot = `actions[${id}].`;
-      const {name,parameter_name,...actionCopyValues} = utils.makeAction(values, actionRoot);
+      const {name, ...actionCopyValues} = utils.makeAction(values, actionRoot);
       return({id, ...actionCopyValues})
     }).filter(action => Object.keys(action).length > 1)
   }

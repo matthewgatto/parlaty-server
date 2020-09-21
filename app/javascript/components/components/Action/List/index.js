@@ -4,11 +4,11 @@ import Label from '../../Inputs/Label';
 import Gear from '../../SVG/Gear';
 import styles from './index.module.css';
 
-export default ({actions, root, formKey, onChange}) => {
+export default ({actions, root, formKey, onChange, idx}) => {
   const renderActionList = () => {
     if(actions){
       if(actions.length > 0){
-        return actions.map((actionId, i) => <Action onChange={onChange} key={actionId} formKey={formKey} root={root} id={actionId} position={i+1} />)
+        return actions.map((actionId, i) => <Action onChange={onChange} key={actionId} formKey={formKey} root={root} id={actionId} position={i+1} idx={idx}/>)
       } else {
         return(<div className={styles.placeholder}>Selected device has no actions</div>)
       }

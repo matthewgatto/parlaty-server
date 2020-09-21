@@ -100,7 +100,7 @@ export default ({ initialValues, formKey, root, procedure_id, idx, updateParams 
         </CustTabs>
       </AppBar>
       <TabPanel tab={tab} index={0}>
-        <DeviceSelect onChange={updateParams} procedure_id={procedure_id} label="Device" root={root} name="device_id" device_id={values.device_id} defaultValue={values.device_id} />
+        <DeviceSelect onChange={updateParams} procedure_id={procedure_id} label="Device" root={root} idx={idx} name="device_id" device_id={values.device_id} defaultValue={values.device_id} />
       </TabPanel>
       <TabPanel tab={tab} index={1}>
         <LoopForm onChange={updateParams} formKey={formKey} defaultValue={values} root={root}/>
