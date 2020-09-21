@@ -21,7 +21,7 @@ export default ({formKey,...props}) => {
   } else if(stepMeta.storeValues && stepMeta.storeValues.title){
     title = `Step ${props.idx+1}: ${stepMeta.storeValues.title}`
   } else {
-    title = `Step ${props.idx+1}: ${getValues()[`${root}title`]}`
+    title = `Step ${props.idx+1}: ${stepMeta.formValues.title}`
   }
   let looped_by = stepMeta.storeValues && stepMeta.storeValues.looped_by || -1;
   let isLooped = looped_by > -1;
