@@ -8,14 +8,14 @@ export default ({formKey, defaultValues, idx, objName, ...props}) => {
   const dispatch = useDispatch();
   const [filesList, setFilesList] = useState(defaultValues || []);
   const deleteElem = (params) => setFilesList(prev => {
-        const newArr = prev.filter((file, i) => i !== params.index);
-        dispatch(updateFileList(idx, objName, newArr));
-        return newArr;
-      }
-    ),
+      const newArr = prev.filter((file, i) => i !== params.index);
+      dispatch(updateFileList(idx, objName, newArr));
+      return newArr;
+    }),
     handleClick = () => {inputRef.current.click()},
     handleChange = (el) => {
       const files = [...el.currentTarget.files];
+      files.map(file => file.id = file.lastModified +  Math.random(10000));
       setFilesList((prevState=[]) => [...prevState, ...files]);
       dispatch(updateFileList(idx, objName, [...filesList, ...files]));
       el.currentTarget.value = null;

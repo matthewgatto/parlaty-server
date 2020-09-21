@@ -20,7 +20,7 @@ export default ({label, name, onClick, onChange, inputRef, values, deleteElem, f
       {values && [...values].map((file, i) => {
         const type = typeFile(file), radioParams = radio.params.filter(obj=> obj.type === type[1])[0];
         return (
-          <div key={file.id || file.lastModified +  Math.random(10000)} className={styles.fileList}>
+          <div key={file.id} className={styles.fileList}>
             <FileInput file={file} isArrParams={{index: i, idx, objName}} name={name+'['+i+']'} label="" formKey={formKey} index={i} defaultValue={file.visual || file} root={root} customClick={deleteElem} />
             {radio.isShown && radioParams && <Radio setTabValues={setTabValues} name={makeName(root, radio.actionRoot)} idx={idx} withoutChecked={radio.withoutChecked} root={root} index={i} actionRoot={radio.actionRoot} defaultValue={radio.defaultValue || (radio.defaultValue === 0 ? 0 : -1)} label={radioParams.label || ''} labelClass={styles.radio}/>}
           </div>
