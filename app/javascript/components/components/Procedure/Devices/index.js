@@ -10,7 +10,7 @@ const DeviceItem = ({deviceId}) => {
   if(device.parent_id > 0) {
     return false;
   }
-  const name = device.name
+  const name = `${device.machine_tag ? `${device.machine_tag} - ` : ""}${device.name}`;
   const dispatch = useDispatch()
   const handleClick = () => dispatch(setModal("update_device", deviceId))
   return <div onClick={handleClick} className={styles.device}>{name}</div>
