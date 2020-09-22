@@ -8,7 +8,7 @@ export default () => {
   const dispatch = useDispatch();
   const lastStepForm = useSelector(getLastTemplate)
   const handleClick = () => {
-    const formValues = {mode: "continuous", time: 8, safety: true};
+    const formValues = {mode: "continuous", time: 0};
     const newStepForm = lastStepForm.spoken ? {...formValues, title: lastStepForm.title, spoken: lastStepForm.spoken} : formValues;
     dispatch( addStepForm(newStepForm, true));
   }
