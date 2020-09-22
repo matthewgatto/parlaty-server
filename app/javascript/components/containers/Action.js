@@ -10,7 +10,6 @@ export default ({id, idx, ...props}) => {
   const parent = parent_id ? useSelector(getActionById(parent_id)) : undefined;
   const template = useSelector(getStepValues(idx));
   const actionValues = template && {
-    parameter_name: template[`actions[${id}].parameter_name`],
     parameter_value_8_pack: template[`actions[${id}].parameter_value_8_pack`],
     time: template[`actions[${id}].time`],
     mode: template[`actions[${id}].mode`],

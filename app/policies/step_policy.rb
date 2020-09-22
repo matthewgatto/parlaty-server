@@ -26,7 +26,6 @@ class StepPolicy < ApplicationPolicy
        loop_value
        mode
        time
-       parameter_name
        parameter_value_8_pack
        spoken
        default_media
@@ -38,6 +37,6 @@ class StepPolicy < ApplicationPolicy
   end
 
   def actions_permitted_attributes
-    %i[id device_id name parameter_name parameter_value_8_pack time mode]
+    %i[id device_id name parameter_value_8_pack time mode]
   end
 end

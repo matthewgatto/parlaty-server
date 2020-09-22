@@ -110,7 +110,7 @@ export default ({ initialValues, formKey, root, procedure_id, idx, updateParams 
           <CustTab label="Media" {...tabProps(3)} />
         </CustTabs>
       </AppBar>
-      <TabPanel tab={tab} className={styles.withoutPadding} index={0}/>
+      <TabPanel tab={tab} onChange={updateParams} className={styles.withoutPadding} index={0}/>
       <TabPanel tab={tab} index={1}>
         <DeviceSelect onChange={updateParams} procedure_id={procedure_id} label="Device" root={root} idx={idx} name="device_id" device_id={values.device_id} defaultValue={values.device_id} />
       </TabPanel>

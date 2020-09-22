@@ -18,12 +18,14 @@ const allDevices = (state = [], {type,payload}) => {
       return []
     case oemBusinessTypes.FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
+    case stepTypes.STEP_SAVE_REQUEST__SUCCESS:
     case types.CREATE_DEVICE_REQUEST__SUCCESS:
     case types.FETCH_DEVICE_REQUEST__SUCCESS:
     case types.CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS:
       if(payload.devices){
         return addIds(state, payload.devices)
       }
+      return state;
     default:
       return state;
   }
@@ -56,6 +58,7 @@ const devicesById = (state = {}, {type,payload}) => {
       if(payload.devices){
         return merge({}, state, payload.devices)
       }
+      return state;
     default:
       return state;
   }

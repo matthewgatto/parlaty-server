@@ -11,7 +11,7 @@ class StepsController < ApplicationController
 
   # POST /steps
   def create
-    @step = Step.new(step_params)
+    @step = Step.new(step_params.except(:device_id))
     authorize @step
     @step.has_visual = visuals_params[:visuals].present? && visuals_params[:visuals].count.positive?
     if @step.save
@@ -27,7 +27,7 @@ class StepsController < ApplicationController
   # PUT /steps/:id
   def update
     authorize @step
-    if @step.update_attributes(step_params)
+    if @step.update_attributes(step_params.except(:device_id))
       update_attached_files(@step, visuals_params)
       update_step_device(@step, step_params[:device_id], actions_params)
       render json: StepSerializer.step_as_json(@step.reload), status: :ok

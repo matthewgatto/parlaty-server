@@ -12,6 +12,7 @@ class StepSerializer
       step.as_json.merge!(
         {
           visuals: AttachmentSerializer.files_as_json(step),
+          procedure_device_ids: step.procedure&.device_ids || [],
           device: DeviceSerializer.device_as_json_by_id(step.device_id),
           images: AttachmentSerializer.test_file_as_json(step, 'image'),
           videos: AttachmentSerializer.test_file_as_json(step, 'video'),

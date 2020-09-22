@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import {Controller, useFormContext} from "react-hook-form";
 import SelectComponent, {withSelectContainer} from '@components/Inputs/Select';
@@ -17,9 +17,12 @@ const DeviceSelectContainer = ({root, formKey, device_id, ...props}) => {
     setId(e.target.value);
     setValue(props.name, e.target.value);
   };
+  useEffect(() => {
+    setId(device_id);
+  }, [device_id])
   const actions = useSelector(getDeviceActions(id));
   return(<>
-    <DeviceSelect {...props} value={id} onChange={e => props.onChange && props.onChange(e) || defChange(e)}  placeholder="Choose A Device" />
+    <DeviceSelect {...props} value={id} onChange={e => props.onChange && props.onChange(e) || defChange(e)} placeholder="Choose A Device" />
     <ActionList {...props} formKey={formKey} actions={actions} root={root} />
   </>)
 };
@@ -38,7 +41,7 @@ export default ({name, procedure_id, onChange, ...props}) => {
       {...props}
       onChange={onChange}
       options={(devicesWithoutChildren && devicesWithoutChildren.length > 0)
-        ? devicesWithoutChildren.map(({id, name}) => ({value: id, label: name}))
+        ? devicesWithoutChildren.map(({id, machine_tag, name}) => ({value: id, label: `${machine_tag ? `${machine_tag} - ` : ""}${name}`}))
         : undefined}
       name={makeName(props.root, name)} as={DeviceSelectContainer} />
   )
