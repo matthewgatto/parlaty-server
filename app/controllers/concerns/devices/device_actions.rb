@@ -17,6 +17,8 @@ module Devices
 
     def update_children_device_actions(device)
       device.children.each do |child|
+        child.name = device.name
+        child.machine_tag = device.machine_tag
         save_device_actions(child, device.actions, is_dup_actions: true)
       end
     end
@@ -37,6 +39,7 @@ module Devices
     end
 
     def create_dup_device(device, step, device_actions_params)
+      step.device.destroy if step.device&.parent_id.present?
       new_device = device.dup
       new_device.parent_id = device.id
       new_device.save

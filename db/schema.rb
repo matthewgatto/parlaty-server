@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_16_111220) do
+ActiveRecord::Schema.define(version: 2020_09_22_111358) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 2020_09_16_111220) do
     t.bigint "device_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "parameter_name"
     t.string "parameter_value_8_pack"
     t.string "parameter_value_12_pack"
     t.boolean "default"
@@ -83,6 +82,7 @@ ActiveRecord::Schema.define(version: 2020_09_16_111220) do
     t.bigint "procedure_id"
     t.text "actions_order"
     t.integer "parent_id"
+    t.string "machine_tag"
     t.index ["procedure_id"], name: "index_devices_on_procedure_id"
   end
 

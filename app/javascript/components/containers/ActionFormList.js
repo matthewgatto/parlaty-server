@@ -5,7 +5,6 @@ import {reorderActionForm,removeActionForm,addActionForm,loadActionForms,clearAc
 import {getActionForms} from '@selectors/action';
 import withDND from '@components/withDND';
 import Placeholder from '@components/Placeholder';
-import Bar from '@components/Bar/Large';
 import ActionForm from './ActionForm';
 
 const DNDActionFields = withDND(({initialActions, formKey}) => {

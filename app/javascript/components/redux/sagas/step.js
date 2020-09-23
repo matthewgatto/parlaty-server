@@ -23,7 +23,9 @@ function* updateStepSaga({procedure, step, idx, initialValues}){
   try {
     step.id = procedure.steps[idx];
     const response = yield call(makeObjRequest, step, `/steps/${step.id}`, "put", "step");
-    return {...normalize(response, Schemas.step).entities, id: response.id}
+    const normalizedStep = {...normalize(response, Schemas.step).entities, id: response.id};
+    const procedureUpd = response.device_id ? {...normalize({...procedure, devices: response.procedure_device_ids }, Schemas.procedure).entities} : {}
+    return {...normalizedStep, ...procedureUpd}
   } catch (e) {
     throw e
   }
@@ -118,7 +120,11 @@ export function* reorderStepSaga({payload:{procedure_id, from, to}}){
 
 export function* updateStepsByLoop(procedure) {
   let updatedSteps = yield call(updatedLoopedSteps, procedure, {});
-  yield put({type: UPDATE_LOOPED_STEPS, payload: {steps: {...updatedSteps}}});
+  let updatedTemplates = [];
+  procedure.steps_order.map((id, index) =>{
+    updatedTemplates.push(updatedSteps[id]);
+  });
+  yield put({type: UPDATE_LOOPED_STEPS, payload: {steps: {...updatedSteps}, template: updatedTemplates}});
 }
 
 function* updatedLoopedSteps(oldProcedure, successPayload) {

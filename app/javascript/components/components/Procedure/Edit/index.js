@@ -21,6 +21,7 @@ import activeModal from '@containers/activeModal';
 import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '@types/procedure';
 import { loadStepForms } from '@actions/step';
 import { getProcedureById } from '@selectors/procedure';
+import { resetStepsValues } from "@actions/template";
 
 const DeviceCreateModal = activeModal(DeviceForm, "create_device");
 const ProcedureDeviceModal = activeModal(DeviceCopyList, "procedure_device_list");
@@ -69,6 +70,9 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
     // }
     if(initialValues && initialValues.steps && initialValues.steps.length > 0){
       addSteps();
+    }
+    return () => {
+      dispatch(resetStepsValues());
     }
   },[]);
   return(<>

@@ -2,7 +2,16 @@
   background: #f8f8f7;
   padding-bottom: 1em;
 }
-
 .container {
   margin: 0.8em 0;
+}
+.actionInputs{
+  display: flex;
+  justify-content: space-between;
+}
+.firstInput{
+  width: 60%;
+}
+.secondInput{
+  width: 35%;
 }

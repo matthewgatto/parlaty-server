@@ -32,16 +32,8 @@ const validateDevice = async (device) => {
 }
 
 export function* createDeviceSaga({type,payload:{values,formKey}}){
-  //yield call(deviceFormSaga, type, formKey, values, "Device successfully created.")
   try {
-    const actionIds = yield select(getActionForms),
-          device = {
-            name: values.name
-          }
-    if(actionIds.length > 0){
-      device.actions = actionIds.map(action => utils.makeAction(values, `actions[${action.formId}].`))
-    }
-    yield call(validateDevice, device)
+    const device = yield call(setDeviceValues, values, "create");
     const response = yield call(makeObjRequest, {device}, "/devices", "post", "device");
     yield put({type: `${type}__SUCCESS`, payload: normalize(response, Schemas.device).entities})
     yield put(push("/devices"))
@@ -57,16 +49,8 @@ export function* createDeviceSaga({type,payload:{values,formKey}}){
 }
 
 export function* updateDeviceSaga({type,payload:{formKey,id,values}}){
-  //yield call(deviceFormSaga, type, formKey, values, "Device successfully updated.", id)
   try {
-    const actionIds = yield select(getActionForms),
-          device = {
-            name: values.name
-          }
-    if(actionIds.length > 0){
-      device.actions = actionIds.map(action => ({...utils.makeAction(values, `actions[${action.formId}].`), id: action.id}))
-    }
-    yield call(validateDevice, device)
+    const device = yield call(setDeviceValues, values, "update");
     const response = yield call(makeObjRequest, {device}, `/devices/${id}`, "put", "device");
     const entities = normalize(response, [Schemas.device]).entities;
     yield put({type: `${type}__SUCCESS`, payload: entities})
@@ -96,12 +80,7 @@ export function* deviceListSaga(action){
 
 export function* createProcedureDeviceSaga({type, payload:{values,id,formKey}}){
   try {
-    const actionIds = yield select(getActionForms),
-          device = { name: values.name, procedure_id: values.procedure_id }
-    if(actionIds.length > 0){
-      device.actions = actionIds.map(action => utils.makeAction(values, `actions[${action.formId}].`))
-    }
-    yield call(validateDevice, device)
+    const device = yield call(setDeviceValues, values, "create_by_procedure");
     const response = yield call(makeObjRequest, {device}, "/devices", "post", "device");
     const procedure = yield select(getProcedureById(values.procedure_id));
     const newState = yield call(normalize,{...procedure, devices: procedure.devices ? [...procedure.devices, response] : [response]}, Schemas.procedure)
@@ -148,6 +127,24 @@ function* setStepsWithDevices(action){
     }
   }
   return stepsWithDevices;
+}
+
+function* setDeviceValues(values, actionType){
+  const actionIds = yield select(getActionForms),
+    device = {
+      name: values.name,
+      machine_tag: values.machine_tag
+    };
+  if(actionType === "create_by_procedure") device.procedure_id = values.procedure_id
+  if(actionIds.length > 0){
+    device.actions = actionIds.map(action =>
+      actionType === "create" || actionType === "create_by_procedure" ?
+      utils.makeAction(values, `actions[${action.formId}].`) :
+      ({...utils.makeAction(values, `actions[${action.formId}].`), id: action.id})
+    );
+  }
+  yield call(validateDevice, device);
+  return device;
 }
 
 // export function* getFreshDeviceData(){

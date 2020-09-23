@@ -113,7 +113,6 @@ export const makeAction = (values, root) => {
   const visuals = [],
     action = {
       name: values[`${root}name`],
-      parameter_name: values[`${root}parameter_name`],
       parameter_value_8_pack: values[`${root}parameter_value_8_pack`],
       time: values[`${root}time`],
       mode: values[`${root}mode`],

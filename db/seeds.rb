@@ -10,52 +10,52 @@
 # rails db:drop db:create db:migrate db:seed, if there is a change in db(rmb to change code below too)
 
 2.times do
-	Oem.create!(name: Faker::Name.first_name)
+  Oem.create!(name: Faker::Name.first_name)
 end
 
 x = 1
 while x <= 2
-	2.times do
-		OemBusiness.create!([{
-			name: Faker::Company.name,
-			oem_id: x
-		}])
-	end
+  2.times do
+    OemBusiness.create!([{
+                             name: Faker::Company.name,
+                             oem_id: x
+                         }])
+  end
 
-	x = x+1
+  x = x+1
 end
 
 
 # Operator
 x = 1
 while x <= 3
-	oem_business = OemBusiness.find(1)
-	operator = Operator.create!(name: Faker::Name.first_name)
-	myemail = "operator" + x.to_s + "@jmg.rocks"
-	if x == 1
-		myemail = "operator@gmail.com"
-	end
-	user = User.new(email: myemail, password: "password")
-	user.confirm
-	user.roleable = operator
-	user.save	
-	oem_business.operators << operator
-	oem_business.save
-	x += 1
+  oem_business = OemBusiness.find(1)
+  operator = Operator.create!(name: Faker::Name.first_name)
+  myemail = "operator" + x.to_s + "@jmg.rocks"
+  if x == 1
+    myemail = "operator@gmail.com"
+  end
+  user = User.new(email: myemail, password: "password")
+  user.confirm
+  user.roleable = operator
+  user.save
+  oem_business.operators << operator
+  oem_business.save
+  x += 1
 end
 
 # Operator
 x = 1
 while x <= 3
-	oem_business = OemBusiness.find(1)
-	author = Author.create!(name: Faker::Name.first_name)
-	user = User.new(email: "author" + x.to_s + "@jmg.rocks", password: "password")
-	user.confirm
-	user.roleable = author
-	user.save	
-	oem_business.authors << author
-	oem_business.save
-	x += 1
+  oem_business = OemBusiness.find(1)
+  author = Author.create!(name: Faker::Name.first_name)
+  user = User.new(email: "author" + x.to_s + "@jmg.rocks", password: "password")
+  user.confirm
+  user.roleable = author
+  user.save
+  oem_business.authors << author
+  oem_business.save
+  x += 1
 end
 
 ParlatyAdmin.create!(name: "james")
@@ -148,7 +148,7 @@ action = Action.create!(name: "Part Action Three", device: device, parameter_nam
 device.actions << action
 device.actions_order.push(action.id)
 device.save
-  
+
 #oemBusiness1.devices << device
 #oemBusiness1.save
 
@@ -238,22 +238,22 @@ device.save
 proc_index = 1
 y = 1
 while y <= 4
-	2.times do
-		oem_business = OemBusiness.find(y)
-		proc = Procedure.create!(
-			name: 'Proc' + proc_index.to_s,
-			version: Faker::Number.decimal(1),
-			description: Faker::Lorem.sentence,
-			category: Faker::Commerce.material,
-			author: Faker::Name.name,
-			language: Faker::Lorem.word
-		)
-		oem_business.procedures << proc
-		device = Device.find(proc_index)
-		proc.devices << device
-        proc_index = proc_index + 1
-	end
-	y = y+1
+  2.times do
+    oem_business = OemBusiness.find(y)
+    proc = Procedure.create!(
+        name: 'Proc' + proc_index.to_s,
+        version: Faker::Number.decimal(1),
+        description: Faker::Lorem.sentence,
+        category: Faker::Commerce.material,
+        author: Faker::Name.name,
+        language: Faker::Lorem.word
+    )
+    oem_business.procedures << proc
+    device = Device.find(proc_index)
+    proc.devices << device
+    proc_index = proc_index + 1
+  end
+  y = y+1
 end
 
 # Steps
@@ -261,22 +261,22 @@ step_index = 1
 action_instance_index = 1
 z = 1
 while z <= 6
-	order = 1
-	while order <= 2
-		@step = Step.create!(
-			title: 'Step' + step_index.to_s,
-			location: Faker::Restaurant.name,
-			note: Faker::Lorem.sentence,
-			procedure_id: z,
-                        device_id: z
-		)
-		@pro = Procedure.find(z)
-		@pro.steps_order.push(@step.id)
-		@pro.save
-		order = order+1
-        step_index = step_index + 1
-	end
-	z = z+1
+  order = 1
+  while order <= 2
+    @step = Step.create!(
+        title: 'Step' + step_index.to_s,
+        location: Faker::Restaurant.name,
+        note: Faker::Lorem.sentence,
+        procedure_id: z,
+        device_id: z
+    )
+    @pro = Procedure.find(z)
+    @pro.steps_order.push(@step.id)
+    @pro.save
+    order = order+1
+    step_index = step_index + 1
+  end
+  z = z+1
 end
 
 

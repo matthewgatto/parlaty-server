@@ -1,0 +1,11 @@
+.withoutPadding {
+  padding: 0;
+}
+.withoutPadding > div {
+  padding: 0;
+}
+.icon{
+  margin-top: -10px;
+  font-size: 14px;
+  color: #008000;
+}

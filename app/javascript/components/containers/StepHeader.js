@@ -16,7 +16,8 @@ export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root, handle
       dispatch(openStepForm(idx, {...makeStep(getValues(), root)}))
     }
   }
-  const stepForm = useSelector(getStepValues(idx))
+  const stepForm = useSelector(getStepValues(idx));
+  const device_id = stepForm && stepForm.device_id;
   const duplicateStep = (e) => {
     e.stopPropagation();
     dispatch(addStepForm(stepForm, true));
@@ -28,5 +29,5 @@ export default ({idx, procedure_id, isDuplicate, id, title, isOpen, root, handle
     }
     dispatch(removeStepForm(idx))
   }
-  return (<StepHeader root={root} idx={idx} title={title} isOpen={isOpen} isDuplicate={isDuplicate} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} onClick={handleClick} isDragging={isDragging} />)
+  return (<StepHeader root={root} idx={idx} title={title} isOpen={isOpen} isDuplicate={isDuplicate} deviceId={device_id} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} onClick={handleClick} isDragging={isDragging} />)
 }

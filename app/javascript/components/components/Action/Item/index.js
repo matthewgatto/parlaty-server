@@ -16,23 +16,20 @@ const makeActionItemClassStr = (isSelected, hasParameterValues) => {
 export default ({position, action, parent, actionValues, root, onChange}) => {
   const [isOpen, setIsOpen] = useState();
   const {setValue} = useFormContext();
-  const hasParameterValues = !!(action && action.parameter_name && action.parameter_value_8_pack)
+  const hasParameterValues = !!(action && action.parameter_value_8_pack)
   const handleClick = () => {
     if(hasParameterValues){
       setIsOpen(!isOpen);
     }
   }
 
-  let actionParameterName = actionValues && actionValues.parameter_name || action.parameter_name;
   let actionParameterValue = actionValues && actionValues.parameter_value_8_pack || action.parameter_value_8_pack;
   let actionTime = actionValues && actionValues.time || action.time;
   let actionMode = actionValues && actionValues.mode || action.mode;
-  let paramNameTitle = `Parameter Name (default ${ (!parent) ? actionParameterName : parent.parameter_name})`
   let paramValueTitle = `Parameter Value (default ${ (!parent) ? actionParameterValue : parent.parameter_value_8_pack})`
-  let actionName = `${action.name}${(hasParameterValues) ? ` (${actionParameterName} ${actionParameterValue})` : ""} `
+  let actionName = `${action.name}${(hasParameterValues) ? ` (${actionParameterValue})` : ""} `
   const actionRoot = `${root}actions[${action.id}].`
   useEffect(() => {
-    setValue(`${actionRoot}parameter_name`, actionParameterName);
     setValue(`${actionRoot}parameter_value_8_pack`, actionParameterValue);
     setValue(`${actionRoot}time`, actionTime);
     setValue(`${actionRoot}mode`, actionMode);
@@ -48,7 +45,6 @@ export default ({position, action, parent, actionValues, root, onChange}) => {
       {hasParameterValues &&
         <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
           <div className={styles.inputs}>
-            <Input onChange={([e]) => onChange(e)} type="text" as="input" root={actionRoot} name="parameter_name" label={paramNameTitle} defaultValue={actionParameterName} />
             <Input onChange={([e]) => onChange(e)} type="text" as="input" root={actionRoot} name="parameter_value_8_pack" label={paramValueTitle} defaultValue={actionParameterValue} />
             <ModeAndTimeFields onChange={onChange} defaultTime={actionTime || 8} defaultMode={actionMode || "continuous"} root={actionRoot} />
           </div>

@@ -18,11 +18,11 @@ class DevicePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:name, :procedure_id]
+    [:name, :machine_tag, :procedure_id]
   end
 
   def actions_permitted_attributes
-    [:id, :name, :parameter_name, :parameter_value_8_pack, :time, :mode,
+    [:id, :name, :parameter_value_8_pack, :time, :mode,
       visuals: []
     ]
   end

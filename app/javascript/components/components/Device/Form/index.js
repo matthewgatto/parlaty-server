@@ -8,23 +8,17 @@ import Form from '@components/Form/NewContext';
 import { Input } from '@components/Inputs';
 import styles from './index.module.css';
 
-const inputs = [{
-  type: "text",
-  name: "name",
-  label: "Device Name*",
-  required: true
-}]
-
 export default ({bar, form}) => (
   <div className={styles.modalContainer}>
     <Bar {...bar} />
     <Form {...form} className={styles.content}>
       {({handleSubmit, formKey}) => (<>
           <div>
-          <FormError formKey={formKey} large top />
-          <div className={styles.margin}>
-            <Input as="input" name="name" type="text" label="Name" formKey={formKey} defaultValue={form.initialValues && form.initialValues.name} />
-          </div>
+            <FormError formKey={formKey} large />
+            <div className={styles.margin}>
+              <Input as="input" name="machine_tag" type="text" label="Machine Tag" formKey={formKey} defaultValue={form.initialValues && form.initialValues.machine_tag} />
+              <Input as="input" name="name" type="text" label="Device Name" formKey={formKey} defaultValue={form.initialValues && form.initialValues.name} />
+            </div>
           </div>
           <div>
             <div className={styles.columnTitle}>Device Actions</div>
