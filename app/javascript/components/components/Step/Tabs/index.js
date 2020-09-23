@@ -119,7 +119,7 @@ export default ({ initialValues, formKey, root, procedure_id, idx, updateParams 
           <HiddenTab label="" {...tabProps(0)} />
           <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(1)} />
           <CustTab label="Loop" icon={<FullIcon full={!disabledTab && values.enabled_loop} />} disabled={disabledTab} {...tabProps(2)} />
-          <CustTab label="Media" icon={<FullIcon full={values.visuals.length > 0} />} {...tabProps(3)} />
+          <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(3)} />
         </CustTabs>
       </AppBar>
       <TabPanel tab={tab} onChange={updateParams} className={styles.withoutPadding} index={0}/>
