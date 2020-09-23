@@ -16,6 +16,13 @@ export default (state = [], {type, payload}) => {
       return state;
     case types.SET_STEP_VALUES:
       return [...state.slice(0,payload.idx),{...state[payload.idx], ...payload.values},...state.slice(payload.idx+1)];
+    case types.RESET_STEPS_VALUES:
+      return [];
+    case steps.UPDATE_LOOPED_STEPS:
+      if(payload.template){
+        return payload.template;
+      }
+      return state;
     default:
       return state
   }

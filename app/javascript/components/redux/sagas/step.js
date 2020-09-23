@@ -120,7 +120,11 @@ export function* reorderStepSaga({payload:{procedure_id, from, to}}){
 
 export function* updateStepsByLoop(procedure) {
   let updatedSteps = yield call(updatedLoopedSteps, procedure, {});
-  yield put({type: UPDATE_LOOPED_STEPS, payload: {steps: {...updatedSteps}}});
+  let updatedTemplates = [];
+  procedure.steps_order.map((id, index) =>{
+    updatedTemplates.push(updatedSteps[id]);
+  });
+  yield put({type: UPDATE_LOOPED_STEPS, payload: {steps: {...updatedSteps}, template: updatedTemplates}});
 }
 
 function* updatedLoopedSteps(oldProcedure, successPayload) {
