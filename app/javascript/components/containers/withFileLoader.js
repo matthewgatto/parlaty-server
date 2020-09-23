@@ -18,13 +18,17 @@ export default ({isArrParams, file, setFile, ...props}) => {
     setSrc(props.src instanceof File ? await readFile(props.src) : props.src)
   }, [props.src, setSrc]);
   useEffect(() => {
-    setIsLoading(true);
+    if( type[2] === 'doc_preview') {
+      setIsLoading(false)
+    } else {
+      setIsLoading(true);
+    }
     setImageSrc();
   }, [setImageSrc, setIsLoading]);
   return (
     <>
       {src ? (
-        <Display params={file} src={src} onLoad={() => setIsLoading(false)} isLoading={isLoading} onClick={(isLoading && !file.type.indexOf('application')) ? undefined : openModal}/>
+        <Display params={file} src={src} onLoad={() => setIsLoading(false)} isLoading={isLoading} onClick={isLoading ? undefined : openModal}/>
       ) : (
         <div onClick={setFile} className={styles.placeholder}>No File Uploaded</div>
       )}

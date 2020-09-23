@@ -1,8 +1,8 @@
 import React from 'react';
-import withModal from '@containers/withModal';
 import styles from './index.module.css';
+import activeModal from '@containers/activeModal';
 
-export default withModal(({modalData}) => {return (
+export default activeModal(({modalData}) => {return (
   <div className={styles.container}>
     <div>
       {modalData && typeof modalData === "string" ? 'file' : (modalData.name || modalData).split('.').pop() || 'file'}

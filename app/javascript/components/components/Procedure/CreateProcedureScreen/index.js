@@ -8,7 +8,7 @@ import {Input, LimitedTextArea} from '@components/Inputs';
 import Polygon from '@components/SVG/PolygonH';
 import SubmitButton from '@containers/SubmitButton'
 import CopyList from '../CopyList';
-import withModal from '@containers/withModal';
+import activeModal from '@containers/activeModal';
 import { procedureSchema } from '@utils/validation';
 import { CREATE_PROCEDURE_REQUEST } from '@types/procedure';
 import { getUserId } from '@selectors/auth';
@@ -18,7 +18,7 @@ import {getOemBusinessProceduresWithDevices} from '@selectors/oem_business';
 import {setModal} from '@actions/modal';
 import styles from './index.module.css';
 
-const CopyModal = withModal(CopyList, "procedure_copy_list");
+const CopyModal = activeModal(CopyList, "procedure_copy_list");
 
 const CopyProcedureButton = ({formKey,oem_business_id}) => {
   const dispatch = useDispatch();

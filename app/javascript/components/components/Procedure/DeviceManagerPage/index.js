@@ -3,15 +3,16 @@ import Polygon from '@components/SVG/PolygonH';
 import DeviceForm from '@components/Device/Create';
 import DeviceUpdateForm from '@components/Device/Edit';
 import DeleteDeviceConfirmationModal from '@components/Device/DeleteConfirmationModal';
-import withModal from '@containers/withModal';
+import activeModal from '@containers/activeModal';
+import ModalOverlay from '@components/Modal/Overlay';
 import useEntityName from '@containers/useEntityName';
 import DeviceCopyList from '../DeviceCopyList'
 import DeviceManager from '../DeviceManager';
 import styles from './index.module.css';
 
-const DeviceCreateModal = withModal(DeviceForm, "create_device");
-const ProcedureDeviceModal = withModal(DeviceCopyList, "procedure_device_list");
-const DeviceUpdateModal = withModal(DeviceUpdateForm, "update_device");
+const DeviceCreateModal = activeModal(DeviceForm, "create_device");
+const ProcedureDeviceModal = activeModal(DeviceCopyList, "procedure_device_list");
+const DeviceUpdateModal = activeModal(DeviceUpdateForm, "update_device");
 
 export default ({header, subheader, formComponents, procedure_id, oem_business_id, top}) => {
   const name = useEntityName("procedures", procedure_id);
@@ -37,9 +38,11 @@ export default ({header, subheader, formComponents, procedure_id, oem_business_i
         <Polygon className={styles.bottomPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
       </div>
     </div>
-    <DeviceCreateModal name={name} procedure_id={procedure_id} />
-    <ProcedureDeviceModal oem_business_id={oem_business_id} />
-    <DeviceUpdateModal name={name} />
-    <DeleteDeviceConfirmationModal procedure_id={procedure_id} />
+    <ModalOverlay>
+      <DeviceCreateModal name={name} procedure_id={procedure_id} />
+      <ProcedureDeviceModal oem_business_id={oem_business_id} />
+      <DeviceUpdateModal name={name} />
+      <DeleteDeviceConfirmationModal procedure_id={procedure_id} />
+    </ModalOverlay>
   </>)
 }

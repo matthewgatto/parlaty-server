@@ -4,6 +4,7 @@ import UserUpdateForm from '@containers/UserUpdateForm';
 import SubmitButton from '@components/SubmitButton';
 import ModalTrigger from '@containers/ModalTrigger';
 import DeleteUserConfirmationModal from '../DeleteConfirmationModal'
+import ModalOverlay from '@components/Modal/Overlay';
 
 export default ({match, role}) => (<>
   <PageLayout
@@ -16,5 +17,7 @@ export default ({match, role}) => (<>
   >
     <UserUpdateForm id={match.params.id} role={role} />
   </PageLayout>
-  <DeleteUserConfirmationModal id={match.params.id} />
+  <ModalOverlay>
+   <DeleteUserConfirmationModal id={match.params.id} />
+  </ModalOverlay>
 </>)

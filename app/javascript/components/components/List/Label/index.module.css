@@ -4,10 +4,9 @@
   font-size: 1.9em;
   font-weight: 600;
 }
-
-.header{
-  float: left;
-}
+/*.header{*/
+  /*float: left;*/
+/*}*/
 .headerCount{
   float: right;
 }

@@ -8,6 +8,7 @@ import ModalTrigger from '@containers/ModalTrigger';
 import DeleteOemBusinessConfirmationModal from '../DeleteConfirmationModal'
 import { FETCH_OEM_BUSINESS_PROCEDURES_REQUEST } from '@types/oem_business';
 import { getOemBusinessProcedures, getOemIdByOemBusinessId } from '@selectors/oem_business';
+import ModalOverlay from '@components/Modal/Overlay';
 import useOemInfo from '@containers/useOemInfo'
 import styles from './index.module.css';
 
@@ -56,6 +57,8 @@ export default ({match:{params:{oem_business_id,oem_id},url}}) => {
         to: `${url}/procedures`
       }}
     />
-    <DeleteOemBusinessConfirmationModal oem_business_id={oem_business_id}/>
+    <ModalOverlay>
+      <DeleteOemBusinessConfirmationModal oem_business_id={oem_business_id}/>
+    </ModalOverlay>
   </>)
 }

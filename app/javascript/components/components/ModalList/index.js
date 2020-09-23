@@ -11,7 +11,7 @@ export default ({params}) => {
   return(
     <div className={styles.panel}>
       {files && [...files].map((file, i) => (
-          <div key={file.id || file.lastModified +  Math.random(10000)} className={`${styles.fileList} ${activeIndex === i ? styles.activeFile : null}`}>
+          <div key={file.id} className={`${styles.fileList} ${activeIndex === i ? styles.activeFile : null}`}>
             <FileLoader file={file} src={file.visual || file} isArrParams={{ index: i, idx, objName, change: true }} />
           </div>
         )

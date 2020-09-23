@@ -2,6 +2,7 @@
   height: 80vh;
   width: auto;
   max-width: calc(100% - 4vw) !important;
+  min-width: 50vw !important;
   font-size: 12rem;
   text-transform: uppercase;
   color: #67328d;

@@ -6,6 +6,7 @@ import ModalTrigger from '@containers/ModalTrigger';
 import DeleteClientConfirmationModal from '../DeleteConfirmationModal'
 import { FETCH_OEM_BUSINESSES_REQUEST } from '@types/oem';
 import { getOemBusinesses } from '@selectors/oem';
+import ModalOverlay from '@components/Modal/Overlay';
 
 export default ({match:{url,params:{oem_id}}}) => (<>
   <ListPage
@@ -30,5 +31,7 @@ export default ({match:{url,params:{oem_id}}}) => (<>
       selector: getOemBusinesses(oem_id)
     }}
   />
-  <DeleteClientConfirmationModal client_id={oem_id} />
+  <ModalOverlay>
+    <DeleteClientConfirmationModal client_id={oem_id} />
+  </ModalOverlay>
 </>)

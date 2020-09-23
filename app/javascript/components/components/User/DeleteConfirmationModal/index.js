@@ -1,10 +1,10 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import DeleteConfirmation from '@components/Modal/DeleteConfirmation';
-import withModal from '@containers/withModal';
+import activeModal from '@containers/activeModal';
 import { deleteUser } from '@actions/user';
 
-export default withModal(({id}) => {
+export default activeModal(({id}) => {
   const dispatch = useDispatch();
   const handleYesClick = () => dispatch(deleteUser(id))
   return(

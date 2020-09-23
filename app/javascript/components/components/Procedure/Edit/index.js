@@ -4,7 +4,6 @@ import PageLayout from '@components/PageLayout';
 import FetchLoader from '@components/List/Loader';
 import SubmitButton from '@components/SubmitButton';
 import ModalTrigger from '@containers/ModalTrigger';
-import withModal from '@containers/withModal';
 import ProcedureForm from '../EditForm';
 import DeviceForm from '@components/Device/Create';
 import DeviceUpdateForm from '@components/Device/Edit';
@@ -17,14 +16,16 @@ import ProcedureOemBusinesses from '@components/Procedure/OemBusinesses';
 import DeviceManagerModal from '../DeviceManagerModal'
 import DeleteProcedureConfirmationModal from '../DeleteConfirmationModal'
 import DeleteDeviceConfirmationModal from '@components/Device/DeleteConfirmationModal';
+import ModalOverlay from '@components/Modal/Overlay';
+import activeModal from '@containers/activeModal';
 import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '@types/procedure';
 import { loadStepForms } from '@actions/step';
 import { getProcedureById } from '@selectors/procedure';
 
-const DeviceCreateModal = withModal(DeviceForm, "create_device");
-const ProcedureDeviceModal = withModal(DeviceCopyList, "procedure_device_list");
-const DeviceUpdateModal = withModal(DeviceUpdateForm, "update_device");
-const ProcedureOemBusinessesModal = withModal(ProcedureOemBusinesses, "add_oem_business");
+const DeviceCreateModal = activeModal(DeviceForm, "create_device");
+const ProcedureDeviceModal = activeModal(DeviceCopyList, "procedure_device_list");
+const DeviceUpdateModal = activeModal(DeviceUpdateForm, "update_device");
+const ProcedureOemBusinessesModal = activeModal(ProcedureOemBusinesses, "add_oem_business");
 
 const withStepLoader = (WrappedComponent) =>  (
   class extends React.PureComponent {
@@ -40,7 +41,7 @@ const withStepLoader = (WrappedComponent) =>  (
       return <WrappedComponent {...this.props} />
     }
   }
-)
+);
 
 const EditProcedureForm = ({initialValues, id, oem_business_id}) => useMemo(() => (
   <ProcedureForm
@@ -52,7 +53,7 @@ const EditProcedureForm = ({initialValues, id, oem_business_id}) => useMemo(() =
     procedure_id={id}
     oemBusinessId={oem_business_id}
   />
-),[])
+),[]);
 
 const EditProcedureFormWithStepLoader = withStepLoader(EditProcedureForm);
 
@@ -61,15 +62,15 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
   const initialValues = useSelector(getProcedureById(id));
   let name = initialValues && initialValues.name;
   const dispatch = useDispatch();
-  const addSteps = () => dispatch(loadStepForms(initialValues.steps_order || []))
+  const addSteps = () => dispatch(loadStepForms(initialValues.steps_order || []));
   useEffect(() => {
     // if(!initialValues || typeof initialValues.description === 'undefined'){
-    dispatch({type: FETCH_PROCEDURE_REQUEST, payload: {url: `/procedures/${id}`, id}})
+    dispatch({type: FETCH_PROCEDURE_REQUEST, payload: {url: `/procedures/${id}`, id}});
     // }
     if(initialValues && initialValues.steps && initialValues.steps.length > 0){
       addSteps();
     }
-  },[])
+  },[]);
   return(<>
     <PageLayout
       header={`Edit ${name ? name : "Procedure"}`}
@@ -84,16 +85,18 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
     >
       <EditProcedureFormWithStepLoader id={id} oem_business_id={oem_business_id} addSteps={addSteps} initialValues={initialValues} />
     </PageLayout>
-    <DeleteProcedureConfirmationModal procedure_id={id} />
-    <DeleteDeviceConfirmationModal procedure_id={id} />
-    <DeviceManagerModal name={name} procedure_id={id} />
-    <DeviceCreateModal name={name} procedure_id={id} />
-    <ProcedureDeviceModal oem_business_id={oem_business_id} />
-    <DeviceUpdateModal name={name} />
-    <ProcedureOemBusinessesModal procedure_id={id} oem_id={oem_id} />
-    <ImagePreviewModal />
-    <VideoPreviewModal />
-    <VideoProgressModal />
-    <DocPreviewModal />
+    <ModalOverlay>
+      <DeleteProcedureConfirmationModal procedure_id={id} />
+      <DeleteDeviceConfirmationModal procedure_id={id} />
+      <DeviceManagerModal name={name} procedure_id={id} />
+      <DeviceCreateModal name={name} procedure_id={id} />
+      <ProcedureDeviceModal oem_business_id={oem_business_id} />
+      <DeviceUpdateModal name={name} />
+      <ProcedureOemBusinessesModal procedure_id={id} oem_id={oem_id} />
+      <ImagePreviewModal />
+      <VideoPreviewModal />
+      <VideoProgressModal />
+      <DocPreviewModal />
+    </ModalOverlay>
   </>)
 }

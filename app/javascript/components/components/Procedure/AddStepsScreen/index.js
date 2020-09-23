@@ -11,6 +11,7 @@ import VideoPreviewModal from '@components/VideoPreviewModal';
 import {addToast} from '@actions/toast';
 import { procedureSchema } from '@utils/validation';
 import styles from './index.module.css';
+import ModalOverlay from '@components/Modal/Overlay';
 
 export default ({match:{url,params:{oem_id,oem_business_id,id}},history:{push},location:{pathname}}) => {
   const dispatch = useDispatch()
@@ -51,8 +52,10 @@ export default ({match:{url,params:{oem_id,oem_business_id,id}},history:{push},l
         <Polygon className={styles.bottomPolygonThree} fill="none" stroke="#67318d" size="1.5em" />
         <Polygon className={styles.bottomPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
       </div>
-      <ImagePreviewModal />
-      <VideoPreviewModal />
+      <ModalOverlay>
+        <ImagePreviewModal />
+        <VideoPreviewModal />
+      </ModalOverlay>
     </div>
   )
 }

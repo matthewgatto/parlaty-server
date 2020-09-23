@@ -1,10 +1,10 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import DeleteConfirmation from '@components/Modal/DeleteConfirmation';
-import withModal from '@containers/withModal';
+import activeModal from '@containers/activeModal';
 import { deleteClient } from '@actions/client';
 
-export default withModal(({client_id}) => {
+export default activeModal(({client_id}) => {
   const dispatch = useDispatch();
   const handleYesClick = () => dispatch(deleteClient(client_id))
   return(

@@ -1,8 +1,8 @@
 import React from 'react';
-import withModal from '@containers/withModal';
 import styles from './index.module.css';
+import activeModal from '@containers/activeModal';
 
-export default withModal(({modalData}) => (
+export default activeModal(({modalData}) => (
   <div className={styles.wrapper}>
     <img src={modalData} className={styles.container} />
   </div>
