@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
 import { getStepValues } from '@selectors/template'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import styles from './index.module.css';
@@ -61,6 +62,9 @@ const CustTab = withStyles({
     fontSize: '1.1em',
     fontWeight: '600',
     lineHeight: '1em',
+    '& > span':{
+      flexDirection: "row-reverse",
+    },
     '&$selected': {
       color: '#67318d',
     }
@@ -79,6 +83,14 @@ const HiddenTab = withStyles({
     padding: '0',
   },
 })(Tab);
+
+const FullIcon = ({full}) => {
+  return (full ?
+    <CheckCircleOutlineRoundedIcon className={styles.icon} style={{fontSize: 14}} /> :
+    null
+  )
+}
+
 function tabProps(index) {
   return {
     id: `scrollable-auto-tab-${index}`,
@@ -105,9 +117,9 @@ export default ({ initialValues, formKey, root, procedure_id, idx, updateParams 
       <AppBar position="static" color="default" className={classes.header}>
         <CustTabs value={tab} onChange={handleChange} indicatorColor="primary" textColor="primary" aria-label="auto tabs example" centered >
           <HiddenTab label="" {...tabProps(0)} />
-          <CustTab label="Device" {...tabProps(1)} />
-          <CustTab label="Loop" disabled={disabledTab} {...tabProps(2)} />
-          <CustTab label="Media" {...tabProps(3)} />
+          <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(1)} />
+          <CustTab label="Loop" icon={<FullIcon full={!disabledTab && values.enabled_loop} />} disabled={disabledTab} {...tabProps(2)} />
+          <CustTab label="Media" icon={<FullIcon full={values.visuals.length > 0} />} {...tabProps(3)} />
         </CustTabs>
       </AppBar>
       <TabPanel tab={tab} onChange={updateParams} className={styles.withoutPadding} index={0}/>
