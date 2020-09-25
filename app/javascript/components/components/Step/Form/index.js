@@ -6,7 +6,7 @@ import FormError from '@containers/FormError';
 import SpokenBox from '@components/Inputs/SpokenBox';
 import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
-import { Input, Select, LimitedTextArea } from '@components/Inputs';
+import { Input, Select } from '@components/Inputs';
 import styles from './index.module.css';
 import { setStepValues } from '@actions/template'
 import TimeMode from '@components/Step/TimeMode';
@@ -41,7 +41,6 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, oemBusines
             <TimeMode onChange={updateStepParams} formKey={formKey} root={root} defaultValue={initialValues}/>
            </div>
           <TimeSelect onChange={updateStepParams} formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
-          <LimitedTextArea onChange={updateStepParams} as="textarea" defaultValue={initialValues.location || ''} label="Instruction" name="location" rows="6" root={root} formKey={formKey} limit={300}/>
           <ProcedureAssociationForm onChange={updateStepParams} procedureId={procedure_id} oemBusinessId={oemBusinessId} formKey={formKey} root={root} defaultValue={initialValues}/>
           <Tabs updateParams={updateStepParams} initialValues={initialValues} formKey={formKey} root={root} procedure_id={procedure_id} idx={idx} />
           <div className={styles.error}>
