@@ -41,7 +41,7 @@ export default ({match:{url,params:{oem_id,oem_business_id,id}},history:{push},l
         id={uuid()}
       >
         {({handleSubmit, formKey}) => (<>
-          <StepList procedure_id={id} formKey={formKey} />
+          <StepList procedure_id={id} oemBusinessId={oem_business_id} formKey={formKey} />
           <AddStepFormButton formKey={formKey} />
           <SubmitButton onClick={handleSubmitClick} label="Submit Procedure" className={styles.submit} />
         </>)}

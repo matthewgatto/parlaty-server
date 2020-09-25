@@ -2,8 +2,6 @@ import React from 'react';
 import Triangle from '@components/SVG/Triangle';
 import styles from './index.module.css';
 
-
-
 export const withSelectContainer = WrappedComponent => ({className, ...props}) => {
   let classStr = `${styles.container} align_center`;
   if(className) classStr += " "+className;

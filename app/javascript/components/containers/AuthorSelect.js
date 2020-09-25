@@ -15,6 +15,6 @@ export default ({formKey, defaultValue, oemBusinessId}) => {
     }
   },[oemBusiness]);
   return(
-    <Select defaultValue={ authorValue } options={authorsSelect || []} label="Author" name="author_id" formKey={formKey} placeholder="Choose an author..." unclearable />
+    <Select defaultValue={ authorValue } options={authorsSelect || []} label="Author" name="author_id" formKey={formKey} placeholder="Choose an author..." />
   )
 }

@@ -29,7 +29,7 @@ class OemBusinessSerializer
     end
 
     def procedure_oem_businesses_as_json(oem_businesses)
-      oem_businesses.map{ |oem_business| { oem_business_id: oem_business.id } }
+      oem_businesses.map{ |oem_business| show_oem_business_as_json(oem_business) }
     end
 
     def simple_oem_business_as_json(oem_business)

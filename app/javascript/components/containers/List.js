@@ -7,7 +7,7 @@ export default function(props){
   const dispatch = useDispatch();
   const fetchData = () => dispatch({type: props.type, payload: {url: props.url, id: props.id}});
   useEffect(() => {
-    if(!items){
+    if(!items || props.entityKey === "oems"){
       fetchData()
     }
   },[]);

@@ -6,12 +6,13 @@ import FormError from '@containers/FormError';
 import SpokenBox from '@components/Inputs/SpokenBox';
 import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
-import { Input, CheckBox, Select, ModeRadio, LimitedTextArea } from '@components/Inputs';
+import { Input, Select, LimitedTextArea } from '@components/Inputs';
 import styles from './index.module.css';
 import { setStepValues } from '@actions/template'
 import TimeMode from '@components/Step/TimeMode';
 import Tabs from '@components/Step/Tabs';
 import {useDispatch} from "react-redux";
+import ProcedureAssociationForm from "@components/Step/ProcedureAssociationForm";
 
 const TIME_OPTIONS = [{value: 0, label: "0 seconds"}, {value: 1, label: "1 second"}, {value: 2, label: "2 seconds"}, {value: 3, label: "3 seconds"}, {value: 4, label: "4 seconds"}, {value: 5, label: "5 seconds"}, {value: 6, label: "6 seconds"}, {value: 7, label: "7 seconds"}, {value: 8, label: "8 seconds"}];
 
@@ -21,7 +22,7 @@ const TimeSelect = (props) => {
   return <Select {...props} disabled={mode === "manual" || mode === "continuous"} options={TIME_OPTIONS} label="Time" name="time" />
 };
 
-export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, initialValues, procedureFormKey, handleCloseForm}) => {
+export default ({isDuplicate, root, idx, title, isOpen, procedure_id, oemBusinessId, formKey, id, initialValues, procedureFormKey, handleCloseForm}) => {
   const dispatch = useDispatch();
   const updateStepParams = useCallback(([e]) => {
       let name = e.target.name.split(root).pop();
@@ -38,11 +39,10 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
           </div>
           <div className={`${styles.boxes} align_center`}>
             <TimeMode onChange={updateStepParams} formKey={formKey} root={root} defaultValue={initialValues}/>
-            {/*<ModeRadio onChange={updateStepParams} formKey={formKey} root={root} name="mode" defaultValue={initialValues.mode || "continuous"} />*/}
-            {/*<CheckBox onChange={updateStepParams} formKey={formKey} label="Safety" root={root} name="safety" defaultValue={initialValues.safety || false} />*/}
-          </div>
+           </div>
           <TimeSelect onChange={updateStepParams} formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
           <LimitedTextArea onChange={updateStepParams} as="textarea" defaultValue={initialValues.location || ''} label="Instruction" name="location" rows="6" root={root} formKey={formKey} limit={300}/>
+          <ProcedureAssociationForm onChange={updateStepParams} procedureId={procedure_id} oemBusinessId={oemBusinessId} formKey={formKey} root={root} defaultValue={initialValues}/>
           <Tabs updateParams={updateStepParams} initialValues={initialValues} formKey={formKey} root={root} procedure_id={procedure_id} idx={idx} />
           <div className={styles.error}>
             <FormError formKey={formKey} large />

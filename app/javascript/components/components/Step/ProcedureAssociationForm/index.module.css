@@ -1,0 +1,17 @@
+.container {
+}
+.container > :nth-child(1) {
+  display: flex;
+  align-items: center;
+}
+.container > :nth-child(1) > input {
+  order: 1;
+}.container > :nth-child(1) > div {
+  order: 2;
+}
+.container > label > * {
+  margin: 1px 0.2em 0.2em;
+}
+.disabled {
+  background-color: #ddd !important;
+}

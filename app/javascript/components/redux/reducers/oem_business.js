@@ -12,6 +12,7 @@ const allOemBusinesses = (state = null, {type,payload}) => {
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
     case oemBusinessTypes.FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
     case oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST__SUCCESS:
+    case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
       if(payload.oem_businesses){
         return addIds(state, payload.oem_businesses)
@@ -38,6 +39,7 @@ const oemBusinessesById = (state = {}, {type,payload}) => {
       }
     case oemBusinessTypes.DELETE_OEM_BUSINESS_REQUEST__SUCCESS:
       return immutableRemove(payload.oem_business_id,state);
+    case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case oemTypes.FETCH_OEM_BUSINESSES_REQUEST__SUCCESS:
       if(payload.oem_businesses){
         return {

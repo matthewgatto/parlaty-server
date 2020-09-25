@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Procedures
-	# ProcedureCountLimit
+	# DuplicateProcedure
 	module DuplicateProcedure
 		extend ActiveSupport::Concern
 
