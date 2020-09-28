@@ -148,7 +148,7 @@ export const getNewStepValues = (values) => {
       step.time = time || 8;
     }
   }
-  if(location) step.location = location;
+  step.location = location;
   return step;
 };
 

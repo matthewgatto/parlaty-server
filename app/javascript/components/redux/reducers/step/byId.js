@@ -17,11 +17,12 @@ export default (state = {}, {type,payload}) => {
     case FETCH_PROCEDURE_REQUEST__SUCCESS:
     case DELETE_DEVICE_REQUEST__SUCCESS:
       if(payload.steps){
-        return merge({}, state, payload.steps)
+        return merge({}, state, payload.steps);
       }
+      return state;
     case types.DELETE_STEP_REQUEST__SUCCESS:
       return immutableRemove(payload.id,state);
     default:
-      return state
+      return state;
   }
 }
