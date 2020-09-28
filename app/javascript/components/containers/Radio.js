@@ -4,6 +4,7 @@ import withField from "../components/Inputs/withField";
 import Radio from "../components/Inputs/Radio";
 import { useDispatch } from "react-redux";
 import { setStepValues } from '@actions/template'
+
 const RadioField = withField(Radio);
 
 export default ({root, actionRoot, defaultValue, setTabValues, index, withoutChecked, name, ...props}) => {

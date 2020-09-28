@@ -17,18 +17,18 @@ import {updateStepsByLoop} from "./step";
 
 const normalizeOem = ({oem}) => normalize(oem, Schemas.oem).entities;
 
-function* getNewEntitiesFromProcedure(response,{payload:{values}}){
+function* getNewEntitiesFromProcedure({oem, ...response},{payload:{values}}){
   const oem_business = yield select(getOemBusinessById(values.procedure.oem_business_ids[0]))
   return oem_business ? (
     {
       ...normalize({...oem_business, procedures: oem_business.procedures ?
           [...oem_business.procedures,{...response, name: values.procedure.name}] :
           [{...response, name: values.procedure.name}]}, Schemas.oem_business).entities,
-      ...normalizeOem(response)
+      ...normalizeOem({oem})
     }
   ) : (
     { ...normalize({...response,name: values.procedure.name}, Schemas.procedure).entities,
-      ...normalizeOem(response) }
+      ...normalizeOem({oem}) }
   )
 }
 
@@ -68,17 +68,7 @@ function* handleProcedureCreateSuccess(response, {payload}){
 export function* createProcedureSaga(action){
   try {
     yield call(
-      postSaga,
-      {
-        ...action,
-        payload: {
-          ...action.payload,
-          values: {
-            oem_id: action.payload.values.oem_id,
-            procedure: procedureParams(action, "create")
-          }
-        }
-      },
+      postSaga,{ ...action, payload: { ...action.payload, values: { oem_id: action.payload.values.oem_id, procedure: procedureParams(action, "create") }}},
       getNewEntitiesFromProcedure,
       handleProcedureCreateSuccess
     );
@@ -95,11 +85,10 @@ export function* updateProcedureSaga(action){
   yield call(formSaga, "put", action, normalizeProcedure, handleProcedureUpdateSuccess);
 }
 
-const normalizeFullProcedure = ({procedure_id, steps, ...procedure}) => normalize({
-  ...procedure,
-  id: procedure_id,
-  steps
-}, Schemas.procedure).entities
+const normalizeFullProcedure = ({procedure_id, steps, oem, ...procedure}) => ({
+  ...normalize({...procedure, id: procedure_id, steps}, Schemas.procedure).entities,
+  ...normalize({...oem, id: oem.id}, Schemas.oem).entities
+  })
 
 export function* fetchProcedureSaga(action){
   yield call(getSaga, action, normalizeFullProcedure);

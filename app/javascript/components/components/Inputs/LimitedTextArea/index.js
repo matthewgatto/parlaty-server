@@ -7,7 +7,7 @@ export default ({rows, cols, limit, name, value, onChange}) => {
   const { setValue } = useFormContext();
   const setFormattedContent = e => setValue(name, e.target.value);
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.counter}>
         {ref.current && ref.current.value.length || value && value.length || 0}{'/'}{limit}
       </div>

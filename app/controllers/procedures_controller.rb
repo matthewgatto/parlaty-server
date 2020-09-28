@@ -1,7 +1,7 @@
 class ProceduresController < ApplicationController
 	include ActiveStorage::Downloading
 	before_action :require_login
-	include Procedures::ProcedureCountLimit
+	include Procedures::ProcedureLib
 	include Procedures::DuplicateProcedure
 	include OemBusinesses::PermittedUsers
 	before_action :set_params, only: %i[show update destroy reorder copy]
@@ -21,7 +21,7 @@ class ProceduresController < ApplicationController
 	def show
 		authorize @procedure
 		@steps = Step.find(@procedure.steps_order) if @procedure.steps_order.present?
-		render json: ProcedureSerializer.procedure_as_json(@procedure, @steps), status: :ok
+		render json: ProcedureSerializer.procedure_as_json(@procedure, @steps, procedure_oem_business&.oem), status: :ok
 	end
 
 	# POST /procedures
@@ -92,15 +92,6 @@ class ProceduresController < ApplicationController
 
 		def set_params
 			@procedure = Procedure.find(params[:id])
-		end
-
-		def limited?
-			oem_business_ids = procedure_params[:oem_business_ids] || @procedure.oem_business_ids
-			oem_business = OemBusiness.where(id: oem_business_ids).first if oem_business_ids.present?
-			return true if oem_business.blank?
-
-			@oem = oem_business.oem
-			count_limited?(@oem)
 		end
 
 		def procedure_params

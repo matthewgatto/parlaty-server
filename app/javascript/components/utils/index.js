@@ -148,7 +148,7 @@ export const getNewStepValues = (values) => {
       step.time = time || 8;
     }
   }
-  if(location) step.location = location;
+  step.location = location;
   return step;
 };
 
@@ -158,12 +158,16 @@ export const makeStep = (values, isFormData) => {
         visuals = [],
         default_media = values.default_media,
         device_id = values.device_id,
-        step = getNewStepValues(values);
+        step = getNewStepValues(values),
+        enabled_associated_procedure = values.enabled_associated_procedure,
+        associated_procedure_id = values.associated_procedure_id;
   values['visuals'] && values.visuals.forEach(file=>{
     visuals.push(file.hasOwnProperty('visual') ? file.visual : file)
   });
   if(spoken) step.spoken = spoken;
   if(safety) step.safety = safety;
+  step.enabled_associated_procedure = enabled_associated_procedure;
+  if(associated_procedure_id) step.associated_procedure_id = associated_procedure_id;
   if(device_id){
     if(isFormData){
       step.device = device_id

@@ -13,7 +13,9 @@ import {STEP_SAVE_REQUEST__SUCCESS, UPDATE_LOOPED_STEPS} from '@types/step';
 function* createStepSaga({procedure, step, initialValues}){
   try {
     const response = yield call(makeObjRequest, {...step, procedure_id: procedure.id }, "/steps", "post", "step");
-    return {...normalize({...procedure, steps_order: [...procedure.steps_order, response.id],  steps: procedure.steps ? [...procedure.steps, response] : [response]}, Schemas.procedure).entities,id: response.id}
+    return {...normalize({...procedure,
+        steps_order: procedure.steps_order ? [...procedure.steps_order, response.id] : [response.id],
+        steps: procedure.steps ? [...procedure.steps, response] : [response]}, Schemas.procedure).entities,id: response.id}
   } catch (e) {
     throw e
   }

@@ -29,6 +29,8 @@ class StepPolicy < ApplicationPolicy
        parameter_value_8_pack
        spoken
        default_media
+       enabled_associated_procedure
+       associated_procedure_id
     ]
   end
 

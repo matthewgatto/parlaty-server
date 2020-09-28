@@ -1,3 +1,6 @@
+.container{
+  position: relative;
+}
 .counter {
   height: 1em;
   font-size: 1.1em;

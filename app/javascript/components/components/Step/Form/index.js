@@ -6,7 +6,7 @@ import FormError from '@containers/FormError';
 import SpokenBox from '@components/Inputs/SpokenBox';
 import StepSaveButton from '@containers/StepSaveButton';
 import StepCancelButton from '@components/Step/CancelButton';
-import { Input, CheckBox, Select, ModeRadio, LimitedTextArea } from '@components/Inputs';
+import { Input, Select } from '@components/Inputs';
 import styles from './index.module.css';
 import { setStepValues } from '@actions/template'
 import TimeMode from '@components/Step/TimeMode';
@@ -38,12 +38,9 @@ export default ({isDuplicate, root, idx, title, looped, isOpen, procedure_id, fo
           </div>
           <div className={`${styles.boxes} align_center`}>
             <TimeMode onChange={updateStepParams} formKey={formKey} root={root} defaultValue={initialValues}/>
-            {/*<ModeRadio onChange={updateStepParams} formKey={formKey} root={root} name="mode" defaultValue={initialValues.mode || "continuous"} />*/}
-            {/*<CheckBox onChange={updateStepParams} formKey={formKey} label="Safety" root={root} name="safety" defaultValue={initialValues.safety || false} />*/}
-          </div>
+           </div>
           <TimeSelect onChange={updateStepParams} formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
-          <LimitedTextArea onChange={updateStepParams} as="textarea" defaultValue={initialValues.location || ''} label="Instruction" name="location" rows="6" root={root} formKey={formKey} limit={300}/>
-          <Tabs updateParams={updateStepParams} initialValues={initialValues} formKey={formKey} root={root} procedure_id={procedure_id} idx={idx} />
+          <Tabs updateParams={updateStepParams} oemBusinessId={oemBusinessId} initialValues={initialValues} formKey={formKey} root={root} procedure_id={procedure_id} idx={idx} />
           <div className={styles.error}>
             <FormError formKey={formKey} large />
           </div>

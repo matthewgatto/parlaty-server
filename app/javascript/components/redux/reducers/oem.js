@@ -11,6 +11,7 @@ const allOems = (state = null, {type, payload}) => {
       return state.filter(client_id => client_id !== payload)
     case types.FETCH_OEMS_REQUEST__SUCCESS:
     case types.CREATE_OEM_REQUEST__SUCCESS:
+    case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
       if(payload.oems){
         return addIds(state, payload.oems)
       }
@@ -42,6 +43,7 @@ const oemsById = (state = {}, {type,payload}) => {
     case types.UPDATE_OEM_REQUEST__SUCCESS:
     case procedureTypes.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case procedureTypes.DELETE_PROCEDURE_REQUEST__SUCCESS:
+    case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
       if(payload.oems){
         return {
           ...state,

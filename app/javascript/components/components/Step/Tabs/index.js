@@ -10,9 +10,10 @@ import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutline
 import { getStepValues } from '@selectors/template'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import styles from './index.module.css';
-import {ArrFileInput} from '@components/Inputs';
+import {ArrFileInput, LimitedTextArea} from '@components/Inputs';
 import DeviceSelect from '@containers/DeviceSelect';
 import LoopForm from '@components/Step/LoopForm';
+import ProcedureAssociationForm from "@components/Step/ProcedureAssociationForm";
 
 function TabPanel(props) {
   const { children, tab, index, ...other } = props;
@@ -98,7 +99,7 @@ function tabProps(index) {
   };
 }
 
-export default ({ initialValues, formKey, root, procedure_id, idx, updateParams }) => {
+export default ({ initialValues, formKey, root, procedure_id, oemBusinessId, idx, updateParams }) => {
   const [values, setValues] = useState(initialValues);
   const [tab, setTab] = useState(0);
   const classes = useStyles();
@@ -115,26 +116,34 @@ export default ({ initialValues, formKey, root, procedure_id, idx, updateParams 
   return (
     <div>
       <AppBar position="static" color="default" className={classes.header}>
-        <CustTabs value={tab} onChange={handleChange} indicatorColor="primary" textColor="primary" aria-label="auto tabs example" centered >
+        <CustTabs value={tab} onChange={handleChange} indicatorColor="primary" textColor="primary" scrollButtons="auto" variant="scrollable" aria-label="scrollable auto tabs example" >
           <HiddenTab label="" {...tabProps(0)} />
-          <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(1)} />
-          <CustTab label="Loop" icon={<FullIcon full={!disabledTab && values.enabled_loop} />} disabled={disabledTab} {...tabProps(2)} />
-          <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(3)} />
+          <CustTab label="Instructions" icon={<FullIcon full={values.location} />} {...tabProps(1)} />
+          <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(2)} />
+          <CustTab label="Loop" icon={<FullIcon full={!disabledTab && values.enabled_loop} />} disabled={disabledTab} {...tabProps(3)} />
+          <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(4)} />
+          <CustTab label="Associate" icon={<FullIcon full={values && values.enabled_associated_procedure} />} {...tabProps(5)} />
         </CustTabs>
       </AppBar>
       <TabPanel tab={tab} onChange={updateParams} className={styles.withoutPadding} index={0}/>
       <TabPanel tab={tab} index={1}>
-        <DeviceSelect onChange={updateParams} procedure_id={procedure_id} label="Device" root={root} idx={idx} name="device_id" device_id={values.device_id} defaultValue={values.device_id} />
+        <LimitedTextArea onChange={updateParams} as="textarea" defaultValue={values.location || ''} idx={idx} label="Instruction" name="location" rows="6" root={root} formKey={formKey} limit={300}/>
       </TabPanel>
       <TabPanel tab={tab} index={2}>
-        <LoopForm onChange={updateParams} formKey={formKey} defaultValue={values} root={root}/>
+        <DeviceSelect onChange={updateParams} procedure_id={procedure_id} label="Device" root={root} idx={idx} name="device_id" device_id={values.device_id} defaultValue={values.device_id} />
       </TabPanel>
       <TabPanel tab={tab} index={3}>
+        <LoopForm onChange={updateParams} formKey={formKey} defaultValue={values} root={root}/>
+      </TabPanel>
+      <TabPanel tab={tab} index={4}>
         <div>
           <ArrFileInput setTabValues={setValues} name="media" label="Media*" formKey={formKey} idx={idx} defaultValues={values.visuals || undefined} root={root} objName={'step'}
                         radio={{isShown: true, params: [{type: 'image', label: 'Default media'},{type: 'video', label: 'Default media'}], actionRoot: 'default_media', defaultValue: values.default_media, withoutChecked: true}}
           />
         </div>
+      </TabPanel>
+      <TabPanel tab={tab} index={5}>
+        <ProcedureAssociationForm onChange={updateParams} procedureId={procedure_id} oemBusinessId={oemBusinessId} formKey={formKey} root={root} defaultValue={values}/>
       </TabPanel>
     </div>
   );

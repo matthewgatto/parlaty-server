@@ -40,7 +40,7 @@ export default (props) => (
       </div>
       <div>
         <div className={styles.columnTitle}>Procedure Steps</div>
-        <StepList procedure_id={props.procedure_id} formKey={formKey} initialStepIds={props.initialValues.steps} />
+        <StepList procedure_id={props.procedure_id} oemBusinessId={props.oemBusinessId} formKey={formKey} initialStepIds={props.initialValues.steps} />
         <ProcedureSubmitButton formKey={formKey} onClick={handleSubmit} label="Save Procedure" className={styles.submit} />
         <FormError formKey={formKey} large className={styles.error} />
       </div>

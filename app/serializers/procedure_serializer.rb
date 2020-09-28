@@ -7,11 +7,12 @@ class ProcedureSerializer
       { procedures: procedures.map{ |procedure| simple_procedure_as_json(procedure) } }
     end
 
-    def procedure_as_json(procedure, steps)
+    def procedure_as_json(procedure, steps, oem)
       simple_procedure_as_json(procedure).merge!({
         oem_businesses: OemBusinessSerializer.procedure_oem_businesses_as_json(procedure.oem_businesses),
         steps: StepSerializer.steps_as_json(steps),
-        devices: DeviceSerializer.devices_as_json(procedure.devices)
+        devices: DeviceSerializer.devices_as_json(procedure.devices),
+        oem: oem ? OemSerializer.simple_oem_as_json(oem) : {},
       })
     end
 
