@@ -9,6 +9,3 @@ export const deleteStep = (id, idx, procedure_id) => ({type: types.DELETE_STEP_R
 
 export const openStepForm = (idx, formValues = {}) => ({type: types.OPEN_STEP_FORM, payload: {idx,formValues}});
 export const closeStepForm = (idx) => ({type: types.CLOSE_STEP_FORM, payload: idx});
-
-export const commentRead = (idx) => ({type: types.COMMENT_READ, payload: {idx}});
-export const deleteComment = (idx, comment_idx) => ({type: types.DELETE_COMMENT, payload: {idx, comment_idx}});

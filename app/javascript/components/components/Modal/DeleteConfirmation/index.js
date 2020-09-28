@@ -17,9 +17,9 @@ const DeleteConfirmationLoadingButton = ({text, handleYesClick}) => {
   )
 }
 
-export default ({entity, handleYesClick}) => (
+export default ({entity, handleYesClick, customText = null}) => (
   <div className={styles.deleteConfirmationModal}>
-    <div className={styles.text}>Are you sure you want to delete this {entity}?</div>
+    <div className={styles.text}>{customText ? customText : 'Are you sure you want to delete this '+entity+'?'}</div>
     <div className={styles.buttons}>
       <DeleteConfirmationLoadingButton text="Yes" handleYesClick={handleYesClick} />
       <ModalTrigger><SubmitButton label="No" className={styles.noButton} /></ModalTrigger>

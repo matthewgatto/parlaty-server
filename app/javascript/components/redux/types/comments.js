@@ -1,0 +1,3 @@
+export const MAKE_READ = "MAKE_READ";
+export const DELETE_COMMENT = "DELETE_COMMENT";
+export const DELETE_ALL_COMMENTS = "DELETE_ALL_COMMENTS";

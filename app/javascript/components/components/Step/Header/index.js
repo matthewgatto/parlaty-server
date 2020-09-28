@@ -23,7 +23,7 @@ export default ({id, idx, title, looped, root, duplicateStep, isOpen, deviceId, 
     text={<><div>{title + looped}</div><div className={styles.device}>Device: <span className={styles.purple}><DeviceDisplay deviceId={deviceId} /></span></div></>}
     addIcon={isDuplicate}
     right={<div className={styles.rightDiv}>
-      {!isDuplicate && <CommentsShowButton id={id} title={title} />}
+      {!isDuplicate && <CommentsShowButton id={id} title={title} {...props} />}
       {!isDuplicate && <StepMenu idx={idx} duplicateStep={duplicateStep} deleteStep={deleteStep} />}
     </div>
     }
