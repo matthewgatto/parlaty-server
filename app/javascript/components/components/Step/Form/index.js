@@ -12,7 +12,6 @@ import { setStepValues } from '@actions/template'
 import TimeMode from '@components/Step/TimeMode';
 import Tabs from '@components/Step/Tabs';
 import {useDispatch} from "react-redux";
-import ProcedureAssociationForm from "@components/Step/ProcedureAssociationForm";
 
 const TIME_OPTIONS = [{value: 0, label: "0 seconds"}, {value: 1, label: "1 second"}, {value: 2, label: "2 seconds"}, {value: 3, label: "3 seconds"}, {value: 4, label: "4 seconds"}, {value: 5, label: "5 seconds"}, {value: 6, label: "6 seconds"}, {value: 7, label: "7 seconds"}, {value: 8, label: "8 seconds"}];
 
@@ -41,8 +40,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, oemBusines
             <TimeMode onChange={updateStepParams} formKey={formKey} root={root} defaultValue={initialValues}/>
            </div>
           <TimeSelect onChange={updateStepParams} formKey={formKey} root={root} defaultValue={initialValues.time || 0} />
-          <ProcedureAssociationForm onChange={updateStepParams} procedureId={procedure_id} oemBusinessId={oemBusinessId} formKey={formKey} root={root} defaultValue={initialValues}/>
-          <Tabs updateParams={updateStepParams} initialValues={initialValues} formKey={formKey} root={root} procedure_id={procedure_id} idx={idx} />
+          <Tabs updateParams={updateStepParams} oemBusinessId={oemBusinessId} initialValues={initialValues} formKey={formKey} root={root} procedure_id={procedure_id} idx={idx} />
           <div className={styles.error}>
             <FormError formKey={formKey} large />
           </div>

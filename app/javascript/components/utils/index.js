@@ -166,7 +166,7 @@ export const makeStep = (values, isFormData) => {
   });
   if(spoken) step.spoken = spoken;
   if(safety) step.safety = safety;
-  if(enabled_associated_procedure) step.enabled_associated_procedure = enabled_associated_procedure;
+  step.enabled_associated_procedure = enabled_associated_procedure;
   if(associated_procedure_id) step.associated_procedure_id = associated_procedure_id;
   if(device_id){
     if(isFormData){

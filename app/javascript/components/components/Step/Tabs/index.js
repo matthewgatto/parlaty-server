@@ -13,6 +13,7 @@ import styles from './index.module.css';
 import {ArrFileInput, LimitedTextArea} from '@components/Inputs';
 import DeviceSelect from '@containers/DeviceSelect';
 import LoopForm from '@components/Step/LoopForm';
+import ProcedureAssociationForm from "@components/Step/ProcedureAssociationForm";
 
 function TabPanel(props) {
   const { children, tab, index, ...other } = props;
@@ -98,7 +99,7 @@ function tabProps(index) {
   };
 }
 
-export default ({ initialValues, formKey, root, procedure_id, idx, updateParams }) => {
+export default ({ initialValues, formKey, root, procedure_id, oemBusinessId, idx, updateParams }) => {
   const [values, setValues] = useState(initialValues);
   const [tab, setTab] = useState(0);
   const classes = useStyles();
@@ -121,6 +122,7 @@ export default ({ initialValues, formKey, root, procedure_id, idx, updateParams 
           <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(2)} />
           <CustTab label="Loop" icon={<FullIcon full={!disabledTab && values.enabled_loop} />} disabled={disabledTab} {...tabProps(3)} />
           <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(4)} />
+          <CustTab label="Associate" icon={<FullIcon full={values && values.enabled_associated_procedure} />} {...tabProps(5)} />
         </CustTabs>
       </AppBar>
       <TabPanel tab={tab} onChange={updateParams} className={styles.withoutPadding} index={0}/>
@@ -139,6 +141,9 @@ export default ({ initialValues, formKey, root, procedure_id, idx, updateParams 
                         radio={{isShown: true, params: [{type: 'image', label: 'Default media'},{type: 'video', label: 'Default media'}], actionRoot: 'default_media', defaultValue: values.default_media, withoutChecked: true}}
           />
         </div>
+      </TabPanel>
+      <TabPanel tab={tab} index={5}>
+        <ProcedureAssociationForm onChange={updateParams} procedureId={procedure_id} oemBusinessId={oemBusinessId} formKey={formKey} root={root} defaultValue={values}/>
       </TabPanel>
     </div>
   );

@@ -7,6 +7,7 @@ import ProcedureSelect from '@containers/ProcedureSelect';
 const SelectProcedure = ({defaultValue, className, ...props}) => {
   const {watch} = useFormContext();
   let enabled = watch(`${props.root}enabled_associated_procedure`);
+  if(enabled === undefined) enabled = defaultValue.enabled_associated_procedure;
   if(!enabled) className += " " + styles.disabled;
   return (<>
       <ProcedureSelect className={className} disabled={!enabled} {...props} associatedProcedureId={defaultValue.associated_procedure_id} />
