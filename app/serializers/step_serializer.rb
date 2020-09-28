@@ -4,11 +4,13 @@ class StepSerializer
   class << self
     def steps_as_json(steps)
       return [] if steps.blank?
+
       steps.map{ |step| step_as_json(step) }
     end
 
     def step_as_json(step)
-      return [] if step.blank?
+      return {} if step.blank?
+
       step.as_json.merge!(
         {
           visuals: AttachmentSerializer.files_as_json(step),

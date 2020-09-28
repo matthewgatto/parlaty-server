@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_084538) do
+ActiveRecord::Schema.define(version: 2020_09_28_115417) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "step_id"
@@ -72,6 +72,16 @@ ActiveRecord::Schema.define(version: 2020_09_24_084538) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["oem_id"], name: "index_client_admins_on_oem_id"
+  end
+
+  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "author_id"
+    t.text "text"
+    t.boolean "readed"
+    t.bigint "step_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["step_id"], name: "index_comments_on_step_id"
   end
 
   create_table "devices", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -215,6 +225,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_084538) do
   add_foreign_key "actions", "devices"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "client_admins", "oems"
+  add_foreign_key "comments", "steps"
   add_foreign_key "devices", "procedures"
   add_foreign_key "oem_businesses", "oems"
   add_foreign_key "steps", "devices"

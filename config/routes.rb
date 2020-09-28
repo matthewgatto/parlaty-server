@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       member do
         put 'reorder'
         put 'used'
-		post 'copy'
+		    post 'copy'
       end
   end
 
@@ -33,6 +33,14 @@ Rails.application.routes.draw do
   resources :oems, only: [:index, :create, :update, :destroy]
   resources :devices, only: [:index, :create, :update, :destroy]
   resources :oem_businesses, only: [:create, :show, :destroy]
+  resources :comments, only: [:create, :update, :destroy] do
+    collection do
+      post 'delete_all'
+    end
+    member do
+      post 'readed'
+    end
+  end
 
   get '/oems/:id/oem_businesses', to: 'oem_businesses#index'
   get '/oem_businesses/:id/procedures', to: 'procedures#index'
