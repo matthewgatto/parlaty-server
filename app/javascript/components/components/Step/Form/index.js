@@ -21,7 +21,7 @@ const TimeSelect = (props) => {
   return <Select {...props} disabled={mode === "manual" || mode === "continuous"} options={TIME_OPTIONS} label="Time" name="time" />
 };
 
-export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, id, initialValues, procedureFormKey, handleCloseForm}) => {
+export default ({isDuplicate, root, idx, title, looped, isOpen, procedure_id, formKey, id, initialValues, procedureFormKey, handleCloseForm}) => {
   const dispatch = useDispatch();
   const updateStepParams = useCallback(([e]) => {
       let name = e.target.name.split(root).pop();
@@ -29,7 +29,7 @@ export default ({isDuplicate, root, idx, title, isOpen, procedure_id, formKey, i
   }, [dispatch, root]);
   return (
     <div className={styles.wrapper}>
-      <StepHeader isDuplicate={isDuplicate} isOpen={isOpen} title={title} procedure_id={procedure_id} idx={idx} id={id} root={root} handleCloseForm={handleCloseForm} />
+      <StepHeader isDuplicate={isDuplicate} isOpen={isOpen} title={title} looped={looped} procedure_id={procedure_id} idx={idx} id={id} root={root} handleCloseForm={handleCloseForm} />
       <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
         <div className={styles.container}>
           <div className={styles.titleWrapper}>

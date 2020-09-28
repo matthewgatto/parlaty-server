@@ -16,6 +16,8 @@ import ProcedureOemBusinesses from '@components/Procedure/OemBusinesses';
 import DeviceManagerModal from '../DeviceManagerModal'
 import DeleteProcedureConfirmationModal from '../DeleteConfirmationModal'
 import DeleteDeviceConfirmationModal from '@components/Device/DeleteConfirmationModal';
+import DeleteAllCommentsModal from '@components/Step/DeleteAllCommentsModal';
+import CommentsListModal from '@components/CommentsListModal';
 import ModalOverlay from '@components/Modal/Overlay';
 import activeModal from '@containers/activeModal';
 import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '@types/procedure';
@@ -93,6 +95,7 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
       <DeleteProcedureConfirmationModal procedure_id={id} />
       <DeleteDeviceConfirmationModal procedure_id={id} />
       <DeviceManagerModal name={name} procedure_id={id} />
+      <DeleteAllCommentsModal />
       <DeviceCreateModal name={name} procedure_id={id} />
       <ProcedureDeviceModal oem_business_id={oem_business_id} />
       <DeviceUpdateModal name={name} />
@@ -101,6 +104,7 @@ export default ({match:{params:{oem_id,oem_business_id,id}}}) => {
       <VideoPreviewModal />
       <VideoProgressModal />
       <DocPreviewModal />
+      <CommentsListModal />
     </ModalOverlay>
   </>)
 }

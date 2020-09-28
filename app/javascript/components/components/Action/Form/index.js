@@ -4,9 +4,9 @@ import {Input, ArrFileInput} from '@components/Inputs';
 import ModeAndTimeFields from '@components/Inputs/ModeAndTimeFields';
 import styles from './index.module.css';
 
-export default ({id, idx, root, isDragging, initialAction, handleDeleteClick, handleDuplicateClick, title, formKey, provided, color}) => (
+export default ({id, idx, root, isDragging, initialAction, handleDeleteClick, handleDuplicateClick, title, looped, formKey, provided, color}) => (
   <div className={styles.wrapper} {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
-    <Header text={title} handleDeleteClick={handleDeleteClick} handleDuplicateClick={handleDuplicateClick} color={color} />
+    <Header id={id} text={title} looped={looped} handleDeleteClick={handleDeleteClick} handleDuplicateClick={handleDuplicateClick} color={color} />
     <div className={styles.container}>
       <div className={styles.actionInputs}>
         <div className={styles.firstInput}>

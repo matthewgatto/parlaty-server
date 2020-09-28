@@ -16,6 +16,7 @@ export default ({formKey,...props}) => {
         stepFormKey = `step,${props.formId}`,
         initialValues = stepMeta.storeValues || stepMeta.formValues || {};
   let title;
+  let looped = '';
   if(stepMeta.isDuplicate && (!stepMeta.formValues || !stepMeta.formValues.title)){
     title = "New Step"
   } else if(stepMeta.storeValues && stepMeta.storeValues.title){
@@ -25,7 +26,8 @@ export default ({formKey,...props}) => {
   }
   let looped_by = stepMeta.storeValues && stepMeta.storeValues.looped_by || -1;
   let isLooped = looped_by > -1;
-  if(isLooped) title += ` (looped by Step ${looped_by})`
+  if (isLooped) looped = ` (looped by Step ${looped_by})`;
+  // if(isLooped) title += ` (looped by Step ${looped_by})`
   let isDragDisabled = (isLooped || !stepMeta.id);
   const handleCloseForm = () => {
     if(!stepMeta.isDuplicate){
@@ -48,7 +50,7 @@ export default ({formKey,...props}) => {
     <Draggable key={props.formId} draggableId={props.formId} index={props.idx} isDragDisabled={isDragDisabled}>
       {(provided, snapshot) =>
         <div {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
-          <Step isDragging={snapshot.isDragging} title={title} procedureFormKey={formKey} formKey={stepFormKey} root={root} isOpen={stepMeta.isOpen} initialValues={initialValues} isDuplicate={stepMeta.isDuplicate} /*timeOptions={TIME_OPTIONS}*/ handleCloseForm={handleCloseForm} {...props} />
+          <Step isDragging={snapshot.isDragging} title={title} looped={looped} procedureFormKey={formKey} formKey={stepFormKey} root={root} isOpen={stepMeta.isOpen} initialValues={initialValues} isDuplicate={stepMeta.isDuplicate} /*timeOptions={TIME_OPTIONS}*/ handleCloseForm={handleCloseForm} {...props} />
         </div>
       }
     </Draggable>

@@ -7,3 +7,8 @@
 .purple {
   color: #67328d;
 }
+.rightDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
