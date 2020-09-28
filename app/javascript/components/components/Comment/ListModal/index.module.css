@@ -1,0 +1,20 @@
+.commentsWrap {
+  max-height: 75vh;
+  margin: 10px 0 10px -2em;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% + 2em);
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  min-width: 40vw;
+}
+.header {
+  margin: -1em 0 1em -1em;
+  font-size: 22px;
+}
+.deleteAllWrap {
+  margin: 0 0 -2em -2em;
+}

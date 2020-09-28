@@ -7,6 +7,7 @@ import procedures from './procedure';
 import form from './form';
 import message from './message';
 import languages from './language';
+import comments from './comment';
 import steps from './step';
 import devices from './device';
 import actions from './action';
@@ -21,6 +22,7 @@ export default function(history){
   const reducers = combineReducers({
     auth,
     oems,
+    comments,
     languages,
     oem_businesses,
     procedures,

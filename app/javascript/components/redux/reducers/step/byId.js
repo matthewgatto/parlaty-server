@@ -1,5 +1,6 @@
 import merge from 'lodash/merge';
 import * as types from '@types/step';
+import * as comment from '@types/comment';
 import {
   FETCH_PROCEDURE_REQUEST__SUCCESS
 } from '@types/procedure';
@@ -22,6 +23,14 @@ export default (state = {}, {type,payload}) => {
       return state;
     case types.DELETE_STEP_REQUEST__SUCCESS:
       return immutableRemove(payload.id,state);
+    case comment.DELETE_COMMENT__SUCCESS:
+      return {...state,
+        [payload.stepId]: { ...state[payload.stepId],
+          comments: state[payload.stepId].comments.filter(deviceId => deviceId !== payload.id) } };
+    case comment.DELETE_ALL_COMMENTS__SUCCESS:
+      return {...state,
+        [payload.stepId]: { ...state[payload.stepId],
+          comments: [] } };
     default:
       return state;
   }

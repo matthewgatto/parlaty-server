@@ -17,7 +17,7 @@ import DeviceManagerModal from '../DeviceManagerModal'
 import DeleteProcedureConfirmationModal from '../DeleteConfirmationModal'
 import DeleteDeviceConfirmationModal from '@components/Device/DeleteConfirmationModal';
 import DeleteAllCommentsModal from '@components/Step/DeleteAllCommentsModal';
-import CommentsListModal from '@components/CommentsListModal';
+import CommentsListModal from '@components/Comment/ListModal';
 import ModalOverlay from '@components/Modal/Overlay';
 import activeModal from '@containers/activeModal';
 import { UPDATE_PROCEDURE_REQUEST, FETCH_PROCEDURE_REQUEST } from '@types/procedure';

@@ -13,6 +13,7 @@ class StepSerializer
 
       step.as_json.merge!(
         {
+          comments: CommentSerializer.comments_as_json(step.comments),
           visuals: AttachmentSerializer.files_as_json(step),
           procedure_device_ids: step.procedure&.device_ids || [],
           device: DeviceSerializer.device_as_json_by_id(step.device_id),

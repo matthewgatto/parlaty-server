@@ -4,7 +4,7 @@ import * as oem from './oem';
 import * as oemBusiness from './oem_business';
 import * as procedure from './procedure';
 import * as step from './step';
-import * as comment from './comments';
+import * as comment from './comment';
 import * as device from './device';
 import * as user from './user';
 import * as language from './language';
@@ -14,7 +14,7 @@ import * as oemTypes from '@types/oem';
 import * as oemBusinessTypes from '@types/oem_business';
 import * as procedureTypes from '@types/procedure';
 import * as stepTypes from '@types/step';
-import * as commentsTypes from '@types/comments';
+import * as commentTypes from '@types/comment';
 import * as deviceTypes from '@types/device';
 import * as userTypes from '@types/user';
 
@@ -57,8 +57,8 @@ export default function* appSagas(){
 
     yield takeEvery(languageTypes.FETCH_LANGUAGES_REQUEST, language.languagesSaga),
 
-    yield takeEvery(commentsTypes.DELETE_COMMENT, comment.deleteComment),
-    yield takeEvery(commentsTypes.DELETE_ALL_COMMENTS, comment.deleteAllComments),
-    yield takeEvery(commentsTypes.MAKE_READ, comment.makeRead)
+    yield takeEvery(commentTypes.DELETE_COMMENT, comment.deleteComment),
+    yield takeEvery(commentTypes.DELETE_ALL_COMMENTS, comment.deleteAllComments),
+    yield takeEvery(commentTypes.MAKE_READED, comment.makeReaded)
   ])
 }

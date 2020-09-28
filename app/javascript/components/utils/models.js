@@ -4,10 +4,13 @@ const action = new schema.Entity("actions");
 
 const language = new schema.Entity("languages");
 
+const comment = new schema.Entity("comments");
+
 const device = new schema.Entity("devices", {
   actions: [action]
 });
 const step = new schema.Entity("steps", {
+  comments: [comment],
   procedure_id: procedure,
   device
 }, {
@@ -61,6 +64,7 @@ const user = new schema.Entity("users", {
 })
 
 export default {
+  comment,
   language,
   device,
   step,

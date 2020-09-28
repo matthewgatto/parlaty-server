@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch} from 'react-redux';
 import DeleteConfirmation from '@components/Modal/DeleteConfirmation';
 import activeModal from '@containers/activeModal';
-import { deleteAllComments } from '@actions/comments';
+import { deleteAllComments } from '@actions/comment';
 
 export default activeModal(({modalData}) => {
   const dispatch = useDispatch();

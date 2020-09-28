@@ -1,11 +1,3 @@
-.commentsWrap {
-  max-height: 75vh;
-  margin: 10px 0 10px -2em;
-  display: flex;
-  flex-direction: column;
-  width: calc(100% + 2em);
-}
-
 .commentBoxWrap {
   padding-bottom: 10px;
   border-bottom: .5px solid #dadad9;
@@ -15,16 +7,6 @@
 }
 .commentBoxWrap:hover .deleteBtn {
   opacity: 1;
-}
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-  min-width: 40vw;
-}
-.header {
-  margin: -1em 0 1em -1em;
-  font-size: 22px;
 }
 .headerComment {
   display: flex;
@@ -45,9 +27,6 @@
 }
 .deleteBtn:hover {
   color: #a70000
-}
-.deleteAllWrap {
-  margin: 0 0 -2em -2em;
 }
 .indicate {
   position: absolute;
