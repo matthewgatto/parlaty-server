@@ -21,7 +21,7 @@ const TimeSelect = (props) => {
   return <Select {...props} disabled={mode === "manual" || mode === "continuous"} options={TIME_OPTIONS} label="Time" name="time" />
 };
 
-export default ({isDuplicate, root, idx, title, looped, isOpen, procedure_id, formKey, id, initialValues, procedureFormKey, handleCloseForm}) => {
+export default ({isDuplicate, root, idx, title, looped, isOpen, procedure_id, oemBusinessId, formKey, id, initialValues, procedureFormKey, handleCloseForm}) => {
   const dispatch = useDispatch();
   const updateStepParams = useCallback(([e]) => {
       let name = e.target.name.split(root).pop();
