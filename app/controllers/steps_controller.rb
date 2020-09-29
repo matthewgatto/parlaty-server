@@ -40,7 +40,7 @@ class StepsController < ApplicationController
   def destroy
     authorize @step
     @procedure = Procedure.find(@step.procedure_id)
-    if @step.delete
+    if @step.destroy
       @procedure.steps_order.delete(params[:id].to_i)
       @procedure.save
       render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
