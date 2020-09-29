@@ -74,7 +74,7 @@ const proceduresById = (state = {}, {type,payload}) => {
         [payload.procedure_id]: {
           ...state[payload.procedure_id],
           steps: stepOrder,
-          steps_order: stepOrder
+          steps_order: [...state[payload.procedure_id].steps.slice(0,payload.idx), ...state[payload.procedure_id].steps.slice(payload.idx+1)]
         }
       }
     case comment.DELETE_COMMENT__SUCCESS:
