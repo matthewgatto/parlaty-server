@@ -52,6 +52,9 @@ const CustTabs = withStyles({
   root: {
     minHeight: '40px',
   },
+  flexContainer:{
+    justifyContent: "space-between",
+  },
   indicator: {
     backgroundColor: '#67318d',
   },
@@ -59,6 +62,7 @@ const CustTabs = withStyles({
 
 const CustTab = withStyles({
   root: {
+    minWidth: 'auto',
     minHeight: '40px',
     fontSize: '1.1em',
     fontWeight: '600',
@@ -116,7 +120,7 @@ export default ({ initialValues, formKey, root, procedure_id, oemBusinessId, idx
   return (
     <div>
       <AppBar position="static" color="default" className={classes.header}>
-        <CustTabs value={tab} onChange={handleChange} indicatorColor="primary" textColor="primary" scrollButtons="auto" variant="scrollable" aria-label="scrollable auto tabs example" >
+        <CustTabs value={tab} onChange={handleChange} indicatorColor="primary" textColor="primary" aria-label="auto tabs example centered" >
           <HiddenTab label="" {...tabProps(0)} />
           <CustTab label="Instructions" icon={<FullIcon full={values.location} />} {...tabProps(1)} />
           <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(2)} />
