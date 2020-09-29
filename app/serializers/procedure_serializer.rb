@@ -2,6 +2,7 @@
 
 class ProcedureSerializer
   class << self
+    include Comments::CommentLib
 
     def procedures_as_json(procedures)
       { procedures: procedures.map{ |procedure| simple_procedure_as_json(procedure) } }
@@ -21,16 +22,11 @@ class ProcedureSerializer
     end
 
     def simple_procedure_as_json(procedure)
-      {
-        id: procedure.id,
-        name: procedure.name,
+      procedure.as_json.merge!({
         version: procedure.version || 1,
-        steps_order: procedure.steps_order,
-        description: procedure.description,
         procedure_id: procedure.id,
-        author_id: procedure.author_id,
-        language_id: procedure.language_id,
-      }
+        has_new_comments: new_comments_for_procedure(procedure.id),
+      })
     end
   end
 end

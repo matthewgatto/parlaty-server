@@ -1,6 +1,7 @@
 import merge from 'lodash/merge'
 import { combineReducers } from 'redux';
 import { addIds, immutableRemove, combinedPayload } from '@utils';
+import * as comment from '@types/comment';
 import * as types from "@types/procedure";
 import {
   FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS
@@ -76,6 +77,13 @@ const proceduresById = (state = {}, {type,payload}) => {
           steps_order: [...state[payload.procedure_id].steps.slice(0,payload.idx), ...state[payload.procedure_id].steps.slice(payload.idx+1)]
         }
       }
+    case comment.DELETE_COMMENT__SUCCESS:
+    case comment.DELETE_ALL_COMMENTS__SUCCESS:
+    case comment.MAKE_READED__SUCCESS:
+      return {...state,
+        [payload.procedureId]: { ...state[payload.procedureId],
+          has_new_comments: payload.has_new_comments_for_procedure } };
+
     default:
       return state;
   }

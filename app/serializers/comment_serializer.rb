@@ -10,10 +10,11 @@ class CommentSerializer
       comments.map{ |comment| comment_as_json(comment) }
     end
 
-    def readed_comment_to_json(comment)
+    def readed_comment_to_json(step_id, procedure_id)
       {
         readed: true,
-        has_new_comments: new_comments_for_step(comment.step_id),
+        has_new_comments: new_comments_for_step(step_id),
+        has_new_comments_for_procedure: new_comments_for_procedure(procedure_id),
       }
     end
 

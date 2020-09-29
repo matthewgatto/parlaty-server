@@ -29,5 +29,5 @@ export default ({idx, procedure_id, isDuplicate, id, title, looped, isOpen, root
     }
     dispatch(removeStepForm(idx))
   };
-  return (<StepHeader id={id} root={root} idx={idx} title={title} hasNewComments={hasNewComments} comments={comments} looped={looped} isOpen={isOpen} isDuplicate={isDuplicate} deviceId={device_id} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} onClick={handleClick} isDragging={isDragging} />)
+  return (<StepHeader id={id} root={root} idx={idx} title={title} hasNewComments={hasNewComments} procedureId={procedure_id} comments={comments} looped={looped} isOpen={isOpen} isDuplicate={isDuplicate} deviceId={device_id} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} onClick={handleClick} isDragging={isDragging} />)
 }

@@ -10,6 +10,11 @@ module Comments
 
     private
 
+    def new_comments_for_procedure(procedure_id)
+      comments = Comment.includes(:step).where('steps.procedure_id': procedure_id, readed: false)
+      comments.present?
+    end
+
     def new_comments_for_step(step_id)
       comments = Comment.where(step_id: step_id, readed: false)
       comments.present?

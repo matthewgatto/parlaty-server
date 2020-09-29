@@ -22,7 +22,7 @@ class CommentsController < ApplicationController
     authorize @comment
     @comment.readed = true
     if @comment.save
-      render json: CommentSerializer.readed_comment_to_json(@comment), status: :ok
+      render json: CommentSerializer.readed_comment_to_json(@comment.step_id, @comment.step.procedure_id), status: :ok
     else
       render json: ApplicationSerializer.error_response(@comment.errors.messages)
     end
@@ -42,7 +42,7 @@ class CommentsController < ApplicationController
   def destroy
     authorize @comment
     if @comment.delete
-      render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
+      render json: CommentSerializer.readed_comment_to_json(@comment.step_id, @comment.step.procedure_id), status: :ok
     else
       head :bad_request
     end
@@ -52,7 +52,7 @@ class CommentsController < ApplicationController
   def delete_all
     authorize Comment
     if delete_all_by_step
-      render json: ApplicationSerializer.id_to_json(params[:step_id]), status: :ok
+      render json: CommentSerializer.readed_comment_to_json(params[:step_id], params[:procedure_id]), status: :ok
     else
       head :bad_request
     end
@@ -61,7 +61,7 @@ class CommentsController < ApplicationController
   private
 
   def set_params
-    @comment = Comment.find(params[:id])
+    @comment = Comment.includes(:step).find(params[:id])
   end
 
   def comment_params

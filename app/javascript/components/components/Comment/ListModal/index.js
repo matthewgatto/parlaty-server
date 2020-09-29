@@ -11,11 +11,12 @@ import { makeReaded, deleteComment } from '@actions/comment';
 export default activeModal(({modalData}) => {
   const commentsList = useSelector(getCommentsList(modalData.id));
   const dispatch = useDispatch();
-  const isDelete = (id, stepId) => {
-    dispatch(deleteComment(id, stepId));
+  const isDelete = (params) => {
+
+    dispatch(deleteComment(params));
   };
-  const isReaded = (id, stepId) => {
-    dispatch(makeReaded(id, stepId));
+  const isReaded = (params) => {
+    dispatch(makeReaded(params));
   };
   return <div className={styles.container} >
     <div className={styles.header}>
@@ -23,11 +24,11 @@ export default activeModal(({modalData}) => {
     </div>
     <div className={styles.commentsWrap}>
       {commentsList && commentsList.map(comment =>
-        <Comment commentId={comment} isReaded={isReaded} isDelete={isDelete}/>
+        <Comment commentId={comment} procedureId={modalData.procedureId} isReaded={isReaded} isDelete={isDelete}/>
       )}
     </div>
     <div className={styles.deleteAllWrap} >
-      <ModalTrigger modal="delete_all_comments" modalData={{stepId: modalData.id, commentIds: commentsList}}><SubmitButton primary label="Delete all comments" /></ModalTrigger>
+      <ModalTrigger modal="delete_all_comments" modalData={{stepId: modalData.id, commentIds: commentsList, procedureId: modalData.procedureId}}><SubmitButton primary label="Delete all comments" /></ModalTrigger>
     </div>
   </div>
 }, "comments_list")
