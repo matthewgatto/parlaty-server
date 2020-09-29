@@ -29,7 +29,7 @@ export default ({isDuplicate, root, idx, title, looped, isOpen, procedure_id, oe
   }, [dispatch, root]);
   return (
     <div className={styles.wrapper}>
-      <StepHeader isDuplicate={isDuplicate} isOpen={isOpen} title={title} looped={looped} procedure_id={procedure_id} idx={idx} id={id} root={root} handleCloseForm={handleCloseForm} />
+      <StepHeader isDuplicate={isDuplicate} isOpen={isOpen} title={title} looped={looped} procedure_id={procedure_id} idx={idx} id={id} root={root} handleCloseForm={handleCloseForm} comments={initialValues.comments} hasNewComments={initialValues.has_new_comments}/>
       <AnimateHeight height={isOpen ? 'auto' : 0} duration={200} >
         <div className={styles.container}>
           <div className={styles.titleWrapper}>

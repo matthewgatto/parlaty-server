@@ -11,7 +11,7 @@ class CommentsController < ApplicationController
     authorize @comment
     @comment.readed = false
     if @comment.save
-      render json: CommentSerializer.comment_as_json(@comment.reload), status: :ok
+      render json: ApplicationSerializer.id_to_json(@comment.id), status: :ok
     else
       render json: ApplicationSerializer.error_response(@comment.errors.messages)
     end
@@ -22,7 +22,7 @@ class CommentsController < ApplicationController
     authorize @comment
     @comment.readed = true
     if @comment.save
-      render json: CommentSerializer.comment_as_json(@comment.reload), status: :ok
+      render json: CommentSerializer.readed_comment_to_json(@comment), status: :ok
     else
       render json: ApplicationSerializer.error_response(@comment.errors.messages)
     end
@@ -32,7 +32,7 @@ class CommentsController < ApplicationController
   def update
     authorize @comment
     if @comment.update_attributes(comment_params)
-      render json: CommentSerializer.comment_as_json(@comment.reload), status: :ok
+      render json: ApplicationSerializer.id_to_json(@comment.id), status: :ok
     else
       render json: ApplicationSerializer.error_response(@comment.errors.messages)
     end

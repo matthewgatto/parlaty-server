@@ -30,7 +30,11 @@ export default (state = {}, {type,payload}) => {
     case comment.DELETE_ALL_COMMENTS__SUCCESS:
       return {...state,
         [payload.stepId]: { ...state[payload.stepId],
-          comments: [] } };
+          comments: [], has_new_comments: false } };
+    case comment.MAKE_READED__SUCCESS:
+      return {...state,
+        [payload.stepId]: { ...state[payload.stepId],
+          has_new_comments: payload.has_new_comments } };
     default:
       return state;
   }

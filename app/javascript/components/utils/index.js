@@ -72,6 +72,14 @@ export function immutableRemove(p,o){
   return remaining
 }
 
+export function immutableArrayRemove(arr,o){
+  let res = {...o};
+  arr.forEach(id => {
+    res = immutableRemove(id, res);
+  })
+  return res
+}
+
 export function getUpdatedProperties(newObj = {}, initialObj = {}){
   const updates = {};
   for (var field in newObj) {

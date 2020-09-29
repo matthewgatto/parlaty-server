@@ -2,6 +2,8 @@
 
 class StepSerializer
   class << self
+    include Comments::CommentLib
+
     def steps_as_json(steps)
       return [] if steps.blank?
 
@@ -13,6 +15,7 @@ class StepSerializer
 
       step.as_json.merge!(
         {
+          has_new_comments: new_comments_for_step(step.id),
           comments: CommentSerializer.comments_as_json(step.comments),
           visuals: AttachmentSerializer.files_as_json(step),
           procedure_device_ids: step.procedure&.device_ids || [],

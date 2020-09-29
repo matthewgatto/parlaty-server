@@ -14,8 +14,8 @@ export default activeModal(({modalData}) => {
   const isDelete = (id, stepId) => {
     dispatch(deleteComment(id, stepId));
   };
-  const isReaded = id => {
-    dispatch(makeReaded(id));
+  const isReaded = (id, stepId) => {
+    dispatch(makeReaded(id, stepId));
   };
   return <div className={styles.container} >
     <div className={styles.header}>

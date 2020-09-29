@@ -8,7 +8,7 @@ import {getCommentById} from '@selectors/comment';
 export default ({commentId, isReaded, isDelete})=> {
   const comment = useSelector(getCommentById(commentId));
   return (
-    <div key={comment.id} className={styles.commentBoxWrap} onMouseOut={() => {if(!comment.readed) isReaded(comment.id)}}>
+    <div key={comment.id} className={styles.commentBoxWrap} onMouseOut={() => {if(!comment.readed) isReaded(comment.id, comment.step_id)}}>
       <div className={styles.headerComment}>
         <span>{comment.author}</span>
         <span>{comment.created_at}</span>

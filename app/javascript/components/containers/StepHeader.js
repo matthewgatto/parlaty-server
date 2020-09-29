@@ -6,7 +6,7 @@ import {getStepValues} from '@selectors/template';
 import StepHeader from '@components/Step/Header';
 import {makeStep} from '@utils';
 
-export default ({idx, procedure_id, isDuplicate, id, title, looped, isOpen, root, handleCloseForm, isDragging}) => {
+export default ({idx, procedure_id, isDuplicate, id, title, looped, isOpen, root, handleCloseForm, hasNewComments, comments, isDragging}) => {
   const { getValues } = useFormContext();
   const dispatch = useDispatch();
   const handleClick = () => {
@@ -29,5 +29,5 @@ export default ({idx, procedure_id, isDuplicate, id, title, looped, isOpen, root
     }
     dispatch(removeStepForm(idx))
   };
-  return (<StepHeader id={id} root={root} idx={idx} title={title} looped={looped} isOpen={isOpen} isDuplicate={isDuplicate} deviceId={device_id} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} onClick={handleClick} isDragging={isDragging} />)
+  return (<StepHeader id={id} root={root} idx={idx} title={title} hasNewComments={hasNewComments} comments={comments} looped={looped} isOpen={isOpen} isDuplicate={isDuplicate} deviceId={device_id} duplicateStep={duplicateStep} deleteStep={handleDeleteStep} onClick={handleClick} isDragging={isDragging} />)
 }
