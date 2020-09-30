@@ -26,7 +26,7 @@ export default (state = {}, {type,payload}) => {
     case comment.DELETE_COMMENT__SUCCESS:
       return {...state,
         [payload.stepId]: { ...state[payload.stepId],
-          comments: state[payload.stepId].comments.filter(deviceId => deviceId !== payload.id) } };
+          comments: state[payload.stepId].comments.filter(deviceId => parseInt(deviceId) !== parseInt(payload.commentId)) } };
     case comment.DELETE_ALL_COMMENTS__SUCCESS:
       return {...state,
         [payload.stepId]: { ...state[payload.stepId],

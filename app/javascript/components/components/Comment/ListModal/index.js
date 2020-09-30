@@ -12,7 +12,6 @@ export default activeModal(({modalData}) => {
   const commentsList = useSelector(getCommentsList(modalData.id));
   const dispatch = useDispatch();
   const isDelete = (params) => {
-
     dispatch(deleteComment(params));
   };
   const isReaded = (params) => {

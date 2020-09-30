@@ -12,7 +12,7 @@ import {combineReducers} from "redux";
       }
       return state;
     case comment.DELETE_COMMENT__SUCCESS:
-      return state.filter(comment_id => parseInt(comment_id) !== parseInt(payload.id))
+      return state.filter(comment_id => parseInt(comment_id) !== parseInt(payload.commentId))
     case comment.DELETE_ALL_COMMENTS__SUCCESS:
       return state.filter((id) => !payload.commentIds.includes(parseInt(id)));
     default:
@@ -33,7 +33,7 @@ const commentsById = (state = {}, {type,payload}) => {
       }
       return state;
     case comment.DELETE_COMMENT__SUCCESS:
-      return immutableRemove(payload.id, state)
+      return immutableRemove(payload.commentId, state)
     case comment.DELETE_ALL_COMMENTS__SUCCESS:
       if(payload.commentIds){
         return immutableArrayRemove(payload.commentIds, state)
