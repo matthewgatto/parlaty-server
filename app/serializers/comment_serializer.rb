@@ -22,7 +22,7 @@ class CommentSerializer
       return {} if comment.blank?
 
       comment.as_json.merge!({
-        created_at: comment.created_at.strftime("%m/%d/%Y %H:%M"),
+        created_at: comment.created_at.strftime("%m/%d/%Y %H:%M UTC"),
         author: comment.author.roleable.name
       })
     end
