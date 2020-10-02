@@ -35,7 +35,7 @@ class UserSerializer
         email: user.email,
         language: user.language,
         voice: user.voice,
-        name: user.roleable.name,
+        name: user.roleable&.name,
         roleable_type: user.roleable_type,
       }
     end
