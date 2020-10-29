@@ -19,6 +19,7 @@ module Devices
       device.children.each do |child|
         child.name = device.name
         child.machine_tag = device.machine_tag
+        child.actions.destroy
         save_device_actions(child, device.actions, is_dup_actions: true)
       end
     end
@@ -51,7 +52,7 @@ module Devices
     def save_device_actions(device, device_actions_params, options ={})
       device.transaction do
         order = device_actions_params.map do |item|
-          options[:is_dup_actions] ? dup_actions(device, item) : update_actions(device, item, options)
+          options[:is_dup_actions] ? update_dup_actions(device, item) : update_actions(device, item, options)
         end
         remove_not_used_actions(device, order) unless options[:is_dup_device]
         device.actions_order = order
@@ -59,7 +60,7 @@ module Devices
       end
     end
 
-    def dup_actions(device, item)
+    def update_dup_actions(device, item)
       new_action = dup_action(item, device)
       update_attached_files(new_action, item)
       new_action.id
@@ -86,7 +87,7 @@ module Devices
       action = Action.find(item[:id])
       new_action = dup_action(action, device)
       new_action.update_attributes(item.except(:id, :visuals))
-      update_attached_files(new_action, item)
+      update_attached_files(new_action, action)
       new_action.id
     end
 
