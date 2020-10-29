@@ -11,29 +11,29 @@ const makeActionItemClassStr = (isSelected, hasParameterValues) => {
   if(hasParameterValues) classStr += ` ${styles.selectable}`;
   if(isSelected) classStr += ` ${styles.highlight}`;
   return classStr;
-}
+};
 
 export default ({position, action, parent, actionValues, root, onChange}) => {
   const [isOpen, setIsOpen] = useState();
   const {setValue} = useFormContext();
-  const hasParameterValues = !!(action && action.parameter_value_8_pack)
+  const hasParameterValues = !!(parent && parent.parameter_value_8_pack);
   const handleClick = () => {
     if(hasParameterValues){
       setIsOpen(!isOpen);
     }
-  }
+  };
 
   let actionParameterValue = actionValues && actionValues.parameter_value_8_pack || action.parameter_value_8_pack;
   let actionTime = actionValues && actionValues.time || action.time;
   let actionMode = actionValues && actionValues.mode || action.mode;
-  let paramValueTitle = `Parameter Value (default ${ (!parent) ? actionParameterValue : parent.parameter_value_8_pack})`
-  let actionName = `${action.name}${(hasParameterValues) ? ` (${actionParameterValue})` : ""} `
-  const actionRoot = `${root}actions[${action.id}].`
+  let paramValueTitle = `Parameter Value (default ${ (!parent) ? actionParameterValue : parent.parameter_value_8_pack})`;
+  let actionName = `${action.name}${(hasParameterValues) ? ` (${actionParameterValue})` : ""} `;
+  const actionRoot = `${root}actions[${action.id}].`;
   useEffect(() => {
     setValue(`${actionRoot}parameter_value_8_pack`, actionParameterValue);
     setValue(`${actionRoot}time`, actionTime);
     setValue(`${actionRoot}mode`, actionMode);
-  }, [action,actionRoot,setValue])
+  }, [action,actionRoot,setValue]);
 
   return(
     <div className={styles.container}>

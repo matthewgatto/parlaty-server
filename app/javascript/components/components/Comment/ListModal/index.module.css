@@ -18,3 +18,12 @@
 .deleteAllWrap {
   margin: 0 0 -2em -2em;
 }
+.empty {
+  font-size: 17px;
+  padding-bottom: 10px;
+  border-bottom: .5px solid #dadad9;
+  margin-bottom: 10px;
+  position: relative;
+  padding-right: 1em;
+  color: grey;
+}

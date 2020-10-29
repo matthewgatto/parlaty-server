@@ -25,6 +25,7 @@ export default activeModal(({modalData}) => {
       {commentsList && commentsList.map(comment =>
         <Comment commentId={comment} procedureId={modalData.procedureId} isReaded={isReaded} isDelete={isDelete}/>
       )}
+      {!commentsList.length && <span className={styles.empty}>No comments</span>}
     </div>
     <div className={styles.deleteAllWrap} >
       <ModalTrigger modal="delete_all_comments" modalData={{stepId: modalData.id, commentIds: commentsList, procedureId: modalData.procedureId}}><SubmitButton primary label="Delete all comments" /></ModalTrigger>

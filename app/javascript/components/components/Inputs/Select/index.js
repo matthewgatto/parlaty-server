@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Triangle from '@components/SVG/Triangle';
 import styles from './index.module.css';
+import { useFormContext } from "react-hook-form";
 
 export const withSelectContainer = WrappedComponent => ({className, ...props}) => {
   let classStr = `${styles.container} align_center`;
@@ -14,8 +15,15 @@ export const withSelectContainer = WrappedComponent => ({className, ...props}) =
   )
 };
 
-export default ({options, placeholder, ...props}) => (
-  <select {...props}>
+export default ({options, placeholder, onChange = null, ...props}) => {
+  const {setValue} = useFormContext();
+  const defChange = useCallback(e => {
+    if(e.target.value){
+      setValue([props.name], e.target.value);
+    }
+  },[name,setValue]);
+  return <select {...props} onChange={e => onChange && onChange(e) || defChange(e)}
+  >
     {placeholder && <option value="" disabled={props.unclearable}>{placeholder}</option>}
     {(options && options.length > 0) ? (
       options.map(option =>
@@ -23,4 +31,4 @@ export default ({options, placeholder, ...props}) => (
       )
     ) : null}
   </select>
-)
+}

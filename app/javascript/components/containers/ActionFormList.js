@@ -17,7 +17,7 @@ const DNDActionFields = withDND(({initialActions, formKey}) => {
     ))
   }
   return <Placeholder text="This device currently has no actions" />
-})
+});
 
 export default (props) => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ export default (props) => {
       dispatch(loadActionForms(props.initialActions))
     }
     return () => dispatch(clearActionForms())
-  }, [])
-  const handleDragEnd = (from, to) => dispatch(reorderActionForm(from, to))
+  }, []);
+  const handleDragEnd = (from, to) => dispatch(reorderActionForm(from, to));
   return <DNDActionFields onDragEnd={handleDragEnd} {...props} className="device_form__action_list" />
 }
