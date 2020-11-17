@@ -3,6 +3,7 @@
 class OemBusinessSerializer
   class << self
     include OemBusinesses::PermittedUsers
+    include Comments::CommentLib
 
     def user_oem_businesses_as_json(user)
       oem_businesses = OemBusiness.all&.sort_by(&:name) if user.parlaty_admin?
@@ -37,7 +38,8 @@ class OemBusinessSerializer
         oem_business_id: oem_business.id,
         id: oem_business.id,
         name: oem_business.name,
-        oem_id: oem_business.oem_id
+        oem_id: oem_business.oem_id,
+        has_new_comments: new_comments_for_oem_businesses(oem_business.procedure_ids),
       }
     end
 
