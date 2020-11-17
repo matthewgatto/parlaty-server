@@ -7,6 +7,6 @@ export default (props) => {
   const name = useEntityName(props.entityKey, props.id);
   const hasComments = props.entityKey === "procedures" || props.entityKey === "oem_businesses" ?
     useCommentsInfo(props.entityKey, props.id)
-     : null
+     : null;
   return <ListItem name={name} hasComments={hasComments} {...props} />
 }

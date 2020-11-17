@@ -1,6 +1,6 @@
 .container {
   width: 85vw;
-  height: 70vh;
+  /*height: 70vh;*/
 }
 
 .wrapper,.container {
@@ -9,7 +9,6 @@
 }
 
 .wrapper,.list {
-  flex-grow: 1;
   flex-shrink: 0;
 }
 

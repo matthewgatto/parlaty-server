@@ -9,27 +9,27 @@ import styles from './index.module.css';
 
 
 const ProcedureItem = ({id, setSelection, selection}) => {
-  const procedure = useSelector(getProcedureById(id))
+  const procedure = useSelector(getProcedureById(id));
   const handleClick = () => setSelection(procedure);
   return <SmallBar text={procedure.name} className={styles.procedureLabel} onClick={handleClick} color={selection === procedure} />
-}
+};
 
 const ProcedureList = ({procedures, procedureData}) => {
   const [selection, setSelection] = useState();
   const [isLoading, setIsLoading] = useState();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleCopyClick = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     dispatch(copyProcedure(selection.id, procedureData.formKey, procedureData.values))
-  }
-  const notDisabled = selection && !isLoading
+  };
+  const notDisabled = selection && !isLoading;
   return(<>
     <div className={styles.list}>
       {procedures.map(procedureId => <ProcedureItem key={procedureId} id={procedureId} setSelection={setSelection} selection={selection} />)}
     </div>
     <div onClick={notDisabled ? handleCopyClick : undefined} className={notDisabled ? styles.copyButton : `${styles.copyButton} ${styles.disabled}`}>Copy</div>
   </>)
-}
+};
 
 const ProcedureListWrapper = ({procedures, procedureData}) => (
   <div className={styles.wrapper}>
@@ -37,15 +37,15 @@ const ProcedureListWrapper = ({procedures, procedureData}) => (
       {/*<div className={styles.columnTitle}>Select a procedure to view devices</div>*/}
       <ProcedureList procedures={procedures} procedureData={procedureData} />
     </>) : (
-      <div>No Procedure Data To Copy</div>
+      <span>No Procedure Data To Copy</span>
     )}
   </div>
-)
+);
 
 const ProcedureListContainer = ({procedureData}) => {
   const oem_business = useSelector(getOemBusinessById(procedureData.values.oem_business_id));
   return <ProcedureListWrapper procedures={oem_business.procedures} procedureData={procedureData} />
-}
+};
 
 export default ({modalData}) => (
   <div className={styles.container}>
