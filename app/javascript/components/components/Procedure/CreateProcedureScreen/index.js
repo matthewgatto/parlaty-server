@@ -33,13 +33,13 @@ const CopyProcedureButton = ({formKey,oem_business_id}) => {
     } else {
       dispatch(setModal("procedure_copy_list", {formKey, values: {...values,oem_business_id}}))
     }
-  }
+  };
   return(
     <button type="button" className="primary button align_center" onClick={handleClick}>Copy A Procedure</button>
   )
-}
+};
 export default ({match:{url,params:{oem_id,oem_business_id}}}) => {
-  const author = useSelector(getUserId)
+  const author = useSelector(getUserId);
   return(<>
     <div className={styles.container}>
       <div className={styles.topPolygonContainer}>
@@ -48,8 +48,8 @@ export default ({match:{url,params:{oem_id,oem_business_id}}}) => {
         <Polygon className={styles.topPolygonThree} fill="none" stroke="#67318d" size="2.6em" />
         <Polygon className={styles.topPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
       </div>
-      <div className={styles.header}>Create A Procedure</div>
-      <div className={styles.subheader}>Begin with a name and short description</div>
+      <div className={styles.header}>{'Create A Procedure'}</div>
+      <span className={styles.subheader}>Begin with a name and short description</span>
       <FormContext
         entity="create_procedure"
         url="/procedures"
@@ -78,7 +78,7 @@ export default ({match:{url,params:{oem_id,oem_business_id}}}) => {
           <Input as="input" name="version" type="text" label="Version" formKey={formKey} disabled/>
           <div className={styles.buttonRow}>
             <CopyProcedureButton formKey={formKey} oem_business_id={oem_business_id} />
-            <div className={styles.or}>- or -</div>
+            <span className={styles.or}>- or -</span>
             <SubmitButton formKey={formKey} onClick={handleSubmit} label="Continue" />
           </div>
         </>)}

@@ -4,7 +4,7 @@ import LargeBar from '@components/Bar/Large';
 import SmallBar from '@components/Bar/Small'
 import {getOemBusinessById} from '@selectors/oem_business';
 import {getProcedureById} from '@selectors/procedure';
-import {copyProcedure} from '@actions/procedure';
+import {copyProcedure, getProcedureList} from '@actions/procedure';
 import styles from './index.module.css';
 
 
@@ -43,7 +43,12 @@ const ProcedureListWrapper = ({procedures, procedureData}) => (
 );
 
 const ProcedureListContainer = ({procedureData}) => {
-  const oem_business = useSelector(getOemBusinessById(procedureData.values.oem_business_id));
+  const dispatch = useDispatch();
+  dispatch(getProcedureList());
+  const oem_business = useSelector(getOemBusinessById(procedureData.values.oem_business_id)());
+  console.log(oem_business);
+  debugger;
+  // const oem_business = useSelector(getOemBusinessById(procedureData.values.oem_business_id));
   return <ProcedureListWrapper procedures={oem_business.procedures} procedureData={procedureData} />
 };
 

@@ -1,5 +1,6 @@
 .container {
-  width: 85vw;
+  /*width: 85vw;*/
+  width: 34em;
   /*height: 70vh;*/
 }
 
@@ -32,6 +33,7 @@
   justify-content: center;
   padding: 0.7em 0;
   font-size: 1.4em;
+  margin-top: .6em;
 }
 
 .modalHeader {
@@ -47,8 +49,8 @@
 
 }
 
-@media (min-width: 768px){
-  .container {
-    width: 46em;
-  }
-}
+/*@media (min-width: 768px){*/
+  /*.container {*/
+    /*width: 46em;*/
+  /*}*/
+/*}*/

@@ -18,7 +18,7 @@ import {updateStepsByLoop} from "./step";
 const normalizeOem = ({oem}) => normalize(oem, Schemas.oem).entities;
 
 function* getNewEntitiesFromProcedure({oem, ...response},{payload:{values}}){
-  const oem_business = yield select(getOemBusinessById(values.procedure.oem_business_ids[0]))
+  const oem_business = yield select(getOemBusinessById(values.procedure.oem_business_ids[0]));
   return oem_business ? (
     {
       ...normalize({...oem_business, procedures: oem_business.procedures ?
@@ -39,7 +39,7 @@ function* handleProcedureRequestSuccess({values:{procedure:{oem_business_id}}}, 
     splitUrl.pop()
   }
   const to = splitUrl.slice(0,splitUrl[splitUrl.length - 1] === "create" ? -2 : -3).join('/');
-  yield put(push(to))
+  yield put(push(to));
   yield put(addToast("success", message))
 }
 
@@ -78,7 +78,7 @@ export function* createProcedureSaga(action){
 
 }
 
-const normalizeProcedure = (procedure) => normalize(procedure.procedure, Schemas.procedure).entities
+const normalizeProcedure = (procedure) => normalize(procedure.procedure, Schemas.procedure).entities;
 
 export function* updateProcedureSaga(action){
   action.payload.values = {procedure: procedureParams(action, "update")};
@@ -88,7 +88,7 @@ export function* updateProcedureSaga(action){
 const normalizeFullProcedure = ({procedure_id, steps, oem, ...procedure}) => ({
   ...normalize({...procedure, id: procedure_id, steps}, Schemas.procedure).entities,
   ...normalize({...oem, id: oem.id}, Schemas.oem).entities
-  })
+  });
 
 export function* fetchProcedureSaga(action){
   yield call(getSaga, action, normalizeFullProcedure);
@@ -98,13 +98,13 @@ export function* fetchProcedureSaga(action){
 
 export function* deleteProcedureSaga(action){
   try {
-    const procedure = yield select(getProcedureById(action.payload))
+    const procedure = yield select(getProcedureById(action.payload));
     yield call(API.delete, `/procedures/${action.payload}`);
     const oem_business = yield select(getOemBusinessById(procedure.oem_businesses[0]));
     const oem = yield select(getOemById(oem_business.oem_id));
 
     const normalizedResponse = {procedure_id: action.payload, oem_businesses: procedure.oem_businesses, ...updateProceduresCountInOem("delete", oem, 1)};
-    yield put({type: DELETE_PROCEDURE_REQUEST__SUCCESS, payload: normalizedResponse})
+    yield put({type: DELETE_PROCEDURE_REQUEST__SUCCESS, payload: normalizedResponse});
     yield call(handleProcedureRequestSuccess,{values:{procedure}}, "Procedure was successfully deleted.")
   } catch (e) {
       console.log("deleteProcedureSaga ERROR", e);
@@ -114,30 +114,55 @@ export function* deleteProcedureSaga(action){
 export function* copyProcedureSaga({payload:{formKey,values:{oem_business_id,...procedure},procedure_id}}){
   try {
     let body = {name: procedure.name};
-    if(procedure.description) body.description = procedure.description
-    if(procedure.author_id) body.author_id = procedure.author_id
-    if(procedure.language_id) body.language_id = procedure.language_id
-    const response = yield call(API.post, `/procedures/${procedure_id}/copy`, body)
+    if(procedure.description) body.description = procedure.description;
+    if(procedure.author_id) body.author_id = procedure.author_id;
+    if(procedure.language_id) body.language_id = procedure.language_id;
+    const response = yield call(API.post, `/procedures/${procedure_id}/copy`, body);
     if(response.error){
       yield put(setModal());
       yield put({type: `${CREATE_PROCEDURE_REQUEST}__FAILURE`, payload: {formKey,errors:{formError: response.error}}})
     }else {
-      const oem_business = yield select(getOemBusinessById(oem_business_id))
+      const oem_business = yield select(getOemBusinessById(oem_business_id));
       const normalizedData = oem_business ?
         ({ ...normalize({ ...oem_business, procedures: oem_business.procedures ?
             [...oem_business.procedures, {name: procedure.name, ...response}] :
             [{name: procedure.name, ...response}] }, Schemas.oem_business).entities,
         ...normalizeOem(response)}) :
         ({...normalize({name: procedure.name, ...response}, Schemas.procedure).entities,
-        ...normalizeOem(response)})
+        ...normalizeOem(response)});
       yield put({type: `${CREATE_PROCEDURE_REQUEST}__SUCCESS`, payload: normalizedData});
       yield call(handleProcedureRequestSuccess, {values: {procedure: normalizedData.procedures[response.id]}}, "Procedure was successfully copied")
     }
   } catch (e) {
     console.log("copyProcedureSaga ERROR", e);
-    yield put({type: `${CREATE_PROCEDURE_REQUEST}__FAILURE`, payload: {formKey,errors:{formError: "Unable to copy procedure."}}})
+    yield put({type: `${CREATE_PROCEDURE_REQUEST}__FAILURE`, payload: {formKey,errors:{formError: "Unable to copy procedure."}}});
     yield put(setModal())
   }
+}
+export function* getProcedureListSaga({payload:{}}){
+  // try {
+  //   let body = {};
+  //   const response = yield call(API.post, body);
+  //   if(response.error){
+  //     yield put(setModal());
+  //     yield put({type: `${CREATE_PROCEDURE_REQUEST}__FAILURE`, payload: {formKey,errors:{formError: response.error}}})
+  //   } else {
+  //     const oem_business = yield select(getOemBusinessById(oem_business_id));
+  //     const normalizedData = oem_business ?
+  //       ({ ...normalize({ ...oem_business, procedures: oem_business.procedures ?
+  //           [...oem_business.procedures, {name: procedure.name, ...response}] :
+  //           [{name: procedure.name, ...response}] }, Schemas.oem_business).entities,
+  //       ...normalizeOem(response)}) :
+  //       ({...normalize({name: procedure.name, ...response}, Schemas.procedure).entities,
+  //       ...normalizeOem(response)});
+  //     yield put({type: `${CREATE_PROCEDURE_REQUEST}__SUCCESS`, payload: normalizedData});
+  //     yield call(handleProcedureRequestSuccess, {values: {procedure: normalizedData.procedures[response.id]}}, "Procedure was successfully copied")
+  //   }
+  // } catch (e) {
+  //   console.log("copyProcedureSaga ERROR", e);
+  //   yield put({type: `${CREATE_PROCEDURE_REQUEST}__FAILURE`, payload: {formKey,errors:{formError: "Unable to copy procedure."}}});
+  //   yield put(setModal())
+  // }
 }
 
 export function* updateOemBusinessesSaga(action){
@@ -145,10 +170,10 @@ export function* updateOemBusinessesSaga(action){
     const {procedures,oem_businesses} = yield select(({procedures,oem_businesses}) => ({procedures,oem_businesses}));
     const procedure = procedures.byId[action.payload.id];
     const new_oem_businesses = [];
-    const oemBusinesses = []
+    const oemBusinesses = [];
     for (let oemBusiness in action.payload.values) {
       if (action.payload.values.hasOwnProperty(oemBusiness) && action.payload.values[oemBusiness] === true){
-        oemBusinesses.push(oemBusiness)
+        oemBusinesses.push(oemBusiness);
         if(oem_businesses.byId[oemBusiness] && oem_businesses.byId[oemBusiness].procedures){
           new_oem_businesses.push(oemBusiness)
         }
@@ -158,16 +183,16 @@ export function* updateOemBusinessesSaga(action){
     const removedOemBusinesses = procedure.oem_businesses.filter(x => oem_businesses.byId[x] && oem_businesses.byId[x].procedures && !new_oem_businesses.includes(x));
     const updatedOemBusinesses = {};
     for (let i = 0; i < addedOemBusinesses.length; i++) {
-      const oemBusinessToAddTo = oem_businesses.byId[addedOemBusinesses[i]]
+      const oemBusinessToAddTo = oem_businesses.byId[addedOemBusinesses[i]];
       updatedOemBusinesses[addedOemBusinesses[i]] = {...oemBusinessToAddTo, procedures: [...oemBusinessToAddTo.procedures, action.payload.id]}
     }
     for (let i = 0; i < removedOemBusinesses.length; i++) {
-      const oemBusinessToRemoveFrom = oem_businesses.byId[removedOemBusinesses[i]]
+      const oemBusinessToRemoveFrom = oem_businesses.byId[removedOemBusinesses[i]];
       updatedOemBusinesses[removedOemBusinesses[i]] = {...oemBusinessToRemoveFrom, procedures: oemBusinessToRemoveFrom.procedures.filter(x => x != action.payload.id)}
     }
-    yield call(API.put, `/procedures/${action.payload.id}`,{ procedure: { oem_business_ids: oemBusinesses } })
-    yield put(setModal())
-    yield put(addToast("success", "Procedure sites successfully updated."))
+    yield call(API.put, `/procedures/${action.payload.id}`,{ procedure: { oem_business_ids: oemBusinesses } });
+    yield put(setModal());
+    yield put(addToast("success", "Procedure sites successfully updated."));
     yield put({type: action.type+"__SUCCESS", payload: {
       oem_businesses: updatedOemBusinesses,
       procedures: {
@@ -177,7 +202,6 @@ export function* updateOemBusinessesSaga(action){
   } catch (e) {
     console.log("error", e);
   }
-
 }
 
 function procedureParams(action, type){
