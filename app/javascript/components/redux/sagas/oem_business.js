@@ -11,7 +11,8 @@ import Schemas from '@utils/models';
 import API from '@utils/API';
   import {updateProceduresCountInOem} from '@utils';
 
-const normalizeOemBusiness = (response,{payload:{id}}) => normalize({oem_business_id: id, ...response}, Schemas.oem_business).entities
+const normalizeOemBusiness = (response,{payload:{id}}) => normalize({oem_business_id: id, ...response}, Schemas.oem_business).entities;
+const normalizeOemBusinessList = (response, payload) => payload.forEach(item => normalize({oem_business_id: item.id, ...response}, Schemas.oem_business).entities);
 function* normalizeOem(response,action){
   const oem = yield select(getOemById(action.payload.values.oem_id));
   return (oem && oem.oem_businesses) ? (
@@ -23,6 +24,9 @@ function* normalizeOem(response,action){
 
 export function* oemBusinessProceduresSaga(action){
   yield call(getSaga, action, normalizeOemBusiness);
+}
+export function* oemBusinessProceduresListSaga(action){
+  yield call(getSaga, action, normalizeOemBusinessList);
 }
 
 function* handleOemBusinessCreateSuccess(response, action){

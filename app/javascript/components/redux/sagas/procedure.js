@@ -139,31 +139,6 @@ export function* copyProcedureSaga({payload:{formKey,values:{oem_business_id,...
     yield put(setModal())
   }
 }
-export function* getProcedureListSaga({payload:{}}){
-  // try {
-  //   let body = {};
-  //   const response = yield call(API.post, body);
-  //   if(response.error){
-  //     yield put(setModal());
-  //     yield put({type: `${CREATE_PROCEDURE_REQUEST}__FAILURE`, payload: {formKey,errors:{formError: response.error}}})
-  //   } else {
-  //     const oem_business = yield select(getOemBusinessById(oem_business_id));
-  //     const normalizedData = oem_business ?
-  //       ({ ...normalize({ ...oem_business, procedures: oem_business.procedures ?
-  //           [...oem_business.procedures, {name: procedure.name, ...response}] :
-  //           [{name: procedure.name, ...response}] }, Schemas.oem_business).entities,
-  //       ...normalizeOem(response)}) :
-  //       ({...normalize({name: procedure.name, ...response}, Schemas.procedure).entities,
-  //       ...normalizeOem(response)});
-  //     yield put({type: `${CREATE_PROCEDURE_REQUEST}__SUCCESS`, payload: normalizedData});
-  //     yield call(handleProcedureRequestSuccess, {values: {procedure: normalizedData.procedures[response.id]}}, "Procedure was successfully copied")
-  //   }
-  // } catch (e) {
-  //   console.log("copyProcedureSaga ERROR", e);
-  //   yield put({type: `${CREATE_PROCEDURE_REQUEST}__FAILURE`, payload: {formKey,errors:{formError: "Unable to copy procedure."}}});
-  //   yield put(setModal())
-  // }
-}
 
 export function* updateOemBusinessesSaga(action){
   try {
