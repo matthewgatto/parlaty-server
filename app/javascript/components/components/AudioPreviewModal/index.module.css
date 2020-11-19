@@ -1,0 +1,33 @@
+.container {
+  width: 70vw;
+  max-width: calc(100% - 4vw) !important;
+}
+.container:only-child {
+  max-width: 100%;
+}
+.audio {
+  width: 100%;
+}
+.audio, .audio:hover {
+  outline: none;
+}
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  .container {
+    height: auto;
+    width: 90vw;
+    min-height: 40vh;
+  }
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #67328d;
+  width: 100%;
+  min-height: 60vh;
+}
+.icon > svg {
+  font-size: 3em !important;
+}

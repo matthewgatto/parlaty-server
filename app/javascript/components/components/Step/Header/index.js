@@ -22,7 +22,7 @@ export default ({id, idx, title, looped, root, duplicateStep, isOpen, deviceId, 
     color={isOpen || isDragging}
     text={<><div>{title + looped}</div><div className={styles.device}>
       <DeviceDisplay deviceId={deviceId}>
-        {(deviceName) => deviceName ? <span className={styles.purple}>{deviceName}</span> : null}
+        {(deviceName) => deviceName ? <span className={styles.purple}>{deviceName}</span> : <></>}
       </DeviceDisplay>
     </div></>}
     addIcon={isDuplicate}

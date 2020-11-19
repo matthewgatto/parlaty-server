@@ -1,5 +1,6 @@
 .device {
   font-size: 0.7em;
+  min-height: .7em;
   font-weight: 400;
   margin-top: 0.2em;
 }

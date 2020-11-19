@@ -18,7 +18,7 @@ export default ({isArrParams, file, setFile, ...props}) => {
     setSrc(props.src instanceof File ? await readFile(props.src) : props.src)
   }, [props.src, setSrc]);
   useEffect(() => {
-    if( type[2] === 'doc_preview') {
+    if( type[2] === 'doc_preview' ||  type[2] === 'audio_preview' ) {
       setIsLoading(false)
     } else {
       setIsLoading(true);

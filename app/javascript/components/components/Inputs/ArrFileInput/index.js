@@ -13,7 +13,7 @@ export default ({label, name, onClick, onChange, inputRef, values, deleteElem, f
         <span className={styles.name}>Upload File</span>
           <Upload className={styles.icon} />
         </span>
-        <input ref={inputRef} className={styles.hidden} type="file" onChange={onChange} multiple accept=".xls,.xlsx,.pdf,.txt,.png,.jpeg,.mp4,.zip,.doc,.gif,.svg"/>
+        <input ref={inputRef} className={styles.hidden} type="file" onChange={onChange} multiple accept=".xls,.xlsx,.pdf,.txt,.png,.jpg,.jpeg,.mp4,.zip,.doc,.docx,.gif,.svg,.mov,.m4a,.mp3"/>
       </label>
     </div>
     <div className={styles.file_container}>

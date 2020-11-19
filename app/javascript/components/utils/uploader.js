@@ -7,8 +7,8 @@ import {call, fork, put, take} from "redux-saga/effects";
 
 export function* makeObjRequest(uncleanObjValues, url, method, objName){
   try {
-    const {obj,has_video,has_file} = objName === "step" ? stepParams(uncleanObjValues) : actionParams(uncleanObjValues);
-    if(has_video){
+    const {obj,has_video,has_file, has_audio} = objName === "step" ? stepParams(uncleanObjValues) : actionParams(uncleanObjValues);
+    if(has_video || has_audio){
       yield put(setModal("video_progress"));
       try {
         return yield call(uploadSource, obj, url, method, objName)
@@ -50,20 +50,21 @@ const actionParams = ({device, ...obj}) => {
 };
 
 export const stepParams = ({id,visuals,has_visual,...obj}) => {
-  let has_video = false, has_file = false;
-  if(visuals){
+  let has_video = false, has_file = false, has_audio = false;
+  if (visuals) {
     let media = [];
     visuals.forEach(file=> {
       const hasImageFile = file.type && ~file.type.indexOf('image');
+      const hasAudioFile = file.type && ~file.type.indexOf('audio');
       const hasVideoFile = file.type && ~file.type.indexOf('video');
       const hasDocFile = file.type && (~file.type.indexOf('application') || ~file.type.indexOf('text'));
       const hasURLMedia = file && typeof file === 'string';
       if(hasURLMedia) obj.has_visual = true;
       obj.visuals = [];
-      if(file){
+      if (file) {
         if(hasImageFile || hasDocFile){
           has_file = true;
-        } else if(hasVideoFile){
+        } else if (hasVideoFile || hasAudioFile) {
           has_video = true;
           has_file = true;
         }
@@ -80,7 +81,7 @@ export const stepParams = ({id,visuals,has_visual,...obj}) => {
   if(!obj.spoken){
     obj.spoken = false
   }
-  return {obj, has_video, has_file};
+  return {obj, has_video, has_file, has_audio};
 };
 
 function createUploader(obj, url, method, objName) {

@@ -8,6 +8,7 @@ import AddStepFormButton from '@containers/AddStepFormButton'
 import SubmitButton from '@components/SubmitButton'
 import ImagePreviewModal from '@components/ImagePreviewModal';
 import VideoPreviewModal from '@components/VideoPreviewModal';
+import AudioPreviewModal from '@components/AudioPreviewModal';
 import {addToast} from '@actions/toast';
 import { procedureSchema } from '@utils/validation';
 import styles from './index.module.css';
@@ -55,6 +56,7 @@ export default ({match:{url,params:{oem_id,oem_business_id,id}},history:{push},l
       <ModalOverlay>
         <ImagePreviewModal />
         <VideoPreviewModal />
+        <AudioPreviewModal />
       </ModalOverlay>
     </div>
   )

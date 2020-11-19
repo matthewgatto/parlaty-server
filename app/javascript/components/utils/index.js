@@ -1,5 +1,6 @@
 import uniq from 'lodash/uniq';
 import ImageFileDisplay from '@components/ImageFileDisplay';
+import AudioFileDisplay from '@components/AudioFileDisplay';
 import VideoFileDisplay from '@components/VideoFileDisplay';
 import DocFileDisplay from '@components/DocFileDisplay';
 
@@ -76,7 +77,7 @@ export function immutableArrayRemove(arr,o){
   let res = {...o};
   arr.forEach(id => {
     res = immutableRemove(id, res);
-  })
+  });
   return res
 }
 
@@ -108,7 +109,7 @@ export const combinedPayload = (payload, state) => {
       val[id]= payload[id]}
   });
   return val
-}
+};
 
 export const makeName = (root, name) => root ? `${root}${name}` : name;
 
@@ -185,12 +186,13 @@ export const makeStep = (values, isFormData) => {
   }
   if(visuals) step.visuals = visuals;
   if(default_media || default_media === 0) step.default_media = default_media;
-  if(visuals && visuals.length === 0) step.default_media = -1
+  if(visuals && visuals.length === 0) step.default_media = -1;
   return step;
 };
 
 export const typeFile = (file) => {
   if (~file.type.indexOf('video')) return [VideoFileDisplay, 'video', 'video_preview'];
+  if (~file.type.indexOf('audio')) return [AudioFileDisplay, 'audio', 'audio_preview'];
   else if (~file.type.indexOf('image')) return [ImageFileDisplay, 'image', 'image_preview'];
   else if (~file.type.indexOf('application') || ~file.type.indexOf('text')) return [DocFileDisplay, 'application', 'doc_preview'];
 };
