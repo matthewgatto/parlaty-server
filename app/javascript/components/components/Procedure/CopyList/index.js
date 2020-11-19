@@ -45,7 +45,7 @@ const ProcedureListWrapper = ({procedures, procedureData}) => (
 
 const ProcedureListContainer = ({procedureData}) => {
   const dispatch = useDispatch();
-  // dispatch(getOemBusinessProceduresList());
+  dispatch(getOemBusinessProceduresList());
   const procedures = useSelector(getAllOemBusinessByRole(procedureData.values.oem_business_id));
   return <ProcedureListWrapper procedures={procedures} procedureData={procedureData} />
 };

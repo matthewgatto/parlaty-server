@@ -5,6 +5,10 @@ class ProcedurePolicy < ApplicationPolicy
     true
   end
 
+  def all_procedures_for_user?
+    !operator?
+  end
+
   def show?
     index?
   end

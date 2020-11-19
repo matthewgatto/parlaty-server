@@ -4,7 +4,8 @@ import { addIds, immutableRemove, combinedPayload } from '@utils';
 import * as comment from '@types/comment';
 import * as types from "@types/procedure";
 import {
-  FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS
+  FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS,
+  FETCH_OEM_BUSINESS_PROCEDURES_LIST_REQUEST__SUCCESS
 } from '@types/oem_business';
 import {
   STEP_SAVE_REQUEST__SUCCESS,
@@ -22,6 +23,7 @@ const allProcedures = (state = null, {type,payload}) => {
       return state.filter(procedureId => procedureId !== payload.procedure_id)
     case types.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case types.FETCH_PROCEDURE_REQUEST__SUCCESS:
+    case FETCH_OEM_BUSINESS_PROCEDURES_LIST_REQUEST__SUCCESS:
     case FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
       if(payload.procedures){
         return addIds(state, payload.procedures)
@@ -58,6 +60,7 @@ const proceduresById = (state = {}, {type,payload}) => {
         }
       }
       return state;
+    case FETCH_OEM_BUSINESS_PROCEDURES_LIST_REQUEST__SUCCESS:
     case FETCH_OEM_BUSINESS_PROCEDURES_REQUEST__SUCCESS:
       if(payload.procedures){
         return {

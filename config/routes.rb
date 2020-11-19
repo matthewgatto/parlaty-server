@@ -15,12 +15,16 @@ Rails.application.routes.draw do
     get "/reset-password", to: "users/passwords#edit"
   end
 
+  get '/oem_businesses/:id/procedures', to: 'procedures#index'
   resources :procedures, only: [:show, :create, :update, :destroy] do
-      member do
-        put 'reorder'
-        put 'used'
-		    post 'copy'
-      end
+    collection do
+      get 'all_procedures_for_user'
+    end
+    member do
+      put 'reorder'
+      put 'used'
+      post 'copy'
+    end
   end
 
   resources :users do
@@ -32,6 +36,8 @@ Rails.application.routes.draw do
   resources :languages, only: [:index]
   resources :oems, only: [:index, :create, :update, :destroy]
   resources :devices, only: [:index, :create, :update, :destroy]
+
+  get '/oems/:id/oem_businesses', to: 'oem_businesses#index'
   resources :oem_businesses, only: [:create, :show, :destroy]
   resources :comments, only: [:create, :update, :destroy] do
     collection do
@@ -41,9 +47,6 @@ Rails.application.routes.draw do
       post 'readed'
     end
   end
-
-  get '/oems/:id/oem_businesses', to: 'oem_businesses#index'
-  get '/oem_businesses/:id/procedures', to: 'procedures#index'
 
   resources :steps, only: [:create, :update, :destroy]
   post '/csv_steps', to: 'steps#csv_steps'

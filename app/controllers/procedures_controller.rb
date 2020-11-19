@@ -17,6 +17,13 @@ class ProceduresController < ApplicationController
 		end
 	end
 
+	# GET /procedures/all_procedures_for_user
+	def all_procedures_for_user
+		authorize Procedure
+		procedures = procedures_list_by_role(current_user)
+		render json: ProcedureSerializer.procedures_as_json((procedures).sort_by &:name), status: :ok
+	end
+
 	# GET /procedures/:id
 	def show
 		authorize @procedure
