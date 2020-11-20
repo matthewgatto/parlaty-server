@@ -64,8 +64,11 @@ export const stepParams = ({id,visuals,has_visual,...obj}) => {
       if (file) {
         if(hasImageFile || hasDocFile){
           has_file = true;
-        } else if (hasVideoFile || hasAudioFile) {
+        } else if (hasVideoFile) {
           has_video = true;
+          has_file = true;
+        } else if (hasAudioFile) {
+          has_audio = true;
           has_file = true;
         }
         media.push(file);

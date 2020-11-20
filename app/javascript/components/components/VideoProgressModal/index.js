@@ -5,8 +5,8 @@ import activeModal from '@containers/activeModal';
 import VideoProgressBar from '@containers/VideoProgressBar';
 
 export default activeModal(() => (
-  <div className={styles.container}>
-    <Label>Uploading Video</Label>
-    <VideoProgressBar />
-  </div>
-), "video_progress")
+    <div className={styles.container}>
+      <Label>Uploading Media</Label>
+      <VideoProgressBar />
+    </div>
+  ), "video_progress");

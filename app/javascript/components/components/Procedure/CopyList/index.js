@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import LargeBar from '@components/Bar/Large';
 import SmallBar from '@components/Bar/Small'
@@ -45,8 +45,8 @@ const ProcedureListWrapper = ({procedures, procedureData}) => (
 
 const ProcedureListContainer = ({procedureData}) => {
   const dispatch = useDispatch();
-  dispatch(getOemBusinessProceduresList());
-  const procedures = useSelector(getAllOemBusinessByRole(procedureData.values.oem_business_id));
+  const procedures = useSelector(getAllOemBusinessByRole(procedureData.values.oem_business_id)) || [];
+  useEffect(() => { if(!!procedures) dispatch(getOemBusinessProceduresList()) }, []);
   return <ProcedureListWrapper procedures={procedures} procedureData={procedureData} />
 };
 
