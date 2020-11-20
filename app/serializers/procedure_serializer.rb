@@ -25,6 +25,7 @@ class ProcedureSerializer
       procedure.as_json.merge!({
         version: procedure.version || 1,
         procedure_id: procedure.id,
+        languageValue: procedure.language&.name || '',
         has_new_comments: new_comments_for_procedure(procedure.id),
       })
     end
