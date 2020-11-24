@@ -115,7 +115,7 @@ export function* copyProcedureSaga({payload:{formKey,values:{oem_business_id,...
   try {
     let body = {name: procedure.name};
     if(procedure.description) body.description = procedure.description;
-    if(procedure.author_id) body.author_id = procedure.author_id;
+    if(procedure.author) body.author = procedure.author;
     if(procedure.language_id) body.language_id = procedure.language_id;
     const response = yield call(API.post, `/procedures/${procedure_id}/copy`, body);
     if(response.error){
@@ -183,7 +183,7 @@ function procedureParams(action, type){
   let params = {
     name: action.payload.values.name,
     description: action.payload.values.description,
-    author_id: action.payload.values.author_id,
+    author: action.payload.values.author,
     language_id: action.payload.values.language_id,
     version: action.payload.values.version,
   };

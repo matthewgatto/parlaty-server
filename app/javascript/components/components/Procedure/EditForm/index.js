@@ -26,7 +26,7 @@ export default (props) => (
         <div className={styles.margin}>
           <Input as="input" name="name" type="text" label="Procedure Name" formKey={formKey} />
           <LimitedTextArea as="textarea" label="Description" name="description" rows="4" formKey={formKey} limit={200}/>
-          <AuthorSelect formKey={formKey} defaultValue={props.initialValues.author_id} oemBusinessId={props.oemBusinessId}/>
+          <AuthorSelect formKey={formKey} defaultValue={props.initialValues.author} oemBusinessId={props.oemBusinessId}/>
           <LanguagesSelect formKey={formKey} defaultValue={props.initialValues.language_id}/>
           <Input as="input" name="version" type="text" label="Version" disabled formKey={formKey} />
         </div>

@@ -24,7 +24,12 @@ const TimeSelect = (props) => {
 export default ({isDuplicate, root, idx, title, looped, isOpen, procedure_id, oemBusinessId, formKey, id, initialValues, procedureFormKey, handleCloseForm}) => {
   const dispatch = useDispatch();
   const updateStepParams = useCallback(([e]) => {
-      let name = e.target.name.split(root).pop();
+    let name = e.target.name.split(root).pop();
+      if(e.target.value === "continuous" || e.target.value === "manual"){
+        dispatch(setStepValues(idx, {'time': 0}));
+      } else if(e.target.value === "timed") {
+        dispatch(setStepValues(idx, {'time': 2}));
+      }
       dispatch(setStepValues(idx, {[name]: (e.target.type === "checkbox" ? e.target.checked : e.target.value)}));
   }, [dispatch, root]);
   return (

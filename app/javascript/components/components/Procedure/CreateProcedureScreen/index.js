@@ -57,7 +57,7 @@ export default ({match:{url,params:{oem_id,oem_business_id}}}) => {
         initialValues={{
           name: '',
           description: '',
-          author_id: '',
+          author: '',
           language_id: '',
           version: 1
         }}
