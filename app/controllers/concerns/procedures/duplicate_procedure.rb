@@ -76,7 +76,7 @@ module Procedures
 			steps_map = {}
 			result[:steps] = steps.map do |step|
 				new_step = step.dup
-				new_step.device_id = devices_map[step.device_id]
+				new_step.device_id = devices_map[step.device_id] if devices_map.present?
 				step_visuals_dup(step.visuals).each { |visual| new_step.visuals.attach(visual)} if step.visuals.present?
 				new_step.save
 				steps_map[step.id] = new_step.id
