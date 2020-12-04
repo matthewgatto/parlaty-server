@@ -5,6 +5,7 @@ import CloseIcon from '@components/SVG/Close';
 import styles from './index.module.css';
 import { useSelector} from "react-redux";
 import { getModal } from '@selectors/modal';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 export default ({children}) => {
   const ref = useRef(null);
@@ -18,6 +19,9 @@ export default ({children}) => {
     <div className={`${styles.container} ${!isShow ? styles.displayNone : ''}`}>
       <div className={styles.content}>
         <ModalTrigger className={styles.closeButton}><CloseIcon className={styles.closeIcon} /></ModalTrigger>
+        <button type='button' className={styles.download} onClick={() => download(modal.data.name || 'file',  modal.data.src)}>
+          <GetAppIcon />
+        </button>
         <div className={styles.window}>
           <div ref={ref} className={styles.contain}>{children}</div>
           {params && <ModalList params={params} />}
@@ -26,3 +30,18 @@ export default ({children}) => {
     </div>
   )
 }
+
+
+
+const download = (filename, src) => {
+  const element = document.createElement('a');
+  element.setAttribute('href', src);
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+};
