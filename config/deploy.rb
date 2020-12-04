@@ -68,6 +68,7 @@ namespace :deploy do
       within release_path do
         # execute("cd #{release_path} && yarn install --check-files --silent --no-progress --no-audit --no-optional")
         execute("cd #{release_path} && yarn install --check-files --progress --trace ")
+        # execute("cd #{release_path} && npx browserslist@latest --update-db")
       end
     end
   end
