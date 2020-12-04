@@ -13,7 +13,7 @@ export default ({id, idx, root, isDragging, initialAction, handleDeleteClick, ha
           <Input as="input" defaultValue={initialAction && initialAction.name} formKey={formKey} type="text" required label="Action Name*" root={root} name="name" />
         </div>
         <div className={styles.secondInput}>
-          <Input as="input" defaultValue={initialAction && initialAction.parameter_value_8_pack} formKey={formKey} type="text" label="Action Value" root={root} name="parameter_value_8_pack" />
+          <Input as="input" defaultValue={initialAction && initialAction.parameter_value_8_pack || ''} formKey={formKey} type="text" label="Action Value" root={root} name="parameter_value_8_pack" />
         </div>
       </div>
       <ModeAndTimeFields defaultTime={(initialAction && initialAction.time) ? initialAction.time : 8} defaultMode={(initialAction && initialAction.mode) ? initialAction.mode : "continuous"} root={root} />

@@ -19,9 +19,12 @@ export default ({children}) => {
     <div className={`${styles.container} ${!isShow ? styles.displayNone : ''}`}>
       <div className={styles.content}>
         <ModalTrigger className={styles.closeButton}><CloseIcon className={styles.closeIcon} /></ModalTrigger>
-        <button type='button' className={styles.download} onClick={() => download(modal.data.name || 'file',  modal.data.src)}>
-          <GetAppIcon />
-        </button>
+        {modal && modal.data && modal.data.src &&
+          <button type='button' className={styles.download}
+                   onClick={() => download(modal.data.name || 'file', modal.data.src)}>
+            <GetAppIcon/>
+          </button>
+        }
         <div className={styles.window}>
           <div ref={ref} className={styles.contain}>{children}</div>
           {params && <ModalList params={params} />}
