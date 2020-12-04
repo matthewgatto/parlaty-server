@@ -93,6 +93,8 @@ class ProceduresController < ApplicationController
 		else
 			render json: ApplicationSerializer.error_response(new_procedure.errors.full_messages)
 		end
+	rescue => e
+		render json: {error: [e.message, e.backtrace]}, status: :ok
 	end
 
 	private
