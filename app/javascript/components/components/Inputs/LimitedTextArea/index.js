@@ -5,7 +5,7 @@ import {useFormContext} from "react-hook-form";
 export default ({rows, cols, limit, name, value, onChange}) => {
   const ref = useRef(null);
   const { setValue } = useFormContext();
-  const setFormattedContent = e => setValue(name, e.target.value);
+  const setFormattedContent = e => setValue(name, e.target.value || '');
   return (
     <div className={styles.container}>
       <div className={styles.counter}>
