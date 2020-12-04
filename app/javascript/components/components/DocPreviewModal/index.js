@@ -6,6 +6,7 @@ import FileViewer from 'react-file-viewer';
 export default activeModal(({modalData, modalType}) => {
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
+
   useEffect(() => {
     setTimeout(() => forceUpdate(), 1);
   }, []);
