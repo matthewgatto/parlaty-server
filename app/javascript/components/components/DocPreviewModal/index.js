@@ -1,20 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React from 'react';
 import styles from './index.module.css';
 import activeModal from '@containers/activeModal';
-import FileViewer from 'react-file-viewer';
 
-export default activeModal(({modalData, modalType}) => {
-  const [, updateState] = useState();
-  const forceUpdate = useCallback(() => updateState({}), []);
-  useEffect(() => {
-    setTimeout(() => forceUpdate(), 1);
-  }, []);
-  return (
-    <div className={styles.container}>
-       <FileViewer
-         key={modalData + Math.random().toString()}
-         fileType={modalType}
-         filePath={~modalData.indexOf('data:') ? `${modalData}` : modalData}
-       />
-     </div>
+export default activeModal(({modalData}) => {return (
+  <div className={styles.container}>
+    <div>
+      {modalData && typeof modalData === "string" ? 'file' : (modalData.name || modalData).split('.').pop() || 'file'}
+    </div>
+  </div>
 )}, "doc_preview")

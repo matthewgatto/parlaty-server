@@ -52,16 +52,3 @@
 .displayNone {
   display: none;
 }
-.download {
-  position: absolute;
-  left: 50%;
-  top: .7em;
-  border-radius: 5px;
-  padding: 5px 20px;
-  border: .7em;
-  cursor: pointer;
-  transition: all .2s;
-}
-.download:hover {
-  background: #dadad9;
-}

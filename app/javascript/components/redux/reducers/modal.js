@@ -6,20 +6,7 @@ export default function reducer(state = null, {type, payload}){
     case types.SET_MODAL:
       return payload || null
     case types.CHANGE_ACTIVE_FILE:
-      return {
-        ...state,
-        type: payload.type,
-        data: {
-          isArrParams: {
-            idx: payload.idx,
-            index: payload.index,
-            objName: payload.objName
-          },
-          src: payload.src || '',
-          name: payload.name || '',
-          fileType: payload.fileType || '',
-        }
-      };
+      return {...state, type: payload.type, data: {isArrParams: {idx: payload.idx, index: payload.index, objName: payload.objName}, src: payload.src || ''}}
     case LOCATION_CHANGE:
     case "CREATE_PROCEDURE_DEVICE_REQUEST__SUCCESS":
       return null;

@@ -3,6 +3,10 @@
   width: auto;
   max-width: calc(100% - 4vw) !important;
   min-width: 50vw !important;
+  font-size: 12rem;
+  text-transform: uppercase;
+  color: #67328d;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,10 +14,7 @@
 .container:only-child {
   max-width: 100%;
 }
-.container > div {
-  width: 100%;
-  overflow: auto;
-}
+
 
 @media (max-width: 1024px) and (orientation: portrait) {
   .container {
