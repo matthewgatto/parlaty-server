@@ -113,10 +113,10 @@ export function* deleteProcedureSaga(action){
 
 export function* copyProcedureSaga({payload:{formKey,values:{oem_business_id,...procedure},procedure_id}}){
   try {
-    let body = {name: procedure.name};
-    if(procedure.description) body.description = procedure.description;
-    if(procedure.author) body.author = procedure.author;
-    if(procedure.language_id) body.language_id = procedure.language_id;
+    let body = {name: procedure.name, procedure: {oem_business_ids: [oem_business_id], name: procedure.name}};
+    if(procedure.description) body.procedure.description = procedure.description;
+    if(procedure.author) body.procedure.author = procedure.author;
+    if(procedure.language_id) body.procedure.language_id = procedure.language_id;
     const response = yield call(API.post, `/procedures/${procedure_id}/copy`, body);
     if(response.error){
       yield put(setModal());

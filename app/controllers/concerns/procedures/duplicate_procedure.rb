@@ -12,7 +12,7 @@ module Procedures
 
 		def procedure_dup(procedure, params)
 			new_procedure = procedure.dup
-			params.to_unsafe_h.map{ |key, value| new_procedure[key] = value }
+			params.except(:oem_business_ids).to_unsafe_h.map{ |key, value| new_procedure[key] = value }
 			new_procedure.operations = operations_dup(procedure.operations) if procedure.operations.present?
 			devices_result = devices_dup(procedure.devices)
 			new_procedure.devices = devices_result[:devices] if procedure.devices.present?
@@ -20,7 +20,7 @@ module Procedures
 			new_procedure.steps = steps_result[:steps]  if procedure.steps.present?
 			new_procedure.steps_order = steps_result.present? ?
 																			procedure.steps_order.map{ |item| steps_result[:steps_map][item] } : []
-			new_procedure.oem_businesses = procedure.oem_businesses
+			new_procedure.oem_businesses = OemBusiness.where(id: params[:oem_business_ids]) if params[:oem_business_ids]
 			new_procedure
 		end
 
