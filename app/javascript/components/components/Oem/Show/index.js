@@ -6,13 +6,24 @@ import ModalTrigger from '@containers/ModalTrigger';
 import DeleteClientConfirmationModal from '../DeleteConfirmationModal'
 import { FETCH_OEM_BUSINESSES_REQUEST } from '@types/oem';
 import { getOemBusinesses } from '@selectors/oem';
+import useOemInfo from '@containers/useOemInfo';
 import ModalOverlay from '@components/Modal/Overlay';
+
+function getHeader(oem_id) {
+  let oem = useOemInfo(oem_id);
+  let clientName = oem && oem.name;
+  if (clientName) {
+    return `Client: ${clientName}`;
+  } else {
+    return 'Client';
+  }
+}
 
 export default ({match:{url,params:{oem_id}}}) => (<>
   <ListPage
     label="Sites"
     header={{
-      header: {text: "", entityKey: "oems", oem_id},
+      header: {text: getHeader(oem_id), entityKey: "oems", oem_id},
       back: {to: "/", label: "Home"},
       buttons: (<>
         <ModalTrigger modal="delete_client_confirmation"><SubmitButton primary label="Delete Client" /></ModalTrigger>
