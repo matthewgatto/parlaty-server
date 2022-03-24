@@ -18,9 +18,13 @@ function getClientSecret(oem_id) {
 export default ({ oem_id }) => {
   let oem = useOemInfo(oem_id);
   let oemStatus = oem && oem.subscription && oem.subscription.subscription_status && oem.subscription.subscription_status != "PENDING" ? oem.subscription.subscription_status : "INACTIVE";
+  let userCount = oem && oem.subscription && oem.subscription.user_count ? oem.subscription.user_count : 0;
   let subscriptionPlan = oem && oem.subscription && oem.subscription.plan && oem.subscription.plan.name ? oem.subscription.plan.nam : "No Plan Selected";
+  let subscriptionPlans = oem && oem.subscription && oem.subscription.plans ? oem.subscription_plans : [];
   let paymentLabel = oem && oem.source_id ? "Update Card" : "Add Card";
-  let modalData = {clientSecret: "TESTING"};
+  let planLabel = subscriptionPlan ? "Add Subscription" : "Update Subscription";
+  let modalKey = {clientSecret: "TESTING"};
+  let modalPlans = {subscriptionPlans: subscriptionPlans};
   return (<>
     <Label>Subscription</Label>
     <div className={styles.container}>
@@ -32,8 +36,14 @@ export default ({ oem_id }) => {
         <span className={styles.title}>Plan:</span>
         <span className={styles.text}>{subscriptionPlan}</span>
       </div>
-      <ModalTrigger modal="show_stripe_element" modalData={modalData}><SubmitButton primary label={paymentLabel}/></ModalTrigger>
-
+      <div className={styles.fields}>
+        <span className={styles.title}>Users:</span>
+        <span className={styles.text}>{userCount}</span>
+      </div>
+      <div className={styles.flex}>
+        <ModalTrigger modal="show_stripe_element" modalData={modalKey}><SubmitButton primary className={styles.margins} label={paymentLabel}/></ModalTrigger>
+        <ModalTrigger modal="show_subscription_plans" modalData={modalPlans}><SubmitButton primary className={styles.margins} label={planLabel}/></ModalTrigger>
+      </div>
     </div>
   </>)
 }

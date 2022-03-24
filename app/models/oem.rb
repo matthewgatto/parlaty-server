@@ -20,7 +20,7 @@ class Oem < ApplicationRecord
 
 	def check_subscription
           if !self.subscription.present?
-            sub = self.build_subscription
+            sub = self.build_subscription(user_count: self.user_count)
             sub.save
           end
         end
