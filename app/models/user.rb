@@ -9,6 +9,8 @@ class User < ApplicationRecord
   has_many :comments, foreign_key: :author_id, dependent: :destroy
   has_many :operations, foreign_key: :operator_id
 
+  after_save :update_subscription
+
   Users::Role::ROLES.each do |r|
     define_method "#{r}?" do
       roleable_type.to_s == r.classify.to_s
@@ -24,6 +26,15 @@ class User < ApplicationRecord
   #override devise definition so that password isn't require at initial sign_up
   def password_required?
     confirmed? ? super : false
+  end
+
+  def update_subscription
+    if self.roleable.present? && !self.roleable.is_a?(ParlatyAdmin)
+      if self.roleable.oem_businesses.any?
+        oem = self.roleable.oem_businesses.first.oem
+        oem.subscription.update(user_count: oem.user_count)
+      end
+    end
   end
 
 end

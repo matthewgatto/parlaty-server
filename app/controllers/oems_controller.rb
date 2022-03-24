@@ -2,7 +2,7 @@
 
 class OemsController < ApplicationController
   before_action :require_login
-  before_action :set_params, only: %i[update destroy setup_intent]
+  before_action :set_params, only: %i[update destroy setup_intent update_subscription]
 
   # GET /oems
   def index
@@ -50,6 +50,20 @@ class OemsController < ApplicationController
     end
   end
 
+  def update_subscription
+    authorize @oem
+    if @oem.present?
+      @subscription = @oem.subscription
+      if @subscription.update(subscription_params)
+        render json: SubscriptionSerializer.subscription_as_json(@subscription), status: :ok
+      else
+        render json: ApplicationSerializer.error_response(@subscription.errors.full_messages), status: :bad_request
+      end
+    else
+      head :bad_request
+    end
+  end
+
   private
 
   def set_params
@@ -58,5 +72,9 @@ class OemsController < ApplicationController
 
   def oem_params
     params.require(:oem).permit(policy(@oem || Oem.new).permitted_attributes(current_user.roleable_type))
+  end
+
+  def subscription_params
+    params.require(:subscription).permit(:confirm_status, :subscription_plan_id)
   end
 end

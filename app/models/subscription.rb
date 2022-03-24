@@ -306,7 +306,7 @@ class Subscription < ApplicationRecord
   end
 
   def get_full_user_count
-    self.oem.users.count
+    self.oem.user_count
   end
 
   def update_subscription_user_count
@@ -536,7 +536,7 @@ private
           if !self.subscription_plan_id.present?
             errors.add(:subscription_plan_id, "required")
             throw(:abort)
-          elsif !self.oem.users.any?
+          elsif self.oem.user_count < 1
             errors.add(:base, "At least 1 user required before activating a subscription")
             throw(:abort)
           elsif !self.subscription_id.present? 
