@@ -11,6 +11,7 @@ export default ({match:{url}}) => {
     <PageLayout
       header="Home"
     >
+      <Label>Subscription</Label>
       <Label>Sites</Label>
       <List items={oem_businesses} to="/sites" placeholder="You have no sites" text="sites" entityKey="oem_businesses"  />
     </PageLayout>

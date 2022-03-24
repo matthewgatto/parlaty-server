@@ -18,3 +18,5 @@ parlaty-server.iml
 /tmp/*
 package-lock.json
 /.idea
+.env
+

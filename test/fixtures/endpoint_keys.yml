@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  endpoint_controller: MyString
+  endpoint_action: MyString
+  endpoint_secret: MyString
+
+two:
+  endpoint_controller: MyString
+  endpoint_action: MyString
+  endpoint_secret: MyString

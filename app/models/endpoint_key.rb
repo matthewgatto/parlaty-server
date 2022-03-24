@@ -1,0 +1,2 @@
+class EndpointKey < ApplicationRecord
+end

@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   resources :devices, only: [:index, :create, :update, :destroy]
 
   get '/oems/:id/oem_businesses', to: 'oem_businesses#index'
+  get '/oems/:id/setup_intent', to: 'oems#setup_intent'
   resources :oem_businesses, only: [:create, :show, :destroy]
   resources :comments, only: [:create, :update, :destroy] do
     collection do
@@ -50,5 +51,7 @@ Rails.application.routes.draw do
 
   resources :steps, only: [:create, :update, :destroy]
   post '/csv_steps', to: 'steps#csv_steps'
+  post '/stripe/subscription' => 'stripe#subscription_update'
+  post '/stripe/payment_method' => 'stripe#payment_method_update'
 
 end

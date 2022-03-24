@@ -12,6 +12,7 @@ const normalizeOemList = (response) => normalize(response, [Schemas.oem]).entiti
 const normalizeOemBusinesses = (response) => normalize(response, Schemas.oem).entities
 const normalizeOem = ({id, oem}) => normalize({...oem, id}, Schemas.oem).entities;
 const normalizeOemCreate = (value) => normalize(value, Schemas.oem).entities
+const normalizeOemSetupIntent = ({id}) => normalize({id}, Schemas.setup_intent).entities
 
 export function* createOemSaga(action){
   const response = yield call(API.post, action.payload.url, action.payload.values)
@@ -46,6 +47,10 @@ export function* oemListSaga(action){
 
 export function* oemBusinessesSaga(action){
   yield call(getSaga, action, normalizeOemBusinesses);
+}
+
+export function* oemSetupIntent(action){
+  yield call(API.get, `/oems/${action.payload}`, normalizeOemSetupIntent);
 }
 
 export function* deleteClientSaga(action){

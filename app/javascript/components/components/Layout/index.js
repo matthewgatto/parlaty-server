@@ -28,13 +28,13 @@ const Layout = ({children, role, logout}) => {
         {children}
         </main>
         <div className={styles.footer}>
-          <div>&copy; Copyright 2020 Parlaty</div>
+          <div>&copy; Copyright 2020-2022 Parlaty</div>
           <div className={styles.social}>
             <div>Facebook</div>
             <div>Instagram</div>
             <div>Twitter</div>
           </div>
-          <div>Lorem Ipsum</div>
+          <div></div>
         </div>
       </div>
     </>

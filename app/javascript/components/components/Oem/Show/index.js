@@ -19,6 +19,7 @@ function getHeader(oem_id) {
   }
 }
 
+
 export default ({match:{url,params:{oem_id}}}) => (<>
   <ListPage
     label="Sites"
@@ -31,6 +32,7 @@ export default ({match:{url,params:{oem_id}}}) => (<>
         <Link to={`${url}/sites/create`}><SubmitButton primary label="Add Site" /></Link>
       </>)
     }}
+    oem_id={oem_id} 
     list={{
       oem_id,
       type: FETCH_OEM_BUSINESSES_REQUEST,

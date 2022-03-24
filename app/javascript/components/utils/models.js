@@ -63,6 +63,8 @@ const user = new schema.Entity("users", {
   }
 })
 
+const setup_intent = new schema.Entity("setup_intent");
+
 export default {
   comment,
   language,

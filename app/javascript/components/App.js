@@ -8,7 +8,6 @@ import Toaster from '@containers/Toaster';
 import './index.css';
 import store, {history} from './redux';
 
-
 export default () => (
   <Provider store={store}>
     <Router history={history}>

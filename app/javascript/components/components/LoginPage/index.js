@@ -22,6 +22,8 @@ const inputs = [{
   required: true
 }]
 
+const stripe_key = process.env.STRIPE_PUBLIC_KEY
+
 export default () => (
   <div className={styles.container}>
     <div className={styles.topPolygonContainer}>
@@ -30,6 +32,7 @@ export default () => (
       <Polygon className={styles.topPolygonThree} fill="none" stroke="#67318d" size="2.6em" />
       <Polygon className={styles.topPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
     </div>
+    {console.log(stripe_key)}
     <div className={styles.header}>Parlaty<sup className={styles.tm}>&#8482;</sup> Login</div>
     <div className={styles.subheader}>Or <Link to="/#" className={styles.underline}>Create Account</Link></div>
     <FormContext

@@ -219,13 +219,13 @@ device.save
 #oemBusiness4.save
 
 device = Device.new(name: "Futon Dryer")
-action = Action.create!(name: "Futon Action One", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
+action = Action.create!(name: "Futon Action One", device: device, parameter_value_8_pack: 'parmval')
 device.actions << action
 device.actions_order.push(action.id)
-action = Action.create!(name: "Futon Action Two", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
+action = Action.create!(name: "Futon Action Two", device: device, parameter_value_8_pack: 'parmval')
 device.actions << action
 device.actions_order.push(action.id)
-action = Action.create!(name: "Futon Action Three", device: device, parameter_name: 'parm', parameter_value_8_pack: 'parmval')
+action = Action.create!(name: "Futon Action Three", device: device, parameter_value_8_pack: 'parmval')
 device.actions << action
 device.actions_order.push(action.id)
 device.save

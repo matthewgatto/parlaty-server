@@ -11,7 +11,8 @@ class OemSerializer
     def simple_oem_as_json(oem)
       oem.as_json.merge!({
         procedures_count: procedures_count(oem),
-        procedures_names: procedures_names(oem)
+        procedures_names: procedures_names(oem),
+        subscription: SubscriptionSerializer.simple_subscription_with_plans_as_json(oem.subscription)
       })
     end
 

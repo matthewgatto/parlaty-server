@@ -2,7 +2,7 @@
 
 class OemsController < ApplicationController
   before_action :require_login
-  before_action :set_params, only: %i[update destroy]
+  before_action :set_params, only: %i[update destroy setup_intent]
 
   # GET /oems
   def index
@@ -36,6 +36,15 @@ class OemsController < ApplicationController
     authorize @oem
     if @oem.present? && @oem.destroy
       render json: ApplicationSerializer.id_to_json(params[:id]), status: :ok
+    else
+      head :bad_request
+    end
+  end
+
+  def setup_intent
+    authorize @oem
+    if @oem.present?
+      render json: SubscriptionSerializer.setup_intent(@oem.subscription), status: :ok
     else
       head :bad_request
     end
