@@ -8,14 +8,15 @@ const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
 export default activeModal(({client_secret}) => {
   const options = {
-    // passing the client secret obtained from the server
-    clientSecret: client_secret,
+    clientSecret: client_secret
   };
 
   return (
-    <Elements stripe={stripePromise} options={options}>
-      <CardElement />
-      <button>Submit</button>
-    </Elements>
-  );
-};
+    <>
+      <Elements stripe={stripePromise} options={options}>
+        <CardElement />
+        <button>Submit</button>
+      </Elements>
+    </>
+  )
+});
