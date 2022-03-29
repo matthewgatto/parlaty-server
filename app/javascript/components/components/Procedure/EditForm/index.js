@@ -32,8 +32,10 @@ export default (props) => (
         </div>
         <AddStepFormButton formKey={formKey} />
         <div>
-        <ModalTrigger modal="manage_devices" className={styles.manageDeviceButton}><SubmitButton label="Manage Device Labels" /></ModalTrigger>
-        <ModalTrigger modal="add_oem_business" className={styles.manageDeviceButton}><SubmitButton label="Add Site" /></ModalTrigger>
+          {false?
+          <ModalTrigger modal="manage_devices" className={styles.manageDeviceButton}><SubmitButton label="Manage Device Labels" /></ModalTrigger>
+              : null}
+          <ModalTrigger modal="add_oem_business" className={styles.manageDeviceButton}><SubmitButton label="Add Site" /></ModalTrigger>
 
         </div>
         <FormPolygons />

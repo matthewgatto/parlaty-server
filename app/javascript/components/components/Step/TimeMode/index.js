@@ -19,7 +19,9 @@ export default ({formKey, defaultValue, root , onChange}) => {
   return(
     <>
       <Mode onChange={onChange} formKey={formKey} root={root} name="mode" defaultValue={defaultValue}/>
+      {false ?
       <CheckBox onChange={onChange} formKey={formKey} label="Safety" root={root} name="safety" defaultValue={defaultValue.safety || false} />
+          : null}
     </>
   )
 }

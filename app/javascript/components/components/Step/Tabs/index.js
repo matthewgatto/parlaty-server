@@ -62,7 +62,7 @@ const CustTabs = withStyles({
 
 const CustTab = withStyles({
   root: {
-    minWidth: 'auto',
+    /* minWidth: 'auto', */
     minHeight: '40px',
     fontSize: '1.1em',
     fontWeight: '600',
@@ -123,10 +123,16 @@ export default ({ initialValues, formKey, root, procedure_id, oemBusinessId, idx
         <CustTabs value={tab} onChange={handleChange} indicatorColor="primary" textColor="primary" aria-label="auto tabs example centered" >
           <HiddenTab label="" {...tabProps(0)} />
           <CustTab label="Instructions" icon={<FullIcon full={values.location} />} {...tabProps(1)} />
+          {false ?
           <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(2)} />
+              : null}
+          {false ?
           <CustTab label="Loop" icon={<FullIcon full={!disabledTab && values.enabled_loop} />} disabled={disabledTab} {...tabProps(3)} />
-          <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(4)} />
+          : null}
+            <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(4)} />
+          {false ?
           <CustTab label="Associate" icon={<FullIcon full={values && values.enabled_associated_procedure} />} {...tabProps(5)} />
+              : null}
         </CustTabs>
       </AppBar>
       <TabPanel tab={tab} onChange={updateParams} className={styles.withoutPadding} index={0}/>
