@@ -64,3 +64,4 @@ end
 gem 'webpacker'
 gem 'react-rails'
 gem 'stripe'
+gem 'dotenv'
