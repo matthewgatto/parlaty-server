@@ -140,7 +140,12 @@ export default ({ initialValues, formKey, root, procedure_id, oemBusinessId, idx
         <LimitedTextArea onChange={updateParams} as="textarea" defaultValue={values.location || ''} idx={idx} label="Instruction" name="location" rows="6" root={root} formKey={formKey} limit={300}/>
       </TabPanel>
       <TabPanel tab={tab} index={2}>
-        <DeviceSelect onChange={updateParams} procedure_id={procedure_id} label="Device" root={root} idx={idx} name="device_id" device_id={values.device_id} defaultValue={values.device_id} />
+        // <DeviceSelect onChange={updateParams} procedure_id={procedure_id} label="Device" root={root} idx={idx} name="device_id" device_id={values.device_id} defaultValue={values.device_id} />
+	        <div>
+	          <ArrFileInput setTabValues={setValues} name="media" label="Media*" formKey={formKey} idx={idx} defaultValues={values.visuals || undefined} root={root} objName={'step'}
+	                        radio={{isShown: true, params: [{type: 'image', label: 'Default media'},{type: 'video', label: 'Default media'}], actionRoot: 'default_media', defaultValue: values.default_media, withoutChecked: true}}
+	          />
+	        </div>
       </TabPanel>
       <TabPanel tab={tab} index={3}>
         <LoopForm onChange={updateParams} formKey={formKey} defaultValue={values} root={root}/>
