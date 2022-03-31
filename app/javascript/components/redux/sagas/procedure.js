@@ -54,9 +54,9 @@ function* handleProcedureCreateSuccess(response, {payload}){
     const oem_business_id = payload.values.procedure.oem_business_ids[0];
     let to;
     if(role === "ParlatyAdmin"){
-      to = `/clients/${payload.values.oem_id}/sites/${oem_business_id}/procedures/${response.id}/add-devices`
+      to = `/clients/${payload.values.oem_id}/sites/${oem_business_id}/procedures/${response.id}/add-steps`
     } else {
-      to = `/sites/${oem_business_id}/procedures/${response.id}/add-devices`
+      to = `/sites/${oem_business_id}/procedures/${response.id}/add-steps`
     }
     yield put(push(to))
   } catch (e) {
