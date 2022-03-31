@@ -124,12 +124,12 @@ export default ({ initialValues, formKey, root, procedure_id, oemBusinessId, idx
           <HiddenTab label="" {...tabProps(0)} />
           <CustTab label="Instructions" icon={<FullIcon full={values.location} />} {...tabProps(1)} />
           {false ?
-          <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(2)} />
+          <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(4)} />
               : null}
           {false ?
           <CustTab label="Loop" icon={<FullIcon full={!disabledTab && values.enabled_loop} />} disabled={disabledTab} {...tabProps(3)} />
           : null}
-            <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(4)} />
+            <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(2)} />
           {false ?
           <CustTab label="Associate" icon={<FullIcon full={values && values.enabled_associated_procedure} />} {...tabProps(5)} />
               : null}
@@ -139,13 +139,13 @@ export default ({ initialValues, formKey, root, procedure_id, oemBusinessId, idx
       <TabPanel tab={tab} index={1}>
         <LimitedTextArea onChange={updateParams} as="textarea" defaultValue={values.location || ''} idx={idx} label="Instruction" name="location" rows="6" root={root} formKey={formKey} limit={300}/>
       </TabPanel>
-      <TabPanel tab={tab} index={2}>
+      <TabPanel tab={tab} index={4}>
         <DeviceSelect onChange={updateParams} procedure_id={procedure_id} label="Device" root={root} idx={idx} name="device_id" device_id={values.device_id} defaultValue={values.device_id} />
       </TabPanel>
       <TabPanel tab={tab} index={3}>
         <LoopForm onChange={updateParams} formKey={formKey} defaultValue={values} root={root}/>
       </TabPanel>
-      <TabPanel tab={tab} index={4}>
+      <TabPanel tab={tab} index={2}>
         <div>
           <ArrFileInput setTabValues={setValues} name="media" label="Media*" formKey={formKey} idx={idx} defaultValues={values.visuals || undefined} root={root} objName={'step'}
                         radio={{isShown: true, params: [{type: 'image', label: 'Default media'},{type: 'video', label: 'Default media'}], actionRoot: 'default_media', defaultValue: values.default_media, withoutChecked: true}}
