@@ -19,7 +19,7 @@ const Layout = ({children, role, logout}) => {
         <div className={styles.links}>
           {!isMessage && <NavLink className={styles.link} activeClassName={styles.active} to="/" exact>Home</NavLink>}
           {isAdmin && <NavLink className={styles.link} activeClassName={styles.active} to="/users">Users</NavLink>}
-          <NavLink className={styles.link} activeClassName={styles.active} to="/support">Support</NavLink>
+          <a className={styles.link} activeClassName={styles.active} href="mailto:support@parlaty.com">Support</a>
           {role && <Link to="/" onClick={logout} className={styles.link}>Logout</Link>}
         </div>
       </div>

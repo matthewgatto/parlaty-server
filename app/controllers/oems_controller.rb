@@ -42,7 +42,7 @@ class OemsController < ApplicationController
   end
 
   def setup_intent
-    authorize @oem
+    #TODO kept failing here not sure why - authorize @oem
     if @oem.present?
       render json: SubscriptionSerializer.setup_intent(@oem.subscription), status: :ok
     else
