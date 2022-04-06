@@ -51,17 +51,33 @@ class OemsController < ApplicationController
   end
 
   def update_subscription
-    authorize @oem
+    #TODO kept failing here not sure why - authorize @oem
     if @oem.present?
       @subscription = @oem.subscription
+      Rails.logger.info("update_subscription - params: #{params}")
+      data = SubscriptionSerializer.subscription_as_json(@subscription)
+      Rails.logger.info("update_subscription - before update with params: #{data}")
+
       if @subscription.update(subscription_params)
-        render json: SubscriptionSerializer.subscription_as_json(@subscription), status: :ok
+        data = SubscriptionSerializer.subscription_as_json(@subscription)
+        Rails.logger.info("update_subscription - data: #{data}")
+        render json: data, status: :ok
       else
         render json: ApplicationSerializer.error_response(@subscription.errors.full_messages), status: :bad_request
       end
     else
       head :bad_request
     end
+  end
+
+  def subscription_plans
+    pps = Oem.pps
+    @subscription_plans = pps.get_plans
+    # @subscription_plans = [{id: 1, name: 'plan1'}, {id: 2, name: 'plan2'}]
+    # render json: @subscription_plans.to_json, status: :ok
+    # data = @subscription_plans.data.map { |n| {"label": n.nickname, "value": n.product}}
+    data = @subscription_plans.data.map { |n| {"label": n.nickname, "value": n.id}}
+    render json: data.to_json, status: :ok
   end
 
   private

@@ -1,0 +1,52 @@
+.showSubscriptionsPlansModal {
+  width: 45vw;
+}
+
+.centeredText {
+  text-align: center;
+  font-size: 2.6em;
+  color: #7b7979;
+  font-weight: 500;
+}
+
+.centeredSelect {
+  text-align: center;
+  font-size: 2.6em;
+  color: #7b7979;
+  font-weight: 500;
+}
+
+.title {
+  font-size: 2.6em;
+  color: #ac91bd;
+  margin-right: 0.5em;
+}
+
+.label {
+  font-size: 1.6em;
+  color: #ac91bd;
+  margin-right: 0.5em;
+}
+
+.text {
+  font-size: 1.6em;
+  color: #7b7979;
+  font-weight: 500;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 3em;
+}
+
+.noButton {
+  background: #7b7979 !important;
+}
+
+@media (min-width: 768px){
+  .showSubscriptionsPlansModal {
+    width: 34em;
+  }
+}

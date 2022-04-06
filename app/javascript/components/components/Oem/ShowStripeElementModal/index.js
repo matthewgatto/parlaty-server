@@ -3,7 +3,6 @@ import {PaymentElement, CardElement, Elements, useElements, useStripe} from '@st
 import {loadStripe} from '@stripe/stripe-js';
 import activeModal from '@containers/activeModal';
 import ModalTrigger from '@containers/ModalTrigger';
-import SubmitButton from '@components/SubmitButton';
 import styles from "../../Modal/DeleteConfirmation/index.module.css";
 
 const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
