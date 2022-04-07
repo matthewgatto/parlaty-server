@@ -9,6 +9,7 @@ const SetupForm = ({modalPlans}) => {
     const [disabled, setDisabled] = useState(true);
     const [subscriptionPlan, setSubscriptionPlan] = useState(modalPlans.subscriptionPlan)
     const [subscriptionPlanId, setSubscriptionPlanId] = useState(-1)
+    const planLabel = modalPlans.subscription?.subscription_plan_id ? "Update Subscription" : "Add Subscription";
 
     const handleSubmit = async (event) => {
         // We don't want to let default form submission happen here,
@@ -94,7 +95,7 @@ const SetupForm = ({modalPlans}) => {
                     </select>
                 </div>
                 <div className={styles.buttons}>
-                    <button disabled={disabled} className="primary button align_center">Add Subscription Plan</button>
+                    <button disabled={disabled} className="primary button align_center">{planLabel}</button>
                     <ModalTrigger>
                         <button className="primary button align_center">Close</button>
                     </ModalTrigger>

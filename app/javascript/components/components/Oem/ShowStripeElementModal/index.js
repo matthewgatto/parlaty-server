@@ -7,13 +7,14 @@ import styles from "../../Modal/DeleteConfirmation/index.module.css";
 
 const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
-const SetupForm = () => {
+const SetupForm = ({modalKey}) => {
     const stripe = useStripe();
     const elements = useElements();
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [confirmMessage, setConfirmMessage] = useState(null);
     const [disabled, setDisabled] = useState(false);
+    const paymentLabel = modalKey.oem && modalKey.oem.source_id ? "Update Card" : "Add Card";
 
     const handleSubmit = async (event) => {
         // We don't want to let default form submission happen here,
@@ -45,7 +46,7 @@ const SetupForm = () => {
             // methods like iDEAL, your customer will be redirected to an intermediate
             // site first to authorize the payment, then redirected to the `return_url`.
             console.log('Stripe confirm succeeded')
-            setConfirmMessage('Add Card completed successfully.');
+            setConfirmMessage( paymentLabel + ' completed successfully.');
             setDisabled(true);
         }
         return
@@ -55,7 +56,7 @@ const SetupForm = () => {
         <form onSubmit={handleSubmit}>
             <PaymentElement />
             <div className={styles.buttons}>
-              <button disabled={disabled} className="primary button align_center">Add Card</button>
+              <button disabled={disabled} className="primary button align_center">{paymentLabel}</button>
                 <ModalTrigger>
                     <button className="primary button align_center">Close</button>
                 </ModalTrigger>
@@ -72,7 +73,7 @@ export default activeModal(({modalKey}) => {
     }
     return (
         <Elements stripe={stripePromise} options={options}>
-      <SetupForm/>
+      <SetupForm modalKey={modalKey}/>
     </Elements>
         );
 }, "show_stripe_element")

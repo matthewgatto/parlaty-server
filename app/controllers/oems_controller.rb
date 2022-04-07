@@ -2,7 +2,7 @@
 
 class OemsController < ApplicationController
   before_action :require_login
-  before_action :set_params, only: %i[update destroy setup_intent update_subscription]
+  before_action :set_params, only: %i[update destroy setup_intent update_subscription subscription]
 
   # GET /oems
   def index
@@ -54,19 +54,43 @@ class OemsController < ApplicationController
     #TODO kept failing here not sure why - authorize @oem
     if @oem.present?
       @subscription = @oem.subscription
-      Rails.logger.info("update_subscription - params: #{params}")
-      data = SubscriptionSerializer.subscription_as_json(@subscription)
-      Rails.logger.info("update_subscription - before update with params: #{data}")
 
+=begin
+      Rails.logger.info("** in update_subcription: @subscription.confirm_status: " + @subscription.confirm_status.to_s)
+
+      if @subscription.confirm_status == "ACCEPTED"
+        Rails.logger.info("** in update_subcription: confirm status accepted, cancelling")
+        @subscription.confirm_status = "CANCELLED"
+        @subscription.save
+      end
+=end
+=begin
+      if @subscription.confirm_status == "CANCELLED"
+        @subscription.subscription_plan_id = nil
+        @subscription.subscription_id = nil
+        @subscription.save
+      end
+=end
+      Rails.logger.debug("** in update_subscription: about to update subscription")
       if @subscription.update(subscription_params)
+        Rails.logger.debug("** in update_subscription: updated subscription")
         data = SubscriptionSerializer.subscription_as_json(@subscription)
-        Rails.logger.info("update_subscription - data: #{data}")
         render json: data, status: :ok
       else
         render json: ApplicationSerializer.error_response(@subscription.errors.full_messages), status: :bad_request
       end
     else
       head :bad_request
+    end
+  end
+
+  def subscription
+    if @oem.present?
+      @subscription = @oem.subscription
+      data = SubscriptionSerializer.subscription_as_json(@subscription)
+      render json: data, status: :ok
+    else
+      render json: ApplicationSerializer.error_response(@subscription.errors.full_messages), status: :bad_request
     end
   end
 

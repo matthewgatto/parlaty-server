@@ -11,6 +11,7 @@ import ShowSubscriptionPlansModal from "../ShowSubscriptionPlansModal";
 export default ({oem_id}) => {
   const [posts, setPosts] = useState([]);
   const [posts2, setPosts2] = useState([]);
+  const [posts3, setPosts3] = useState([]);
   //const [subscriptionPlanForView, setSubscriptionPlanForView] = useState("")
   const fetchPost = async () => {
     const localData = localStorage.getItem('login_data_4_16');
@@ -67,16 +68,44 @@ export default ({oem_id}) => {
   useEffect(() => {
     fetchPlans();
   }, []);
+
   let subscriptionPlans = posts2
 
-  let subscriptionPlan = oem && oem.subscription && oem.subscription.plan && oem.subscription.plan.name ? oem.subscription.plan.name : "No Plan Selected";
+  const fetchOemSubscription = async () => {
+    const localData = localStorage.getItem('login_data_4_16');
+    if (localData) {
+      let token = JSON.parse(localData).jwt
+      const url = `/oems/${oem_id}/subscription`
+      try {
+        const response = await fetch(url, {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            }
+        )
+        const data = await response.json();
+        setPosts3(data.subscription);
+      } catch (e) {
+        console.error(`exception ${e} during fetch of ${url}`)
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchOemSubscription();
+  }, []);
+
+  let oemSubscription = posts3
+
+  let subscriptionPlan = oem && oemSubscription && oemSubscription.plan && oemSubscription.plan.name ? oemSubscription.plan.name : "No Plan Selected";
   //setSubscriptionPlan(oem && oem.subscription && oem.subscription.plan && oem.subscription.plan.name ? oem.subscription.plan.name : "No Plan Selected")
   //setSubscriptionPlanForView(subscriptionPlan)
   const [subscriptionPlanForView, setSubscriptionPlanForView] = useState(subscriptionPlan)
   //let subscriptionPlans = [{value: '1', label: 'plan1'}, {value: '2', label: 'plan2'}]
-  let paymentLabel = oem && oem.source_id ? "Update Card" : "Add Card";
-  let planLabel = subscriptionPlan ? "Add Subscription" : "Update Subscription";
-  let modalKey = {clientSecret: clientSecret};
+  const paymentLabel = oem && oem.source_id ? "Update Card" : "Add Card";
+  const planLabel = oemSubscription?.subscription_plan_id ? "Update Subscription" : "Add Subscription";
+  const modalKey = {clientSecret: clientSecret, oem: oem};
 
   const updateSubscriptionPlan = async (newPlan) => {
     setSubscriptionPlanForView(newPlan)
@@ -84,7 +113,7 @@ export default ({oem_id}) => {
   }
 
   let modalPlans = {subscriptionPlans: subscriptionPlans, subscriptionPlan: subscriptionPlan, updateSubscriptionPlan: updateSubscriptionPlan,
-                    oem_id: oem_id, subscription: oem.subscription};
+                    oem_id: oem_id, subscription: oemSubscription};
   return (<>
     <Label>Subscription</Label>
     <div className={styles.container}>
@@ -94,7 +123,7 @@ export default ({oem_id}) => {
       </div>
       <div className={styles.fields}>
         <span className={styles.title}>Plan:</span>
-        <span className={styles.text}>{subscriptionPlanForView}</span>
+        <span className={styles.text}>{subscriptionPlan}</span>
       </div>
       <div className={styles.fields}>
         <span className={styles.title}>Users:</span>
