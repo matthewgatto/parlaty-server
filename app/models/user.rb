@@ -21,6 +21,16 @@ class User < ApplicationRecord
     roleable.deactivated if author? || operator?
   end
 
+  def oem
+    return nil if self.roleable.is_a?(ParlatyAdmin)
+    self.roleable.oem_businesses.first.oem
+  end
+
+  def oem_name
+    return nil unless self.oem.present?
+    self.oem.name
+  end
+
   protected
 
   #override devise definition so that password isn't require at initial sign_up

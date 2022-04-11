@@ -37,6 +37,7 @@ class UserSerializer
         voice: user.voice,
         name: user.roleable&.name,
         roleable_type: user.roleable_type,
+        oem_name: user.oem_name
       }
     end
 

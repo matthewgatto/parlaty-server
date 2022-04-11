@@ -27,7 +27,6 @@ export default ({match:{url,params:{oem_id}}}) => (<>
       header: {text: getHeader(oem_id), entityKey: "oems", oem_id},
       back: {to: "/", label: "Home"},
       buttons: (<>
-        <ModalTrigger modal="delete_client_confirmation"><SubmitButton primary label="Delete Client" /></ModalTrigger>
         <Link to={`${url}/edit`}><SubmitButton primary label="Edit Client" /></Link>
         <Link to={`${url}/sites/create`}><SubmitButton primary label="Add Site" /></Link>
       </>)
