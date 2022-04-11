@@ -23,6 +23,7 @@ class User < ApplicationRecord
 
   def oem
     return nil if self.roleable.is_a?(ParlatyAdmin)
+    return self.roleable.oem if self.roleable.is_a?(ClientAdmin)
     self.roleable.oem_businesses.first.oem
   end
 
