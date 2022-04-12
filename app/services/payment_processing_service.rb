@@ -87,20 +87,21 @@ class PaymentProcessingService
   # get a card object
   def get_card(customer_id, source_id)
     resp = payment_method_find(source_id)
-    if resp.present? && good_response?(resp) && resp.customer == customer_id
-      resp
-    else
-      nil
-    end
+    return nil unless resp.present? && good_response?(resp)
+    resp
+  end
+
+  # get card list
+  def get_payment_methods(customer_id)
+    resp = payment_method_list(customer_id)
+    return nil unless resp.present? && good_response?(resp)
+    resp
   end
 
   def remove_payment_method(source_id)
     resp = payment_method_remove(source_id)
-    if resp.present? && good_response?(resp)
-      resp
-    else
-      nil
-    end
+    return nil unless resp.present? && good_response?(resp)
+    resp
   end
 
 
@@ -394,7 +395,7 @@ class PaymentProcessingService
       call_with_rescue { product_service.list(args) }
     end
   end
-  
+ 
 
   def good_response?(resp)
     !resp.is_a?(Hash)

@@ -6,7 +6,7 @@ class Oem < ApplicationRecord
 	has_many :operators, through: :oem_businesses
         has_many :authors, through: :oem_businesses
        
-
+        before_save :check_source
 	after_save :check_subscription, :check_customer_id
 
 	def user_count
@@ -33,4 +33,16 @@ class Oem < ApplicationRecord
             end
           end
 	end
+
+        def check_source
+          if source_id_changed? && self.source_id.present? && self.customer_id.present?
+            pps = self.pps
+            sources = pps.get_payment_methods(self.customer_id)
+            sources.each do |source|
+              if source.id != self.source_id
+                pps.remove_payment_method(source.id)
+              end
+            end
+          end
+        end
 end
