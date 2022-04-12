@@ -123,27 +123,19 @@ export default ({ initialValues, formKey, root, procedure_id, oemBusinessId, idx
         <CustTabs value={tab} onChange={handleChange} indicatorColor="primary" textColor="primary" aria-label="auto tabs example centered" >
           <HiddenTab label="" {...tabProps(0)} />
           <CustTab label="Instructions" icon={<FullIcon full={values.location} />} {...tabProps(1)} />
+          <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(2)} />
           {false ?
-          <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(4)} />
+            <CustTab label="Loop" icon={<FullIcon full={!disabledTab && values.enabled_loop} />} disabled={disabledTab} {...tabProps(3)} />
+            : null}
+          {false ?
+            <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(4)} />
               : null}
-          {false ?
-          <CustTab label="Loop" icon={<FullIcon full={!disabledTab && values.enabled_loop} />} disabled={disabledTab} {...tabProps(3)} />
-          : null}
-            <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(2)} />
-          {false ?
           <CustTab label="Associate" icon={<FullIcon full={values && values.enabled_associated_procedure} />} {...tabProps(5)} />
-              : null}
         </CustTabs>
       </AppBar>
       <TabPanel tab={tab} onChange={updateParams} className={styles.withoutPadding} index={0}/>
       <TabPanel tab={tab} index={1}>
         <LimitedTextArea onChange={updateParams} as="textarea" defaultValue={values.location || ''} idx={idx} label="Instruction" name="location" rows="6" root={root} formKey={formKey} limit={300}/>
-      </TabPanel>
-      <TabPanel tab={tab} index={4}>
-        <DeviceSelect onChange={updateParams} procedure_id={procedure_id} label="Device" root={root} idx={idx} name="device_id" device_id={values.device_id} defaultValue={values.device_id} />
-      </TabPanel>
-      <TabPanel tab={tab} index={3}>
-        <LoopForm onChange={updateParams} formKey={formKey} defaultValue={values} root={root}/>
       </TabPanel>
       <TabPanel tab={tab} index={2}>
         <div>
@@ -151,6 +143,12 @@ export default ({ initialValues, formKey, root, procedure_id, oemBusinessId, idx
                         radio={{isShown: true, params: [{type: 'image', label: 'Default media'},{type: 'video', label: 'Default media'}], actionRoot: 'default_media', defaultValue: values.default_media, withoutChecked: true}}
           />
         </div>
+      </TabPanel>
+      <TabPanel tab={tab} index={3}>
+        <LoopForm onChange={updateParams} formKey={formKey} defaultValue={values} root={root}/>
+      </TabPanel>
+      <TabPanel tab={tab} index={4}>
+        <DeviceSelect onChange={updateParams} procedure_id={procedure_id} label="Device" root={root} idx={idx} name="device_id" device_id={values.device_id} defaultValue={values.device_id} />
       </TabPanel>
       <TabPanel tab={tab} index={5}>
         <ProcedureAssociationForm onChange={updateParams} procedureId={procedure_id} oemBusinessId={oemBusinessId} formKey={formKey} root={root} defaultValue={values}/>

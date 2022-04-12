@@ -14,7 +14,7 @@ export default ({user}) => (
     </div>
     {user.oem_name &&
       <div className={styles.second}>
-        <div className={styles.label}>OEM</div>
+        <div className={styles.label}>Client</div>
         <div className={styles.text}>{user.oem_name}</div>
       </div>
     }

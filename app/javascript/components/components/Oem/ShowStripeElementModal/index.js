@@ -57,9 +57,6 @@ const SetupForm = ({modalKey}) => {
             <PaymentElement />
             <div className={styles.buttons}>
               <button disabled={disabled} className="primary button align_center">{paymentLabel}</button>
-                <ModalTrigger>
-                    <button className="primary button align_center">Close</button>
-                </ModalTrigger>
             </div>
             {errorMessage && <div style={{marginTop: '0.25rem', color: '#df1b41', fontWeight: '400', fontSize: '1.93rem'}}>{errorMessage}</div>}
             {confirmMessage && <div style={{marginTop: '0.25rem', color: '#30b130', fontWeight: '400', fontSize: '1.93rem'}}>{confirmMessage}</div>}
