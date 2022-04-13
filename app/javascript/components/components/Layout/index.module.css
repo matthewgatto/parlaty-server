@@ -76,7 +76,7 @@ main {
 }
 
 .logo {
-  width: 14em;
+  height: 10em;
 }
 
 .social {
@@ -106,7 +106,7 @@ main {
 
 @media (min-width: 1366px){
   .logo {
-    width: 11em;
+    height: 9em;
   }
   .content {
     padding-top: 10em;
@@ -121,7 +121,7 @@ main {
 
 @media (min-width: 1460px){
   .logo {
-    width: 14em;
+    height: 10em;
   }
   .content {
     padding-top: 12em;
