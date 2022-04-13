@@ -96,11 +96,17 @@ class OemsController < ApplicationController
 
   def subscription_plans
     pps = Oem.pps
-    @subscription_plans = pps.get_plans
+    @subscription_plans = Subscription.get_plans
     # @subscription_plans = [{id: 1, name: 'plan1'}, {id: 2, name: 'plan2'}]
     # render json: @subscription_plans.to_json, status: :ok
     # data = @subscription_plans.data.map { |n| {"label": n.nickname, "value": n.product}}
-    data = @subscription_plans.data.map { |n| {"label": n.nickname, "value": n.id}}
+
+    data = []
+    @subscription_plans.each do |n|
+      price = "$#{n.unit_price.to_f / 100}"
+      billed = n.billed.include?("month") ? "Month" : n.billed_include?("year") ? "Yearly" : ""
+      data <<  {"label": "#{n.name} - (#{price}/Seat #{billed})", "value": n.id}
+    end
     render json: data.to_json, status: :ok
   end
 
