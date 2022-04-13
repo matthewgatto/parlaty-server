@@ -51,29 +51,9 @@ class OemsController < ApplicationController
   end
 
   def update_subscription
-    #TODO kept failing here not sure why - authorize @oem
     if @oem.present?
       @subscription = @oem.subscription
-
-=begin
-      Rails.logger.info("** in update_subcription: @subscription.confirm_status: " + @subscription.confirm_status.to_s)
-
-      if @subscription.confirm_status == "ACCEPTED"
-        Rails.logger.info("** in update_subcription: confirm status accepted, cancelling")
-        @subscription.confirm_status = "CANCELLED"
-        @subscription.save
-      end
-=end
-=begin
-      if @subscription.confirm_status == "CANCELLED"
-        @subscription.subscription_plan_id = nil
-        @subscription.subscription_id = nil
-        @subscription.save
-      end
-=end
-      Rails.logger.debug("** in update_subscription: about to update subscription")
       if @subscription.update(subscription_params)
-        Rails.logger.debug("** in update_subscription: updated subscription")
         data = SubscriptionSerializer.subscription_as_json(@subscription)
         render json: data, status: :ok
       else
@@ -95,12 +75,7 @@ class OemsController < ApplicationController
   end
 
   def subscription_plans
-    pps = Oem.pps
     @subscription_plans = Subscription.get_plans
-    # @subscription_plans = [{id: 1, name: 'plan1'}, {id: 2, name: 'plan2'}]
-    # render json: @subscription_plans.to_json, status: :ok
-    # data = @subscription_plans.data.map { |n| {"label": n.nickname, "value": n.product}}
-
     data = []
     @subscription_plans.each do |n|
       price = "$#{n.unit_price.to_f / 100}"
