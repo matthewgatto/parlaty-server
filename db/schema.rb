@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_14_133224) do
+ActiveRecord::Schema.define(version: 2022_04_14_133843) do
 
   create_table "action_copies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.bigint "step_id"
@@ -225,6 +225,8 @@ ActiveRecord::Schema.define(version: 2022_04_14_133224) do
     t.datetime "updated_at", null: false
     t.string "plan_name"
     t.boolean "paid_up", default: false
+    t.datetime "start_date"
+    t.datetime "end_date"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
