@@ -19,8 +19,8 @@ class StripeController < ApplicationController
       end
       if @subscription.present? && @subscription.metadata.present?
         @metadata = @subscription.metadata
-        if @metadata["subscription_id"].present?
-          @sub = Subscription.find_by_id(@metadata.subscription_id)
+        if @metadata["oem_subscription_id"].present?
+          @sub = Subscription.find_by_id(@metadata.oem_subscription_id)
           @check_client = false
           if @sub.present?
             @check_client = @metadata.oem_id.to_i == @sub.oem_id
