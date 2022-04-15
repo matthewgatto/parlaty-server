@@ -42,8 +42,7 @@ class User < ApplicationRecord
 
   def update_subscription
     if self.roleable.present? && !self.roleable.is_a?(ParlatyAdmin)
-      if self.roleable.oem_businesses.any?
-        oem = self.roleable.oem_businesses.first.oem
+      if self.oem.present?
         oem.subscription.update(user_count: oem.user_count)
       end
     end

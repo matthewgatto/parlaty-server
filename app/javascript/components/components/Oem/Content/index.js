@@ -8,14 +8,20 @@ import styles from './index.module.css';
 import ShowStripeElementModal from "../ShowStripeElementModal";
 import ShowSubscriptionPlansModal from "../ShowSubscriptionPlansModal";
 
-export default ({oem_id}) => {
+export default ({oem_id, oem}) => {
   const [posts, setPosts] = useState([]);
   const [posts2, setPosts2] = useState([]);
   const [posts3, setPosts3] = useState([]);
+  if (oem === undefined) {
+    oem = useOemInfo(oem_id);
+  }
+  if (oem_id === undefined && oem) {
+    oem_id = oem.id;
+  }
   //const [subscriptionPlanForView, setSubscriptionPlanForView] = useState("")
   const fetchPost = async () => {
     const localData = localStorage.getItem('login_data_4_16');
-    if (localData) {
+    if (localData && oem_id) {
       let token = JSON.parse(localData).jwt
       const url = `/oems/${oem_id}/setup_intent`
       try {
@@ -39,7 +45,6 @@ export default ({oem_id}) => {
 
   const clientSecret = posts && posts.setup_intent && posts.setup_intent.client_secret ?
       posts.setup_intent.client_secret : null
-  let oem = useOemInfo(oem_id);
   let oemStatus = oem && oem.subscription && oem.subscription.subscription_status && oem.subscription.subscription_status != "PENDING" ? oem.subscription.subscription_status : "INACTIVE";
   let userCount = oem && oem.subscription && oem.subscription.user_count ? oem.subscription.user_count : 0;
   //let subscriptionPlans = oem && oem.subscription && oem.subscription.plans ? oem.subscription_plans : [];
@@ -73,7 +78,7 @@ export default ({oem_id}) => {
 
   const fetchOemSubscription = async () => {
     const localData = localStorage.getItem('login_data_4_16');
-    if (localData) {
+    if (localData && oem_id) {
       let token = JSON.parse(localData).jwt
       const url = `/oems/${oem_id}/subscription`
       try {

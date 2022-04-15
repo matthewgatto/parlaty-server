@@ -5,6 +5,7 @@ import {getUser} from '@selectors/auth';
 
 export default (WrappedComponent) => (props) => {
   const user = useSelector(getUser)
+  console.log(user);
   if(!user){
     return <Loader text="user" />
   }

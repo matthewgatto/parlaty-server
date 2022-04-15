@@ -80,7 +80,9 @@ class OemsController < ApplicationController
     @subscription_plans.each do |n|
       price = helpers.number_to_currency(n[:unit_price])
       billed = n[:billed] == "per month" ? "Monthly" : n[:billed] == "per year" ? "Yearly" : ""
-      data <<  {"label": "#{n[:name]} - (#{price}/Seat #{billed})", "value": n[:plan_id]}
+      name = n[:name]
+      description = "#{n[:name]} - (#{price}/Seat #{billed})"
+      data <<  {"label": name, "description":description, "value": n[:plan_id]}
     end
     render json: data.to_json, status: :ok
   end

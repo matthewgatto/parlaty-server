@@ -51,3 +51,27 @@
     width: 34em;
   }
 }
+
+.hidden {
+  display: none;
+}
+
+.toast {
+  margin-bottom: 5rem;
+  margin-right: 1rem;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  padding: 3px;
+  border-radius: 5px;
+  background: white;
+  color: #30b130;
+  font-size: 1.93rem;
+  font-weight: 400;
+  animation: fade 5s linear;
+}
+
+@keyframes fade {
+  0%,100% { opacity: 0 }
+  50% { opacity: 1 }
+}

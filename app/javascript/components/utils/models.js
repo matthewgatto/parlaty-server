@@ -54,7 +54,7 @@ const user = new schema.Entity("users", {
   oem_business_ids: [oem_business]
 }, {
   processStrategy: ({roleable_type, client, oem, oem_businesses, roleable, name, id, user_id,...user}) => {
-    let oemProp = client || oem;
+    let oemProp = user.oem;
     const roleableProp = roleable_type || roleable;
     if(roleableProp === "ClientAdmin" && oemProp !== null && typeof oemProp === "object"){
       oemProp.oem_businesses = oem_businesses
