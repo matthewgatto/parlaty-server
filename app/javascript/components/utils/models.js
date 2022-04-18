@@ -47,6 +47,8 @@ procedure.define({
 
 const oem = new schema.Entity("oems", {
   oem_businesses: [oem_business]
+  }, {
+  idAttribute: 'id'
 })
 
 const user = new schema.Entity("users", {
@@ -54,12 +56,13 @@ const user = new schema.Entity("users", {
   oem_business_ids: [oem_business]
 }, {
   processStrategy: ({roleable_type, client, oem, oem_businesses, roleable, name, id, user_id,...user}) => {
-    let oemProp = user.oem;
+    let oemProp = oem || client;
     const roleableProp = roleable_type || roleable;
     if(roleableProp === "ClientAdmin" && oemProp !== null && typeof oemProp === "object"){
       oemProp.oem_businesses = oem_businesses
+      console.log(oemProp);
     }
-    return({roleable: roleableProp, name: name || user.email, oem_business_ids: oem_businesses, oem: oemProp, id: user_id || id, ...user})
+    return({roleable: roleableProp, name: name || user.email, oem_business_ids: oem_businesses, client:oem, oem: oemProp, id: user_id || id, ...user})
   }
 })
 

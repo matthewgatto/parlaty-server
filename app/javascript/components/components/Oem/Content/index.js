@@ -12,16 +12,23 @@ export default ({oem_id, oem}) => {
   const [posts, setPosts] = useState([]);
   const [posts2, setPosts2] = useState([]);
   const [posts3, setPosts3] = useState([]);
-  if (oem === undefined) {
+  const [clientSecret, setClientSecret] = useState(null);
+  if (!oem && oem_id) {
     oem = useOemInfo(oem_id);
+    console.log("No OEM");
   }
-  if (oem_id === undefined && oem) {
+  if (!oem_id && oem) {
     oem_id = oem.id;
+    console.log("No OEM ID");
   }
+  if (!oem_id && !oem) {
+    console.log("no values");
+  }
+  console.log("OEM_ID: " + oem_id);
   //const [subscriptionPlanForView, setSubscriptionPlanForView] = useState("")
   const fetchPost = async () => {
     const localData = localStorage.getItem('login_data_4_16');
-    if (localData && oem_id) {
+    if (localData) {
       let token = JSON.parse(localData).jwt
       const url = `/oems/${oem_id}/setup_intent`
       try {
@@ -33,7 +40,7 @@ export default ({oem_id, oem}) => {
             }
         )
         const data = await response.json();
-        setPosts(data);
+        setClientSecret(data && data.setup_intent && data.setup_intent.client_secret ? data.setup_intent.client_secret : null);
       } catch (e) {
         console.error(`exception ${e} during fetch of ${url}`)
       }
@@ -43,8 +50,6 @@ export default ({oem_id, oem}) => {
     fetchPost();
   }, []);
 
-  const clientSecret = posts && posts.setup_intent && posts.setup_intent.client_secret ?
-      posts.setup_intent.client_secret : null
   let oemStatus = oem && oem.subscription && oem.subscription.subscription_status && oem.subscription.subscription_status != "PENDING" ? oem.subscription.subscription_status : "INACTIVE";
   let userCount = oem && oem.subscription && oem.subscription.user_count ? oem.subscription.user_count : 0;
   //let subscriptionPlans = oem && oem.subscription && oem.subscription.plans ? oem.subscription_plans : [];

@@ -8,8 +8,9 @@ import ClientOemBusinesses from '@containers/ClientOemBusinesses'
 import Content from '@components/Oem/Content';
 
 export default withUserInfo(({user}) => {
-  let oem = user.oem;
-  console.log(user.oem)
+  let oem = user.client ? user.client : null;
+  let oem_id = oem ? oem.id : user.oem;
+  console.log("USER:" + user);
   return (
     <PageLayout
       header="Choose A Site"
@@ -22,7 +23,7 @@ export default withUserInfo(({user}) => {
             undefined
       }
     >
-      {user.roleable === "ClientAdmin" ? <Content oem_id={user.oem} /> : null}
+      {user.roleable === "ClientAdmin" ? <Content oem={oem} /> : null}
       <Label>Sites</Label>
       <ClientOemBusinesses />
     </PageLayout>

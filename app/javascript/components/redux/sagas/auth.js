@@ -41,9 +41,10 @@ const makeAuthState = (user) => {
   if(user.roleable_type === "Operator" || user.roleable_type === "Author"){
     initialState.oem_businesses = normalizedData.entities.oem_businesses
   } else if(user.roleable_type === "ClientAdmin"){
-    initialState.oem = normalizedData.entities.oem
     initialState.oem_businesses = normalizedData.entities.oem_businesses
     initialState.oems = normalizedData.entities.oems
+    initialState.oem = user.oem
+
   }
   return initialState
 }
