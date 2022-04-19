@@ -27,28 +27,34 @@ export default ({oem_id, oem}) => {
   console.log("OEM_ID: " + oem_id);
   //const [subscriptionPlanForView, setSubscriptionPlanForView] = useState("")
   const fetchPost = async () => {
-    const localData = localStorage.getItem('login_data_4_16');
-    if (localData) {
-      let token = JSON.parse(localData).jwt
-      const url = `/oems/${oem_id}/setup_intent`
-      try {
-        const response = await fetch(url, {
-              method: 'GET',
-              headers: {
-                'Authorization': `Bearer ${token}`
+    if (oem_id != null && oem_id > 0) {
+      const localData = localStorage.getItem('login_data_4_16');
+      if (localData) {
+        let token = JSON.parse(localData).jwt
+        const url = `/oems/${oem_id}/setup_intent`
+        try {
+          const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
               }
-            }
-        )
-        const data = await response.json();
-        setClientSecret(data && data.setup_intent && data.setup_intent.client_secret ? data.setup_intent.client_secret : null);
-      } catch (e) {
-        console.error(`exception ${e} during fetch of ${url}`)
+          )
+          const data = await response.json();
+          setClientSecret(data && data.setup_intent && data.setup_intent.client_secret ? data.setup_intent.client_secret : null);
+          console.log("setup_intent succeeded")
+        } catch (e) {
+          console.error(`exception ${e} during fetch of ${url}`)
+        }
       }
+    }
+    else {
+      console.warn('cannot get setup intent oem id is not set')
     }
   };
   useEffect(() => {
     fetchPost();
-  }, []);
+  }, [oem_id > 0]);
 
   let oemStatus = oem && oem.subscription && oem.subscription.subscription_status && oem.subscription.subscription_status != "PENDING" ? oem.subscription.subscription_status : "INACTIVE";
   let userCount = oem && oem.subscription && oem.subscription.user_count ? oem.subscription.user_count : 0;
