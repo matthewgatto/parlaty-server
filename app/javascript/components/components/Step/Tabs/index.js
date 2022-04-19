@@ -126,11 +126,16 @@ export default ({ initialValues, formKey, root, procedure_id, oemBusinessId, idx
           <CustTab label="Media" icon={<FullIcon full={values && values.visuals && values.visuals.length > 0} />} {...tabProps(2)} />
           {false ?
             <CustTab label="Loop" icon={<FullIcon full={!disabledTab && values.enabled_loop} />} disabled={disabledTab} {...tabProps(3)} />
-            : null}
+            : null
+          }
           {false ?
             <CustTab label="Device" icon={<FullIcon full={values.device_id} />} {...tabProps(4)} />
-              : null}
-          <CustTab label="Associate" icon={<FullIcon full={values && values.enabled_associated_procedure} />} {...tabProps(5)} />
+            : null
+          }
+          { false ?
+            <CustTab label="Associate" icon={<FullIcon full={values && values.enabled_associated_procedure} />} {...tabProps(5)} />
+            : null
+          }
         </CustTabs>
       </AppBar>
       <TabPanel tab={tab} onChange={updateParams} className={styles.withoutPadding} index={0}/>
