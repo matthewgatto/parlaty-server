@@ -3,6 +3,7 @@ import { addIds, immutableRemove } from '@utils';
 import * as types from '@types/oem'
 import * as procedureTypes from "@types/procedure";
 import * as authTypes from '@types/auth'
+import * as registrationTypes from '@types/registration'
 import * as oemBusinessTypes from '@types/oem_business'
 
 const allOems = (state = null, {type, payload}) => {
@@ -44,6 +45,7 @@ const oemsById = (state = {}, {type,payload}) => {
     case procedureTypes.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case procedureTypes.DELETE_PROCEDURE_REQUEST__SUCCESS:
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
+    case registrationTypes.CREATE_REGISTRATION_REQUEST__SUCCESS:
       if(payload.oems){
         return {
           ...state,

@@ -17,6 +17,8 @@ import * as stepTypes from '@types/step';
 import * as commentTypes from '@types/comment';
 import * as deviceTypes from '@types/device';
 import * as userTypes from '@types/user';
+import * as registration from './registration';
+import * as registrationTypes from '@types/registration';
 
 export default function* appSagas(){
   yield all([
@@ -60,6 +62,8 @@ export default function* appSagas(){
 
     yield takeEvery(commentTypes.DELETE_COMMENT, comment.deleteComment),
     yield takeEvery(commentTypes.DELETE_ALL_COMMENTS, comment.deleteAllComments),
-    yield takeEvery(commentTypes.MAKE_READED, comment.makeReaded)
+    yield takeEvery(commentTypes.MAKE_READED, comment.makeReaded),
+    yield takeEvery(registrationTypes.CREATE_REGISTRATION_REQUEST, registration.registrationSaga),
+    yield takeEvery(registrationTypes.FETCH_SELF_REQUEST, registration.selfDataSaga)
   ])
 }

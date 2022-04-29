@@ -3,6 +3,7 @@ import * as oemBusinessTypes from '@types/oem_business'
 import * as oemTypes from '@types/oem'
 import * as procedureTypes from '@types/procedure'
 import * as authTypes from '@types/auth'
+import * as registrationTypes from '@types/registration'
 import { addIds, immutableRemove, combinedPayload } from '@utils';
 
 const allOemBusinesses = (state = null, {type,payload}) => {
@@ -14,6 +15,7 @@ const allOemBusinesses = (state = null, {type,payload}) => {
     case oemBusinessTypes.CREATE_OEM_BUSINESS_REQUEST__SUCCESS:
     case procedureTypes.FETCH_PROCEDURE_REQUEST__SUCCESS:
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
+    case registrationTypes.CREATE_REGISTRATION_REQUEST__SUCCESS:
       if(payload.oem_businesses){
         return addIds(state, payload.oem_businesses)
       }
@@ -53,6 +55,7 @@ const oemBusinessesById = (state = {}, {type,payload}) => {
     case procedureTypes.CREATE_PROCEDURE_REQUEST__SUCCESS:
     case procedureTypes.UPDATE_PROCEDURE_OEM_BUSINESSES_REQUEST__SUCCESS:
     case authTypes.CREATE_AUTH_REQUEST__SUCCESS:
+    case registrationTypes.CREATE_REGISTRATION_REQUEST__SUCCESS:
       if(payload.oem_businesses){
         return {
           ...state,

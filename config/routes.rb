@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get '/oems/:id/subscription', to: 'oems#subscription'
   get '/oems/subscription_plans', to: 'oems#subscription_plans'
   post '/oems/:id/update_subscription', to: 'oems#update_subscription'
+  post '/oems/register-client-admin', to: "oems#register_client_admin"
   resources :oem_businesses, only: [:create, :show, :destroy]
   resources :comments, only: [:create, :update, :destroy] do
     collection do

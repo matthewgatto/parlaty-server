@@ -6,6 +6,7 @@ import * as stepTypes from '@types/step'
 import * as formTypes from '@types/form';
 import * as deviceTypes from '@types/device';
 import * as userTypes from '@types/user';
+import * as registrationTypes from '@types/registration'
 
 const startFormProcessing = (state, {formKey, values}) => ({
     ...state,
@@ -63,6 +64,7 @@ const isFormSubmitAction = (type) => (
   || type === deviceTypes.CREATE_DEVICE_REQUEST
   || type === deviceTypes.UPDATE_DEVICE_REQUEST
   || type === deviceTypes.CREATE_PROCEDURE_DEVICE_REQUEST
+  || type === registrationTypes.CREATE_REGISTRATION_REQUEST
 )
 
 const isFormSubmitFailureAction = (type) => (
@@ -84,6 +86,7 @@ const isFormSubmitFailureAction = (type) => (
   || type === deviceTypes.CREATE_DEVICE_REQUEST__FAILURE
   || type === deviceTypes.UPDATE_DEVICE_REQUEST__FAILURE
   || type === deviceTypes.CREATE_PROCEDURE_DEVICE_REQUEST__FAILURE
+    || type === registrationTypes.CREATE_REGISTRATION_REQUEST__FAILURE
 )
 
 export const initialState = {};

@@ -24,6 +24,7 @@ import DeviceBusinessPage from '@components/Device/Tab/OemBusiness';
 import DeviceManagerPage from '@components/Device/Tab/Manager';
 import BusinessForm from '@components/OemBusiness/Create';
 import ForgotPasswordForm from '@components/EmailForms/ForgotPassword';
+import RegisterClientAdminForm from '@components/RegisterClientAdminForm';
 import ResetPasswordForm from '@components/EmailForms/ResetPassword';
 import InvitationConfirmationForm from '@components/EmailForms/InvitationConfirmation'
 //import SignUpPage from '@components/SignUpPage';
@@ -33,6 +34,7 @@ import UsersPage from '@components/UsersPage';
 import useUserInfo from '@containers/useUserInfo';
 
 const Routes = ({role}) => {
+  console.log("*** Routes: role: " + role)
   switch (role) {
     case "ParlatyAdmin":
       return(<Switch>
@@ -93,6 +95,7 @@ const Routes = ({role}) => {
         <Route path="/success" component={SuccessPage} />
         <Route path="/users/confirmation" component={InvitationConfirmationForm} />
         <Route path="/forgot-password" component={ForgotPasswordForm} />
+        <Route path="/register-client-admin" component={RegisterClientAdminForm} />
         <Route path="/reset-password" component={ResetPasswordForm} />
         <Redirect to="/" />
       </Switch>)

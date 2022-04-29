@@ -3,6 +3,7 @@
 class OemsController < ApplicationController
   before_action :require_login
   before_action :set_params, only: %i[update destroy setup_intent update_subscription subscription]
+  skip_before_action :require_login, only: [:register_client_admin]
 
   # GET /oems
   def index
@@ -18,6 +19,26 @@ class OemsController < ApplicationController
       render json: ApplicationSerializer.id_to_json(@oem.reload.id), status: :ok
     else
       render json: ApplicationSerializer.error_response(@oem.errors.full_messages)
+    end
+  end
+
+  # POST /oems/register-client-admin
+  def register_client_admin
+    begin
+      @user = User.new(params.permit(:email, :password))
+      @user.confirm
+      @oem = Oem.new(params.require(:oem).permit(:name))
+      @roleable = ClientAdmin.new(name: @oem.name, oem: @oem)
+      @user.roleable = @roleable
+      if @oem.save && @roleable.save && @user.save
+        jwt = Auth.encode({ uid: @user.id})
+        render json: UserSerializer.refresh_user_as_json(@user, jwt), status: :ok
+        #render json: UserSerializer.user_as_json(@user), status: :ok
+      else
+        render json: ApplicationSerializer.error_response(@user.errors.full_messages)
+      end
+    rescue => e
+      render json: ApplicationSerializer.error_response("register client admin failed: e: " + e.to_s)
     end
   end
 

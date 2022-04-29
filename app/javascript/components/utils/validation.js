@@ -19,6 +19,18 @@ export const loginSchema = object().shape({
   password: string().required('Password is required')
 })
 
+export const registrationSchema = object().shape({
+  email: string().email('Invalid email').required('Email is required'),
+  name: string().required('This field is required'),
+  password: string()
+      .required('Password is required')
+      .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+          'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters'),
+  password_confirmation: string()
+      .required('Passwords must match')
+      .oneOf([ref('password'), null], 'Passwords must match')
+})
+
 export const inviteSchema = object().shape({
   email: string().email('Invalid email').required('This field is required'),
   name: string().required('This field is required'),

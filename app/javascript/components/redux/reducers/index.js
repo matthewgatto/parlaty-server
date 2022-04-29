@@ -17,6 +17,7 @@ import progress from './progress';
 import users from './user';
 import template from './template';
 import API from '@utils/API';
+import registration from './registration'
 
 export default function(history){
   const reducers = combineReducers({
@@ -36,6 +37,7 @@ export default function(history){
     modal,
     users,
     progress,
+    registration,
     router: connectRouter(history)
   });
   return function(state,action){
