@@ -11,6 +11,15 @@ class User < ApplicationRecord
 
   after_save :update_subscription
 
+  scope :client_admin, -> { where(roleable_type:"ClientAdmin") }
+  scope :parlaty_admin, -> { where(roleable_type: "ParlatyAdmin") }
+  scope :authors, -> { where(roleable_type: "Author") }
+  scope :operators, -> { where(roleable_type: "Operator") }
+
+  delegate :oem, to: :roleable
+
+  validates :email, presence: true, uniqueness: true
+
   Users::Role::ROLES.each do |r|
     define_method "#{r}?" do
       roleable_type.to_s == r.classify.to_s
@@ -21,16 +30,10 @@ class User < ApplicationRecord
     roleable.deactivated if author? || operator?
   end
 
-  def oem
-    return nil if self.roleable.is_a?(ParlatyAdmin)
-    return self.roleable.oem if self.roleable.is_a?(ClientAdmin)
-    return nil unless self.roleable.oem_businesses.any?
-    self.roleable.oem_businesses.first.oem
-  end
-
   def oem_name
-    return nil unless self.oem.present?
-    self.oem.name
+    oem_instance = self.oem
+    return nil unless oem_instance.present?
+    oem_instance.name
   end
 
   protected

@@ -32,11 +32,7 @@ function handlePasswordResetEmailSuccess(response){
 }
 
 const makeAuthState = (user) => {
-  console.log("auth");
-  console.log(user);
   const normalizedData = normalize(user, Schemas.user);
-  console.log(normalizedData);
-  console.log("auth done");
   const initialState = {auth: normalizedData.entities.users[normalizedData.result]}
   if(user.roleable_type === "Operator" || user.roleable_type === "Author"){
     initialState.oem_businesses = normalizedData.entities.oem_businesses

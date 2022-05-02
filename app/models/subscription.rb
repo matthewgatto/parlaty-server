@@ -386,6 +386,7 @@ class Subscription < ApplicationRecord
       self.was_just_unpaid = false
     elsif self.just_paid?
       self.was_just_paid = false
+      self.oem.update(procedures_limit: 10)
     elsif self.just_terminal?
       self.was_just_terminal = false
       if self.oem.present? 

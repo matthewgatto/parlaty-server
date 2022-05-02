@@ -11,14 +11,19 @@ import { CREATE_REGISTRATION_REQUEST } from '@types/registration';
 import styles from './index.module.css';
 
 const inputs = [{
-  type: "email",
-  name: "email",
-  placeholder: "Email*",
-  required: true
-}, {
     type: "text",
     name: "name",
-    placeholder: "Name*",
+    placeholder: "Company Name*",
+    required: true
+}, {
+    type: "text",
+    name: "admin_name",
+    placeholder: "Your Name*",
+    required: true
+}, {
+    type: "email",
+    name: "email",
+    placeholder: "Email*",
     required: true
 }, {
     type: "password",
@@ -30,11 +35,6 @@ const inputs = [{
     name: "password_confirmation",
     placeholder: "Confirm Password*",
     required: true
-},{
-    type: "text",
-    name: "oem_name",
-    placeholder: "Company Name*",
-    required: true
 }]
 
 export default () => (
@@ -45,7 +45,8 @@ export default () => (
       <Polygon className={styles.topPolygonThree} fill="none" stroke="#67318d" size="2.6em" />
       <Polygon className={styles.topPolygonFour} fill="#ccbbd7" stroke="#ccbbd7" size="1.4em" />
     </div>
-    <div className={styles.header}>Parlaty<sup className={styles.tm}>&#8482;</sup> Create Account</div>
+    <div className={styles.header}>Parlaty<sup className={styles.tm}>&#8482;</sup> Signup</div>
+    <div className={styles.subheader}>Or <Link to="/" className={styles.underline}>Login</Link></div>
     <FormContext
       entity="registration"
       url="/oems/register-client-admin"
@@ -55,7 +56,7 @@ export default () => (
           name: '',
           password: '',
           password_confirmation: '',
-          oem_name: ''
+          admin_name: ''
       }}
       validationSchema={registrationSchema}
       className={styles.form}
