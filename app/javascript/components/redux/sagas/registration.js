@@ -7,12 +7,10 @@ import {push} from "connected-react-router";
 import { addToast } from '@actions/toast';
 
 function* handleActionSuccess(response, messages){
-    console.log('** registration.handleActionSuccess')
     yield call(response.role === "ClientAdmin" ? goToSuccessPage(messages.operator) : pushAndNotify("/", messages.user))
 }
 
 const makeAuthState = (user) => {
-    console.log('** registration.makeAuthState')
     const normalizedData = normalize(user, Schemas.user);
     const initialState = {auth: normalizedData.entities.users[normalizedData.result]}
     if(user.roleable_type === "Operator" || user.roleable_type === "Author"){
@@ -27,7 +25,6 @@ const makeAuthState = (user) => {
 }
 
 function handleRegistrationResponse(auth){
-    console.log('** registration.handleRegistrationResponse')
     const initialState = makeAuthState(auth);
     localStorage.setItem('login_data_4_16', JSON.stringify({jwt: initialState.auth.jwt, id: initialState.auth.id, roleable: initialState.auth.roleable}));
     API.setToken(auth.jwt);
@@ -36,16 +33,13 @@ function handleRegistrationResponse(auth){
 
 const p = (i,x) => ({[i]:x})
 export function* registrationSaga(action){
-    console.log('** registration.registrationSaga')
     action.payload.values.web_request = true;
     yield call(postSaga, action, handleRegistrationResponse);
-    console.log('*** redirecting to / ***')
     yield put(push("/"))
-    yield put(addToast("success", "Added client admin"))
+    yield put(addToast("success", "Registration successful"))
 }
 
 export function* selfDataSaga(action){
-    console.log('** registration.selfDataSaga')
     try {
         const response = yield call(API.get, action.payload.url);
         const payload = makeAuthState(response)

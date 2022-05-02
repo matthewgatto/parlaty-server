@@ -15,16 +15,10 @@ export default ({oem_id, oem}) => {
   const [clientSecret, setClientSecret] = useState(null);
   if (!oem && oem_id) {
     oem = useOemInfo(oem_id);
-    console.log("No OEM");
   }
   if (!oem_id && oem) {
     oem_id = oem.id;
-    console.log("No OEM ID");
   }
-  if (!oem_id && !oem) {
-    console.log("no values");
-  }
-  console.log("OEM_ID: " + oem_id);
   //const [subscriptionPlanForView, setSubscriptionPlanForView] = useState("")
   const fetchPost = async () => {
     if (oem_id != null && oem_id > 0) {
@@ -42,7 +36,6 @@ export default ({oem_id, oem}) => {
           )
           const data = await response.json();
           setClientSecret(data && data.setup_intent && data.setup_intent.client_secret ? data.setup_intent.client_secret : null);
-          console.log("setup_intent succeeded")
         } catch (e) {
           console.error(`exception ${e} during fetch of ${url}`)
         }
@@ -119,7 +112,8 @@ export default ({oem_id, oem}) => {
   //setSubscriptionPlanForView(subscriptionPlan)
   const [subscriptionPlanForView, setSubscriptionPlanForView] = useState(subscriptionPlan)
   //let subscriptionPlans = [{value: '1', label: 'plan1'}, {value: '2', label: 'plan2'}]
-  const paymentLabel = oem && oem.source_id ? "Update Card" : "Add Card";
+  const hasPayment = oem && oem.source_id
+  const paymentLabel = hasPayment ? "Update Card" : "Add Card";
   const planLabel = oemSubscription?.subscription_plan_id ? "Update Subscription" : "Add Subscription";
   const modalKey = {clientSecret: clientSecret, oem: oem};
 
@@ -154,7 +148,7 @@ export default ({oem_id, oem}) => {
       <div className={styles.flex}>
         <ModalTrigger modal="show_subscription_plans">
           <SubmitButton primary className={styles.margins}
-                        label={planLabel}/>
+                        label={planLabel} disabled={!hasPayment}/>
         </ModalTrigger>
       </div>
     </div>

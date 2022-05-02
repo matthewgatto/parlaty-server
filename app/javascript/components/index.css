@@ -117,6 +117,10 @@ button {
   border: none;
 }
 
+button.disabled {
+  background-color: #666;
+} 
+
 .align_center {
   display: flex;
   align-items: center;

@@ -27,8 +27,9 @@ class OemsController < ApplicationController
     begin
       @user = User.new(params.permit(:email, :password))
       @user.confirm
-      @oem = Oem.new(params.require(:oem).permit(:name))
-      @roleable = ClientAdmin.new(name: @oem.name, oem: @oem)
+      @oem = Oem.new(name: params[:oem_name])
+      @roleable = ClientAdmin.new(name: params.permit(:name))
+      @roleable.oem = @oem
       @user.roleable = @roleable
       if @oem.save && @roleable.save && @user.save
         jwt = Auth.encode({ uid: @user.id})

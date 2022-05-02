@@ -5,6 +5,8 @@ class Oem < ApplicationRecord
 	has_many :client_admins, dependent: :destroy
 	has_many :operators, through: :oem_businesses
         has_many :authors, through: :oem_businesses
+	
+	validates :name, presence: true, uniqueness: true
        
         before_save :check_source
 	after_save :check_subscription, :check_customer_id
@@ -17,7 +19,7 @@ class Oem < ApplicationRecord
         end
 
 	protected
-
+ 
 	def check_subscription
           if !self.subscription.present?
             sub = self.build_subscription(user_count: self.user_count)

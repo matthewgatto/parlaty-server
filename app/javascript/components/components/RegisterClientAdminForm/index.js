@@ -13,7 +13,7 @@ import styles from './index.module.css';
 const inputs = [{
   type: "email",
   name: "email",
-  placeholder: "Email/Username*",
+  placeholder: "Email*",
   required: true
 }, {
     type: "text",
@@ -29,6 +29,11 @@ const inputs = [{
     type: "password",
     name: "password_confirmation",
     placeholder: "Confirm Password*",
+    required: true
+},{
+    type: "text",
+    name: "oem_name",
+    placeholder: "Company Name*",
     required: true
 }]
 
@@ -49,7 +54,8 @@ export default () => (
           email: '',
           name: '',
           password: '',
-          password_confirmation: ''
+          password_confirmation: '',
+          oem_name: ''
       }}
       validationSchema={registrationSchema}
       className={styles.form}

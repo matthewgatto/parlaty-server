@@ -28,7 +28,8 @@ export const registrationSchema = object().shape({
           'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters'),
   password_confirmation: string()
       .required('Passwords must match')
-      .oneOf([ref('password'), null], 'Passwords must match')
+      .oneOf([ref('password'), null], 'Passwords must match'),
+  oem_name: string().required('This field is required')
 })
 
 export const inviteSchema = object().shape({
