@@ -16,7 +16,6 @@ const SetupForm = ({modalKey}) => {
     const dispatch = useDispatch()
 
     const [errorMessage, setErrorMessage] = useState(null);
-    const [confirmMessage, setConfirmMessage] = useState(null);
     const [disabled, setDisabled] = useState(false);
     const paymentLabel = modalKey.oem && modalKey.oem.source_id ? "Update Card" : "Add Card";
 
@@ -25,7 +24,6 @@ const SetupForm = ({modalKey}) => {
         // which would refresh the page.
         event.preventDefault();
         setErrorMessage("")
-        setConfirmMessage("")
         if (!stripe || !elements) {
             // Stripe.js has not yet loaded.
             // Make sure to disable form submission until Stripe.js has loaded.
@@ -50,7 +48,6 @@ const SetupForm = ({modalKey}) => {
             // methods like iDEAL, your customer will be redirected to an intermediate
             // site first to authorize the payment, then redirected to the `return_url`.
             console.log('Stripe confirm succeeded')
-            // setConfirmMessage( paymentLabel + ' completed successfully.');
             dispatch(addToast("success", paymentLabel + ' completed successfully.'));
             setDisabled(true);
             dispatch(setModal());
@@ -65,7 +62,6 @@ const SetupForm = ({modalKey}) => {
               <button disabled={disabled} className="primary button align_center">{paymentLabel}</button>
             </div>
             {errorMessage && <div style={{marginTop: '0.25rem', color: '#df1b41', fontWeight: '400', fontSize: '1.93rem'}}>{errorMessage}</div>}
-            {confirmMessage && <div style={{marginTop: '0.25rem', color: '#30b130', fontWeight: '400', fontSize: '1.93rem'}}>{confirmMessage}</div>}
         </form>
     );
 };

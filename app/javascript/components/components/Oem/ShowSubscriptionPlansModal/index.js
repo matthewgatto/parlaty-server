@@ -8,7 +8,6 @@ import styles from "./index.module.css"
 
 const SetupForm = ({modalPlans}) => {
     const [errorMessage, setErrorMessage] = useState(null);
-    const [confirmMessage, setConfirmMessage] = useState(null);
     const [disabled, setDisabled] = useState(true);
     const [subscriptionPlan, setSubscriptionPlan] = useState(modalPlans.subscriptionPlan)
     const [subscriptionPlanId, setSubscriptionPlanId] = useState(-1)
@@ -21,7 +20,6 @@ const SetupForm = ({modalPlans}) => {
         // which would refresh the page.
         event.preventDefault();
         setErrorMessage("")
-        setConfirmMessage("")
         //setConfirmMessage('Add Subscription completed successfully.');
         setDisabled(true);
         //modalPlans.subscriptionPlan = subscriptionPlan
@@ -51,7 +49,6 @@ const SetupForm = ({modalPlans}) => {
                   setErrorMessage(data.error.join(", "));
                 }
                 else {
-                //   setConfirmMessage(`${data.plan_name} added successfully.`);
                     dispatch(addToast("success", `${data.plan_name} added successfully.`));
                     closeRef.current.click();
                     dispatch(setModal());
@@ -71,7 +68,6 @@ const SetupForm = ({modalPlans}) => {
     const selectOnChange = (event) => {
         if (event.target.value){
             setDisabled(false)
-            setConfirmMessage("" )
             for (var i = 0; i < modalPlans.subscriptionPlans.length; i++) {
                 if (modalPlans.subscriptionPlans[i].value == event.target.value) {
                     //setConfirmMessage("Selected " + modalPlans.subscriptionPlans[i].label)
@@ -116,7 +112,6 @@ const SetupForm = ({modalPlans}) => {
                   </ModalTrigger>
                 </div>
                 {errorMessage && <div style={{marginTop: '0.25rem', color: '#df1b41', fontWeight: '400', fontSize: '1.93rem'}}>{errorMessage}</div>}
-                {confirmMessage && <div className={styles.toast}>{confirmMessage}</div>}
             </form>
         </div>
         </>
