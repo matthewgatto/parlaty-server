@@ -1,6 +1,9 @@
 import React, {useCallback, useState, useRef } from 'react';
 import activeModal from '@containers/activeModal';
 import ModalTrigger from '@containers/ModalTrigger';
+import { useDispatch } from "react-redux";
+import { setModal } from "@actions/modal";
+import { addToast } from "@actions/toast";
 import styles from "./index.module.css"
 
 const SetupForm = ({modalPlans}) => {
@@ -11,6 +14,7 @@ const SetupForm = ({modalPlans}) => {
     const [subscriptionPlanId, setSubscriptionPlanId] = useState(-1)
     const planLabel = modalPlans.subscription?.subscription_plan_id ? "Update Subscription" : "Add Subscription";
     const closeRef = useRef();
+    const dispatch = useDispatch()
 
     const handleSubmit = async (event) => {
         // We don't want to let default form submission happen here,
@@ -47,8 +51,10 @@ const SetupForm = ({modalPlans}) => {
                   setErrorMessage(data.error.join(", "));
                 }
                 else {
-                  setConfirmMessage(`${data.plan_name} added successfully.`);
-                  closeRef.current.click();
+                //   setConfirmMessage(`${data.plan_name} added successfully.`);
+                    dispatch(addToast("success", `${data.plan_name} added successfully.`));
+                    closeRef.current.click();
+                    dispatch(setModal());
                 }               
                 //setPosts(data);
             } catch (e) {

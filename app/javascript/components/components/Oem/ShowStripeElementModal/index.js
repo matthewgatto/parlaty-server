@@ -3,6 +3,9 @@ import {PaymentElement, CardElement, Elements, useElements, useStripe} from '@st
 import {loadStripe} from '@stripe/stripe-js';
 import activeModal from '@containers/activeModal';
 import ModalTrigger from '@containers/ModalTrigger';
+import { useDispatch } from "react-redux";
+import { setModal } from "@actions/modal";
+import { addToast } from "@actions/toast";
 import styles from "../../Modal/DeleteConfirmation/index.module.css";
 
 const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
@@ -10,6 +13,7 @@ const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
 const SetupForm = ({modalKey}) => {
     const stripe = useStripe();
     const elements = useElements();
+    const dispatch = useDispatch()
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [confirmMessage, setConfirmMessage] = useState(null);
@@ -46,8 +50,10 @@ const SetupForm = ({modalKey}) => {
             // methods like iDEAL, your customer will be redirected to an intermediate
             // site first to authorize the payment, then redirected to the `return_url`.
             console.log('Stripe confirm succeeded')
-            setConfirmMessage( paymentLabel + ' completed successfully.');
+            // setConfirmMessage( paymentLabel + ' completed successfully.');
+            dispatch(addToast("success", paymentLabel + ' completed successfully.'));
             setDisabled(true);
+            dispatch(setModal());
         }
         return
     }; // handleSubmit
