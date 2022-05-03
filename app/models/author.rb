@@ -3,4 +3,9 @@ class Author < ApplicationRecord
 	has_many :operations, through: :user, dependent: :destroy
 	has_many :procedures, through: :operations
   has_and_belongs_to_many :oem_businesses, join_table: "oem_businesses_authors"
+
+  def oem
+    self.oem_businesses.first.oem
+  end
+
 end
