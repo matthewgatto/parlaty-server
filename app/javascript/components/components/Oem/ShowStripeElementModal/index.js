@@ -10,7 +10,7 @@ import styles from "../../Modal/DeleteConfirmation/index.module.css";
 
 const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
-const SetupForm = ({modalKey}) => {
+const SetupForm = ({modalKey, onSuccess}) => {
     const stripe = useStripe();
     const elements = useElements();
     const dispatch = useDispatch()
@@ -50,6 +50,7 @@ const SetupForm = ({modalKey}) => {
             console.log('Stripe confirm succeeded')
             dispatch(addToast("success", paymentLabel + ' completed successfully.'));
             setDisabled(true);
+            onSuccess && onSuccess()
             dispatch(setModal());
         }
         return
@@ -66,13 +67,13 @@ const SetupForm = ({modalKey}) => {
     );
 };
 
-export default activeModal(({modalKey}) => {
+export default activeModal(({modalKey, onSuccess}) => {
     const options = {
         clientSecret: modalKey.clientSecret
     }
     return (
         <Elements stripe={stripePromise} options={options}>
-      <SetupForm modalKey={modalKey}/>
+      <SetupForm modalKey={modalKey} onSuccess={onSuccess}/>
     </Elements>
         );
 }, "show_stripe_element")

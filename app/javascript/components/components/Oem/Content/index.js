@@ -122,6 +122,12 @@ export default ({oem_id, oem}) => {
     subscriptionPlan = newPlan
   }
 
+  const cardAdded =() => {
+      setTimeout(() => {
+        fetchOemSubscription()
+      }, 2000);
+  }
+
   let modalPlans = {subscriptionPlans: subscriptionPlans, subscriptionPlan: subscriptionPlan, updateSubscriptionPlan: updateSubscriptionPlan,
                     oem_id: oem_id, subscription: oemSubscription};
   return (<>
@@ -153,7 +159,7 @@ export default ({oem_id, oem}) => {
       </div>
     </div>
     <ModalOverlay>
-      <ShowStripeElementModal modalKey={modalKey}/>
+      <ShowStripeElementModal modalKey={modalKey} onSuccess={cardAdded}/>
     </ModalOverlay>
     <ModalOverlay>
       <ShowSubscriptionPlansModal modalPlans={modalPlans} />
